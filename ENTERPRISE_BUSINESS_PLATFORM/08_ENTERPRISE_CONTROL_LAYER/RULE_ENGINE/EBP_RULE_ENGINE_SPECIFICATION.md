@@ -2,344 +2,301 @@
 
 # Rule Engine Specification
 
-
-**Document ID:** EBP-RULE-ENGINE-001
-
+**Document ID:** EBP-ENTERPRISE-CONTROL-RULE-ENGINE-001
 **Version:** 1.0
-
-**Category:** Enterprise Engine Specification
-
-**Status:** Official Specification
-
-
+**Category:** Enterprise Control Layer
+**Status:** Official Architecture Specification
 
 ---
 
 # 1. Introduction
 
-
-Dokumen ini mendefinisikan Rule Engine untuk Enterprise Business Platform (EBP).
+Rule Engine adalah komponen inti Enterprise Business Platform (EBP) yang bertanggung jawab menjalankan aturan bisnis secara dinamis tanpa melakukan perubahan kode program.
 
 Rule Engine memungkinkan:
 
-
-* Business rules tanpa hardcoding
-* Dynamic pricing
-* Automated approval
-* Custom validation
-* Flexible automation
-
-Tujuan:
-
-
-```
-
-BUSINESS LOGIC
-
-+
-
-RULE ENGINE
-
-=
-
-FLEXIBLE AUTOMATION
-
-```
-
-
+* perubahan aturan bisnis tanpa deployment;
+* konfigurasi aturan per tenant;
+* mendukung banyak industri;
+* mengurangi hard-coded business logic;
+* meningkatkan fleksibilitas enterprise system.
 
 ---
 
-# 2. Problem Statement
+# 2. Philosophy
 
+EBP menggunakan prinsip:
 
-Masalah yang dihadapi:
-
-
-Setiap bisnis memiliki aturan berbeda.
-
-
-### Restaurant A
-
-
-```
-IF customer.member = GOLD
-
-AND purchase > 1000000
-
-THEN discount 10%
-
-```
-
-
-### Restaurant B
-
-
-```
-IF purchase > 500000
-
-THEN discount 5%
-
-```
-
-
-### Pertanyaan
-
-
-Apakah kita hardcode di PHP?
-
-
-### Jawaban
-
-
-Tidak.
-
-
-Solusi:
-
-
-```
-
-Rule Engine
-
-```
-
-
-
----
-
-# 3. Rule Engine Philosophy
-
-
-EBP Rule Engine menggunakan prinsip:
-
-
-```
-
-LOGIC SEPARATION
-
-```
+> Business rules are data, not code.
 
 Artinya:
 
+Aturan bisnis:
 
-* Business logic dipisah dari kode
-* Rules dapat diubah tanpa coding
-* Rules dapat diubah per tenant
-* Rules dapat diubah secara real-time
+Tidak:
 
+```php
+if($customer=="VIP"){
+   discount=10;
+}
+```
 
+Tetapi:
+
+```text
+Business Data
+
+↓
+
+Rule Engine
+
+↓
+
+Business Decision
+
+```
 
 ---
 
-# 4. Rule Types
+# 3. Problem Without Rule Engine
 
-
-## 1. Pricing Rules
-
-
-Mengatur harga dan diskon.
-
+Tanpa Rule Engine:
 
 Contoh:
 
+Restaurant:
 
-```
-IF
+```php
+if(total > 500000)
+{
+ discount=10;
+}
 
-customer.member = GOLD
-
-AND purchase > 1000000
-
-THEN
-
-discount 10%
-
-```
-
-
-## 2. Validation Rules
-
-
-Mengatur validasi data.
-
-
-Contoh:
-
-
-```
-IF
-
-order.total > 10000000
-
-AND customer.credit_limit < order.total
-
-THEN
-
-REJECT
+if(member=="gold")
+{
+ discount=15;
+}
 
 ```
 
+Masalah:
 
-## 3. Approval Rules
-
-
-Mengatur approval.
-
-
-Contoh:
-
-
-```
-IF
-
-purchase.amount > 1000000
-
-THEN
-
-REQUIRE APPROVAL FROM manager
-
-```
-
-
-## 4. Automation Rules
-
-
-Mengatur otomatisasi.
-
-
-Contoh:
-
-
-```
-IF
-
-order.status = PAID
-
-THEN
-
-CREATE journal entry
-
-DEDUCT inventory
-
-SEND notification
-
-```
-
-
-## 5. Routing Rules
-
-
-Mengatur routing.
-
-
-Contoh:
-
-
-```
-IF
-
-order.type = DELIVERY
-
-THEN
-
-ROUTE TO delivery_team
-
-```
-
-
+* setiap perubahan harus coding;
+* risiko bug;
+* sulit multi tenant;
+* sulit audit.
 
 ---
 
-# 5. Database Schema
+# 4. Rule Engine Solution
 
+Dengan Rule Engine:
 
-## business_rules
+```text
+Transaction
 
+↓
 
-```sql
-CREATE TABLE business_rules (
-    rule_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    tenant_id BIGINT NOT NULL,
-    rule_name VARCHAR(100) NOT NULL,
-    rule_category ENUM('pricing', 'validation', 'approval', 'automation', 'routing') NOT NULL,
-    rule_description TEXT,
-    condition_expression TEXT NOT NULL,
-    action_expression TEXT NOT NULL,
-    priority INT DEFAULT 0,
-    is_active BOOLEAN DEFAULT TRUE,
-    effective_from TIMESTAMP NULL,
-    effective_until TIMESTAMP NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by BIGINT,
-    updated_by BIGINT,
-    
-    INDEX idx_tenant_id (tenant_id),
-    INDEX idx_category (rule_category),
-    INDEX idx_active (is_active),
-    INDEX idx_priority (priority)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+Rule Evaluation
+
+↓
+
+Decision
+
+↓
+
+Action
+
 ```
-
-
-## rule_execution_log
-
-
-```sql
-CREATE TABLE rule_execution_log (
-    log_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    rule_id BIGINT NOT NULL,
-    tenant_id BIGINT NOT NULL,
-    context_data JSON,
-    execution_result ENUM('matched', 'not_matched', 'error') NOT NULL,
-    execution_time_ms INT,
-    error_message TEXT,
-    executed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
-    INDEX idx_rule_id (rule_id),
-    INDEX idx_tenant_id (tenant_id),
-    INDEX idx_executed_at (executed_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-
 
 ---
 
-# 6. Rule Definition Language
+# 5. Rule Engine Scope
 
+Rule Engine menangani:
 
-## Syntax
+## 5.1 Pricing Rule
 
+Contoh:
 
-Format:
+* diskon;
+* harga khusus;
+* promo.
 
+---
+
+## 5.2 Approval Rule
+
+Contoh:
+
+Pembelian:
+
+```text
+Jika nilai pembelian > 50 juta
+
+maka
+
+approval owner
+```
+
+---
+
+## 5.3 Inventory Rule
+
+Contoh:
+
+```text
+Jika stok < minimum
+
+buat purchase suggestion
 
 ```
 
-IF
+---
 
-<condition>
+## 5.4 Accounting Rule
 
-THEN
+Contoh:
 
-<action>
+```text
+Penjualan selesai
+
+↓
+
+buat jurnal otomatis
 
 ```
 
+---
 
-## Condition Operators
+## 5.5 Notification Rule
 
+Contoh:
+
+```text
+Invoice jatuh tempo
+
+↓
+
+kirim notifikasi
+```
+
+---
+
+## 5.6 Security Rule
+
+Contoh:
+
+```text
+Manager
+
+boleh approve
+
+< 10 juta
 
 ```
 
-AND
+---
 
-OR
+# 6. Rule Architecture
 
-NOT
+Arsitektur:
 
+```text
+Business Event
+
+        |
+
+        v
+
+Rule Engine
+
+        |
+
+        v
+
+Condition Evaluation
+
+        |
+
+        v
+
+Action Execution
+
+```
+
+---
+
+# 7. Rule Components
+
+Rule Engine terdiri dari:
+
+```text
+Rule Definition
+
+Rule Condition
+
+Rule Action
+
+Rule Priority
+
+Rule Version
+
+Rule Execution
+
+Rule History
+
+```
+
+---
+
+# 8. Rule Definition
+
+Mendefinisikan aturan.
+
+Contoh:
+
+```text
+Rule:
+
+Member Discount
+
+
+Code:
+
+DISC_MEMBER_001
+
+
+Status:
+
+Active
+
+```
+
+---
+
+# 9. Rule Condition
+
+Kondisi yang harus dipenuhi.
+
+Contoh:
+
+```json
+{
+"field":"customer.member_level",
+"operator":"=",
+"value":"GOLD"
+}
+
+```
+
+---
+
+# 10. Supported Operators
+
+Minimal:
+
+```text
 =
 
 !=
@@ -354,679 +311,599 @@ NOT
 
 IN
 
-NOT IN
+BETWEEN
 
-LIKE
+CONTAINS
 
-NOT LIKE
-
-IS NULL
-
-IS NOT NULL
+EXISTS
 
 ```
-
-
-## Action Types
-
-
-```
-
-SET
-
-CALCULATE
-
-REJECT
-
-APPROVE
-
-ROUTE
-
-NOTIFY
-
-EXECUTE
-
-```
-
-
 
 ---
 
-# 7. Rule Examples
+# 11. Rule Action
 
+Apa yang dilakukan jika rule terpenuhi.
 
-## Pricing Rule
+Contoh:
 
-
-```
-IF
-
-customer.member_type = 'GOLD'
-
-AND order.total > 1000000
-
-THEN
-
-SET discount = 10
+```json
+{
+"action":"APPLY_DISCOUNT",
+"value":10
+}
 
 ```
-
-
-## Validation Rule
-
-
-```
-IF
-
-order.total > customer.credit_limit
-
-THEN
-
-REJECT 'Order exceeds credit limit'
-
-```
-
-
-## Approval Rule
-
-
-```
-IF
-
-purchase.amount > 1000000
-
-THEN
-
-REQUIRE APPROVAL FROM role = 'manager'
-
-```
-
-
-## Automation Rule
-
-
-```
-IF
-
-order.status = 'PAID'
-
-THEN
-
-EXECUTE create_journal_entry(order)
-
-EXECUTE deduct_inventory(order)
-
-EXECUTE send_notification(order.customer_id, 'order_paid')
-
-```
-
-
 
 ---
 
-# 8. Rule Engine API
+# 12. Rule Priority
 
+Jika banyak rule aktif:
 
-## Evaluate Rule
+Contoh:
 
+```text
+Priority 1
 
-```php
-class RuleEngine
-{
-    public function evaluate($tenantId, $category, $context)
-    {
-        $rules = $this->getActiveRules($tenantId, $category);
-        
-        $results = [];
-        
-        foreach ($rules as $rule) {
-            $result = $this->evaluateRule($rule, $context);
-            
-            $results[] = [
-                'rule_id' => $rule['rule_id'],
-                'rule_name' => $rule['rule_name'],
-                'matched' => $result['matched'],
-                'action' => $result['action']
-            ];
-            
-            $this->logExecution($rule['rule_id'], $tenantId, $context, $result);
-        }
-        
-        return $results;
-    }
-    
-    private function evaluateRule($rule, $context)
-    {
-        $condition = $rule['condition_expression'];
-        $action = $rule['action_expression'];
-        
-        $matched = $this->evaluateCondition($condition, $context);
-        
-        if ($matched) {
-            $actionResult = $this->executeAction($action, $context);
-            
-            return [
-                'matched' => true,
-                'action' => $actionResult
-            ];
-        }
-        
-        return [
-            'matched' => false,
-            'action' => null
-        ];
-    }
-}
-```
+VIP Customer
 
-
-## Evaluate Condition
-
-
-```php
-private function evaluateCondition($condition, $context)
-{
-    // Parse condition
-    $tokens = $this->parseCondition($condition);
-    
-    // Evaluate each token
-    $result = true;
-    
-    foreach ($tokens as $token) {
-        if ($token['type'] == 'comparison') {
-            $left = $this->getValue($token['left'], $context);
-            $right = $this->getValue($token['right'], $context);
-            
-            $tokenResult = $this->compare($left, $token['operator'], $right);
-            
-            if ($token['logical'] == 'AND') {
-                $result = $result && $tokenResult;
-            } elseif ($token['logical'] == 'OR') {
-                $result = $result || $tokenResult;
-            }
-        }
-    }
-    
-    return $result;
-}
-```
-
-
-## Execute Action
-
-
-```php
-private function executeAction($action, $context)
-{
-    $actionType = $this->parseActionType($action);
-    
-    switch ($actionType) {
-        case 'SET':
-            return $this->executeSetAction($action, $context);
-        
-        case 'CALCULATE':
-            return $this->executeCalculateAction($action, $context);
-        
-        case 'REJECT':
-            return $this->executeRejectAction($action, $context);
-        
-        case 'APPROVE':
-            return $this->executeApproveAction($action, $context);
-        
-        case 'ROUTE':
-            return $this->executeRouteAction($action, $context);
-        
-        case 'NOTIFY':
-            return $this->executeNotifyAction($action, $context);
-        
-        case 'EXECUTE':
-            return $this->executeExecuteAction($action, $context);
-        
-        default:
-            throw new Exception("Unknown action type: {$actionType}");
-    }
-}
-```
-
-
-
----
-
-# 9. Rule Priority
-
-
-Rules dievaluasi berdasarkan priority.
-
-
-```
-
-Priority 1 (Highest)
-
-↓
 
 Priority 2
 
-↓
+Weekend Promo
+
 
 Priority 3
 
-↓
-
-...
-
-↓
-
-Priority N (Lowest)
+General Discount
 
 ```
 
+Urutan:
 
-## Stop on First Match
-
-
-Default behavior:
-
-
-```
-
-Stop setelah rule pertama yang match
-
-```
-
-
-## Continue All Matches
-
-
-Optional behavior:
-
-
-```
-
-Evaluasi semua rules
-
-```
-
-
-
----
-
-# 10. Rule Context
-
-
-Context adalah data yang dievaluasi.
-
-
-## Example Context
-
-
-```php
-$context = [
-    'customer' => [
-        'id' => 1,
-        'member_type' => 'GOLD',
-        'credit_limit' => 5000000
-    ],
-    'order' => [
-        'id' => 100,
-        'total' => 1500000,
-        'status' => 'PENDING'
-    ],
-    'purchase' => [
-        'amount' => 2000000
-    ]
-];
-```
-
-
-
----
-
-# 11. Rule Caching
-
-
-Rules di-cache untuk:
-
-
-* Mengurangi database query
-* Meningkatkan performance
-* Mengurangi latency
-
-
-## Cache Implementation
-
-
-```php
-class RuleCache
-{
-    private $cache;
-    private $ttl = 3600; // 1 hour
-    
-    public function getRules($tenantId, $category)
-    {
-        $key = "rules:{$tenantId}:{$category}";
-        
-        $rules = $this->cache->get($key);
-        
-        if ($rules === null) {
-            $rules = $this->loadRulesFromDatabase($tenantId, $category);
-            $this->cache->set($key, $rules, $this->ttl);
-        }
-        
-        return $rules;
-    }
-    
-    public function invalidate($tenantId)
-    {
-        $pattern = "rules:{$tenantId}:*";
-        $this->cache->deleteByPattern($pattern);
-    }
-}
-```
-
-
-
----
-
-# 12. Rule Testing
-
-
-## Unit Tests
-
-
-```php
-public function testPricingRule()
-{
-    $context = [
-        'customer' => [
-            'member_type' => 'GOLD'
-        ],
-        'order' => [
-            'total' => 1500000
-        ]
-    ];
-    
-    $result = $this->ruleEngine->evaluate(1, 'pricing', $context);
-    
-    $this->assertTrue($result[0]['matched']);
-    $this->assertEquals(10, $result[0]['action']['discount']);
-}
-
-public function testValidationRule()
-{
-    $context = [
-        'order' => [
-            'total' => 6000000
-        ],
-        'customer' => [
-            'credit_limit' => 5000000
-        ]
-    ];
-    
-    $result = $this->ruleEngine->evaluate(1, 'validation', $context);
-    
-    $this->assertTrue($result[0]['matched']);
-    $this->assertEquals('REJECT', $result[0]['action']['type']);
-}
-```
-
-
-
----
-
-# 13. Rule Performance
-
-
-## Optimization
-
-
-* Caching (Redis)
-* Lazy loading
-* Batch evaluation
-* Parallel execution
-
-
-## Metrics
-
-
-Monitor:
-
-
-* Rule evaluation time
-* Cache hit rate
-* Database query count
-* Rule match rate
-
-
-
----
-
-# 14. Rule Security
-
-
-## Access Control
-
-
-Hanya user dengan permission:
-
-
-```
-
-RULE_MANAGE
-
-```
-
-
-boleleh mengubah rules.
-
-
-## Rule Validation
-
-
-Rules divalidasi sebelum disimpan:
-
-
-* Syntax check
-* Security check
-* Performance check
-
-
-## Sandbox
-
-
-Rules dievaluasi di sandbox:
-
-
-* Isolate execution
-* Prevent infinite loops
-* Limit execution time
-
-
-
----
-
-# 15. Rule Versioning
-
-
-Rules dapat di-versioning:
-
-
-```
-
-v1.0: IF customer.member = GOLD THEN discount 5%
-
-v2.0: IF customer.member = GOLD AND purchase > 1000000 THEN discount 10%
-
-```
-
-
-## Rollback
-
-
-Rules dapat di-rollback ke versi sebelumnya.
-
-
-
----
-
-# 16. Rule Import/Export
-
-
-## Export
-
-
-```php
-public function exportRules($tenantId)
-{
-    $rules = $this->db->query(
-        "SELECT * FROM business_rules WHERE tenant_id = ?",
-        [$tenantId]
-    )->fetchAll();
-    
-    return [
-        'tenant_id' => $tenantId,
-        'exported_at' => date('Y-m-d H:i:s'),
-        'rules' => $rules
-    ];
-}
-```
-
-
-## Import
-
-
-```php
-public function importRules($tenantId, $rules)
-{
-    foreach ($rules['rules'] as $rule) {
-        $this->db->query(
-            "INSERT INTO business_rules 
-             (tenant_id, rule_name, rule_category, condition_expression, action_expression, priority)
-             VALUES (?, ?, ?, ?, ?, ?)",
-            [
-                $tenantId,
-                $rule['rule_name'],
-                $rule['rule_category'],
-                $rule['condition_expression'],
-                $rule['action_expression'],
-                $rule['priority']
-            ]
-        );
-    }
-}
-```
-
-
-
----
-
-# 17. Best Practices
-
-
-## Rule Naming
-
-
-Format:
-
-
-```
-
-[category]_[entity]_[action]
-
-```
-
-
-Example:
-
-
-```
-pricing_customer_discount
-
-validation_order_credit_limit
-
-approval_purchase_amount
-
-automation_order_paid
-
-```
-
-
-## Rule Documentation
-
-
-Dokumentasikan setiap rule:
-
-
-```php
-/**
- * Pricing rule for GOLD member discount
- * 
- * Condition: customer.member_type = GOLD AND order.total > 1000000
- * Action: SET discount = 10
- * 
- * @category pricing
- * @priority 1
- */
-```
-
-
-## Rule Testing
-
-
-Selalu test rules:
-
-
-* Unit test
-* Integration test
-* Performance test
-
-
-
----
-
-# 18. Conclusion
-
-
-EBP Rule Engine memungkinkan:
-
-
-```
-
-BUSINESS LOGIC
-
-+
-
-RULE ENGINE
+```text
+Priority kecil
 
 =
 
-FLEXIBLE AUTOMATION
+lebih tinggi
+```
+
+---
+
+# 13. Rule Versioning
+
+Setiap rule memiliki:
+
+```text
+version
+
+effective_date
+
+expired_date
 
 ```
 
+Contoh:
 
-Manfaat:
+```text
+Promo Lebaran 2026
+
+aktif:
+
+01-03-2026
+
+s/d
+
+30-04-2026
+
+```
+
+---
+
+# 14. Rule Database Design
+
+## rules
+
+```sql
+id
+
+tenant_id
+
+rule_code
+
+rule_name
+
+module
+
+status
+
+priority
+
+version
+
+created_at
+
+updated_at
+
+```
+
+---
+
+## rule_conditions
+
+```sql
+id
+
+rule_id
+
+field
+
+operator
+
+value
+
+logic_operator
+
+```
+
+---
+
+## rule_actions
+
+```sql
+id
+
+rule_id
+
+action_type
+
+action_value
+
+```
+
+---
+
+## rule_execution_logs
+
+```sql
+id
+
+rule_id
+
+transaction_id
+
+input_data
+
+result
+
+executed_at
+
+```
+
+---
+
+# 15. Rule Evaluation Flow
+
+Contoh:
+
+Order Restaurant:
+
+```text
+Customer Order
+
+↓
+
+Load Active Rules
+
+↓
+
+Evaluate Conditions
+
+↓
+
+Execute Actions
+
+↓
+
+Save Result
+
+```
+
+---
+
+# 16. Example Restaurant Discount Rule
+
+Business:
+
+Member Gold mendapat diskon.
+
+Rule:
+
+```json
+{
+"rule":"MEMBER_GOLD_DISCOUNT",
+
+"condition":
+{
+"customer.level":"GOLD"
+},
+
+"action":
+{
+"discount":10
+}
+
+}
+
+```
+
+---
+
+# 17. Example Inventory Rule
+
+Business:
+
+Stok minimum.
+
+Rule:
+
+```json
+{
+"condition":
+
+{
+"stock.qty":"<",
+"stock.minimum":true
+},
+
+"action":
+
+{
+"create_purchase_request":true
+}
+
+}
+
+```
+
+---
+
+# 18. Example Approval Rule
+
+Business:
+
+Pembelian besar.
+
+Rule:
+
+```text
+IF
+
+purchase.amount > 50000000
 
 
-* Business logic tanpa hardcoding
-* Rules dapat diubah tanpa coding
-* Rules dapat diubah per tenant
-* Rules dapat diubah secara real-time
-* Professional enterprise platform
+THEN
+
+approval = OWNER
+
+```
+
+---
+
+# 19. Rule Execution Context
+
+Setiap rule menerima:
+
+```json
+{
+"user":{},
+"tenant":{},
+"transaction":{},
+"time":{},
+"location":{}
+}
+
+```
+
+---
+
+# 20. Rule Engine Integration
+
+Rule Engine digunakan oleh:
+
+```text
+Pricing Engine
+
+Inventory Engine
+
+Accounting Engine
+
+Workflow Engine
+
+Notification Engine
+
+AI Engine
+
+```
+
+---
+
+# 21. Rule Engine API
+
+## Execute Rule
+
+```http
+POST
+
+/api/v1/rules/execute
+
+```
+
+Request:
+
+```json
+{
+"rule_code":"DISC_MEMBER",
+"context":{}
+}
+
+```
+
+Response:
+
+```json
+{
+"success":true,
+"result":{
+"discount":10
+}
+}
+
+```
+
+---
+
+# 22. Rule Security
+
+Tidak semua user boleh:
+
+* membuat rule;
+* mengubah rule;
+* menghapus rule.
+
+Permission:
+
+```text
+SYSTEM_ADMIN
+
+TENANT_OWNER
+
+BUSINESS_MANAGER
+
+USER
+
+```
+
+---
+
+# 23. Rule Audit
+
+Setiap perubahan:
+
+dicatat:
+
+```text
+Who
+
+When
+
+Before
+
+After
+
+Reason
+
+```
+
+---
+
+# 24. Rule Testing
+
+Setiap rule wajib memiliki test case.
+
+Contoh:
+
+Rule:
+
+```text
+Member Gold Discount
+
+```
+
+Test:
+
+```text
+Input:
+
+Gold Member
+
+Total 100000
 
 
-EBP Rule Engine adalah kunci untuk platform yang truly flexible dan truly enterprise.
+Expected:
 
+Discount 10%
 
+```
+
+---
+
+# 25. Rule Simulation Mode
+
+Sebelum aktif:
+
+rule dapat diuji:
+
+```text
+Simulation
+
+↓
+
+Review Result
+
+↓
+
+Activate
+
+```
+
+---
+
+# 26. AI Assisted Rule Generation
+
+Future capability:
+
+AI dapat membantu:
+
+```text
+Business Description
+
+↓
+
+Generate Rule
+
+↓
+
+Human Approval
+
+↓
+
+Activate
+
+```
+
+Contoh:
+
+Input:
+
+> "Berikan diskon pelanggan lama"
+
+AI membuat:
+
+```text
+Customer.age > 365 days
+
+Action:
+
+Discount 5%
+
+```
+
+---
+
+# 27. Rule Marketplace Concept
+
+Future:
+
+EBP dapat memiliki:
+
+```text
+Industry Rule Package
+```
+
+Contoh:
+
+Restaurant:
+
+```text
+Restaurant Promotion Package
+
+Food Cost Rule Package
+
+Inventory Rule Package
+
+```
+
+---
+
+# 28. Rule Engine Principles
+
+Aturan:
+
+```text
+No Hard Coding Business Rule
+
+All Important Decisions Logged
+
+Rules Must Be Versioned
+
+Rules Must Be Testable
+
+Rules Must Be Auditable
+
+```
+
+---
+
+# 29. Relationship With Other Engines
+
+```text
+Configuration Engine
+
+        |
+
+        v
+
+Rule Engine
+
+        |
+
+        v
+
+Workflow Engine
+
+        |
+
+        v
+
+Business Engine
+
+        |
+
+        v
+
+Product Module
+
+```
+
+---
+
+# 30. Final Architecture Vision
+
+Rule Engine menjadikan EBP:
+
+```text
+Static Application
+
+        ↓
+
+Configurable Platform
+
+        ↓
+
+Adaptive Business Operating System
+
+```
 
 ---
 
 # END OF DOCUMENT
 
-
 Document ID:
 
-EBP-RULE-ENGINE-001
-
+EBP-ENTERPRISE-CONTROL-RULE-ENGINE-001
 
 Version:
 
