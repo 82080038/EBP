@@ -1,6 +1,6 @@
 <?php
 
-require_once "../JWT.php";
+require_once __DIR__ . '/../JWT.php';
 
 
 
@@ -53,6 +53,17 @@ class AuthMiddleware
 
         return $payload;
 
+    }
+
+    public static function handle($request)
+    {
+        $middleware = new self();
+        $payload = $middleware->authenticate();
+        // Set user_id in request for PermissionMiddleware
+        $request['user_id'] = $payload['user_id'];
+        $request['tenant_id'] = $payload['tenant_id'];
+        $request['branch_id'] = $payload['branch_id'];
+        return $request;
     }
 
 }

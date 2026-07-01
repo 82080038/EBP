@@ -1,5 +1,8 @@
 <?php
 
+require_once __DIR__ . '/../Response.php';
+require_once __DIR__ . '/../../config/database.php';
+
 class PermissionMiddleware
 {
 
@@ -42,6 +45,17 @@ class PermissionMiddleware
 
         return true;
 
+    }
+
+    public static function handle($request, $permission)
+    {
+        $middleware = new self();
+        // Get user_id from request (should be set by AuthMiddleware)
+        $userId = $request['user_id'] ?? null;
+        if (!$userId) {
+            Response::error("User not authenticated");
+        }
+        return $middleware->check($userId, $permission);
     }
 
 }

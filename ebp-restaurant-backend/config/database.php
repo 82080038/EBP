@@ -4,9 +4,10 @@ class Database
 {
 
     private $host = "localhost";
-    private $dbname = "ebp_restaurant_erp";
+    private $socket = "/opt/lampp/var/mysql/mysql.sock";
+    private $dbname = "ebp_restaurant_db";
     private $username = "root";
-    private $password = "";
+    private $password = "root";
 
 
     public function connect()
@@ -16,9 +17,7 @@ class Database
 
             $pdo = new PDO(
 
-                "mysql:host={$this->host};
-                 dbname={$this->dbname};
-                 charset=utf8mb4",
+                "mysql:host={$this->host};unix_socket={$this->socket};dbname={$this->dbname};charset=utf8mb4",
 
                 $this->username,
                 $this->password

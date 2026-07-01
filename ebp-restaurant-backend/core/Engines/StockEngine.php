@@ -20,9 +20,9 @@ class StockEngine
     {
 
         $sql = "
-            SELECT od.menu_id, od.qty, rd.item_id, rd.quantity
-            FROM order_details od
-            INNER JOIN recipe_details rd ON od.menu_id = rd.menu_id
+            SELECT od.product_id, od.quantity, rd.item_id, rd.quantity as recipe_qty
+            FROM order_items od
+            INNER JOIN recipe_details rd ON od.product_id = rd.product_id
             WHERE od.order_id = ?
         ";
 

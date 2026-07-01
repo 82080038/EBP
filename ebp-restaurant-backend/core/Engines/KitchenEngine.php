@@ -40,8 +40,8 @@ class KitchenEngine
         $sql = "
             INSERT INTO kitchen_order_details
             (kitchen_order_id, menu_id, qty, status, created_at)
-            SELECT ?, menu_id, qty, 'PENDING', NOW()
-            FROM order_details
+            SELECT ?, product_id, quantity, 'PENDING', NOW()
+            FROM order_items
             WHERE order_id = ?
         ";
 

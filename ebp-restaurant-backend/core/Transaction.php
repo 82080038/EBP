@@ -1,17 +1,16 @@
 <?php
 
+require_once __DIR__ . '/../config/database.php';
+
 class Transaction
 {
 
     private $db;
 
-
-
-    public function __construct($db)
+    public function __construct()
     {
-
-        $this->db = $db;
-
+        $database = new Database();
+        $this->db = $database->connect();
     }
 
 

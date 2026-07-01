@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBP Restaurant Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .landing-page {
+            padding: 40px;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero-section h2 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            color: #666;
+            font-size: 1.1em;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .restaurant-types {
+            margin: 40px 0;
+        }
+
+        .restaurant-types h3 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .type-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .type-card h4 {
+            margin-bottom: 10px;
+        }
+
+        .type-card p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn {
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+        }
+
+        .btn-map {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .btn-map:hover {
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+
+        .login-section {
+            padding: 40px;
+            max-width: 400px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .login-section.active {
+            display: block;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .setup-wizard {
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .setup-wizard.active {
+            display: block;
+        }
+
+        .wizard-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-bottom: 3px solid #e0e0e0;
+            color: #999;
+        }
+
+        .step.active {
+            border-bottom-color: #667eea;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .step.completed {
+            border-bottom-color: #28a745;
+            color: #28a745;
+        }
+
+        .wizard-content {
+            display: none;
+        }
+
+        .wizard-content.active {
+            display: block;
+        }
+
+        .wizard-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .dashboard {
+            display: none;
+            padding: 30px;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 12px 24px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: #e0e0e0;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            opacity: 0.9;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table th,
+        .table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .table th {
+            background: #f0f0f0;
+            font-weight: 600;
+        }
+
+        .table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.active {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            margin-top: 20px;
+        }
+
+        .logout-btn:hover {
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+        }
+
+        .back-btn {
+            background: #6c757d;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ EBP Restaurant Management System</h1>
+            <p>Enterprise Business Platform - Restaurant Module</p>
+        </div>
+
+        <!-- Landing Page -->
+        <div id="landingPage" class="landing-page">
+            <div class="hero-section">
+                <h2>Solusi Manajemen Restoran Terpadu</h2>
+                <p>Platform manajemen restoran enterprise yang mendukung berbagai jenis usaha kuliner dengan fitur
+                    lengkap untuk multi-tenant, multi-cabang, dan multi-role.</p>
+                <button class="btn" id="loginBtn">Login ke Sistem</button>
+                <a href="map.html" class="btn btn-map" target="_blank">🗺️ Cari Lokasi Restoran</a>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>📊 Multi-Tenant</h3>
+                    <p>Dukung banyak restoran dalam satu platform dengan isolasi data yang aman</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🏢 Multi-Cabang</h3>
+                    <p>Kelola banyak cabang restoran dengan terpusat atau terpisah</p>
+                </div>
+                <div class="feature-card">
+                    <h3>👥 Multi-Role</h3>
+                    <p>Sistem role dan permission yang fleksibel sesuai kebutuhan</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📱 Real-time</h3>
+                    <p>Update order, inventory, dan kitchen display secara real-time</p>
+                </div>
+            </div>
+
+            <div class="restaurant-types">
+                <h3>Jenis Usaha yang Didukung</h3>
+                <div class="types-grid">
+                    <div class="type-card">
+                        <h4>🍽️ Restoran</h4>
+                        <p>Restoran makanan lengkap dengan reservasi</p>
+                    </div>
+                    <div class="type-card">
+                        <h4>☕ Kafe</h4>
+                        <p>Kafe dengan fokus minuman dan makanan ringan</p>
+                    </div>
+                    <div class="type-card">
+                        <h4>🍺 Bar/Pub</h4>
+                        <p>Bar dan pub dengan sistem minuman</p>
+                    </div>
+                    <div class="type-card">
+                        <h4>🍔 Fast Food</h4>
+                        <p>Restoran cepat saji dengan drive-thru</p>
+                    </div>
+                    <div class="type-card">
+                        <h4>🍱 Food Court</h4>
+                        <p>Area makan dengan banyak stall</p>
+                    </div>
+                    <div class="type-card">
+                        <h4>🎂 Catering</h4>
+                        <p>Layanan katering untuk event</p>
+                    </div>
+                    <div class="type-card">
+                        <h4>🍷 Fine Dining</h4>
+                        <p>Restoran mewah dengan layanan premium</p>
+                    </div>
+                    <div class="type-card">
+                        <h4>☕ Coffee Shop</h4>
+                        <p>Kedai kopi dengan roasting</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <div id="loginSection" class="login-section">
+            <div id="loginMessage" class="message"></div>
+            <h2 style="text-align: center; margin-bottom: 20px; color: #333;">Login</h2>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <button type="button" class="btn btn-secondary" id="backToLanding">Kembali</button>
+            </form>
+        </div>
+
+        <!-- Setup Wizard -->
+        <div id="setupWizard" class="setup-wizard">
+            <div id="setupMessage" class="message"></div>
+            <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Setup Restoran Baru</h2>
+
+            <div class="wizard-steps">
+                <div class="step active" data-step="1">1. Info Dasar</div>
+                <div class="step" data-step="2">2. Jenis Usaha</div>
+                <div class="step" data-step="3">3. Konfigurasi</div>
+                <div class="step" data-step="4">4. Selesai</div>
+            </div>
+
+            <!-- Step 1: Basic Info -->
+            <div class="wizard-content active" data-step="1">
+                <form id="step1Form">
+                    <div class="form-group">
+                        <label for="tenantName">Nama Restoran/Bisnis *</label>
+                        <input type="text" id="tenantName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tenantCode">Kode Tenant *</label>
+                        <input type="text" id="tenantCode" required placeholder="Contoh: MY_RESTAURANT">
+                    </div>
+                    <div class="form-group">
+                        <label for="companyName">Nama Perusahaan *</label>
+                        <input type="text" id="companyName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="branchName">Nama Cabang *</label>
+                        <input type="text" id="branchName" required value="Cabang Utama">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Alamat</label>
+                        <input type="text" id="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Telepon</label>
+                        <input type="text" id="phone">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 2: Business Type -->
+            <div class="wizard-content" data-step="2">
+                <form id="step2Form">
+                    <div class="form-group">
+                        <label for="restaurantType">Jenis Usaha Restoran *</label>
+                        <select id="restaurantType" required>
+                            <option value="">-- Pilih Jenis Usaha --</option>
+                            <option value="RESTAURANT">🍽️ Restoran Makanan</option>
+                            <option value="CAFE">☕ Kafe</option>
+                            <option value="BAR_PUB">🍺 Bar/Pub</option>
+                            <option value="FOOD_COURT">🍱 Food Court</option>
+                            <option value="CATERING">🎂 Catering Service</option>
+                            <option value="FAST_FOOD">🍔 Fast Food Restaurant</option>
+                            <option value="FINE_DINING">🍷 Fine Dining</option>
+                            <option value="COFFEE_SHOP">☕ Coffee Shop</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tableCount">Jumlah Meja *</label>
+                        <input type="number" id="tableCount" required min="1" value="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="hasReservations">Sistem Reservasi?</label>
+                        <select id="hasReservations">
+                            <option value="yes">Ya</option>
+                            <option value="no">Tidak</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hasKitchen">Ada Dapur/Kitchen?</label>
+                        <select id="hasKitchen">
+                            <option value="yes">Ya</option>
+                            <option value="no">Tidak</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 3: Configuration -->
+            <div class="wizard-content" data-step="3">
+                <form id="step3Form">
+                    <div class="form-group">
+                        <label for="adminUsername">Username Admin *</label>
+                        <input type="text" id="adminUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminEmail">Email Admin *</label>
+                        <input type="email" id="adminEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password Admin *</label>
+                        <input type="password" id="adminPassword" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="adminFullName">Nama Lengkap Admin *</label>
+                        <input type="text" id="adminFullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="additionalRoles">Role Tambahan (Opsional)</label>
+                        <select id="additionalRoles" multiple>
+                            <option value="CHEF">Chef</option>
+                            <option value="WAITER">Waiter</option>
+                            <option value="CASHIER">Cashier</option>
+                            <option value="INVENTORY_MANAGER">Inventory Manager</option>
+                            <option value="BARISTA">Barista</option>
+                            <option value="BARTENDER">Bartender</option>
+                            <option value="SOMMELIER">Sommelier</option>
+                            <option value="MAITRE_D">Maitre D'</option>
+                        </select>
+                        <small>Tahan Ctrl/Cmd untuk pilih multiple</small>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 4: Complete -->
+            <div class="wizard-content" data-step="4">
+                <div class="card">
+                    <h3>Setup Selesai!</h3>
+                    <p>Restoran Anda telah berhasil disetup. Berikut adalah ringkasan:</p>
+                    <div id="setupSummary"></div>
+                </div>
+            </div>
+
+            <div class="wizard-buttons">
+                <button class="btn btn-secondary" id="prevStep" style="display: none;">Sebelumnya</button>
+                <button class="btn" id="nextStep">Selanjutnya</button>
+                <button class="btn" id="completeSetup" style="display: none;">Selesai & Login</button>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard">
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="overview">Overview</button>
+                <button class="nav-tab" data-tab="menu">Menu</button>
+                <button class="nav-tab" data-tab="tables">Tables</button>
+                <button class="nav-tab" data-tab="orders">Orders</button>
+                <button class="nav-tab" data-tab="inventory">Inventory</button>
+                <button class="nav-tab" data-tab="kitchen">Kitchen</button>
+            </div>
+
+            <div id="dashboardMessage" class="message"></div>
+
+            <div id="overviewTab" class="tab-content active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4 id="totalOrders">0</h4>
+                        <p>Total Orders</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4 id="totalRevenue">Rp 0</h4>
+                        <p>Total Revenue</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4 id="activeTables">0</h4>
+                        <p>Active Tables</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4 id="pendingOrders">0</h4>
+                        <p>Pending Orders</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Recent Activity</h3>
+                    <div id="recentActivity" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="menuTab" class="tab-content">
+                <div class="card">
+                    <h3>Menu Categories</h3>
+                    <div id="menuCategories" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading...</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Menu Products</h3>
+                    <div id="menuProducts" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tablesTab" class="tab-content">
+                <div class="card">
+                    <h3>All Tables</h3>
+                    <div id="tablesList" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading...</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Available Tables</h3>
+                    <div id="availableTables" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ordersTab" class="tab-content">
+                <div class="card">
+                    <h3>Orders</h3>
+                    <div id="ordersList" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="inventoryTab" class="tab-content">
+                <div class="card">
+                    <h3>Inventory</h3>
+                    <div id="inventoryList" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading...</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Low Stock Items</h3>
+                    <div id="lowStockList" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="kitchenTab" class="tab-content">
+                <div class="card">
+                    <h3>Kitchen Orders</h3>
+                    <div id="kitchenOrders" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn logout-btn" id="logoutBtn">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api/v1';
+        let authToken = null;
+        let currentStep = 1;
+        let setupData = {};
+
+        // Landing page to login
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            document.getElementById('landingPage').style.display = 'none';
+            document.getElementById('loginSection').classList.add('active');
+        });
+
+        // Back to landing
+        document.getElementById('backToLanding').addEventListener('click', () => {
+            document.getElementById('loginSection').classList.remove('active');
+            document.getElementById('landingPage').style.display = 'block';
+        });
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    authToken = data.message.access_token;
+                    document.getElementById('loginSection').classList.remove('active');
+                    document.getElementById('dashboard').classList.add('active');
+                    loadDashboardData();
+                } else {
+                    // Check if user doesn't exist - show setup wizard
+                    if (data.message && data.message.includes('not found')) {
+                        document.getElementById('loginSection').classList.remove('active');
+                        document.getElementById('setupWizard').classList.add('active');
+                    } else {
+                        showMessage('loginMessage', data.message || 'Login failed', 'error');
+                    }
+                }
+            } catch (error) {
+                showMessage('loginMessage', 'Error connecting to server', 'error');
+            }
+        });
+
+        // Setup Wizard Navigation
+        document.getElementById('nextStep').addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                if (currentStep < 4) {
+                    currentStep++;
+                    updateWizardUI();
+                }
+            }
+        });
+
+        document.getElementById('prevStep').addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateWizardUI();
+            }
+        });
+
+        document.getElementById('completeSetup').addEventListener('click', async () => {
+            await completeSetup();
+        });
+
+        function validateStep(step) {
+            if (step === 1) {
+                const tenantName = document.getElementById('tenantName').value;
+                const tenantCode = document.getElementById('tenantCode').value;
+                const companyName = document.getElementById('companyName').value;
+                const branchName = document.getElementById('branchName').value;
+
+                if (!tenantName || !tenantCode || !companyName || !branchName) {
+                    showMessage('setupMessage', 'Mohon lengkapi semua field yang wajib diisi', 'error');
+                    return false;
+                }
+
+                setupData.tenantName = tenantName;
+                setupData.tenantCode = tenantCode;
+                setupData.companyName = companyName;
+                setupData.branchName = branchName;
+                setupData.address = document.getElementById('address').value;
+                setupData.phone = document.getElementById('phone').value;
+            }
+
+            if (step === 2) {
+                const restaurantType = document.getElementById('restaurantType').value;
+                const tableCount = document.getElementById('tableCount').value;
+
+                if (!restaurantType || !tableCount) {
+                    showMessage('setupMessage', 'Mohon lengkapi semua field yang wajib diisi', 'error');
+                    return false;
+                }
+
+                setupData.restaurantType = restaurantType;
+                setupData.tableCount = parseInt(tableCount);
+                setupData.hasReservations = document.getElementById('hasReservations').value;
+                setupData.hasKitchen = document.getElementById('hasKitchen').value;
+            }
+
+            if (step === 3) {
+                const adminUsername = document.getElementById('adminUsername').value;
+                const adminEmail = document.getElementById('adminEmail').value;
+                const adminPassword = document.getElementById('adminPassword').value;
+                const adminFullName = document.getElementById('adminFullName').value;
+
+                if (!adminUsername || !adminEmail || !adminPassword || !adminFullName) {
+                    showMessage('setupMessage', 'Mohon lengkapi semua field yang wajib diisi', 'error');
+                    return false;
+                }
+
+                setupData.adminUsername = adminUsername;
+                setupData.adminEmail = adminEmail;
+                setupData.adminPassword = adminPassword;
+                setupData.adminFullName = adminFullName;
+
+                const additionalRolesSelect = document.getElementById('additionalRoles');
+                setupData.additionalRoles = Array.from(additionalRolesSelect.selectedOptions).map(opt => opt.value);
+            }
+
+            return true;
+        }
+
+        function updateWizardUI() {
+            // Update steps
+            document.querySelectorAll('.step').forEach(step => {
+                const stepNum = parseInt(step.dataset.step);
+                step.classList.remove('active', 'completed');
+                if (stepNum < currentStep) {
+                    step.classList.add('completed');
+                } else if (stepNum === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Update content
+            document.querySelectorAll('.wizard-content').forEach(content => {
+                content.classList.remove('active');
+                if (parseInt(content.dataset.step) === currentStep) {
+                    content.classList.add('active');
+                }
+            });
+
+            // Update buttons
+            document.getElementById('prevStep').style.display = currentStep > 1 ? 'inline-block' : 'none';
+            document.getElementById('nextStep').style.display = currentStep < 4 ? 'inline-block' : 'none';
+            document.getElementById('completeSetup').style.display = currentStep === 4 ? 'inline-block' : 'none';
+
+            // Show summary on step 4
+            if (currentStep === 4) {
+                showSetupSummary();
+            }
+        }
+
+        function showSetupSummary() {
+            const summary = `
+                <p><strong>Nama Restoran:</strong> ${setupData.tenantName}</p>
+                <p><strong>Kode Tenant:</strong> ${setupData.tenantCode}</p>
+                <p><strong>Perusahaan:</strong> ${setupData.companyName}</p>
+                <p><strong>Cabang:</strong> ${setupData.branchName}</p>
+                <p><strong>Jenis Usaha:</strong> ${setupData.restaurantType}</p>
+                <p><strong>Jumlah Meja:</strong> ${setupData.tableCount}</p>
+                <p><strong>Username Admin:</strong> ${setupData.adminUsername}</p>
+                <p><strong>Email Admin:</strong> ${setupData.adminEmail}</p>
+                <p><strong>Role Tambahan:</strong> ${setupData.additionalRoles.length > 0 ? setupData.additionalRoles.join(', ') : 'Tidak ada'}</p>
+            `;
+            document.getElementById('setupSummary').innerHTML = summary;
+        }
+
+        async function completeSetup() {
+            try {
+                const response = await fetch(`${API_BASE}/tenant/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(setupData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('setupMessage', 'Setup berhasil! Anda akan login otomatis...', 'success');
+
+                    // Auto login after setup
+                    setTimeout(async () => {
+                        const loginResponse = await fetch(`${API_BASE}/auth/login`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                username: setupData.adminUsername,
+                                password: setupData.adminPassword
+                            })
+                        });
+
+                        const loginData = await loginResponse.json();
+                        if (loginData.success) {
+                            authToken = loginData.message.access_token;
+                            document.getElementById('setupWizard').classList.remove('active');
+                            document.getElementById('dashboard').classList.add('active');
+                            loadDashboardData();
+                        }
+                    }, 2000);
+                } else {
+                    showMessage('setupMessage', data.message || 'Setup gagal', 'error');
+                }
+            } catch (error) {
+                showMessage('setupMessage', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            authToken = null;
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('landingPage').style.display = 'block';
+        });
+
+        // Tab navigation
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(`${tab.dataset.tab}Tab`).classList.add('active');
+            });
+        });
+
+        // API helper function
+        async function apiCall(endpoint, options = {}) {
+            const headers = {
+                'Content-Type': 'application/json',
+                ...options.headers
+            };
+
+            if (authToken) {
+                headers['Authorization'] = `Bearer ${authToken}`;
+            }
+
+            const response = await fetch(`${API_BASE}${endpoint}`, {
+                ...options,
+                headers
+            });
+
+            return await response.json();
+        }
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            loadOverview();
+            loadMenu();
+            loadTables();
+            loadInventory();
+            loadKitchen();
+        }
+
+        // Load overview data
+        async function loadOverview() {
+            try {
+                document.getElementById('totalOrders').textContent = '156';
+                document.getElementById('totalRevenue').textContent = 'Rp 12.5M';
+                document.getElementById('activeTables').textContent = '8';
+                document.getElementById('pendingOrders').textContent = '12';
+
+                document.getElementById('recentActivity').innerHTML = `
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Activity</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10:30 AM</td>
+                                <td>New order #1234</td>
+                                <td><span style="color: green">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>10:15 AM</td>
+                                <td>Table 5 seated</td>
+                                <td><span style="color: blue">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>10:00 AM</td>
+                                <td>Inventory alert: Rice</td>
+                                <td><span style="color: orange">Warning</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                console.error('Error loading overview:', error);
+            }
+        }
+
+        // Load menu data
+        async function loadMenu() {
+            try {
+                const categories = await apiCall('/menu/categories');
+                const products = await apiCall('/menu/products');
+
+                if (categories.success) {
+                    document.getElementById('menuCategories').innerHTML = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Main Course</td>
+                                    <td>Active</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Beverages</td>
+                                    <td>Active</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Desserts</td>
+                                    <td>Active</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                }
+
+                if (products.success) {
+                    document.getElementById('menuProducts').innerHTML = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Category</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Nasi Goreng Spesial</td>
+                                    <td>Rp 35.000</td>
+                                    <td>Main Course</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Ayam Bakar</td>
+                                    <td>Rp 45.000</td>
+                                    <td>Main Course</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Es Teh Manis</td>
+                                    <td>Rp 8.000</td>
+                                    <td>Beverages</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading menu:', error);
+            }
+        }
+
+        // Load tables data
+        async function loadTables() {
+            try {
+                const tables = await apiCall('/tables');
+                const available = await apiCall('/tables/available');
+
+                document.getElementById('tablesList').innerHTML = `
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Table #</th>
+                                <th>Capacity</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>4 seats</td>
+                                <td><span style="color: green">Available</span></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>6 seats</td>
+                                <td><span style="color: red">Occupied</span></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>4 seats</td>
+                                <td><span style="color: green">Available</span></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>8 seats</td>
+                                <td><span style="color: orange">Reserved</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+
+                document.getElementById('availableTables').innerHTML = `
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Table #</th>
+                                <th>Capacity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>4 seats</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>4 seats</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>2 seats</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                console.error('Error loading tables:', error);
+            }
+        }
+
+        // Load inventory data
+        async function loadInventory() {
+            try {
+                const inventory = await apiCall('/inventory');
+                const lowStock = await apiCall('/inventory/low-stock');
+
+                document.getElementById('inventoryList').innerHTML = `
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Quantity</th>
+                                <th>Unit</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Rice</td>
+                                <td>50 kg</td>
+                                <td>kg</td>
+                                <td><span style="color: green">OK</span></td>
+                            </tr>
+                            <tr>
+                                <td>Chicken</td>
+                                <td>20 kg</td>
+                                <td>kg</td>
+                                <td><span style="color: green">OK</span></td>
+                            </tr>
+                            <tr>
+                                <td>Vegetables</td>
+                                <td>15 kg</td>
+                                <td>kg</td>
+                                <td><span style="color: green">OK</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+
+                document.getElementById('lowStockList').innerHTML = `
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Current</th>
+                                <th>Minimum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Oil</td>
+                                <td>5 L</td>
+                                <td>10 L</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                console.error('Error loading inventory:', error);
+            }
+        }
+
+        // Load kitchen data
+        async function loadKitchen() {
+            try {
+                const kitchenOrders = await apiCall('/kitchen/orders');
+
+                document.getElementById('kitchenOrders').innerHTML = `
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Table</th>
+                                <th>Items</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#1234</td>
+                                <td>Table 2</td>
+                                <td>Nasi Goreng x2, Ayam Bakar x1</td>
+                                <td><span style="color: orange">Preparing</span></td>
+                            </tr>
+                            <tr>
+                                <td>#1235</td>
+                                <td>Table 5</td>
+                                <td>Es Teh Manis x4</td>
+                                <td><span style="color: green">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td>#1236</td>
+                                <td>Table 1</td>
+                                <td>Sate Ayam x3</td>
+                                <td><span style="color: red">Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                console.error('Error loading kitchen:', error);
+            }
+        }
+
+        // Show message helper
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message ${type} active`;
+
+            setTimeout(() => {
+                element.classList.remove('active');
+            }, 5000);
+        }
+    </script>
+</body>
+
+</html>

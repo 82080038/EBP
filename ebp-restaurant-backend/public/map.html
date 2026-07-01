@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Map - Find Nearby Branches</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+        
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            max-width: 300px;
+        }
+        
+        .map-controls h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .map-controls button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .branch-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .branch-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        
+        .branch-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .branch-item:last-child {
+            border-bottom: none;
+        }
+        
+        .branch-name {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .branch-distance {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .branch-address {
+            color: #888;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .delivery-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .delivery-available {
+            background: #28a745;
+            color: white;
+        }
+        
+        .delivery-unavailable {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .user-location-marker {
+            background: #007bff;
+            border: 3px solid white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    
+    <div class="map-controls">
+        <h2>🗺️ Find Nearby Restaurants</h2>
+        <button class="btn-primary" onclick="getUserLocation()">📍 Use My Location</button>
+        <button class="btn-secondary" onclick="searchNearbyBranches()">🔍 Search Nearby</button>
+        <div id="location-info" style="margin-top: 10px; font-size: 12px; color: #666;"></div>
+    </div>
+    
+    <div class="branch-info" id="branch-list">
+        <h3>Nearby Branches</h3>
+        <div id="branch-items"></div>
+    </div>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        let map;
+        let userMarker;
+        let branchMarkers = [];
+        let userLat = null;
+        let userLng = null;
+        
+        const API_BASE = '/api/v1';
+        
+        // Initialize map
+        function initMap() {
+            map = L.map('map').setView([-6.2088, 106.8456], 13); // Default: Jakarta
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+        }
+        
+        // Get user's current location
+        function getUserLocation() {
+            document.getElementById('location-info').textContent = 'Getting your location...';
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLat = position.coords.latitude;
+                        userLng = position.coords.longitude;
+                        
+                        // Update map center
+                        map.setView([userLat, userLng], 15);
+                        
+                        // Add user marker
+                        if (userMarker) {
+                            map.removeLayer(userMarker);
+                        }
+                        
+                        const userIcon = L.divIcon({
+                            className: 'user-location-marker',
+                            iconSize: [20, 20],
+                            iconAnchor: [10, 10]
+                        });
+                        
+                        userMarker = L.marker([userLat, userLng], { icon: userIcon })
+                            .addTo(map)
+                            .bindPopup('You are here')
+                            .openPopup();
+                        
+                        document.getElementById('location-info').textContent = 
+                            `Location: ${userLat.toFixed(4)}, ${userLng.toFixed(4)}`;
+                        
+                        // Auto-search nearby branches
+                        searchNearbyBranches();
+                    },
+                    (error) => {
+                        document.getElementById('location-info').textContent = 
+                            'Error: ' + error.message;
+                        console.error('Geolocation error:', error);
+                    }
+                );
+            } else {
+                document.getElementById('location-info').textContent = 
+                    'Geolocation is not supported by your browser';
+            }
+        }
+        
+        // Search nearby branches
+        async function searchNearbyBranches() {
+            if (!userLat || !userLng) {
+                alert('Please get your location first');
+                return;
+            }
+            
+            const branchList = document.getElementById('branch-list');
+            const branchItems = document.getElementById('branch-items');
+            
+            branchList.style.display = 'block';
+            branchItems.innerHTML = '<div class="loading">Searching nearby branches...</div>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/location/nearby-branches`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        latitude: userLat,
+                        longitude: userLng,
+                        radius_km: 10
+                    })
+                });
+                
+                const result = await response.json();
+                
+                // Clear existing markers
+                branchMarkers.forEach(marker => map.removeLayer(marker));
+                branchMarkers = [];
+                
+                if (result.success && result.data.length > 0) {
+                    branchItems.innerHTML = '';
+                    
+                    result.data.forEach(branch => {
+                        // Add marker
+                        const marker = L.marker([branch.latitude, branch.longitude])
+                            .addTo(map)
+                            .bindPopup(`
+                                <strong>${branch.branch_name}</strong><br>
+                                ${branch.address || 'No address'}<br>
+                                Distance: ${branch.distance_km} km<br>
+                                ${branch.is_within_delivery_radius ? 
+                                    '<span style="color: green">✓ Delivery Available</span>' : 
+                                    '<span style="color: red">✗ Outside Delivery Radius</span>'}
+                            `);
+                        
+                        branchMarkers.push(marker);
+                        
+                        // Add to list
+                        const branchItem = document.createElement('div');
+                        branchItem.className = 'branch-item';
+                        branchItem.innerHTML = `
+                            <div class="branch-name">
+                                ${branch.branch_name}
+                                <span class="delivery-badge ${branch.is_within_delivery_radius ? 'delivery-available' : 'delivery-unavailable'}">
+                                    ${branch.is_within_delivery_radius ? 'Delivery' : 'Pickup Only'}
+                                </span>
+                            </div>
+                            <div class="branch-distance">📍 ${branch.distance_km} km away</div>
+                            <div class="branch-address">${branch.address || 'No address'}</div>
+                        `;
+                        
+                        branchItem.onclick = () => {
+                            map.setView([branch.latitude, branch.longitude], 16);
+                            marker.openPopup();
+                        };
+                        
+                        branchItems.appendChild(branchItem);
+                    });
+                    
+                    // Fit map to show all markers
+                    if (branchMarkers.length > 0) {
+                        const group = L.featureGroup(branchMarkers);
+                        map.fitBounds(group.getBounds().pad(0.1));
+                    }
+                } else {
+                    branchItems.innerHTML = '<div class="loading">No nearby branches found</div>';
+                }
+            } catch (error) {
+                console.error('Error searching branches:', error);
+                branchItems.innerHTML = '<div class="loading">Error searching branches</div>';
+            }
+        }
+        
+        // Auto-detect nearby branch (for auto-login)
+        async function detectNearbyBranch() {
+            if (!userLat || !userLng) {
+                return null;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/location/detect-branch`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        latitude: userLat,
+                        longitude: userLng
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success && result.data) {
+                    return result.data;
+                }
+            } catch (error) {
+                console.error('Error detecting branch:', error);
+            }
+            
+            return null;
+        }
+        
+        // Initialize on load
+        window.onload = function() {
+            initMap();
+        };
+    </script>
+</body>
+</html>

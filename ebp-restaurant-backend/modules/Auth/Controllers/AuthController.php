@@ -1,14 +1,8 @@
 <?php
 
-
-require_once 
-"../../../config/database.php";
-
-require_once 
-"../../../core/JWT.php";
-
-require_once 
-"../../../core/Response.php";
+require_once __DIR__ . '/../../../config/database.php';
+require_once __DIR__ . '/../../../core/JWT.php';
+require_once __DIR__ . '/../../../core/Response.php';
 
 
 

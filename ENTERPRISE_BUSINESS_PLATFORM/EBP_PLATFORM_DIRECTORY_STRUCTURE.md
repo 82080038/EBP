@@ -174,6 +174,188 @@ EBP_PLATFORM/
 │   └── Frontend Architecture Template
 │
 │
+├── 11_ENTERPRISE_SOFTWARE_ASSET_MANAGEMENT_FRAMEWORK/
+
+│   ├── README.md
+│   ├── EBP_REPOSITORY_MIGRATION_GUIDE.md
+│   ├── EBP_CODE_REUSE_STANDARD.md
+│   ├── EBP_REPOSITORY_CLASSIFICATION.md
+│   ├── EBP_REPOSITORY_AUDIT_TEMPLATE.md
+│   ├── EBP_COMPONENT_EXTRACTION_GUIDE.md
+│   ├── EBP_PLATFORMIZATION_GUIDE.md
+│   ├── EBP_MIGRATION_CHECKLIST.md
+│   ├── EBP_SOFTWARE_ASSET_INVENTORY.md
+│   ├── EBP_ENTERPRISE_KNOWLEDGE_GRAPH.md
+│   │
+│   ├── 00_CONSTITUTION/
+│   │   ├── ESAMF_VISION.md
+│   │   ├── ESAMF_PHILOSOPHY.md
+│   │   ├── ESAMF_CORE_PRINCIPLES.md
+│   │   └── ESAMF_GLOSSARY.md
+│   │
+│   ├── 01_ANALYSIS/
+│   │   ├── ESAMF_REPOSITORY_ANALYSIS_STANDARD.md
+│   │   ├── ESAMF_DATABASE_ANALYSIS_STANDARD.md
+│   │   ├── ESAMF_SOURCE_CODE_ANALYSIS_STANDARD.md
+│   │   ├── ESAMF_MODULE_ANALYSIS_STANDARD.md
+│   │   └── ESAMF_DEPENDENCY_ANALYSIS.md
+│   │
+│   ├── 02_CLASSIFICATION/
+│   │   ├── ESAMF_COMPONENT_CLASSIFICATION.md
+│   │   ├── ESAMF_BUSINESS_DOMAIN_CLASSIFICATION.md
+│   │   └── ESAMF_REUSABILITY_MATRIX.md
+│   │
+│   ├── 03_EXTRACTION/
+│   │   ├── ESAMF_CORE_EXTRACTION_GUIDE.md
+│   │   ├── ESAMF_SHARED_ENGINE_EXTRACTION.md
+│   │   └── ESAMF_PRODUCT_EXTRACTION.md
+│   │
+│   ├── 04_REFACTORING/
+│   │   ├── ESAMF_REFACTORING_STANDARD.md
+│   │   ├── ESAMF_DATABASE_REFACTORING.md
+│   │   ├── ESAMF_API_REFACTORING.md
+│   │   └── ESAMF_UI_REFACTORING.md
+│   │
+│   ├── 05_PLATFORMIZATION/
+│   │   ├── ESAMF_PLATFORM_MAPPING.md
+│   │   ├── ESAMF_EBP_INTEGRATION_GUIDE.md
+│   │   └── ESAMF_PRODUCT_CONVERSION.md
+│   │
+│   ├── 06_VALIDATION/
+│   │   ├── ESAMF_VALIDATION_CHECKLIST.md
+│   │   ├── ESAMF_TESTING_GUIDE.md
+│   │   └── ESAMF_QUALITY_GATE.md
+│   │
+│   ├── 07_MANAGEMENT/
+│   │   ├── RESTORAN/
+│   │   │   ├── 01_CURRENT_ANALYSIS.md
+│   │   │   ├── 02_DATABASE_ANALYSIS.md
+│   │   │   ├── 03_SOURCE_CODE_ANALYSIS.md
+│   │   │   ├── 04_MODULE_ANALYSIS.md
+│   │   │   ├── 05_REUSABLE_COMPONENTS.md
+│   │   │   ├── 06_CORE_EXTRACTION_PLAN.md
+│   │   │   ├── 07_DATABASE_MIGRATION_PLAN.md
+│   │   │   ├── 08_EBP_PRODUCT_MAPPING.md
+│   │   │   ├── 09_REFACTORING_PLAN.md
+│   │   │   └── 10_IMPLEMENTATION_PROGRESS.md
+│   │   │
+│   │   ├── MYWISATA/
+│   │   │   ├── 01_CURRENT_ANALYSIS.md
+│   │   │   ├── 02_DATABASE_ANALYSIS.md
+│   │   │   ├── 03_SOURCE_CODE_ANALYSIS.md
+│   │   │   ├── 04_MODULE_ANALYSIS.md
+│   │   │   ├── 05_REUSABLE_COMPONENTS.md
+│   │   │   ├── 06_CORE_EXTRACTION_PLAN.md
+│   │   │   ├── 07_DATABASE_MIGRATION_PLAN.md
+│   │   │   ├── 08_EBP_PRODUCT_MAPPING.md
+│   │   │   ├── 09_REFACTORING_PLAN.md
+│   │   │   └── 10_IMPLEMENTATION_PROGRESS.md
+│   │   │
+│   │   ├── PANGLONG/
+│   │   │   ├── 01_CURRENT_ANALYSIS.md
+│   │   │   ├── 02_DATABASE_ANALYSIS.md
+│   │   │   ├── 03_SOURCE_CODE_ANALYSIS.md
+│   │   │   ├── 04_MODULE_ANALYSIS.md
+│   │   │   ├── 05_REUSABLE_COMPONENTS.md
+│   │   │   ├── 06_CORE_EXTRACTION_PLAN.md
+│   │   │   ├── 07_DATABASE_MIGRATION_PLAN.md
+│   │   │   ├── 08_EBP_PRODUCT_MAPPING.md
+│   │   │   ├── 09_REFACTORING_PLAN.md
+│   │   │   └── 10_IMPLEMENTATION_PROGRESS.md
+│   │   │
+│   │   ├── SAHAM/
+│   │   │   ├── 01_CURRENT_ANALYSIS.md
+│   │   │   ├── 02_DATABASE_ANALYSIS.md
+│   │   │   ├── 03_SOURCE_CODE_ANALYSIS.md
+│   │   │   ├── 04_MODULE_ANALYSIS.md
+│   │   │   ├── 05_REUSABLE_COMPONENTS.md
+│   │   │   ├── 06_CORE_EXTRACTION_PLAN.md
+│   │   │   ├── 07_DATABASE_MIGRATION_PLAN.md
+│   │   │   ├── 08_EBP_PRODUCT_MAPPING.md
+│   │   │   ├── 09_REFACTORING_PLAN.md
+│   │   │   └── 10_IMPLEMENTATION_PROGRESS.md
+│   │   │
+│   │   ├── PELAJARAN/
+│   │   │   ├── 01_CURRENT_ANALYSIS.md
+│   │   │   ├── 02_DATABASE_ANALYSIS.md
+│   │   │   ├── 03_SOURCE_CODE_ANALYSIS.md
+│   │   │   ├── 04_MODULE_ANALYSIS.md
+│   │   │   ├── 05_REUSABLE_COMPONENTS.md
+│   │   │   ├── 06_CORE_EXTRACTION_PLAN.md
+│   │   │   ├── 07_DATABASE_MIGRATION_PLAN.md
+│   │   │   ├── 08_EBP_PRODUCT_MAPPING.md
+│   │   │   ├── 09_REFACTORING_PLAN.md
+│   │   │   └── 10_IMPLEMENTATION_PROGRESS.md
+│   │   │
+│   │   ├── TAROMBO/
+│   │   │   ├── 01_CURRENT_ANALYSIS.md
+│   │   │   ├── 02_DATABASE_ANALYSIS.md
+│   │   │   ├── 03_SOURCE_CODE_ANALYSIS.md
+│   │   │   ├── 04_MODULE_ANALYSIS.md
+│   │   │   ├── 05_REUSABLE_COMPONENTS.md
+│   │   │   ├── 06_CORE_EXTRACTION_PLAN.md
+│   │   │   ├── 07_DATABASE_MIGRATION_PLAN.md
+│   │   │   ├── 08_EBP_PRODUCT_MAPPING.md
+│   │   │   ├── 09_REFACTORING_PLAN.md
+│   │   │   └── 10_IMPLEMENTATION_PROGRESS.md
+│   │   │
+│   │   └── KEWER/
+│   │       ├── 01_CURRENT_ANALYSIS.md
+│   │       ├── 02_DATABASE_ANALYSIS.md
+│   │       ├── 03_SOURCE_CODE_ANALYSIS.md
+│   │       ├── 04_MODULE_ANALYSIS.md
+│   │       ├── 05_REUSABLE_COMPONENTS.md
+│   │       ├── 06_CORE_EXTRACTION_PLAN.md
+│   │       ├── 07_DATABASE_MIGRATION_PLAN.md
+│   │       ├── 08_EBP_PRODUCT_MAPPING.md
+│   │       ├── 09_REFACTORING_PLAN.md
+│   │       └── 10_IMPLEMENTATION_PROGRESS.md
+│   │
+│   ├── 08_REPORT/
+│   │   ├── ESAMF_SOFTWARE_ASSET_INVENTORY.md
+│   │   ├── ESAMF_REUSABILITY_REPORT.md
+│   │   ├── ESAMF_PLATFORM_READINESS.md
+│   │   └── ESAMF_PRODUCT_MATURITY.md
+│   │
+│   ├── 09_TEMPLATES/
+│   │   ├── REPOSITORY_AUDIT_TEMPLATE.md
+│   │   ├── MODULE_AUDIT_TEMPLATE.md
+│   │   ├── DATABASE_AUDIT_TEMPLATE.md
+│   │   ├── MIGRATION_CHECKLIST.md
+│   │   └── REFACTORING_CHECKLIST.md
+│   │
+│   └── 10_CASE_STUDIES/
+│       └── RESTAURANT_MIGRATION.md
+│
+│
+├── 12_ENTERPRISE_PRODUCT_FACTORY/
+│
+│   └── EBP_PRODUCT_FACTORY_GUIDE.md
+│
+│
+├── 13_DOCUMENTATION/
+│
+│   ├── EBP_DOCUMENTATION_STANDARD.md
+│   ├── EBP_DOCUMENTATION_GUIDE.md
+│   └── EBP_DOCUMENTATION_TEMPLATES.md
+│
+│
+├── 14_DEVOPS/
+│
+│   ├── EBP_DEVOPS_STANDARD.md
+│   ├── EBP_CI_CD_GUIDE.md
+│   ├── EBP_DEPLOYMENT_GUIDE.md
+│   └── EBP_MONITORING_GUIDE.md
+│
+│
+├── 15_OPERATIONS/
+│
+│   ├── EBP_OPERATIONS_STANDARD.md
+│   ├── EBP_SUPPORT_GUIDE.md
+│   ├── EBP_MAINTENANCE_GUIDE.md
+│   └── EBP_INCIDENT_MANAGEMENT.md
+│
+│
 └── PRODUCTS/
 
 
