@@ -2,90 +2,429 @@
 
 # Workflow Engine Specification
 
-
-**Document ID:** EBP-WORKFLOW-ENGINE-001
-
+**Document ID:** EBP-ENTERPRISE-CONTROL-WORKFLOW-ENGINE-001
 **Version:** 1.0
-
-**Category:** Enterprise Engine Specification
-
-**Status:** Official Specification
-
-
+**Category:** Enterprise Control Layer
+**Status:** Official Architecture Specification
 
 ---
 
 # 1. Introduction
 
+Workflow Engine adalah komponen Enterprise Business Platform (EBP) yang mengatur alur proses bisnis, urutan pekerjaan, tanggung jawab pengguna, approval, escalation, dan penyelesaian aktivitas.
 
-Dokumen ini mendefinisikan Workflow Engine untuk Enterprise Business Platform (EBP).
+Workflow Engine memastikan bahwa:
 
-Workflow Engine memungkinkan:
-
-
-* Process automation
-* Approval management
-* Task routing
-* Process monitoring
-* Business process orchestration
-
-Tujuan:
-
-
-```
-
-BUSINESS PROCESS
-
-+
-
-WORKFLOW ENGINE
-
-=
-
-AUTOMATED APPROVAL
-
-```
-
-
+* proses bisnis berjalan sesuai SOP;
+* setiap aktivitas memiliki owner;
+* approval tercatat;
+* proses dapat diaudit;
+* perubahan proses tidak membutuhkan perubahan kode.
 
 ---
 
-# 2. Problem Statement
+# 2. Workflow Philosophy
 
+EBP menggunakan prinsip:
 
-Masalah yang dihadapi:
+> Business process should be modeled, not hard coded.
 
+Artinya:
 
-Semua bisnis memiliki approval process.
+Tidak:
 
-
-### Restaurant - Purchase Approval
-
-
+```php
+if(manager==true)
+{
+approve();
+}
 ```
-Staff Gudang
+
+Tetapi:
+
+```text
+Workflow Definition
 
 ↓
 
-Supervisor
+Workflow Engine
+
+↓
+
+Task Assignment
+
+↓
+
+Approval Process
+
+```
+
+---
+
+# 3. Problem Without Workflow Engine
+
+Dalam aplikasi biasa:
+
+Contoh:
+
+Purchase Request:
+
+```text
+Staff membuat permintaan
+
+↓
+
+Email Manager
+
+↓
+
+Manager approve
+
+↓
+
+Tidak ada histori jelas
+
+```
+
+Masalah:
+
+* proses tidak standar;
+* sulit audit;
+* sulit mengetahui siapa terlambat;
+* sulit membuat perubahan.
+
+---
+
+# 4. Workflow Engine Solution
+
+Dengan Workflow Engine:
+
+```text
+Business Event
+
+↓
+
+Workflow Instance
+
+↓
+
+Task Generation
+
+↓
+
+User Action
+
+↓
+
+Next Step
+
+↓
+
+Completion
+
+```
+
+---
+
+# 5. Workflow Engine Scope
+
+Workflow Engine menangani:
+
+## 5.1 Approval Workflow
+
+Contoh:
+
+* pembelian;
+* pembayaran;
+* diskon;
+* refund;
+* investasi.
+
+---
+
+## 5.2 Operational Workflow
+
+Contoh:
+
+Restaurant:
+
+```text
+Order Masuk
+
+↓
+
+Kitchen
+
+↓
+
+Cooking
+
+↓
+
+Quality Check
+
+↓
+
+Delivery
+
+```
+
+---
+
+## 5.3 Document Workflow
+
+Contoh:
+
+* invoice;
+* kontrak;
+* izin;
+* dokumen legal.
+
+---
+
+## 5.4 Employee Workflow
+
+Contoh:
+
+* cuti;
+* lembur;
+* reimbursement.
+
+---
+
+## 5.5 Exception Workflow
+
+Contoh:
+
+* stok habis;
+* transaksi gagal;
+* pembayaran terlambat.
+
+---
+
+# 6. Workflow Architecture
+
+Arsitektur:
+
+```text
+Business Module
+
+        |
+
+        v
+
+Workflow Engine
+
+        |
+
+        +---- Task Engine
+
+        |
+
+        +---- Approval Engine
+
+        |
+
+        +---- Notification Engine
+
+        |
+
+        +---- Audit Engine
+
+```
+
+---
+
+# 7. Workflow Components
+
+Workflow terdiri dari:
+
+```text
+Workflow Definition
+
+Workflow Version
+
+Workflow Instance
+
+Workflow Step
+
+Task
+
+Approval
+
+Transition
+
+Condition
+
+Action
+
+History
+
+```
+
+---
+
+# 8. Workflow Definition
+
+Mendefinisikan template proses.
+
+Contoh:
+
+```text
+PURCHASE_APPROVAL_WORKFLOW
+
+
+Version:
+
+1.0
+
+
+Status:
+
+Active
+
+```
+
+---
+
+# 9. Workflow Instance
+
+Setiap proses berjalan memiliki instance.
+
+Contoh:
+
+```text
+Purchase Request #PR-00123
+
+
+Workflow:
+
+PURCHASE_APPROVAL
+
+
+Status:
+
+Waiting Manager Approval
+
+```
+
+---
+
+# 10. Workflow Step
+
+Setiap langkah:
+
+Contoh:
+
+```text
+Step 1
+
+Create Request
+
+
+Step 2
+
+Manager Approval
+
+
+Step 3
+
+Owner Approval
+
+
+Step 4
+
+Create Purchase Order
+
+```
+
+---
+
+# 11. Task Engine
+
+Task adalah pekerjaan yang diberikan kepada user.
+
+Contoh:
+
+```text
+Task:
+
+Approve Purchase Request
+
+
+Assigned:
+
+Manager Gudang
+
+
+Deadline:
+
+24 Hours
+
+```
+
+---
+
+# 12. User Assignment
+
+Workflow mendukung:
+
+## Direct Assignment
+
+```text
+User A
+
+```
+
+---
+
+## Role Assignment
+
+```text
+Role:
+
+Manager Finance
+
+```
+
+---
+
+## Dynamic Assignment
+
+Contoh:
+
+```text
+Nilai transaksi > 100 juta
 
 ↓
 
 Owner
 
+```
+
+---
+
+# 13. Approval Engine
+
+Approval mendukung:
+
+## Single Approval
+
+```text
+Manager
+
 ↓
 
-Purchase Order
+Approve
 
 ```
 
+---
 
-### Hotel - Maintenance Approval
+## Sequential Approval
 
-
-```
-
-Maintenance Staff
+```text
+Supervisor
 
 ↓
 
@@ -93,994 +432,608 @@ Manager
 
 ↓
 
-Approval
+Owner
 
 ```
-
-
-### Pertanyaan
-
-
-Apakah kita hardcode approval logic?
-
-
-### Jawaban
-
-
-Tidak.
-
-
-Solusi:
-
-
-```
-
-Workflow Engine
-
-```
-
-
 
 ---
 
-# 3. Workflow Engine Philosophy
+## Parallel Approval
 
-
-EBP Workflow Engine menggunakan prinsip:
-
-
-```
-
-PROCESS DEFINITION
+```text
+Finance
 
 +
 
-PROCESS INSTANCE
+Legal
 
-=
++
 
-RUNNING WORKFLOW
+Operational
 
 ```
-
-
-Artinya:
-
-
-* Process didefinisikan sekali
-* Instance berjalan per transaksi
-* Process dapat diubah tanpa coding
-* Process dapat diubah per tenant
-
-
 
 ---
 
-# 4. Workflow Components
+# 14. Workflow Condition
 
+Workflow dapat menggunakan:
 
-## 1. Workflow Definition
+```text
+Rule Engine
 
-
-Template workflow.
-
+```
 
 Contoh:
 
+```text
+IF
 
-```
-Purchase Approval Workflow
-
-Steps:
-
-1. Create Request
-2. Supervisor Approval
-3. Owner Approval
-4. Final Approval
-
-```
+purchase.amount > 50.000.000
 
 
-## 2. Workflow Instance
-
-
-Instance yang berjalan.
-
-
-Contoh:
-
-
-```
-Purchase Request #1001
-
-Status: Waiting Supervisor Approval
-
-Current Step: Supervisor Approval
-
-```
-
-
-## 3. Workflow Step
-
-
-Setiap step dalam workflow.
-
-
-Contoh:
-
-
-```
-Step: Supervisor Approval
-
-Action: Approve/Reject
-
-Assignee: Supervisor
-
-```
-
-
-## 4. Workflow Transition
-
-
-Perpindahan antar step.
-
-
-Contoh:
-
-
-```
-Supervisor Approval (APPROVE)
-
-↓
+THEN
 
 Owner Approval
 
 ```
 
+---
 
-## 5. Workflow Action
+# 15. Workflow Action
 
+Setelah step selesai:
 
-Action yang dapat dilakukan.
+Action:
 
+```text
+Send Notification
 
-Contoh:
+Create Document
 
+Update Status
+
+Execute Rule
+
+Generate Report
 
 ```
-APPROVE
-
-REJECT
-
-RETURN
-
-CANCEL
-
-```
-
-
 
 ---
 
-# 5. Database Schema
+# 16. Workflow Database Design
 
-
-## workflow_definitions
-
+## workflows
 
 ```sql
-CREATE TABLE workflow_definitions (
-    definition_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    tenant_id BIGINT NOT NULL,
-    workflow_name VARCHAR(100) NOT NULL,
-    workflow_code VARCHAR(50) NOT NULL,
-    workflow_category VARCHAR(50) NOT NULL,
-    workflow_description TEXT,
-    definition_json JSON NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE,
-    version INT DEFAULT 1,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by BIGINT,
-    updated_by BIGINT,
-    
-    UNIQUE KEY uk_tenant_code (tenant_id, workflow_code),
-    INDEX idx_tenant_id (tenant_id),
-    INDEX idx_category (workflow_category),
-    INDEX idx_active (is_active)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+id
+
+tenant_id
+
+code
+
+name
+
+version
+
+status
+
+created_at
+
 ```
 
-
-## workflow_instances
-
-
-```sql
-CREATE TABLE workflow_instances (
-    instance_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    tenant_id BIGINT NOT NULL,
-    definition_id BIGINT NOT NULL,
-    entity_type VARCHAR(50) NOT NULL,
-    entity_id BIGINT NOT NULL,
-    current_step VARCHAR(100) NOT NULL,
-    status ENUM('pending', 'in_progress', 'completed', 'rejected', 'cancelled') NOT NULL,
-    started_by BIGINT,
-    started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    completed_at TIMESTAMP NULL,
-    context_data JSON,
-    
-    INDEX idx_tenant_id (tenant_id),
-    INDEX idx_definition_id (definition_id),
-    INDEX idx_entity (entity_type, entity_id),
-    INDEX idx_status (status),
-    INDEX idx_current_step (current_step)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
+---
 
 ## workflow_steps
 
-
 ```sql
-CREATE TABLE workflow_steps (
-    step_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    definition_id BIGINT NOT NULL,
-    step_name VARCHAR(100) NOT NULL,
-    step_order INT NOT NULL,
-    step_type ENUM('start', 'approval', 'task', 'condition', 'end') NOT NULL,
-    assignee_type ENUM('user', 'role', 'dynamic') NOT NULL,
-    assignee_value VARCHAR(100),
-    action_required ENUM('approve', 'reject', 'return', 'cancel', 'complete') NOT NULL,
-    timeout_hours INT,
-    auto_action_on_timeout ENUM('approve', 'reject', 'escalate', 'return') NULL,
-    
-    INDEX idx_definition_id (definition_id),
-    INDEX idx_step_order (step_order)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+id
+
+workflow_id
+
+step_order
+
+step_name
+
+step_type
+
 ```
-
-
-## workflow_transitions
-
-
-```sql
-CREATE TABLE workflow_transitions (
-    transition_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    definition_id BIGINT NOT NULL,
-    from_step VARCHAR(100) NOT NULL,
-    to_step VARCHAR(100) NOT NULL,
-    condition_expression TEXT,
-    
-    INDEX idx_definition_id (definition_id),
-    INDEX idx_from_step (from_step)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-
-## workflow_actions
-
-
-```sql
-CREATE TABLE workflow_actions (
-    action_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    instance_id BIGINT NOT NULL,
-    step_id BIGINT NOT NULL,
-    action_type ENUM('approve', 'reject', 'return', 'cancel', 'complete') NOT NULL,
-    action_by BIGINT NOT NULL,
-    action_comment TEXT,
-    action_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
-    INDEX idx_instance_id (instance_id),
-    INDEX idx_step_id (step_id),
-    INDEX idx_action_by (action_by)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-
 
 ---
 
-# 6. Workflow Definition Example
+## workflow_instances
 
+```sql
+id
 
-## Purchase Approval Workflow
+workflow_id
 
+reference_type
 
-```json
-{
-  "workflow_name": "Purchase Approval",
-  "workflow_code": "PURCHASE_APPROVAL",
-  "workflow_category": "purchasing",
-  "steps": [
-    {
-      "step_name": "create_request",
-      "step_order": 1,
-      "step_type": "start",
-      "assignee_type": "user",
-      "assignee_value": "requester"
-    },
-    {
-      "step_name": "supervisor_approval",
-      "step_order": 2,
-      "step_type": "approval",
-      "assignee_type": "role",
-      "assignee_value": "supervisor",
-      "action_required": "approve",
-      "timeout_hours": 24,
-      "auto_action_on_timeout": "escalate"
-    },
-    {
-      "step_name": "owner_approval",
-      "step_order": 3,
-      "step_type": "approval",
-      "assignee_type": "role",
-      "assignee_value": "owner",
-      "action_required": "approve",
-      "timeout_hours": 48,
-      "auto_action_on_timeout": "escalate"
-    },
-    {
-      "step_name": "final_approval",
-      "step_order": 4,
-      "step_type": "end",
-      "assignee_type": "role",
-      "assignee_value": "admin"
-    }
-  ],
-  "transitions": [
-    {
-      "from_step": "create_request",
-      "to_step": "supervisor_approval"
-    },
-    {
-      "from_step": "supervisor_approval",
-      "to_step": "owner_approval",
-      "condition": "action == 'approve'"
-    },
-    {
-      "from_step": "supervisor_approval",
-      "to_step": "create_request",
-      "condition": "action == 'return'"
-    },
-    {
-      "from_step": "supervisor_approval",
-      "to_step": "final_approval",
-      "condition": "action == 'reject'"
-    },
-    {
-      "from_step": "owner_approval",
-      "to_step": "final_approval",
-      "condition": "action == 'approve'"
-    },
-    {
-      "from_step": "owner_approval",
-      "to_step": "supervisor_approval",
-      "condition": "action == 'return'"
-    },
-    {
-      "from_step": "owner_approval",
-      "to_step": "final_approval",
-      "condition": "action == 'reject'"
-    }
-  ]
-}
+reference_id
+
+status
+
+started_at
+
+completed_at
+
 ```
-
-
 
 ---
 
-# 7. Workflow Engine API
+## workflow_tasks
 
+```sql
+id
+
+instance_id
+
+assigned_user
+
+assigned_role
+
+status
+
+deadline
+
+```
+
+---
+
+## workflow_history
+
+```sql
+id
+
+instance_id
+
+action
+
+user_id
+
+old_status
+
+new_status
+
+created_at
+
+```
+
+---
+
+# 17. Workflow State Machine
+
+Workflow menggunakan konsep state.
+
+Contoh:
+
+```text
+DRAFT
+
+↓
+
+SUBMITTED
+
+↓
+
+WAITING_APPROVAL
+
+↓
+
+APPROVED
+
+↓
+
+COMPLETED
+
+
+```
+
+---
+
+# 18. Restaurant ERP Workflow Example
+
+## Purchase Workflow
+
+```text
+Kitchen Request Ingredient
+
+↓
+
+Warehouse Review
+
+↓
+
+Purchase Request
+
+↓
+
+Manager Approval
+
+↓
+
+Supplier Order
+
+↓
+
+Receive Goods
+
+↓
+
+Inventory Update
+
+```
+
+---
+
+# 19. Payment Workflow Example
+
+```text
+Invoice Created
+
+↓
+
+Verification
+
+↓
+
+Finance Approval
+
+↓
+
+Payment
+
+↓
+
+Accounting Journal
+
+```
+
+---
+
+# 20. Employee Leave Workflow
+
+```text
+Employee Submit Leave
+
+↓
+
+Supervisor Approval
+
+↓
+
+HR Verification
+
+↓
+
+Final Approval
+
+↓
+
+Calendar Update
+
+```
+
+---
+
+# 21. Workflow API
 
 ## Start Workflow
 
+```http
+POST
 
-```php
-class WorkflowEngine
-{
-    public function startWorkflow($tenantId, $workflowCode, $entityType, $entityId, $context, $startedBy)
-    {
-        // Get workflow definition
-        $definition = $this->getWorkflowDefinition($tenantId, $workflowCode);
-        
-        if (!$definition) {
-            throw new Exception("Workflow definition not found: {$workflowCode}");
-        }
-        
-        // Create workflow instance
-        $instanceId = $this->createWorkflowInstance(
-            $tenantId,
-            $definition['definition_id'],
-            $entityType,
-            $entityId,
-            $context,
-            $startedBy
-        );
-        
-        // Get first step
-        $firstStep = $this->getFirstStep($definition['definition_id']);
-        
-        // Update instance current step
-        $this->updateCurrentStep($instanceId, $firstStep['step_name']);
-        
-        // Notify assignee
-        $this->notifyAssignee($instanceId, $firstStep);
-        
-        return $instanceId;
-    }
-}
+/api/v1/workflows/start
+
 ```
 
+Request:
 
-## Process Action
-
-
-```php
-public function processAction($instanceId, $action, $comment, $actionBy)
+```json
 {
-    // Get current instance
-    $instance = $this->getWorkflowInstance($instanceId);
-    
-    // Get current step
-    $currentStep = $this->getStep($instance['definition_id'], $instance['current_step']);
-    
-    // Validate action
-    if (!in_array($action, $this->getAllowedActions($currentStep))) {
-        throw new Exception("Invalid action: {$action}");
-    }
-    
-    // Record action
-    $this->recordAction($instanceId, $currentStep['step_id'], $action, $comment, $actionBy);
-    
-    // Determine next step
-    $nextStep = $this->getNextStep($instance['definition_id'], $instance['current_step'], $action);
-    
-    if ($nextStep) {
-        // Move to next step
-        $this->updateCurrentStep($instanceId, $nextStep['step_name']);
-        
-        // Notify assignee
-        $this->notifyAssignee($instanceId, $nextStep);
-        
-        // Update status
-        $this->updateStatus($instanceId, 'in_progress');
-    } else {
-        // Workflow completed
-        $this->updateStatus($instanceId, 'completed');
-        $this->markCompleted($instanceId);
-    }
-    
-    return $nextStep;
+"workflow_code":"PURCHASE_APPROVAL",
+"reference_id":"PR001"
 }
+
 ```
-
-
-## Get Pending Tasks
-
-
-```php
-public function getPendingTasks($userId, $tenantId)
-{
-    $userRoles = $this->getUserRoles($userId);
-    
-    $tasks = $this->db->query(
-        "SELECT wi.*, ws.step_name, ws.action_required
-         FROM workflow_instances wi
-         INNER JOIN workflow_steps ws ON wi.current_step = ws.step_name
-         WHERE wi.tenant_id = ?
-         AND wi.status = 'in_progress'
-         AND (ws.assignee_type = 'user' AND ws.assignee_value = ?
-              OR ws.assignee_type = 'role' AND ws.assignee_value IN (?))
-         ORDER BY wi.started_at DESC",
-        [$tenantId, $userId, implode(',', $userRoles)]
-    )->fetchAll();
-    
-    return $tasks;
-}
-```
-
-
 
 ---
 
-# 8. Workflow Timeout Handling
+## Approve Task
 
+```http
+POST
 
-## Check Timeout
+/api/v1/workflows/task/approve
 
-
-```php
-public function checkTimeouts()
-{
-    $timedOutSteps = $this->db->query(
-        "SELECT wi.*, ws.*
-         FROM workflow_instances wi
-         INNER JOIN workflow_steps ws ON wi.current_step = ws.step_name
-         WHERE wi.status = 'in_progress'
-         AND ws.timeout_hours IS NOT NULL
-         AND TIMESTAMPDIFF(HOUR, wi.started_at, NOW()) > ws.timeout_hours"
-    )->fetchAll();
-    
-    foreach ($timedOutSteps as $timedOut) {
-        $this->handleTimeout($timedOut);
-    }
-}
 ```
-
-
-## Handle Timeout
-
-
-```php
-private function handleTimeout($timedOut)
-{
-    $autoAction = $timedOut['auto_action_on_timeout'];
-    
-    switch ($autoAction) {
-        case 'approve':
-            $this->processAction($timedOut['instance_id'], 'approve', 'Auto-approved due to timeout', 0);
-            break;
-        
-        case 'reject':
-            $this->processAction($timedOut['instance_id'], 'reject', 'Auto-rejected due to timeout', 0);
-            break;
-        
-        case 'escalate':
-            $this->escalateWorkflow($timedOut['instance_id']);
-            break;
-        
-        case 'return':
-            $this->processAction($timedOut['instance_id'], 'return', 'Returned due to timeout', 0);
-            break;
-    }
-}
-```
-
-
 
 ---
 
-# 9. Workflow Escalation
+## Reject Task
 
+```http
+POST
 
-## Escalate Workflow
+/api/v1/workflows/task/reject
 
-
-```php
-private function escalateWorkflow($instanceId)
-{
-    $instance = $this->getWorkflowInstance($instanceId);
-    
-    // Get escalation rules
-    $escalationRule = $this->getEscalationRule($instance['definition_id'], $instance['current_step']);
-    
-    if ($escalationRule) {
-        // Move to escalation step
-        $this->updateCurrentStep($instanceId, $escalationRule['escalate_to_step']);
-        
-        // Notify escalation assignee
-        $escalationStep = $this->getStep($instance['definition_id'], $escalationRule['escalate_to_step']);
-        $this->notifyAssignee($instanceId, $escalationStep);
-        
-        // Log escalation
-        $this->logEscalation($instanceId, $escalationRule);
-    }
-}
 ```
-
-
 
 ---
 
-# 10. Workflow Monitoring
+# 22. Notification Integration
 
+Workflow terhubung:
 
-## Get Workflow Status
+```text
+Workflow Engine
 
+↓
 
-```php
-public function getWorkflowStatus($instanceId)
-{
-    $instance = $this->getWorkflowInstance($instanceId);
-    
-    $actions = $this->db->query(
-        "SELECT wa.*, u.username
-         FROM workflow_actions wa
-         LEFT JOIN users u ON wa.action_by = u.user_id
-         WHERE wa.instance_id = ?
-         ORDER BY wa.action_at ASC",
-        [$instanceId]
-    )->fetchAll();
-    
-    return [
-        'instance' => $instance,
-        'actions' => $actions,
-        'current_step' => $this->getStep($instance['definition_id'], $instance['current_step']),
-        'progress' => $this->calculateProgress($instance)
-    ];
-}
+Notification Engine
+
+↓
+
+Email
+
+SMS
+
+WhatsApp
+
+Mobile Push
+
 ```
-
-
-## Calculate Progress
-
-
-```php
-private function calculateProgress($instance)
-{
-    $totalSteps = $this->getTotalSteps($instance['definition_id']);
-    $currentStepOrder = $this->getStepOrder($instance['definition_id'], $instance['current_step']);
-    
-    $progress = ($currentStepOrder / $totalSteps) * 100;
-    
-    return round($progress, 2);
-}
-```
-
-
 
 ---
 
-# 11. Workflow Testing
+# 23. SLA Management
 
+Workflow dapat memiliki:
 
-## Unit Tests
+```text
+Start Time
 
+Deadline
 
-```php
-public function testStartWorkflow()
-{
-    $instanceId = $this->workflowEngine->startWorkflow(
-        1,
-        'PURCHASE_APPROVAL',
-        'purchase',
-        1001,
-        ['amount' => 5000000],
-        1
-    );
-    
-    $instance = $this->workflowEngine->getWorkflowInstance($instanceId);
-    
-    $this->assertEquals('in_progress', $instance['status']);
-    $this->assertEquals('create_request', $instance['current_step']);
-}
+Reminder
 
-public function testProcessApproval()
-{
-    $instanceId = $this->workflowEngine->startWorkflow(
-        1,
-        'PURCHASE_APPROVAL',
-        'purchase',
-        1001,
-        ['amount' => 5000000],
-        1
-    );
-    
-    $nextStep = $this->workflowEngine->processAction(
-        $instanceId,
-        'approve',
-        'Approved',
-        2
-    );
-    
-    $this->assertEquals('supervisor_approval', $nextStep['step_name']);
-}
+Escalation
+
 ```
-
-
 
 ---
 
-# 12. Workflow Performance
+Contoh:
 
+```text
+Approval belum selesai 24 jam
 
-## Optimization
+↓
 
+Reminder
 
-* Caching workflow definitions
-* Lazy loading workflow steps
-* Batch processing timeouts
-* Parallel task assignment
+↓
 
+48 jam
 
-## Metrics
+↓
 
+Escalate ke Owner
 
-Monitor:
-
-
-* Workflow execution time
-* Average approval time
-* Timeout rate
-* Escalation rate
-
-
+```
 
 ---
 
-# 13. Workflow Security
+# 24. Escalation Engine
 
+Jika user tidak melakukan:
 
-## Access Control
+```text
+Task Pending
 
+↓
 
-Hanya user dengan permission:
+Timeout
 
+↓
+
+Escalation Rule
+
+↓
+
+New Responsible Person
 
 ```
-
-WORKFLOW_MANAGE
-
-```
-
-
-boleleh mengubah workflow definitions.
-
-
-## Action Validation
-
-
-Hanya assignee yang boleh melakukan action:
-
-```php
-if (!$this->isAssignee($userId, $step)) {
-    throw new Exception("User is not assigned to this step");
-}
-```
-
-
 
 ---
 
-# 14. Workflow Versioning
+# 25. Workflow Versioning
 
+Workflow memiliki:
 
-Workflow definitions dapat di-versioning:
+```text
+Version
 
+Effective Date
+
+Change History
 
 ```
-
-v1.0: 3-step approval
-
-v2.0: 4-step approval with escalation
-
-```
-
-
-## Migration
-
-
-Running instances menggunakan versi saat dimulai.
-
-New instances menggunakan versi terbaru.
-
-
 
 ---
 
-# 15. Workflow Import/Export
+Contoh:
+
+```text
+Purchase Workflow v1
+
+digunakan sampai:
+
+31-12-2026
 
 
-## Export
+Purchase Workflow v2
 
+mulai:
 
-```php
-public function exportWorkflow($definitionId)
-{
-    $definition = $this->db->query(
-        "SELECT * FROM workflow_definitions WHERE definition_id = ?",
-        [$definitionId]
-    )->fetch();
-    
-    $steps = $this->db->query(
-        "SELECT * FROM workflow_steps WHERE definition_id = ? ORDER BY step_order",
-        [$definitionId]
-    )->fetchAll();
-    
-    $transitions = $this->db->query(
-        "SELECT * FROM workflow_transitions WHERE definition_id = ?",
-        [$definitionId]
-    )->fetchAll();
-    
-    return [
-        'definition' => $definition,
-        'steps' => $steps,
-        'transitions' => $transitions
-    ];
-}
+01-01-2027
+
 ```
-
-
-## Import
-
-
-```php
-public function importWorkflow($tenantId, $workflowData)
-{
-    // Insert definition
-    $definitionId = $this->db->query(
-        "INSERT INTO workflow_definitions 
-         (tenant_id, workflow_name, workflow_code, workflow_category, definition_json)
-         VALUES (?, ?, ?, ?, ?)",
-        [
-            $tenantId,
-            $workflowData['definition']['workflow_name'],
-            $workflowData['definition']['workflow_code'],
-            $workflowData['definition']['workflow_category'],
-            json_encode($workflowData)
-        ]
-    )->lastInsertId();
-    
-    // Insert steps
-    foreach ($workflowData['steps'] as $step) {
-        $this->db->query(
-            "INSERT INTO workflow_steps 
-             (definition_id, step_name, step_order, step_type, assignee_type, assignee_value, action_required)
-             VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [
-                $definitionId,
-                $step['step_name'],
-                $step['step_order'],
-                $step['step_type'],
-                $step['assignee_type'],
-                $step['assignee_value'],
-                $step['action_required']
-            ]
-        );
-    }
-    
-    // Insert transitions
-    foreach ($workflowData['transitions'] as $transition) {
-        $this->db->query(
-            "INSERT INTO workflow_transitions 
-             (definition_id, from_step, to_step, condition_expression)
-             VALUES (?, ?, ?, ?)",
-            [
-                $definitionId,
-                $transition['from_step'],
-                $transition['to_step'],
-                $transition['condition_expression']
-            ]
-        );
-    }
-    
-    return $definitionId;
-}
-```
-
-
 
 ---
 
-# 16. Best Practices
+# 26. Workflow Security
 
+Permission:
 
-## Workflow Naming
+```text
+Create Workflow
 
+Edit Workflow
 
-Format:
+Approve Task
 
+View History
 
-```
-
-[CATEGORY]_[ENTITY]_[ACTION]
-
-```
-
-
-Example:
-
+Admin Workflow
 
 ```
-PURCHASE_APPROVAL
-
-LEAVE_REQUEST
-
-EXPENSE_CLAIM
-
-MAINTENANCE_REQUEST
-
-```
-
-
-## Step Naming
-
-
-Format:
-
-
-```
-
-[ROLE]_[ACTION]
-
-```
-
-
-Example:
-
-
-```
-supervisor_approval
-
-manager_review
-
-owner_approval
-
-admin_final
-
-```
-
-
-## Workflow Documentation
-
-
-Dokumentasikan setiap workflow:
-
-
-```php
-/**
- * Purchase Approval Workflow
- * 
- * Steps:
- * 1. Create Request (Requester)
- * 2. Supervisor Approval (Supervisor, 24h timeout)
- * 3. Owner Approval (Owner, 48h timeout)
- * 4. Final Approval (Admin)
- * 
- * @category purchasing
- * @version 1.0
- */
-```
-
-
 
 ---
 
-# 17. Conclusion
+# 27. Workflow Audit
 
+Semua aktivitas dicatat:
 
-EBP Workflow Engine memungkinkan:
+```text
+Who
 
+When
+
+Action
+
+Previous State
+
+New State
+
+Comment
 
 ```
 
-BUSINESS PROCESS
+---
 
-+
+# 28. Workflow Testing
 
-WORKFLOW ENGINE
+Setiap workflow wajib memiliki:
 
-=
+## Scenario Test
 
-AUTOMATED APPROVAL
+Contoh:
+
+```text
+Purchase < 10 juta
+
+Expected:
+
+Manager Approval
 
 ```
 
+```text
+Purchase > 100 juta
 
-Manfaat:
+Expected:
 
+Owner Approval
 
-* Process automation tanpa hardcoding
-* Approval process yang terstruktur
-* Process monitoring dan tracking
-* Process dapat diubah tanpa coding
-* Professional enterprise platform
+```
 
+---
 
-EBP Workflow Engine adalah kunci untuk platform yang memiliki approval process yang robust dan flexible.
+# 29. AI Assisted Workflow Design
 
+Future capability:
 
+AI membantu:
+
+Input:
+
+```text
+"buat workflow pembelian restoran"
+
+```
+
+AI menghasilkan:
+
+```text
+Request
+
+Approval
+
+Purchase Order
+
+Receiving
+
+Payment
+
+```
+
+Kemudian manusia melakukan approval.
+
+---
+
+# 30. Workflow Engine Relationship
+
+Hubungan:
+
+```text
+Configuration Engine
+
+        |
+
+Rule Engine
+
+        |
+
+Workflow Engine
+
+        |
+
+Business Engine
+
+        |
+
+Product Module
+
+```
+
+---
+
+# 31. Final Architecture Vision
+
+Workflow Engine menjadikan EBP:
+
+```text
+Application Software
+
+        ↓
+
+Business Process Platform
+
+        ↓
+
+Enterprise Operating System
+
+```
 
 ---
 
 # END OF DOCUMENT
 
-
 Document ID:
 
-EBP-WORKFLOW-ENGINE-001
-
+EBP-ENTERPRISE-CONTROL-WORKFLOW-ENGINE-001
 
 Version:
 

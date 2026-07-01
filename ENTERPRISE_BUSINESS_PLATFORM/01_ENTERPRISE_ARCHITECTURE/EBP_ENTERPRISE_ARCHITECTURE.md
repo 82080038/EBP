@@ -1045,7 +1045,297 @@ Wajib memiliki:
 
 ---
 
-# 20. Future Architecture Direction
+# 20. Cloud Native Architecture
+
+EBP dirancang untuk cloud-native deployment.
+
+## 20.1 Container Strategy
+
+Setiap komponen dapat di-container:
+
+```
+Docker Container
+
+Kubernetes Orchestration
+
+Helm Charts
+
+Container Registry
+```
+
+## 20.2 Microservices Evolution
+
+Arsitektur mendukung transisi ke microservices:
+
+```
+Monolith (Initial)
+
+        ↓
+
+Modular Monolith
+
+        ↓
+
+Service Oriented
+
+        ↓
+
+Microservices
+```
+
+## 20.3 Service Mesh
+
+Untuk microservices deployment:
+
+```
+Istio
+
+Linkerd
+
+Service Discovery
+
+Load Balancing
+
+Circuit Breaker
+```
+
+## 20.4 Serverless Ready
+
+Komponen tertentu dapat menjadi serverless:
+
+```
+AWS Lambda
+
+Azure Functions
+
+Google Cloud Functions
+```
+
+## 20.5 Event Driven Microservices
+
+Microservices berkomunikasi melalui event:
+
+```
+Event Bus
+
+Message Queue
+
+Event Sourcing
+
+CQRS
+```
+
+---
+
+# 21. Multi Tenant Cloud Architecture
+
+## 21.1 Tenant Isolation Models
+
+EBP mendukung berbagai model:
+
+```
+Shared Database
+
+Shared Schema
+
+Separate Database per Tenant
+
+Separate Schema per Tenant
+```
+
+## 21.2 Tenant Tiering
+
+Support untuk tenant tiering:
+
+```
+Basic Tier
+
+Business Tier
+
+Enterprise Tier
+
+Custom Tier
+```
+
+## 21.3 Resource Pooling
+
+Efisiensi resource melalui pooling:
+
+```
+Compute Pooling
+
+Storage Pooling
+
+Network Pooling
+```
+
+## 21.4 Noisy Neighbor Mitigation
+
+Mencegah tenant berat mempengaruhi lain:
+
+```
+Resource Quota
+
+Rate Limiting
+
+Priority Queue
+```
+
+---
+
+# 22. Observability Architecture
+
+## 22.1 Metrics Collection
+
+```
+Prometheus
+
+Grafana
+
+Custom Metrics
+
+Business Metrics
+```
+
+## 22.2 Logging Strategy
+
+```
+Structured Logging
+
+JSON Format
+
+Log Aggregation
+
+Centralized Logging (ELK Stack)
+```
+
+## 22.3 Distributed Tracing
+
+```
+OpenTelemetry
+
+Jaeger
+
+Zipkin
+
+Trace Context Propagation
+```
+
+## 22.4 Alerting
+
+```
+
+Alert Manager
+
+Incident Response
+
+On-call Rotation
+
+Escalation Policy
+```
+
+---
+
+# 23. CI/CD Architecture
+
+## 23.1 Pipeline Strategy
+
+```
+
+Git Flow
+
+Feature Branch
+
+Pull Request
+
+Automated Testing
+
+Automated Deployment
+```
+
+## 23.2 Infrastructure as Code
+
+```
+
+Terraform
+
+Ansible
+
+Docker Compose
+
+Kubernetes Manifests
+```
+
+## 23.3 GitOps
+
+```
+
+Git as Single Source of Truth
+
+Automated Sync
+
+Drift Detection
+
+Rollback Capability
+```
+
+---
+
+# 24. Disaster Recovery Architecture
+
+## 24.1 High Availability
+
+```
+
+Multi-AZ Deployment
+
+Load Balancing
+
+Auto Scaling
+
+Health Checks
+```
+
+## 24.2 Data Replication
+
+```
+
+Master-Slave
+
+Master-Master
+
+Cross-Region Replication
+
+Point-in-Time Recovery
+```
+
+## 24.3 Backup Strategy
+
+```
+
+Incremental Backup
+
+Full Backup
+
+Off-site Backup
+
+Backup Encryption
+```
+
+## 24.4 RPO/RTO Targets
+
+```
+
+RPO: 5 minutes
+
+RTO: 1 hour
+
+Critical System: RPO 0, RTO 15 minutes
+```
+
+---
+
+# 25. Future Architecture Direction
 
 
 EBP diarahkan menuju:
@@ -1068,12 +1358,22 @@ Business Intelligence
         +
 
 Automation Platform
+
+
+        +
+
+Cloud Native Platform
+
+
+        +
+
+Edge Computing
 ```
 
 
 ---
 
-# 21. Kesimpulan
+# 26. Kesimpulan
 
 
 Enterprise Business Platform dirancang bukan sebagai aplikasi tunggal.
@@ -1091,6 +1391,14 @@ Many Engines
 Many Industries
 
 Infinite Possibilities
+
+Cloud Native
+
+Observable
+
+Secure
+
+Scalable
 ```
 
 
@@ -1106,4 +1414,4 @@ EBP-ENTERPRISE-ARCHITECTURE-001
 
 Version:
 
-1.0
+1.1

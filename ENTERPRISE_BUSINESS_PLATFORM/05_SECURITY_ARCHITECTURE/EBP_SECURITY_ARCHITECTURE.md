@@ -45,6 +45,9 @@ Never Trust
 
 Always Verify
 
+Least Privilege
+
+Assume Breach
 ```
 
 
@@ -57,9 +60,44 @@ Setiap:
 - perangkat;
 - API;
 - service;
+- network;
 
 
-harus diverifikasi.
+harus diverifikasi dan divalidasi secara continuous.
+
+---
+
+# 2.1 Zero Trust Principles
+
+EBP mengimplementasikan Zero Trust dengan prinsip:
+
+## Verify Explicitly
+
+Selalu verifikasi identitas dan security context:
+
+- User identity
+- Device health
+- Location
+- Risk level
+- Resource sensitivity
+
+## Use Least Privilege
+
+Akses minimum yang diperlukan:
+
+- Just-in-time access
+- Just-enough access
+- Time-bound access
+- Revocable access
+
+## Assume Breach
+
+Asumsikan sistem sudah terkompromai:
+
+- Minimize blast radius
+- Segment network
+- Encrypt all data
+- Continuous monitoring
 
 
 ---
@@ -1071,11 +1109,251 @@ EBP diarahkan mendukung:
 * AI Security;
 * Behavioral Analytics;
 * Blockchain Audit;
-* Confidential Computing.
+* Confidential Computing;
+* DevSecOps;
+* Cloud Security Posture Management;
+* Security Automation.
 
 ---
 
-# 36. Kesimpulan
+# 36. DevSecOps Integration
+
+Security harus terintegrasi dalam DevOps pipeline.
+
+## 36.1 Security as Code
+
+Security policies sebagai code:
+
+```
+Infrastructure as Code Security
+
+Policy as Code
+
+Compliance as Code
+```
+
+## 36.2 Automated Security Testing
+
+```
+
+SAST (Static Application Security Testing)
+
+DAST (Dynamic Application Security Testing)
+
+SCA (Software Composition Analysis)
+
+Container Security Scanning
+
+Infrastructure Security Scanning
+```
+
+## 36.3 Security Gates
+
+Pipeline security gates:
+
+```
+
+Code Analysis Gate
+
+Dependency Check Gate
+
+Container Scan Gate
+
+Compliance Check Gate
+```
+
+## 36.4 Shift Left Security
+
+Security di awal development:
+
+```
+
+Threat Modeling
+
+Secure Design Review
+
+Secure Coding Standards
+
+Security Training
+```
+
+---
+
+# 37. Cloud Security
+
+## 37.1 Cloud Security Posture Management
+
+```
+
+Configuration Management
+
+Compliance Monitoring
+
+Vulnerability Management
+
+Identity Management
+```
+
+## 37.2 Container Security
+
+```
+
+Image Scanning
+
+Runtime Protection
+
+Network Segmentation
+
+Secret Management
+```
+
+## 37.3 Kubernetes Security
+
+```
+
+Pod Security Policies
+
+Network Policies
+
+RBAC
+
+Service Mesh Security
+```
+
+---
+
+# 38. API Security Enhancement
+
+## 38.1 API Security Best Practices
+
+```
+
+OAuth 2.0 / OpenID Connect
+
+API Key Management
+
+JWT Validation
+
+Rate Limiting per Tenant
+
+Request/Response Validation
+```
+
+## 38.2 API Threat Protection
+
+```
+
+SQL Injection Prevention
+
+XSS Prevention
+
+CSRF Protection
+
+Mass Assignment Prevention
+```
+
+## 38.3 API Gateway Security
+
+```
+
+WAF (Web Application Firewall)
+
+DDoS Protection
+
+Bot Protection
+
+API Abuse Detection
+```
+
+---
+
+# 39. Data Protection Enhancement
+
+## 39.1 Data Classification
+
+```
+
+Public
+
+Internal
+
+Confidential
+
+Restricted
+```
+
+## 39.2 Data Loss Prevention
+
+```
+
+DLP Policies
+
+Sensitive Data Detection
+
+Data Masking
+
+Data Encryption
+```
+
+## 39.3 Privacy by Design
+
+```
+
+GDPR Compliance
+
+Data Minimization
+
+Consent Management
+
+Right to be Forgotten
+```
+
+---
+
+# 40. Incident Response Automation
+
+## 40.1 Automated Response
+
+```
+
+Automated Isolation
+
+Automated Blocking
+
+Automated Notification
+
+Automated Forensics
+```
+
+## 40.2 SOAR Integration
+
+```
+
+Security Orchestration
+
+Automation and Response
+
+Playbook Automation
+
+Case Management
+```
+
+## 40.3 Threat Intelligence
+
+```
+
+Threat Feeds
+
+IOC (Indicators of Compromise)
+
+TTP (Tactics, Techniques, Procedures)
+
+Threat Hunting
+```
+
+---
+
+# 41. Kesimpulan
 
 Security Architecture adalah fondasi kepercayaan EBP.
 
@@ -1090,6 +1368,8 @@ tetapi harus:
 Prinsip utama:
 
 ```
+Zero Trust
+
 Protect Identity
 
 Protect Data
@@ -1098,6 +1378,9 @@ Protect Transaction
 
 Protect Business
 
+Continuous Security
+
+Security by Design
 ```
 
 
@@ -1111,4 +1394,4 @@ EBP-SECURITY-ARCHITECTURE-001
 
 Version:
 
-1.0
+1.1

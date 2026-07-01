@@ -872,7 +872,270 @@ Rollback Plan
 
 ---
 
-# 30. Long Term Principle
+# 30. CI/CD Pipeline Rule
+
+## 30.1 Pipeline Stages
+
+```
+
+Build
+
+        ↓
+
+Unit Test
+
+        ↓
+
+Integration Test
+
+        ↓
+
+Security Scan
+
+        ↓
+
+Code Quality Check
+
+        ↓
+
+Deploy to Staging
+
+        ↓
+
+E2E Test
+
+        ↓
+
+Deploy to Production
+```
+
+## 30.2 Automated Testing Gates
+
+Pipeline tidak boleh lanjut jika:
+
+- Unit test gagal
+- Integration test gagal
+- Security scan menemukan critical issue
+- Code quality di bawah threshold
+
+## 30.3 Code Quality Metrics
+
+Minimum threshold:
+
+```
+
+Code Coverage: 80%
+
+Cyclomatic Complexity: < 10
+
+Code Duplication: < 3%
+
+Technical Debt Ratio: < 5%
+```
+
+## 30.4 Security Gates
+
+```
+
+Dependency Vulnerability Scan
+
+Container Image Scan
+
+SAST (Static Application Security Testing)
+
+Secret Detection
+```
+
+---
+
+# 31. Infrastructure as Code Rule
+
+## 31.1 IaC Principles
+
+```
+
+Declarative
+
+Idempotent
+
+Version Controlled
+
+Testable
+
+Reusable
+```
+
+## 31.2 IaC Tools
+
+```
+
+Terraform untuk infrastructure
+
+Ansible untuk configuration
+
+Docker Compose untuk local development
+
+Kubernetes manifests untuk production
+```
+
+## 31.3 IaC Testing
+
+```
+
+Plan validation
+
+Security scanning
+
+Compliance checking
+
+Drift detection
+```
+
+---
+
+# 32. GitOps Workflow
+
+## 32.1 GitOps Principles
+
+```
+
+Git as single source of truth
+
+Desired state in Git
+
+Automated sync to cluster
+
+Drift detection and correction
+```
+
+## 32.2 GitOps Tools
+
+```
+
+ArgoCD
+
+Flux
+
+GitHub Actions
+
+GitLab CI
+```
+
+## 32.3 GitOps Benefits
+
+```
+
+Increased productivity
+
+Enhanced reliability
+
+Better compliance
+
+Faster recovery
+```
+
+---
+
+# 33. Container Development Rule
+
+## 33.1 Dockerfile Best Practices
+
+```
+
+Use multi-stage builds
+
+Minimize layer count
+
+Use specific base images
+
+Scan images for vulnerabilities
+
+Don't run as root
+```
+
+## 33.2 Container Orchestration
+
+```
+
+Kubernetes for production
+
+Docker Compose for development
+
+Helm for package management
+```
+
+## 33.3 Container Security
+
+```
+
+Image signing
+
+Runtime security
+
+Network policies
+
+Resource limits
+```
+
+---
+
+# 34. Monitoring and Observability Rule
+
+## 34.1 Application Monitoring
+
+```
+
+APM (Application Performance Monitoring)
+
+Error tracking
+
+Performance profiling
+
+User experience monitoring
+```
+
+## 34.2 Infrastructure Monitoring
+
+```
+
+CPU, memory, disk usage
+
+Network metrics
+
+Container metrics
+
+Kubernetes metrics
+```
+
+## 34.3 Business Metrics
+
+```
+
+Transaction volume
+
+Revenue tracking
+
+User activity
+
+Conversion rates
+```
+
+## 34.4 Alerting Strategy
+
+```
+
+Define alert thresholds
+
+Set up escalation policies
+
+Use on-call rotation
+
+Document runbooks
+```
+
+---
+
+# 35. Long Term Principle
 
 EBP dibangun dengan prinsip:
 
@@ -885,6 +1148,15 @@ Restaurant ERP
 Tomorrow:
 
 Enterprise Business Platform
+
+
+Future:
+
+Multi-Product Platform
+
+Multi-Cloud
+
+AI-Powered
 ```
 
 Setiap keputusan harus mempertimbangkan:
@@ -892,7 +1164,9 @@ Setiap keputusan harus mempertimbangkan:
 * reuse;
 * scalability;
 * security;
-* maintainability.
+* maintainability;
+* observability;
+* cloud-native readiness.
 
 ---
 
@@ -916,6 +1190,14 @@ Architecture
 +
 
 Automation
+
++
+
+CI/CD
+
++
+
+Observability
 ```
 
 dapat menghasilkan software enterprise yang konsisten dan dapat berkembang.
@@ -930,4 +1212,4 @@ EBP-ENTERPRISE-CONTROL-DEVELOPMENT-RULES-001
 
 Version:
 
-1.0
+1.1
