@@ -1,1075 +1,980 @@
 # Enterprise Business Platform (EBP)
 
-# Configuration Engine Specification
+# Configuration Engine Architecture
 
-
-**Document ID:** EBP-CONFIGURATION-ENGINE-001
-
+**Document ID:** EBP-ENTERPRISE-CONTROL-CONFIGURATION-ENGINE-001
 **Version:** 1.0
-
-**Category:** Enterprise Engine Specification
-
-**Status:** Official Specification
-
-
+**Category:** Enterprise Control Layer
+**Status:** Official Architecture Specification
 
 ---
 
 # 1. Introduction
 
+Configuration Engine adalah komponen Enterprise Business Platform (EBP) yang mengatur perilaku aplikasi berdasarkan konfigurasi tanpa melakukan perubahan kode program.
 
-Dokumen ini mendefinisikan Configuration Engine untuk Enterprise Business Platform (EBP).
+Tujuan utama:
 
-Configuration Engine memungkinkan:
-
-
-* Tenant customization tanpa coding
-* Feature flag management
-* Dynamic setting
-* Business rule configuration
-* UI customization
-
-Tujuan:
-
-
-```
-
-Satu Platform
-
-+
-
-Banyak Variasi Bisnis
-
-```
-
-
+* satu platform melayani banyak jenis bisnis;
+* satu produk memiliki banyak variasi implementasi;
+* customization tanpa fork code;
+* mengurangi hard coding;
+* mendukung SaaS multi tenant.
 
 ---
 
-# 2. Problem Statement
+# 2. Core Philosophy
 
+Prinsip:
 
-Masalah yang dihadapi:
-
-
-Restaurant A berbeda dengan Restaurant B.
-
-
-### Restaurant A
-
-
-* Menggunakan meja
-* Ada reservasi
-* Ada kitchen display
-* Ada delivery
-* Multi-branch
-
-
-### Restaurant B
-
-
-* Hanya take away
-* Tidak memakai meja
-* Tidak memakai kitchen display
-* Single outlet
-
-
-### Pertanyaan
-
-
-Apakah kita membuat dua aplikasi?
-
-
-### Jawaban
-
-
-Tidak.
-
-
-Solusi:
-
-
-```
-
-Restaurant ERP
-
-+
-
-Configuration Engine
-
-```
-
-
-
----
-
-# 3. Configuration Philosophy
-
-
-EBP Configuration Engine menggunakan prinsip:
-
-
-```
-
-CODE ONCE
-
-CONFIGURE EVERYWHERE
-
-```
-
+> Behavior should be configured, not duplicated.
 
 Artinya:
 
+Perbedaan bisnis:
 
-* Kode ditulis sekali
-* Perilaku dikonfigurasi per tenant
-* Tanpa perlu coding ulang
+```text
+Tidak dibuat dengan:
+
+Copy Code
 
 
+Tetapi:
+
+Configuration
+```
 
 ---
 
-# 4. Configuration Types
+# 3. Problem Without Configuration Engine
+
+Tanpa Configuration Engine:
+
+```text
+Restaurant ERP
 
 
-## 1. Module Configuration
+Customer A
+
+Need:
+Table + Reservation
 
 
-Mengaktifkan/menonaktifkan modul.
+Customer B
 
+Need:
+Take Away Only
+
+
+Customer C
+
+Need:
+Delivery + Franchise
+
+```
+
+Solusi buruk:
+
+```text
+Restaurant_A_Code
+
+Restaurant_B_Code
+
+Restaurant_C_Code
+
+```
+
+Akibat:
+
+* maintenance sulit;
+* bug berbeda;
+* update tidak konsisten.
+
+---
+
+# 4. Configuration Engine Solution
+
+Dengan Configuration Engine:
+
+```text
+EBP Restaurant ERP
+
+
+        |
+
+Configuration Engine
+
+
+        |
+
+Tenant Behavior
+
+
+```
+
+---
 
 Contoh:
 
+Tenant A:
+
+```json
+{
+"table_management":true,
+"delivery":true,
+"kitchen_display":true
+}
 
 ```
-restaurant.table_management = true
 
-restaurant.delivery = false
+Tenant B:
 
-restaurant.kitchen_display = true
-
-restaurant.reservation = false
+```json
+{
+"table_management":false,
+"delivery":false,
+"kitchen_display":false
+}
 
 ```
 
+---
 
-## 2. Feature Configuration
+# 5. Configuration Engine Scope
 
+Configuration Engine mengatur:
 
-Mengaktifkan/menonaktifkan fitur.
+## 5.1 System Configuration
 
+Konfigurasi platform.
 
 Contoh:
 
+```text
+Timezone
 
+Currency
+
+Language
+
+Date Format
+
+Number Format
 ```
-restaurant.multi_branch = true
 
-restaurant.inventory_management = true
+---
 
-restaurant.accounting_integration = false
+## 5.2 Tenant Configuration
 
-restaurant.ai_forecast = false
-
-```
-
-
-## 3. Business Rule Configuration
-
-
-Mengatur aturan bisnis.
-
+Konfigurasi masing-masing bisnis.
 
 Contoh:
 
+```text
+Restaurant Name
+
+Branch
+
+Tax Setting
+
+Receipt Format
+
+Operating Hours
+```
+
+---
+
+## 5.3 Feature Configuration
+
+Mengaktifkan fitur:
+
+Contoh:
+
+```text
+POS
+
+Inventory
+
+Accounting
+
+AI Forecast
+
+Delivery
+
+Reservation
 
 ```
-restaurant.auto_create_journal = true
 
-restaurant.auto_deduct_stock = true
+---
 
-restaurant.require_approval_above = 1000000
+## 5.4 Business Configuration
 
-restaurant.default_tax_rate = 10
+Aturan operasional.
+
+Contoh:
+
+```text
+Minimum Order
+
+Discount Rule
+
+Tax Percentage
+
+Approval Limit
 
 ```
 
+---
 
-## 4. UI Configuration
-
+## 5.5 UI Configuration
 
 Mengatur tampilan.
 
-
 Contoh:
 
+```text
+Dashboard Widget
+
+Menu Layout
+
+Theme
+
+Color
+
+Logo
 
 ```
-restaurant.show_table_map = true
-
-restaurant.show_kitchen_display = true
-
-restaurant.theme_color = #FF5733
-
-restaurant.logo_path = /uploads/logo.png
-
-```
-
-
-## 5. Integration Configuration
-
-
-Mengatur integrasi.
-
-
-Contoh:
-
-
-```
-restaurant.payment_gateway = midtrans
-
-restaurant.sms_provider = twilio
-
-restaurant.email_provider = sendgrid
-
-restaurant.printer_type = epson
-
-```
-
-
-
----
-
-# 5. Database Schema
-
-
-## tenant_settings
-
-
-```sql
-CREATE TABLE tenant_settings (
-    setting_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    tenant_id BIGINT NOT NULL,
-    module VARCHAR(50) NOT NULL,
-    setting_key VARCHAR(100) NOT NULL,
-    setting_value TEXT,
-    setting_type ENUM('boolean', 'string', 'integer', 'float', 'json', 'array') NOT NULL,
-    description TEXT,
-    is_encrypted BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by BIGINT,
-    updated_by BIGINT,
-    
-    UNIQUE KEY uk_tenant_module_key (tenant_id, module, setting_key),
-    INDEX idx_tenant_id (tenant_id),
-    INDEX idx_module (module),
-    INDEX idx_setting_key (setting_key)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-
-## feature_flags
-
-
-```sql
-CREATE TABLE feature_flags (
-    flag_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    flag_name VARCHAR(100) NOT NULL UNIQUE,
-    flag_description TEXT,
-    is_global BOOLEAN DEFAULT TRUE,
-    enabled_for_tenant_ids JSON,
-    enabled_for_plans JSON,
-    enabled_since TIMESTAMP NULL,
-    enabled_until TIMESTAMP NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    
-    INDEX idx_flag_name (flag_name),
-    INDEX idx_global (is_global)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-
-## tenant_feature_flags
-
-
-```sql
-CREATE TABLE tenant_feature_flags (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    tenant_id BIGINT NOT NULL,
-    flag_name VARCHAR(100) NOT NULL,
-    is_enabled BOOLEAN DEFAULT FALSE,
-    enabled_at TIMESTAMP NULL,
-    enabled_by BIGINT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    
-    UNIQUE KEY uk_tenant_flag (tenant_id, flag_name),
-    INDEX idx_tenant_id (tenant_id),
-    INDEX idx_flag_name (flag_name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-```
-
-
 
 ---
 
 # 6. Configuration Hierarchy
 
+EBP menggunakan hierarki:
 
-## Priority Order
-
-
-```
-
-1. Tenant Setting (Highest Priority)
-
-2. Plan Setting
-
-3. Global Default (Lowest Priority)
-
-```
+```text
+GLOBAL CONFIGURATION
 
 
-## Example
+        ↓
 
 
-Global Default:
+PRODUCT CONFIGURATION
 
 
-```
-restaurant.kitchen_display = false
-
-```
+        ↓
 
 
-Plan Setting (Professional):
+TENANT CONFIGURATION
 
+
+        ↓
+
+
+USER CONFIGURATION
 
 ```
-restaurant.kitchen_display = true
-
-```
-
-
-Tenant Setting:
-
-
-```
-restaurant.kitchen_display = false
-
-```
-
-
-Result:
-
-
-```
-
-Tenant Setting wins: kitchen_display = false
-
-```
-
-
 
 ---
 
-# 7. Configuration API
+Contoh:
 
+Global:
+
+```text
+Currency = IDR
+
+```
+
+Restaurant:
+
+```text
+Tax Feature = ON
+
+```
+
+Tenant:
+
+```text
+Tax = 11%
+
+```
+
+User:
+
+```text
+Dashboard Layout = Custom
+
+```
+
+---
+
+# 7. Configuration Priority
+
+Jika terdapat konflik:
+
+Prioritas:
+
+```text
+User
+
+↓
+
+Tenant
+
+↓
+
+Product
+
+↓
+
+Global
+
+```
+
+Contoh:
+
+Global:
+
+```text
+Language = English
+```
+
+Tenant:
+
+```text
+Language = Indonesia
+```
+
+Maka:
+
+```text
+Indonesia digunakan
+```
+
+---
+
+# 8. Configuration Database Architecture
+
+Database utama:
+
+## configuration_groups
+
+Menyimpan kelompok konfigurasi.
+
+```sql
+id
+
+code
+
+name
+
+description
+
+```
+
+---
+
+## configurations
+
+```sql
+id
+
+group_id
+
+tenant_id
+
+key
+
+value
+
+type
+
+created_at
+
+updated_at
+
+```
+
+---
+
+Contoh:
+
+```text
+key:
+
+restaurant.table.enabled
+
+
+value:
+
+true
+
+```
+
+---
+
+# 9. Configuration Data Type
+
+Mendukung:
+
+```text
+STRING
+
+INTEGER
+
+BOOLEAN
+
+FLOAT
+
+JSON
+
+DATE
+
+ARRAY
+
+```
+
+---
+
+Contoh:
+
+Boolean:
+
+```json
+{
+"enabled":true
+}
+
+```
+
+JSON:
+
+```json
+{
+"opening_hour":"08:00",
+"closing_hour":"22:00"
+}
+
+```
+
+---
+
+# 10. Feature Flag Engine
+
+Feature Flag adalah bagian Configuration Engine.
+
+Tujuan:
+
+Mengaktifkan fitur tertentu.
+
+Contoh:
+
+Database:
+
+```text
+feature_flags
+
+```
+
+Isi:
+
+```text
+tenant_id
+
+feature_code
+
+enabled
+
+```
+
+---
+
+Contoh:
+
+```text
+restaurant.ai.forecast
+
+true
+
+```
+
+Maka AI aktif.
+
+---
+
+# 11. Module Activation
+
+Produk terdiri dari module.
+
+Contoh:
+
+Restaurant ERP:
+
+```text
+POS
+
+Inventory
+
+Kitchen
+
+Accounting
+
+CRM
+
+AI
+
+```
+
+Tenant dapat memilih:
+
+```text
+POS = ON
+
+Inventory = ON
+
+Accounting = OFF
+
+```
+
+---
+
+# 12. Dynamic Parameter Engine
+
+Untuk nilai bisnis.
+
+Contoh:
+
+```text
+maximum_discount_percentage
+
+approval_limit
+
+tax_rate
+
+```
+
+Tidak ditulis:
+
+```php
+$discount=10;
+
+```
+
+Tetapi:
+
+```text
+Configuration
+
+↓
+
+Pricing Engine
+
+↓
+
+Discount Result
+
+```
+
+---
+
+# 13. Dynamic Form Configuration
+
+EBP mendukung form dinamis.
+
+Contoh:
+
+Supplier ingin tambahan:
+
+```text
+Nomor Sertifikat Halal
+
+Tanggal Kadaluarsa
+
+```
+
+Tidak perlu ubah tabel.
+
+Menggunakan:
+
+```text
+metadata_fields
+
+```
+
+---
+
+# 14. Configuration API
+
+Standard API:
 
 ## Get Configuration
 
+```http
+GET
 
-```php
-class ConfigurationService
-{
-    public function get($tenantId, $module, $key, $default = null)
-    {
-        // Check tenant setting
-        $tenantSetting = $this->getTenantSetting($tenantId, $module, $key);
-        
-        if ($tenantSetting !== null) {
-            return $this->parseValue($tenantSetting);
-        }
-        
-        // Check plan setting
-        $planSetting = $this->getPlanSetting($tenantId, $module, $key);
-        
-        if ($planSetting !== null) {
-            return $this->parseValue($planSetting);
-        }
-        
-        // Return global default
-        return $default;
-    }
-    
-    public function getTenantSetting($tenantId, $module, $key)
-    {
-        return $this->db->query(
-            "SELECT setting_value, setting_type 
-             FROM tenant_settings 
-             WHERE tenant_id = ? AND module = ? AND setting_key = ?",
-            [$tenantId, $module, $key]
-        )->fetch();
-    }
-}
+/api/v1/configurations
+
 ```
 
+Response:
 
-## Set Configuration
-
-
-```php
-public function set($tenantId, $module, $key, $value, $type = 'string')
+```json
 {
-    $this->db->query(
-        "INSERT INTO tenant_settings 
-         (tenant_id, module, setting_key, setting_value, setting_type, updated_by)
-         VALUES (?, ?, ?, ?, ?, ?)
-         ON DUPLICATE KEY UPDATE 
-         setting_value = VALUES(setting_value),
-         setting_type = VALUES(setting_type),
-         updated_at = CURRENT_TIMESTAMP,
-         updated_by = VALUES(updated_by)",
-        [$tenantId, $module, $key, $this->serializeValue($value), $type, $this->userId]
-    );
+"restaurant.table":true,
+"delivery":false
 }
+
 ```
-
-
-## Check Feature Flag
-
-
-```php
-public function isFeatureEnabled($tenantId, $featureName)
-{
-    // Check tenant-specific flag
-    $tenantFlag = $this->db->query(
-        "SELECT is_enabled FROM tenant_feature_flags 
-         WHERE tenant_id = ? AND flag_name = ?",
-        [$tenantId, $featureName]
-    )->fetch();
-    
-    if ($tenantFlag !== null) {
-        return (bool) $tenantFlag['is_enabled'];
-    }
-    
-    // Check global flag
-    $globalFlag = $this->db->query(
-        "SELECT enabled_for_tenant_ids, enabled_for_plans 
-         FROM feature_flags 
-         WHERE flag_name = ? AND is_global = TRUE",
-        [$featureName]
-    )->fetch();
-    
-    if ($globalFlag) {
-        $enabledTenants = json_decode($globalFlag['enabled_for_tenant_ids'], true);
-        $enabledPlans = json_decode($globalFlag['enabled_for_plans'], true);
-        
-        if (in_array($tenantId, $enabledTenants)) {
-            return true;
-        }
-        
-        $tenantPlan = $this->getTenantPlan($tenantId);
-        if (in_array($tenantPlan, $enabledPlans)) {
-            return true;
-        }
-    }
-    
-    return false;
-}
-```
-
-
 
 ---
 
-# 8. Configuration Categories
+## Update Configuration
 
+```http
+PUT
 
-## Restaurant Configuration
+/api/v1/configurations
 
-
-```php
-// Table Management
-restaurant.table_management = true
-restaurant.table_capacity = 50
-restaurant.table_zones = ['main', 'outdoor', 'vip']
-
-// Kitchen Display
-restaurant.kitchen_display = true
-restaurant.kitchen_display_layout = 'grid'
-restaurant.kitchen_auto_refresh = 30
-
-// Delivery
-restaurant.delivery = false
-restaurant.delivery_radius = 5
-restaurant.delivery_fee = 10000
-
-// Reservation
-restaurant.reservation = true
-restaurant.reservation_advance_days = 7
-restaurant.reservation_deposit_required = true
 ```
-
-
-## Hotel Configuration
-
-
-```php
-// Room Management
-hotel.room_management = true
-hotel.housekeeping_auto_assign = true
-hotel.checkout_time = '12:00'
-hotel.checkin_time = '14:00'
-
-// Reservation
-hotel.reservation = true
-hotel.overbooking_allowed = false
-hotel.deposit_policy = 'first_night'
-
-// Pricing
-hotel.dynamic_pricing = false
-hotel.weekend_surcharge = 20
-hotel.seasonal_pricing = false
-```
-
-
-## Parking Configuration
-
-
-```php
-// Slot Management
-parking.slot_management = true
-parking.valet_service = false
-parking.monthly_subscription = true
-
-// Pricing
-parking.hourly_rate = 5000
-parking.daily_max = 50000
-parking.monthly_rate = 500000
-
-// Access
-parking.rfid_access = true
-parking.plate_recognition = false
-```
-
-
 
 ---
 
-# 9. Configuration Validation
+# 15. Configuration Cache
 
+Configuration tidak selalu membaca database.
 
-## Type Validation
+Flow:
 
+```text
+Request
 
-```php
-public function validateValue($value, $type)
-{
-    switch ($type) {
-        case 'boolean':
-            return is_bool($value) || in_array($value, ['true', 'false', '0', '1']);
-        
-        case 'integer':
-            return is_int($value) || ctype_digit($value);
-        
-        case 'float':
-            return is_numeric($value);
-        
-        case 'string':
-            return is_string($value);
-        
-        case 'json':
-            json_decode($value);
-            return json_last_error() === JSON_ERROR_NONE;
-        
-        case 'array':
-            return is_array($value);
-        
-        default:
-            return true;
-    }
-}
+↓
+
+Cache
+
+↓
+
+Database
+
 ```
 
+Support:
 
-## Range Validation
-
-
-```php
-public function validateRange($value, $min = null, $max = null)
-{
-    if ($min !== null && $value < $min) {
-        return false;
-    }
-    
-    if ($max !== null && $value > $max) {
-        return false;
-    }
-    
-    return true;
-}
-```
-
-
-## Enum Validation
-
-
-```php
-public function validateEnum($value, $allowedValues)
-{
-    return in_array($value, $allowedValues);
-}
-```
-
-
+* Redis;
+* File Cache.
 
 ---
 
-# 10. Configuration Caching
+# 16. Security Rule
 
+Tidak semua user boleh mengubah konfigurasi.
 
-## Cache Strategy
+Level:
 
+```text
+System Admin
 
-Configuration di-cache untuk:
+Tenant Owner
 
+Manager
 
-* Mengurangi database query
-* Meningkatkan performance
-* Mengurangi latency
-
-
-## Cache Implementation
-
-
-```php
-class ConfigurationCache
-{
-    private $cache;
-    private $ttl = 3600; // 1 hour
-    
-    public function get($key)
-    {
-        return $this->cache->get($key);
-    }
-    
-    public function set($key, $value)
-    {
-        return $this->cache->set($key, $value, $this->ttl);
-    }
-    
-    public function invalidate($tenantId)
-    {
-        $pattern = "config:tenant:{$tenantId}:*";
-        $this->cache->deleteByPattern($pattern);
-    }
-}
+User
 ```
-
-
-## Cache Invalidation
-
-
-Cache di-invalidate ketika:
-
-
-* Configuration diubah
-* Tenant plan diubah
-* Feature flag diubah
-* Manual flush
-
-
 
 ---
 
-# 11. Configuration History
+Contoh:
 
+Harga pajak:
 
-## Audit Trail
+boleh:
 
+```text
+Owner
 
-Setiap perubahan configuration dicatat:
-
-
-```sql
-CREATE TABLE configuration_history (
-    history_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    tenant_id BIGINT NOT NULL,
-    module VARCHAR(50) NOT NULL,
-    setting_key VARCHAR(100) NOT NULL,
-    old_value TEXT,
-    new_value TEXT,
-    changed_by BIGINT,
-    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    change_reason TEXT,
-    
-    INDEX idx_tenant_id (tenant_id),
-    INDEX idx_changed_at (changed_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
+tidak boleh:
 
-## Rollback
+```text
+Cashier
 
-
-```php
-public function rollback($historyId)
-{
-    $history = $this->db->query(
-        "SELECT * FROM configuration_history WHERE history_id = ?",
-        [$historyId]
-    )->fetch();
-    
-    if ($history) {
-        $this->set(
-            $history['tenant_id'],
-            $history['module'],
-            $history['setting_key'],
-            $history['old_value']
-        );
-    }
-}
 ```
-
-
 
 ---
 
-# 12. Configuration Export/Import
+# 17. Audit Configuration Change
+
+Setiap perubahan wajib dicatat.
+
+Contoh:
+
+```text
+User:
+
+Owner
 
 
-## Export
+Change:
+
+Tax Rate
 
 
-```php
-public function exportTenantConfiguration($tenantId)
-{
-    $settings = $this->db->query(
-        "SELECT module, setting_key, setting_value, setting_type 
-         FROM tenant_settings 
-         WHERE tenant_id = ?",
-        [$tenantId]
-    )->fetchAll();
-    
-    return [
-        'tenant_id' => $tenantId,
-        'exported_at' => date('Y-m-d H:i:s'),
-        'settings' => $settings
-    ];
-}
+Before:
+
+10%
+
+
+After:
+
+11%
+
+
+Time:
+
+2026-07-01
+
 ```
-
-
-## Import
-
-
-```php
-public function importTenantConfiguration($tenantId, $config)
-{
-    foreach ($config['settings'] as $setting) {
-        $this->set(
-            $tenantId,
-            $setting['module'],
-            $setting['setting_key'],
-            $setting['setting_value'],
-            $setting['setting_type']
-        );
-    }
-}
-```
-
-
 
 ---
 
-# 13. Configuration UI
+# 18. Configuration Versioning
 
+Setiap konfigurasi memiliki:
 
-## Admin Interface
+```text
+version
 
-
-Configuration dapat diubah melalui:
-
-
-* Admin panel
-* API
-* CLI
-
-
-## UI Structure
-
+effective_date
 
 ```
 
-Configuration Panel
+Contoh:
 
-├── General Settings
-│   ├── Company Info
-│   ├── Business Hours
-│   └── Contact Info
-│
-├── Module Settings
-│   ├── Table Management
-│   ├── Kitchen Display
-│   ├── Delivery
-│   └── Reservation
-│
-├── Feature Flags
-│   ├── AI Forecast
-│   ├── Multi Branch
-│   └── Advanced Reporting
-│
-├── Integration Settings
-│   ├── Payment Gateway
-│   ├── SMS Provider
-│   └── Email Provider
-│
-└── UI Settings
-    ├── Theme
-    ├── Logo
-    └── Layout
+Harga berlaku:
+
+```text
+2026-08-01
 
 ```
-
-
 
 ---
 
-# 14. Configuration Security
+# 19. Configuration Deployment
 
+Perubahan konfigurasi:
 
-## Access Control
+```text
+Development
 
+↓
 
-Hanya user dengan permission:
+Testing
 
+↓
 
-```
-
-CONFIGURATION_MANAGE
-
-```
-
-
-boleleh mengubah configuration.
-
-
-## Sensitive Configuration
-
-
-Configuration sensitive di-encrypt:
-
-
-```
-restaurant.payment_gateway_api_key
-
-restaurant.sms_provider_api_key
-
-restaurant.email_provider_api_key
+Production
 
 ```
 
+---
 
-## Encryption
+# 20. Integration With EBP Engines
+
+Configuration Engine terhubung:
+
+```text
+Configuration Engine
 
 
-```php
-public function encryptValue($value)
+        ↓
+
+
+Rule Engine
+
+
+        ↓
+
+
+Workflow Engine
+
+
+        ↓
+
+
+Business Engine
+
+
+        ↓
+
+
+Product Module
+
+```
+
+---
+
+# 21. Example Restaurant ERP
+
+Konfigurasi:
+
+```json
 {
-    return openssl_encrypt(
-        $value,
-        'AES-256-CBC',
-        $this->encryptionKey,
-        0,
-        $this->iv
-    );
+"table_management":true,
+
+"kitchen_display":true,
+
+"delivery":true,
+
+"inventory":true,
+
+"accounting":false
 }
 
-public function decryptValue($encrypted)
-{
-    return openssl_decrypt(
-        $encrypted,
-        'AES-256-CBC',
-        $this->encryptionKey,
-        0,
-        $this->iv
-    );
-}
 ```
 
+Maka aplikasi otomatis:
 
+aktif:
+
+```text
+POS
+
+Kitchen
+
+Inventory
+
+Delivery
+
+```
+
+tidak aktif:
+
+```text
+Accounting
+
+```
 
 ---
 
-# 15. Configuration Performance
+# 22. Configuration Rules
 
+Tidak boleh:
 
-## Optimization
+```text
+if(customer=="A")
 
+special_code()
 
-* Caching (Redis)
-* Lazy loading
-* Batch loading
-* Prefetching
+```
 
+Harus:
 
-## Metrics
+```text
+Configuration
 
+↓
 
-Monitor:
+Engine
 
+↓
 
-* Configuration load time
-* Cache hit rate
-* Database query count
+Behavior
 
-
+```
 
 ---
 
-# 16. Configuration Testing
+# 23. Testing Requirement
 
+Configuration Engine wajib diuji:
 
-## Unit Tests
+## Unit Test
 
+```text
+Get Configuration
 
-```php
-public function testGetConfiguration()
-{
-    $this->configService->set(1, 'restaurant', 'table_management', true, 'boolean');
-    
-    $result = $this->configService->get(1, 'restaurant', 'table_management');
-    
-    $this->assertTrue($result);
-}
+Set Configuration
 
-public function testConfigurationHierarchy()
-{
-    // Set global default
-    $this->configService->setGlobalDefault('restaurant', 'kitchen_display', false);
-    
-    // Set plan override
-    $this->configService->setPlanSetting('professional', 'restaurant', 'kitchen_display', true);
-    
-    // Set tenant override
-    $this->configService->set(1, 'restaurant', 'kitchen_display', false);
-    
-    $result = $this->configService->get(1, 'restaurant', 'kitchen_display');
-    
-    $this->assertFalse($result); // Tenant setting wins
-}
+Priority Resolution
+
 ```
-
-
 
 ---
 
-# 17. Best Practices
+## Integration Test
 
+```text
+Tenant Login
 
-## Naming Convention
+Load Configuration
 
-
-Format:
-
-
-```
-
-module.setting_name
+Activate Module
 
 ```
-
-
-Example:
-
-
-```
-restaurant.table_management
-restaurant.kitchen_display
-hotel.checkout_time
-parking.hourly_rate
-
-```
-
-
-## Default Values
-
-
-Selalu sediakan default value:
-
-
-```php
-$enabled = $this->configService->get($tenantId, 'restaurant', 'kitchen_display', false);
-```
-
-
-## Documentation
-
-
-Dokumentasikan setiap configuration:
-
-
-```php
-/**
- * Enable/disable table management
- * 
- * @type boolean
- * @default false
- * @module restaurant
- */
-```
-
-
 
 ---
 
-# 18. Conclusion
+# 24. Future Development
 
+Kemungkinan pengembangan:
 
-EBP Configuration Engine memungkinkan:
+## AI Configuration Recommendation
 
+AI menganalisa:
 
-```
+```text
+Business Pattern
 
-Satu Platform
+↓
 
-+
-
-Banyak Variasi Bisnis
-
-+
-
-Tanpa Coding
+Recommend Configuration
 
 ```
 
+---
 
-Manfaat:
+## Self Configuration Wizard
 
+User menjawab:
 
-* Fleksibilitas tanpa coding
-* Time-to-market lebih cepat
-* Maintenance lebih mudah
-* Scalable untuk banyak tenant
-* Professional SaaS platform
+```text
+Jenis bisnis?
 
+Jumlah cabang?
 
-EBP Configuration Engine adalah kunci untuk menjadi platform software yang true enterprise.
+Jumlah meja?
 
+```
 
+AI membuat konfigurasi awal.
+
+---
+
+# 25. Final Architecture Principle
+
+Configuration Engine membuat EBP menjadi:
+
+```text
+One Platform
+
+        +
+
+Many Business Models
+
+        +
+
+Zero Code Customization
+
+```
 
 ---
 
 # END OF DOCUMENT
 
-
 Document ID:
 
-EBP-CONFIGURATION-ENGINE-001
-
+EBP-ENTERPRISE-CONTROL-CONFIGURATION-ENGINE-001
 
 Version:
 
