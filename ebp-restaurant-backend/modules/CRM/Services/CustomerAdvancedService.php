@@ -1,16 +1,19 @@
 <?php
 
 require_once __DIR__ . '/../Repositories/CustomerRepository.php';
+require_once __DIR__ . '/../Repositories/CustomerAdvancedRepository.php';
 require_once __DIR__ . '/../../../config/database.php';
 
 class CustomerAdvancedService
 {
     private $repository;
+    private $advancedRepository;
     private $db;
 
     public function __construct()
     {
         $this->repository = new CustomerRepository();
+        $this->advancedRepository = new CustomerAdvancedRepository();
         $database = new Database();
         $this->db = $database->connect();
     }
@@ -102,7 +105,7 @@ class CustomerAdvancedService
         }
     }
 
-    public function addFavoriteProduct($customerId, $productId, $tenantId)
+    public function addFavoriteProduct($customerId, $productId, $tenantId, $branchId)
     {
         try {
             $stmt = $this->db->prepare("SELECT favorite_products FROM customers WHERE customer_id = ? AND tenant_id = ?");
@@ -125,6 +128,9 @@ class CustomerAdvancedService
                 $stmt->execute([json_encode($favorites), $customerId]);
             }
 
+            // Track in customer_favorites table
+            $this->advancedRepository->upsertFavorite($tenantId, $branchId, $customerId, $productId);
+
             return [
                 'success' => true,
                 'message' => 'Favorite product added successfully'
@@ -134,6 +140,111 @@ class CustomerAdvancedService
             return [
                 'success' => false,
                 'message' => 'Failed to add favorite: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function getCustomerFavorites($tenantId, $branchId, $customerId)
+    {
+        try {
+            $favorites = $this->advancedRepository->getCustomerFavorites($tenantId, $branchId, $customerId);
+            
+            return [
+                'success' => true,
+                'message' => 'Customer favorites retrieved successfully',
+                'data' => $favorites
+            ];
+
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to get favorites: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function getCustomerHabitAnalysis($tenantId, $branchId, $customerId)
+    {
+        try {
+            $analysis = $this->advancedRepository->getCustomerHabitAnalysis($tenantId, $branchId, $customerId);
+            
+            return [
+                'success' => true,
+                'message' => 'Customer habit analysis retrieved successfully',
+                'data' => $analysis
+            ];
+
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to get habit analysis: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function createBirthdayPromotion($data, $tenantId, $branchId)
+    {
+        try {
+            if (empty($data['customer_id']) || empty($data['promotion_type'])) {
+                return [
+                    'success' => false,
+                    'message' => 'Customer ID and promotion type are required'
+                ];
+            }
+
+            $data['tenant_id'] = $tenantId;
+            $data['branch_id'] = $branchId;
+            $data['promotion_year'] = date('Y');
+            
+            $promotionId = $this->advancedRepository->createBirthdayPromotion($data);
+
+            return [
+                'success' => true,
+                'message' => 'Birthday promotion created successfully',
+                'promotion_id' => $promotionId
+            ];
+
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to create birthday promotion: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function getBirthdayPromotions($tenantId, $branchId, $customerId = null)
+    {
+        try {
+            $promotions = $this->advancedRepository->getBirthdayPromotions($tenantId, $branchId, $customerId);
+            
+            return [
+                'success' => true,
+                'message' => 'Birthday promotions retrieved successfully',
+                'data' => $promotions
+            ];
+
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to get birthday promotions: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function useBirthdayPromotion($promotionId, $tenantId)
+    {
+        try {
+            $this->advancedRepository->useBirthdayPromotion($promotionId, $tenantId);
+            
+            return [
+                'success' => true,
+                'message' => 'Birthday promotion used successfully'
+            ];
+
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to use birthday promotion: ' . $e->getMessage()
             ];
         }
     }

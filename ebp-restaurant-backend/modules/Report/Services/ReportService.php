@@ -663,4 +663,29 @@ class ReportService
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // Export to CSV
+    public function exportToCSV(array $data, string $filename): string
+    {
+        if (empty($data)) {
+            return '';
+        }
+
+        $output = fopen('php://temp', 'r+');
+        
+        // Get headers from first row
+        $headers = array_keys($data[0]);
+        fputcsv($output, $headers);
+        
+        // Write data
+        foreach ($data as $row) {
+            fputcsv($output, $row);
+        }
+        
+        rewind($output);
+        $csv = stream_get_contents($output);
+        fclose($output);
+        
+        return $csv;
+    }
 }

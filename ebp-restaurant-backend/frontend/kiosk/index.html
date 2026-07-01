@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBP Restaurant Kiosk</title>
+    <link rel="stylesheet" href="../css/kiosk.css">
+</head>
+<body>
+    <div class="kiosk-container">
+        <!-- Header -->
+        <header class="kiosk-header">
+            <div class="logo">
+                <h1>EBP Restaurant</h1>
+                <p class="tagline">Self-Service Kiosk</p>
+            </div>
+            <div class="offline-indicator" id="offlineIndicator">
+                <span class="status-dot"></span>
+                <span class="status-text">Online</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="kiosk-main">
+            <!-- Category Navigation -->
+            <nav class="category-nav" id="categoryNav">
+                <button class="category-btn active" data-category="all">All</button>
+                <!-- Categories will be loaded dynamically -->
+            </nav>
+
+            <!-- Menu Grid -->
+            <div class="menu-grid" id="menuGrid">
+                <!-- Products will be loaded dynamically -->
+            </div>
+
+            <!-- Order Summary -->
+            <aside class="order-summary" id="orderSummary">
+                <div class="order-header">
+                    <h2>Your Order</h2>
+                    <button class="clear-order" id="clearOrder">Clear</button>
+                </div>
+                <div class="order-items" id="orderItems">
+                    <p class="empty-message">No items in your order</p>
+                </div>
+                <div class="order-totals">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">Rp 0</span>
+                    </div>
+                    <div class="total-row grand-total">
+                        <span>Total:</span>
+                        <span id="grandTotal">Rp 0</span>
+                    </div>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn" disabled>Place Order</button>
+            </aside>
+        </main>
+
+        <!-- Product Modal -->
+        <div class="modal" id="productModal">
+            <div class="modal-content">
+                <button class="close-modal" id="closeModal">&times;</button>
+                <div class="product-details">
+                    <img src="" alt="Product Image" class="product-image" id="modalProductImage">
+                    <div class="product-info">
+                        <h2 id="modalProductName">Product Name</h2>
+                        <p class="product-description" id="modalProductDescription">Description</p>
+                        <p class="product-price" id="modalProductPrice">Rp 0</p>
+                        <div class="quantity-control">
+                            <button class="qty-btn minus" id="qtyMinus">-</button>
+                            <input type="number" class="qty-input" id="qtyInput" value="1" min="1" max="99">
+                            <button class="qty-btn plus" id="qtyPlus">+</button>
+                        </div>
+                        <button class="add-to-order-btn" id="addToOrderBtn">Add to Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Confirmation Modal -->
+        <div class="modal" id="confirmationModal">
+            <div class="modal-content confirmation">
+                <button class="close-modal" id="closeConfirmation">&times;</button>
+                <div class="confirmation-content">
+                    <h2>Confirm Your Order</h2>
+                    <div class="customer-info">
+                        <label for="customerName">Your Name:</label>
+                        <input type="text" id="customerName" placeholder="Enter your name" required>
+                    </div>
+                    <div class="order-review" id="orderReview">
+                        <!-- Order items will be listed here -->
+                    </div>
+                    <div class="final-total">
+                        <span>Total to Pay:</span>
+                        <span id="finalTotal">Rp 0</span>
+                    </div>
+                    <div class="confirmation-actions">
+                        <button class="cancel-btn" id="cancelOrder">Cancel</button>
+                        <button class="confirm-btn" id="confirmOrder">Confirm Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div class="modal" id="successModal">
+            <div class="modal-content success">
+                <div class="success-icon">✓</div>
+                <h2>Order Placed Successfully!</h2>
+                <p>Your order number is:</p>
+                <p class="order-number" id="orderNumber">KIOSK-XXXXX</p>
+                <p class="estimated-time">Estimated preparation time: 15-20 minutes</p>
+                <button class="new-order-btn" id="newOrderBtn">Place New Order</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/offline-indicator.js"></script>
+    <script src="../js/api-client.js"></script>
+    <script src="../js/kiosk.js"></script>
+</body>
+</html>

@@ -130,4 +130,123 @@ class ReportController
 
         return Response::success($summary);
     }
+
+    public function getSalesByHour(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        PermissionMiddleware::handle($request, 'REPORT_VIEW');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $branchId = $request['branch_id'] ?? null;
+        $dateFrom = $request['date_from'] ?? date('Y-m-01');
+        $dateTo = $request['date_to'] ?? date('Y-m-t');
+
+        $report = $this->reportService->getSalesByHour($tenantId, $branchId, $dateFrom, $dateTo);
+
+        return Response::success($report);
+    }
+
+    public function getPaymentMethodBreakdown(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        PermissionMiddleware::handle($request, 'REPORT_VIEW');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $branchId = $request['branch_id'] ?? null;
+        $dateFrom = $request['date_from'] ?? date('Y-m-01');
+        $dateTo = $request['date_to'] ?? date('Y-m-t');
+
+        $report = $this->reportService->getPaymentMethodBreakdown($tenantId, $branchId, $dateFrom, $dateTo);
+
+        return Response::success($report);
+    }
+
+    public function getInventoryUsageReport(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        PermissionMiddleware::handle($request, 'REPORT_VIEW');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $branchId = $request['branch_id'] ?? null;
+        $dateFrom = $request['date_from'] ?? date('Y-m-01');
+        $dateTo = $request['date_to'] ?? date('Y-m-t');
+
+        $report = $this->reportService->getInventoryUsageReport($tenantId, $branchId, $dateFrom, $dateTo);
+
+        return Response::success($report);
+    }
+
+    public function getLaborCostAnalysis(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        PermissionMiddleware::handle($request, 'REPORT_VIEW');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $branchId = $request['branch_id'] ?? null;
+        $dateFrom = $request['date_from'] ?? date('Y-m-01');
+        $dateTo = $request['date_to'] ?? date('Y-m-t');
+
+        $report = $this->reportService->getLaborCostAnalysis($tenantId, $branchId, $dateFrom, $dateTo);
+
+        return Response::success($report);
+    }
+
+    public function getTaxReport(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        PermissionMiddleware::handle($request, 'REPORT_VIEW');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $branchId = $request['branch_id'] ?? null;
+        $dateFrom = $request['date_from'] ?? date('Y-m-01');
+        $dateTo = $request['date_to'] ?? date('Y-m-t');
+
+        $report = $this->reportService->getTaxReport($tenantId, $branchId, $dateFrom, $dateTo);
+
+        return Response::success($report);
+    }
+
+    public function exportReport(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        PermissionMiddleware::handle($request, 'REPORT_VIEW');
+
+        $reportType = $request['params']['type'] ?? null;
+        $format = $request['params']['format'] ?? 'csv';
+        $tenantId = $request['tenant_id'] ?? 1;
+        $branchId = $request['branch_id'] ?? null;
+        $dateFrom = $request['date_from'] ?? date('Y-m-01');
+        $dateTo = $request['date_to'] ?? date('Y-m-t');
+
+        $data = [];
+        $filename = '';
+
+        switch ($reportType) {
+            case 'sales':
+                $data = $this->reportService->getSalesReport($tenantId, $branchId, $dateFrom, $dateTo);
+                $filename = 'sales_report_' . date('Y-m-d');
+                break;
+            case 'inventory':
+                $data = $this->reportService->getInventoryReport($tenantId, $branchId);
+                $filename = 'inventory_report_' . date('Y-m-d');
+                break;
+            case 'top_products':
+                $data = $this->reportService->getTopSellingProducts($tenantId, $branchId, $dateFrom, $dateTo);
+                $filename = 'top_products_' . date('Y-m-d');
+                break;
+            default:
+                Response::error('Invalid report type');
+                return;
+        }
+
+        if ($format === 'csv') {
+            $csv = $this->reportService->exportToCSV($data, $filename);
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment; filename="' . $filename . '.csv"');
+            echo $csv;
+            exit;
+        }
+
+        Response::error('Unsupported format');
+    }
 }

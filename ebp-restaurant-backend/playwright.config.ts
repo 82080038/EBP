@@ -2,14 +2,19 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  reporter: 'list',
+  retries: 0,
+  workers: 1,
+  reporter: [
+    ['list'],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }]
+  ],
   use: {
-    baseURL: 'http://localhost:8000',
-    trace: 'on-first-retry',
+    baseURL: 'http://localhost/ebp-restaurant-backend',
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
   projects: [
     {
@@ -17,9 +22,9 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         headless: false,
-        viewport: { width: 1280, height: 800 },
+        viewport: { width: 1920, height: 1080 },
         launchOptions: {
-          args: ['--window-position=1920,900', '--window-size=1280,800']
+          args: ['--start-maximized']
         }
       },
     },

@@ -1,0 +1,93 @@
+<?php
+
+require_once __DIR__ . '/../Repositories/SupplierPerformanceRepository.php';
+require_once __DIR__ . '/../../../config/database.php';
+
+class SupplierPerformanceService
+{
+    private $repository;
+    private $db;
+
+    public function __construct()
+    {
+        $this->repository = new SupplierPerformanceRepository();
+        $database = new Database();
+        $this->db = $database->connect();
+    }
+
+    public function evaluateSupplier($data, $tenantId, $userId)
+    {
+        try {
+            if (empty($data['supplier_id']) || empty($data['evaluation_date'])) {
+                return [
+                    'success' => false,
+                    'message' => 'Supplier ID and evaluation date are required'
+                ];
+            }
+
+            $data['tenant_id'] = $tenantId;
+            $data['evaluated_by'] = $userId;
+            
+            // Calculate overall rating
+            $overallRating = (
+                ($data['on_time_delivery_rate'] ?? 0) * 0.4 +
+                ($data['quality_score'] ?? 0) * 0.3 +
+                ($data['price_competitiveness'] ?? 0) * 0.3
+            );
+            $data['overall_rating'] = $overallRating;
+            
+            $performanceId = $this->repository->createPerformance($data);
+
+            return [
+                'success' => true,
+                'message' => 'Supplier performance evaluated successfully',
+                'performance_id' => $performanceId,
+                'overall_rating' => $overallRating
+            ];
+
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to evaluate supplier: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function getSupplierPerformance($tenantId, $supplierId, $dateFrom = null, $dateTo = null)
+    {
+        try {
+            $performance = $this->repository->getSupplierPerformance($tenantId, $supplierId, $dateFrom, $dateTo);
+            
+            return [
+                'success' => true,
+                'message' => 'Supplier performance retrieved successfully',
+                'data' => $performance
+            ];
+
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to get performance: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function getSupplierRanking($tenantId, $branchId, $dateFrom = null, $dateTo = null)
+    {
+        try {
+            $ranking = $this->repository->getSupplierRanking($tenantId, $branchId, $dateFrom, $dateTo);
+            
+            return [
+                'success' => true,
+                'message' => 'Supplier ranking retrieved successfully',
+                'data' => $ranking
+            ];
+
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to get ranking: ' . $e->getMessage()
+            ];
+        }
+    }
+}

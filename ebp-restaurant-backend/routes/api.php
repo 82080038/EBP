@@ -67,6 +67,62 @@ require_once __DIR__ . '/../modules/Sustainability/Controllers/SustainabilityCon
 // Integration Module
 require_once __DIR__ . '/../modules/Integration/Controllers/IntegrationController.php';
 
+// Offline Sync Module
+require_once __DIR__ . '/../modules/Offline/Controllers/OfflineSyncController.php';
+
+// Inventory Advanced Module
+require_once __DIR__ . '/../modules/Inventory/Controllers/InventoryAdvancedController.php';
+
+// Kitchen Performance Module
+require_once __DIR__ . '/../modules/Kitchen/Controllers/KitchenPerformanceController.php';
+
+// Customer Advanced Module
+require_once __DIR__ . '/../modules/CRM/Controllers/CustomerAdvancedController.php';
+
+// Cost Center Module
+require_once __DIR__ . '/../modules/Accounting/Controllers/CostCenterController.php';
+
+// WhatsApp Module
+require_once __DIR__ . '/../modules/WhatsApp/Controllers/WhatsAppController.php';
+
+// Tax Calculation Module
+require_once __DIR__ . '/../modules/Accounting/Controllers/TaxCalculationController.php';
+
+// Supply Chain Module
+require_once __DIR__ . '/../modules/SupplyChain/Controllers/PurchasePlanningController.php';
+require_once __DIR__ . '/../modules/SupplyChain/Controllers/QualityControlController.php';
+require_once __DIR__ . '/../modules/SupplyChain/Controllers/SupplierPerformanceController.php';
+
+// Currency Module
+require_once __DIR__ . '/../modules/Settings/Controllers/CurrencyController.php';
+
+// AI Module
+require_once __DIR__ . '/../modules/AI/Controllers/SmartProcurementController.php';
+require_once __DIR__ . '/../modules/AI/Controllers/KitchenIntelligenceController.php';
+require_once __DIR__ . '/../modules/AI/Controllers/CustomerIntelligenceController.php';
+require_once __DIR__ . '/../modules/AI/Controllers/DynamicPricingController.php';
+require_once __DIR__ . '/../modules/AI/Controllers/WasteReductionController.php';
+
+// Maintenance Module
+require_once __DIR__ . '/../modules/Maintenance/Controllers/PredictiveMaintenanceController.php';
+require_once __DIR__ . '/../modules/Maintenance/Controllers/WorkOrderController.php';
+require_once __DIR__ . '/../modules/Maintenance/Controllers/EquipmentHistoryController.php';
+
+// Offline Module
+require_once __DIR__ . '/../modules/Offline/Controllers/OfflineStatusController.php';
+
+// Kiosk Module
+require_once __DIR__ . '/../modules/Kiosk/Controllers/KioskController.php';
+
+// Mobile Module
+require_once __DIR__ . '/../modules/Mobile/Controllers/MobileOrderController.php';
+
+// WhatsApp Ordering Module
+require_once __DIR__ . '/../modules/WhatsApp/Controllers/WhatsAppOrderingController.php';
+
+// Quality Compliance Module
+require_once __DIR__ . '/../modules/Quality/Controllers/QualityComplianceController.php';
+
 // User Module
 require_once __DIR__ . '/../modules/User/Controllers/UserController.php';
 
@@ -113,6 +169,35 @@ $sustainabilityController = new SustainabilityController();
 $integrationController = new IntegrationController();
 $advancedAIController = new AdvancedAIController();
 $enterpriseController = new EnterpriseController();
+$offlineSyncController = new OfflineSyncController();
+$creditController = new CreditController();
+$customerPricingController = new CustomerPricingController();
+$bonusController = new BonusController();
+$tipController = new TipController();
+$commissionController = new CommissionController();
+$inventoryAdvancedController = new InventoryAdvancedController();
+$kitchenPerformanceController = new KitchenPerformanceController();
+$customerAdvancedController = new CustomerAdvancedController();
+$costCenterController = new CostCenterController();
+$whatsappController = new WhatsAppController();
+$taxCalculationController = new TaxCalculationController();
+$purchasePlanningController = new PurchasePlanningController();
+$qualityControlController = new QualityControlController();
+$supplierPerformanceController = new SupplierPerformanceController();
+$currencyController = new CurrencyController();
+$smartProcurementController = new SmartProcurementController();
+$kitchenIntelligenceController = new KitchenIntelligenceController();
+$customerIntelligenceController = new CustomerIntelligenceController();
+$dynamicPricingController = new DynamicPricingController();
+$wasteReductionController = new WasteReductionController();
+$predictiveMaintenanceController = new PredictiveMaintenanceController();
+$workOrderController = new WorkOrderController();
+$equipmentHistoryController = new EquipmentHistoryController();
+$offlineStatusController = new OfflineStatusController();
+$kioskController = new KioskController();
+$mobileOrderController = new MobileOrderController();
+$whatsAppOrderingController = new WhatsAppOrderingController();
+$qualityComplianceController = new QualityComplianceController();
 $userController = new UserController();
 $settingController = new SettingController();
 $reportController = new ReportController();
@@ -552,6 +637,21 @@ $router->addRoute('GET', '/api/v1/reports/cost-analysis', function($request) use
 $router->addRoute('GET', '/api/v1/reports/food-cost', function($request) use ($reportController) {
     return $reportController->getFoodCostPercentage($request);
 });
+$router->addRoute('GET', '/api/v1/reports/sales-by-hour', function($request) use ($reportController) {
+    return $reportController->getSalesByHour($request);
+});
+$router->addRoute('GET', '/api/v1/reports/payment-breakdown', function($request) use ($reportController) {
+    return $reportController->getPaymentMethodBreakdown($request);
+});
+$router->addRoute('GET', '/api/v1/reports/inventory-usage', function($request) use ($reportController) {
+    return $reportController->getInventoryUsageReport($request);
+});
+$router->addRoute('GET', '/api/v1/reports/labor-cost', function($request) use ($reportController) {
+    return $reportController->getLaborCostAnalysis($request);
+});
+$router->addRoute('GET', '/api/v1/reports/tax', function($request) use ($reportController) {
+    return $reportController->getTaxReport($request);
+});
 
 // AI Routes
 $router->addRoute('POST', '/api/v1/ai/sales-forecast', function($request) use ($aiController) {
@@ -729,6 +829,346 @@ $router->addRoute('GET', '/api/v1/enterprise/budgets', function($request) use ($
 });
 $router->addRoute('POST', '/api/v1/enterprise/budgets/update-actuals', function($request) use ($enterpriseController) {
     return $enterpriseController->updateBudgetActuals($request);
+});
+
+// Offline Sync Routes
+$router->addRoute('POST', '/api/v1/offline/queue', function($request) use ($offlineSyncController) {
+    return $offlineSyncController->queueOperation($request);
+});
+$router->addRoute('POST', '/api/v1/offline/sync', function($request) use ($offlineSyncController) {
+    return $offlineSyncController->syncPending($request);
+});
+$router->addRoute('POST', '/api/v1/offline/conflicts/{id}/resolve', function($request) use ($offlineSyncController) {
+    return $offlineSyncController->resolveConflict($request);
+});
+$router->addRoute('GET', '/api/v1/offline/status', function($request) use ($offlineSyncController) {
+    return $offlineSyncController->getSyncStatus($request);
+});
+$router->addRoute('GET', '/api/v1/offline/conflicts', function($request) use ($offlineSyncController) {
+    return $offlineSyncController->getConflicts($request);
+});
+
+// Customer Credit Routes
+$router->addRoute('POST', '/api/v1/crm/credits', function($request) use ($creditController) {
+    return $creditController->createCredit($request);
+});
+$router->addRoute('POST', '/api/v1/crm/credits/{id}/pay', function($request) use ($creditController) {
+    return $creditController->payCredit($request);
+});
+$router->addRoute('GET', '/api/v1/crm/customers/{customer_id}/credits', function($request) use ($creditController) {
+    return $creditController->getCustomerCredits($request);
+});
+$router->addRoute('GET', '/api/v1/crm/credits/overdue', function($request) use ($creditController) {
+    return $creditController->getOverdueCredits($request);
+});
+
+// Customer Pricing Routes
+$router->addRoute('POST', '/api/v1/crm/customer-pricing', function($request) use ($customerPricingController) {
+    return $customerPricingController->setCustomerPrice($request);
+});
+$router->addRoute('GET', '/api/v1/crm/customer-pricing', function($request) use ($customerPricingController) {
+    return $customerPricingController->getCustomerPrice($request);
+});
+$router->addRoute('GET', '/api/v1/crm/customers/{customer_id}/pricing', function($request) use ($customerPricingController) {
+    return $customerPricingController->getCustomerPricings($request);
+});
+
+// Bonus Routes
+$router->addRoute('POST', '/api/v1/hr/bonuses', function($request) use ($bonusController) {
+    return $bonusController->createBonus($request);
+});
+$router->addRoute('POST', '/api/v1/hr/bonuses/{id}/approve', function($request) use ($bonusController) {
+    return $bonusController->approveBonus($request);
+});
+$router->addRoute('POST', '/api/v1/hr/bonuses/{id}/pay', function($request) use ($bonusController) {
+    return $bonusController->payBonus($request);
+});
+$router->addRoute('GET', '/api/v1/hr/employees/{employee_id}/bonuses', function($request) use ($bonusController) {
+    return $bonusController->getEmployeeBonuses($request);
+});
+$router->addRoute('GET', '/api/v1/hr/bonuses/pending', function($request) use ($bonusController) {
+    return $bonusController->getPendingBonuses($request);
+});
+
+// Tip Routes
+$router->addRoute('POST', '/api/v1/hr/tips', function($request) use ($tipController) {
+    return $tipController->distributeTip($request);
+});
+$router->addRoute('GET', '/api/v1/hr/tips', function($request) use ($tipController) {
+    return $tipController->getTipDistributions($request);
+});
+$router->addRoute('GET', '/api/v1/hr/employees/{employee_id}/tips', function($request) use ($tipController) {
+    return $tipController->getEmployeeTips($request);
+});
+
+// Commission Routes
+$router->addRoute('POST', '/api/v1/hr/commissions', function($request) use ($commissionController) {
+    return $commissionController->createCommission($request);
+});
+$router->addRoute('POST', '/api/v1/hr/commissions/{id}/approve', function($request) use ($commissionController) {
+    return $commissionController->approveCommission($request);
+});
+$router->addRoute('POST', '/api/v1/hr/commissions/{id}/pay', function($request) use ($commissionController) {
+    return $commissionController->payCommission($request);
+});
+$router->addRoute('GET', '/api/v1/hr/employees/{employee_id}/commissions', function($request) use ($commissionController) {
+    return $commissionController->getEmployeeCommissions($request);
+});
+$router->addRoute('GET', '/api/v1/hr/commissions/pending', function($request) use ($commissionController) {
+    return $commissionController->getPendingCommissions($request);
+});
+
+// Report Export Routes
+$router->addRoute('GET', '/api/v1/reports/export/{type}/{format}', function($request) use ($reportController) {
+    return $reportController->exportReport($request);
+});
+
+// Inventory Advanced Routes
+$router->addRoute('POST', '/api/v1/inventory/repurpose', function($request) use ($inventoryAdvancedController) {
+    return $inventoryAdvancedController->repurposeStock($request);
+});
+$router->addRoute('POST', '/api/v1/inventory/zero-cost-stock', function($request) use ($inventoryAdvancedController) {
+    return $inventoryAdvancedController->zeroCostStockIn($request);
+});
+$router->addRoute('POST', '/api/v1/inventory/stock-transfer', function($request) use ($inventoryAdvancedController) {
+    return $inventoryAdvancedController->createStockTransfer($request);
+});
+$router->addRoute('POST', '/api/v1/inventory/stock-transfer/{id}/receive', function($request) use ($inventoryAdvancedController) {
+    return $inventoryAdvancedController->receiveStockTransfer($request);
+});
+$router->addRoute('GET', '/api/v1/inventory/stock-transfers', function($request) use ($inventoryAdvancedController) {
+    return $inventoryAdvancedController->getStockTransfers($request);
+});
+$router->addRoute('GET', '/api/v1/inventory/repurposing-history', function($request) use ($inventoryAdvancedController) {
+    return $inventoryAdvancedController->getRepurposingHistory($request);
+});
+
+// Kitchen Performance Routes
+$router->addRoute('POST', '/api/v1/kitchen/chef-performance', function($request) use ($kitchenPerformanceController) {
+    return $kitchenPerformanceController->recordChefPerformance($request);
+});
+$router->addRoute('GET', '/api/v1/kitchen/metrics', function($request) use ($kitchenPerformanceController) {
+    return $kitchenPerformanceController->getKitchenMetrics($request);
+});
+$router->addRoute('GET', '/api/v1/kitchen/chef-performance/{employee_id}', function($request) use ($kitchenPerformanceController) {
+    return $kitchenPerformanceController->getChefPerformance($request);
+});
+$router->addRoute('GET', '/api/v1/kitchen/bottleneck-analysis', function($request) use ($kitchenPerformanceController) {
+    return $kitchenPerformanceController->getBottleneckAnalysis($request);
+});
+
+// Customer Advanced Routes
+$router->addRoute('POST', '/api/v1/crm/customers/{customer_id}/favorites', function($request) use ($customerAdvancedController) {
+    return $customerAdvancedController->addFavoriteProduct($request);
+});
+$router->addRoute('GET', '/api/v1/crm/customers/{customer_id}/favorites', function($request) use ($customerAdvancedController) {
+    return $customerAdvancedController->getCustomerFavorites($request);
+});
+$router->addRoute('GET', '/api/v1/crm/customers/{customer_id}/habit-analysis', function($request) use ($customerAdvancedController) {
+    return $customerAdvancedController->getCustomerHabitAnalysis($request);
+});
+$router->addRoute('POST', '/api/v1/crm/birthday-promotions', function($request) use ($customerAdvancedController) {
+    return $customerAdvancedController->createBirthdayPromotion($request);
+});
+$router->addRoute('GET', '/api/v1/crm/birthday-promotions', function($request) use ($customerAdvancedController) {
+    return $customerAdvancedController->getBirthdayPromotions($request);
+});
+$router->addRoute('POST', '/api/v1/crm/birthday-promotions/{id}/use', function($request) use ($customerAdvancedController) {
+    return $customerAdvancedController->useBirthdayPromotion($request);
+});
+
+// Cost Center Routes
+$router->addRoute('POST', '/api/v1/accounting/cost-centers', function($request) use ($costCenterController) {
+    return $costCenterController->createCostCenter($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/cost-centers', function($request) use ($costCenterController) {
+    return $costCenterController->getCostCenters($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/cost-centers/{id}/report', function($request) use ($costCenterController) {
+    return $costCenterController->getCostCenterReport($request);
+});
+$router->addRoute('PUT', '/api/v1/accounting/cost-centers/{id}', function($request) use ($costCenterController) {
+    return $costCenterController->updateCostCenter($request);
+});
+
+// WhatsApp Routes
+$router->addRoute('POST', '/api/v1/whatsapp/settings', function($request) use ($whatsappController) {
+    return $whatsappController->saveSettings($request);
+});
+$router->addRoute('GET', '/api/v1/whatsapp/settings', function($request) use ($whatsappController) {
+    return $whatsappController->getSettings($request);
+});
+$router->addRoute('POST', '/api/v1/whatsapp/send', function($request) use ($whatsappController) {
+    return $whatsappController->sendMessage($request);
+});
+$router->addRoute('POST', '/api/v1/whatsapp/reports/{type}/send', function($request) use ($whatsappController) {
+    return $whatsappController->sendReport($request);
+});
+$router->addRoute('POST', '/api/v1/whatsapp/report-schedules', function($request) use ($whatsappController) {
+    return $whatsappController->createReportSchedule($request);
+});
+$router->addRoute('GET', '/api/v1/whatsapp/report-schedules', function($request) use ($whatsappController) {
+    return $whatsappController->getReportSchedules($request);
+});
+$router->addRoute('GET', '/api/v1/whatsapp/message-logs', function($request) use ($whatsappController) {
+    return $whatsappController->getMessageLogs($request);
+});
+
+// Tax Calculation Routes
+$router->addRoute('POST', '/api/v1/accounting/tax-rates', function($request) use ($taxCalculationController) {
+    return $taxCalculationController->saveTaxRate($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/tax-rates', function($request) use ($taxCalculationController) {
+    return $taxCalculationController->getTaxRate($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/orders/{id}/tax', function($request) use ($taxCalculationController) {
+    return $taxCalculationController->calculateOrderTax($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/tax/monthly', function($request) use ($taxCalculationController) {
+    return $taxCalculationController->calculateMonthlyTax($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/tax/report', function($request) use ($taxCalculationController) {
+    return $taxCalculationController->generateTaxReport($request);
+});
+
+// Supply Chain Routes
+$router->addRoute('POST', '/api/v1/supply-chain/purchase-plans', function($request) use ($purchasePlanningController) {
+    return $purchasePlanningController->generatePurchasePlan($request);
+});
+$router->addRoute('POST', '/api/v1/supply-chain/purchase-plans/{id}/approve', function($request) use ($purchasePlanningController) {
+    return $purchasePlanningController->approvePurchasePlan($request);
+});
+$router->addRoute('GET', '/api/v1/supply-chain/purchase-plans', function($request) use ($purchasePlanningController) {
+    return $purchasePlanningController->getPurchasePlans($request);
+});
+$router->addRoute('POST', '/api/v1/supply-chain/quality-checks', function($request) use ($qualityControlController) {
+    return $qualityControlController->createQualityCheck($request);
+});
+$router->addRoute('PUT', '/api/v1/supply-chain/quality-checks/{id}', function($request) use ($qualityControlController) {
+    return $qualityControlController->updateQualityCheckResult($request);
+});
+$router->addRoute('GET', '/api/v1/supply-chain/quality-checks', function($request) use ($qualityControlController) {
+    return $qualityControlController->getQualityChecks($request);
+});
+$router->addRoute('GET', '/api/v1/supply-chain/quality-report', function($request) use ($qualityControlController) {
+    return $qualityControlController->getQualityReport($request);
+});
+
+// Supplier Performance Routes
+$router->addRoute('POST', '/api/v1/supply-chain/supplier-performance', function($request) use ($supplierPerformanceController) {
+    return $supplierPerformanceController->evaluateSupplier($request);
+});
+$router->addRoute('GET', '/api/v1/supply-chain/suppliers/{id}/performance', function($request) use ($supplierPerformanceController) {
+    return $supplierPerformanceController->getSupplierPerformance($request);
+});
+$router->addRoute('GET', '/api/v1/supply-chain/supplier-ranking', function($request) use ($supplierPerformanceController) {
+    return $supplierPerformanceController->getSupplierRanking($request);
+});
+
+// Currency Routes
+$router->addRoute('POST', '/api/v1/settings/currencies', function($request) use ($currencyController) {
+    return $currencyController->addCurrency($request);
+});
+$router->addRoute('PUT', '/api/v1/settings/currencies/{id}/exchange-rate', function($request) use ($currencyController) {
+    return $currencyController->updateExchangeRate($request);
+});
+$router->addRoute('GET', '/api/v1/settings/currencies', function($request) use ($currencyController) {
+    return $currencyController->getCurrencies($request);
+});
+$router->addRoute('GET', '/api/v1/settings/currencies/convert', function($request) use ($currencyController) {
+    return $currencyController->convertCurrency($request);
+});
+
+// AI Smart Procurement Routes
+$router->addRoute('POST', '/api/v1/ai/procurement/recommendations', function($request) use ($smartProcurementController) {
+    return $smartProcurementController->generateRecommendation($request);
+});
+
+// AI Kitchen Intelligence Routes
+$router->addRoute('POST', '/api/v1/ai/kitchen/analyze', function($request) use ($kitchenIntelligenceController) {
+    return $kitchenIntelligenceController->analyzePerformance($request);
+});
+
+// AI Customer Intelligence Routes
+$router->addRoute('POST', '/api/v1/ai/customer/analyze', function($request) use ($customerIntelligenceController) {
+    return $customerIntelligenceController->analyzeBehavior($request);
+});
+
+// AI Dynamic Pricing Routes
+$router->addRoute('POST', '/api/v1/ai/pricing/generate', function($request) use ($dynamicPricingController) {
+    return $dynamicPricingController->generatePricing($request);
+});
+
+// AI Waste Reduction Routes
+$router->addRoute('POST', '/api/v1/ai/waste/record', function($request) use ($wasteReductionController) {
+    return $wasteReductionController->recordWaste($request);
+});
+$router->addRoute('GET', '/api/v1/ai/waste/report', function($request) use ($wasteReductionController) {
+    return $wasteReductionController->getWasteReport($request);
+});
+
+// Predictive Maintenance Routes
+$router->addRoute('POST', '/api/v1/maintenance/predict', function($request) use ($predictiveMaintenanceController) {
+    return $predictiveMaintenanceController->predictNeeds($request);
+});
+
+// Work Order Routes
+$router->addRoute('POST', '/api/v1/maintenance/work-orders', function($request) use ($workOrderController) {
+    return $workOrderController->createWorkOrder($request);
+});
+$router->addRoute('PUT', '/api/v1/maintenance/work-orders/{id}', function($request) use ($workOrderController) {
+    return $workOrderController->updateWorkOrder($request);
+});
+$router->addRoute('GET', '/api/v1/maintenance/work-orders', function($request) use ($workOrderController) {
+    return $workOrderController->getWorkOrders($request);
+});
+
+// Equipment History Routes
+$router->addRoute('POST', '/api/v1/maintenance/equipment-history', function($request) use ($equipmentHistoryController) {
+    return $equipmentHistoryController->addHistory($request);
+});
+$router->addRoute('GET', '/api/v1/maintenance/assets/{id}/history', function($request) use ($equipmentHistoryController) {
+    return $equipmentHistoryController->getEquipmentHistory($request);
+});
+
+// Offline Status Routes
+$router->addRoute('GET', '/api/v1/offline/status', function($request) use ($offlineStatusController) {
+    return $offlineStatusController->getStatus($request);
+});
+
+// Kiosk Routes
+$router->addRoute('GET', '/api/v1/kiosk/menu', function($request) use ($kioskController) {
+    return $kioskController->getMenu($request);
+});
+$router->addRoute('POST', '/api/v1/kiosk/orders', function($request) use ($kioskController) {
+    return $kioskController->createOrder($request);
+});
+
+// Mobile Routes
+$router->addRoute('GET', '/api/v1/mobile/menu', function($request) use ($mobileOrderController) {
+    return $mobileOrderController->getMenu($request);
+});
+$router->addRoute('GET', '/api/v1/mobile/quick-order/{id}', function($request) use ($mobileOrderController) {
+    return $mobileOrderController->getQuickOrder($request);
+});
+
+// WhatsApp Ordering Routes
+$router->addRoute('POST', '/api/v1/whatsapp/orders', function($request) use ($whatsAppOrderingController) {
+    return $whatsAppOrderingController->processOrder($request);
+});
+
+// Quality Compliance Routes
+$router->addRoute('POST', '/api/v1/quality/compliance-checks', function($request) use ($qualityComplianceController) {
+    return $qualityComplianceController->createComplianceCheck($request);
+});
+$router->addRoute('GET', '/api/v1/quality/compliance-report', function($request) use ($qualityComplianceController) {
+    return $qualityComplianceController->getComplianceReport($request);
+});
+$router->addRoute('POST', '/api/v1/quality/food-safety-protocols', function($request) use ($qualityComplianceController) {
+    return $qualityComplianceController->addFoodSafetyProtocol($request);
+});
+$router->addRoute('GET', '/api/v1/quality/food-safety-protocols', function($request) use ($qualityComplianceController) {
+    return $qualityComplianceController->getFoodSafetyProtocols($request);
 });
 
 // Dispatch the request
