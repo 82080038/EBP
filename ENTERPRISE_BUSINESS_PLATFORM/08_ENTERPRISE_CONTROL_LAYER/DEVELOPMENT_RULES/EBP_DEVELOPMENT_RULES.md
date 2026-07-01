@@ -2,119 +2,61 @@
 
 # Development Rules
 
-
-**Document ID:** EBP-DEVELOPMENT-RULES-001
-
+**Document ID:** EBP-ENTERPRISE-CONTROL-DEVELOPMENT-RULES-001
 **Version:** 1.0
-
-**Category:** Development Operation Standard
-
-**Status:** Official Development Rules
-
-
+**Category:** Enterprise Control Layer
+**Status:** Official Development Standard
 
 ---
 
 # 1. Introduction
 
+Dokumen ini mendefinisikan aturan pembangunan software pada Enterprise Business Platform (EBP).
 
-Dokumen ini mendefinisikan aturan pengembangan untuk Enterprise Business Platform (EBP).
+Tujuan utama:
+
+* menjaga konsistensi arsitektur;
+* menjaga kualitas kode;
+* memastikan AI-assisted development tetap terarah;
+* mencegah technical debt;
+* memastikan setiap produk EBP dapat berkembang dalam jangka panjang.
 
 EBP dikembangkan dengan model:
 
-
 ```
-
 Founder / Product Owner
 
-        |
-
-        |
+        +
 
 AI Development Assistant
 
-        |
+        +
 
-        |
+Automated Testing
 
-Code + Documentation + Testing
+        +
 
-        |
-
-        |
-
-EBP Platform
-
+Enterprise Architecture
 ```
-
-
-Tujuan:
-
-
-```
-
-SISTEM KERJA
-
-+
-
-SATU ORANG
-
-+
-
-AI
-
-=
-
-SOFTWARE ENTERPRISE KONSISTEN
-
-```
-
-
 
 ---
 
 # 2. Development Philosophy
 
+EBP menggunakan prinsip:
 
-EBP Development menggunakan prinsip:
+## Document First
 
+Tidak ada pembangunan fitur tanpa pemahaman bisnis dan dokumentasi.
 
-```
-
-LONG-TERM PLATFORM THINKING
-
-```
-
-Artinya:
-
-
-* Setiap kode harus reusable
-* Setiap kode harus maintainable
-* Setiap kode harus scalable
-* Setiap kode harus documented
-* Setiap kode harus tested
-
-
-EBP bukan dibangun sebagai aplikasi sekali pakai.
-
-EBP dibangun sebagai platform jangka panjang.
-
-
-
----
-
-# 3. AI Development Workflow
-
-
-## Prerequisite Sebelum Coding
-
-
-Sebelum meminta AI membuat kode, wajib tersedia:
-
+Alur:
 
 ```
+Business Problem
 
-Business Requirement
+↓
+
+Business Analysis
 
 ↓
 
@@ -126,1305 +68,865 @@ Database Design
 
 ↓
 
-API Specification
+API Design
 
 ↓
 
-Coding
+Implementation
 
 ↓
 
 Testing
 
+↓
+
+Release
 ```
 
+---
 
-## Tidak Boleh Langsung
+# 3. Core Development Principle
 
+Setiap kode yang dibuat harus memenuhi:
 
-Salah:
+## 3.1 Reusable
 
+Kode yang bersifat umum harus berada di Core.
 
-```
-
-"buatkan fitur X"
-
-```
-
+Contoh:
 
 Benar:
 
+```
+Authentication Engine
 
+RBAC
+
+Notification
+
+Audit Trail
 ```
 
-Saya sudah memiliki:
-
-- REQUIREMENT.md
-- PROCESS.md
-- DATABASE.md
-- API.md
-
-Buat implementasi coding sesuai spesifikasi tersebut.
+Salah:
 
 ```
-
-
-## AI Code Review Process
-
-
-Setiap kode yang dihasilkan AI harus melalui:
-
-
+RestaurantLoginService
 ```
 
-Generate
+---
+
+## 3.2 Maintainable
+
+Kode harus mudah dipahami dan diperbaiki.
+
+Dilarang:
+
+* kode tanpa dokumentasi;
+* fungsi terlalu panjang;
+* logika bisnis tersembunyi.
+
+---
+
+## 3.3 Scalable
+
+Setiap desain harus mempertimbangkan:
+
+* penambahan user;
+* penambahan tenant;
+* penambahan produk;
+* peningkatan transaksi.
+
+---
+
+# 4. AI Assisted Development Rules
+
+AI merupakan development partner, bukan pengganti arsitektur.
+
+AI wajib mengikuti:
+
+```
+EBP Constitution
+
+        ↓
+
+Architecture Document
+
+        ↓
+
+Business Requirement
+
+        ↓
+
+Technical Specification
+
+        ↓
+
+Code Generation
+```
+
+---
+
+# 5. Aturan Meminta AI Membuat Kode
+
+Tidak boleh:
+
+```
+Buatkan fitur order
+```
+
+Harus:
+
+```
+Buatkan Order Module berdasarkan:
+
+- EBP Architecture
+- Service Repository Pattern
+- Database Standard
+- API Specification
+- Security Standard
+- Testing Requirement
+```
+
+---
+
+# 6. Code Acceptance Process
+
+Kode dari AI harus melalui:
+
+```
+Generate Code
 
 ↓
 
-Review Architecture
+Architecture Review
 
 ↓
 
-Check Security
+Security Review
 
 ↓
 
-Run Test
+Testing
+
+↓
+
+Documentation Update
 
 ↓
 
 Accept
-
 ```
-
-
 
 ---
 
-# 4. Document First Development
+# 7. Core vs Product Rule
 
-
-## Aturan Utama
-
+Aturan utama EBP:
 
 ```
-
-TIDAK ADA FITUR TANPA DOKUMEN
-
-```
-
-
-## Checklist Dokumen
-
-
-Sebelum membuat fitur baru, wajib ada:
-
-
-```
-
-[ ] REQUIREMENT.md
-
-[ ] PROCESS.md
-
-[ ] DATABASE.md
-
-[ ] API.md
-
-[ ] TEST.md
-
-```
-
-
-## Contoh
-
-
-Sebelum membuat:
-
-```
-
-Restaurant Discount System
-
-```
-
-
-Harus ada:
-
-```
-
-DISCOUNT_REQUIREMENT.md
-
-DISCOUNT_PROCESS.md
-
-DISCOUNT_DATABASE.md
-
-DISCOUNT_API.md
-
-DISCOUNT_TEST.md
-
-```
-
-
-
----
-
-# 5. Core vs Product Rules
-
-
-## Aturan Paling Penting
-
-
-```
-
 CORE
 
 =
-
-ATURAN UMUM SEMUA BISNIS
+Generic Business Capability
 
 
 PRODUCT
 
 =
-
-ATURAN BISNIS TERTENTU
-
+Industry Specific Implementation
 ```
 
+---
 
-## Core Framework
+## Core Example
 
-
-Berisi aturan umum:
-
+Masuk Core:
 
 ```
-
 User
 
 Role
 
 Permission
 
+Tenant
+
 Audit
+
+Workflow
 
 Notification
 
-Configuration
-
-Rule Engine
-
-Workflow Engine
-
+File Management
 ```
 
+---
 
-## Product
-
-
-Berisi aturan bisnis:
-
-
-```
+## Product Example
 
 Restaurant:
 
-- Menu
-- Recipe
-- Kitchen
-- Table
-
-
-Hotel:
-
-- Room
-- Reservation
-- Check-in/Check-out
-
-
-Parking:
-
-- Slot
-- Rate
-- Access
-
 ```
+Menu
 
+Recipe
 
-## Pemisahan
+Kitchen
 
+Table
 
-Core tidak boleh mengenal bisnis tertentu.
+Order
 
-Product boleh menggunakan Core tapi tidak boleh mengubah Core.
-
-
+Food Cost
+```
 
 ---
 
-# 6. Coding Architecture Rules
+# 8. Dependency Rule
 
-
-## Rule 1: Controller Tidak Boleh Akses Database Langsung
-
-
-### VIOLATION
-
-
-```php
-class OrderController
-{
-    public function createOrder()
-    {
-        // VIOLATION: Direct database access
-        $result = $this->db->query(
-            "INSERT INTO orders ..."
-        );
-    }
-}
-```
-
-
-### CORRECT
-
-
-```php
-class OrderController
-{
-    public function createOrder()
-    {
-        // CORRECT: Use service
-        $order = $this->orderService->createOrder($data);
-    }
-}
-```
-
-
-## Rule 2: Service Tidak Boleh Akses HTTP Layer
-
-
-### VIOLATION
-
-
-```php
-class OrderService
-{
-    public function createOrder()
-    {
-        // VIOLATION: Service accessing HTTP
-        $request = $this->request->input();
-    }
-}
-```
-
-
-### CORRECT
-
-
-```php
-class OrderService
-{
-    public function createOrder($data)
-    {
-        // CORRECT: Service receives data as parameter
-        $order = $this->orderRepository->save($data);
-    }
-}
-```
-
-
-## Rule 3: Repository Tidak Boleh Mengandung Business Logic
-
-
-### VIOLATION
-
-
-```php
-class OrderRepository
-{
-    public function save($data)
-    {
-        // VIOLATION: Business logic in repository
-        if ($data['total'] > 1000000) {
-            $data['discount'] = 10;
-        }
-        
-        $this->db->insert('orders', $data);
-    }
-}
-```
-
-
-### CORRECT
-
-
-```php
-class OrderRepository
-{
-    public function save($data)
-    {
-        // CORRECT: Repository only saves data
-        $this->db->insert('orders', $data);
-    }
-}
-```
-
-
-## Rule 4: Model Tidak Boleh Mengandung Validation
-
-
-### VIOLATION
-
-
-```php
-class Order
-{
-    public function save()
-    {
-        // VIOLATION: Validation in model
-        if ($this->total <= 0) {
-            throw new Exception('Invalid total');
-        }
-    }
-}
-```
-
-
-### CORRECT
-
-
-```php
-class OrderService
-{
-    public function createOrder($data)
-    {
-        // CORRECT: Validation in service
-        $this->validateOrder($data);
-        
-        $order = $this->orderRepository->save($data);
-    }
-}
-```
-
-
-## Rule 5: Core Tidak Boleh Import Product Code
-
-
-### VIOLATION
-
-
-```php
-// In Core Framework
-use EBP\Products\Restaurant\Order;
-
-class CoreService
-{
-    // VIOLATION: Core importing product
-}
-```
-
-
-### CORRECT
-
-
-```php
-// In Core Framework
-namespace EBP\Core;
-
-class CoreService
-{
-    // CORRECT: Core only uses core
-}
-```
-
-
-
----
-
-# 7. Database Rules
-
-
-## Standard Columns
-
-
-Semua tabel wajib memiliki:
-
-
-```sql
-id BIGINT PRIMARY KEY AUTO_INCREMENT
-
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-
-created_by BIGINT
-
-updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-
-updated_by BIGINT
-
-deleted_at TIMESTAMP NULL
-
-tenant_id BIGINT NOT NULL
-
-version INT DEFAULT 1
+Aturan:
 
 ```
+PRODUCT
+
+boleh menggunakan
+
+CORE
 
 
-## Naming Convention
+CORE
 
+tidak boleh bergantung kepada
 
-Database: `snake_case`
+PRODUCT
+```
 
 Contoh:
 
+Benar:
 
 ```
+Restaurant ERP
 
-user_roles
+↓
 
-order_items
-
-invoice_details
-
+Inventory Engine
 ```
 
-
-## Indexing
-
-
-Semua foreign key wajib di-index:
-
-```sql
-INDEX idx_tenant_id (tenant_id)
-
-INDEX idx_user_id (user_id)
-
-INDEX idx_created_at (created_at)
+Salah:
 
 ```
+Inventory Engine
 
+↓
 
+Restaurant Menu
+```
 
 ---
 
-# 8. API Rules
+# 9. Backend Architecture Rule
 
-
-## URL Format
-
+EBP menggunakan:
 
 ```
+Controller
 
-/api/v1/products
+↓
+
+Service
+
+↓
+
+Repository
+
+↓
+
+Database
+```
+
+---
+
+## Controller Rule
+
+Controller hanya:
+
+* menerima request;
+* validasi input;
+* memanggil service;
+* mengembalikan response.
+
+Tidak boleh:
+
+```
+SQL Query
+
+Business Calculation
+
+Payment Logic
+```
+
+---
+
+# 10. Business Logic Rule
+
+Business logic wajib berada di:
+
+```
+Service Layer
+
+Business Engine
+
+Rule Engine
+```
+
+Contoh:
+
+Salah:
+
+```php
+if($total > 100000)
+{
+discount=10;
+}
+```
+
+Benar:
+
+```
+Pricing Engine
+
+↓
+
+Discount Rule
+
+↓
+
+Calculation
+```
+
+---
+
+# 11. Database Development Rule
+
+Semua tabel wajib mengikuti:
+
+```sql
+id
+
+tenant_id
+
+created_at
+
+created_by
+
+updated_at
+
+updated_by
+
+deleted_at
+
+version
+```
+
+---
+
+# 12. Database Naming Convention
+
+Menggunakan:
+
+```
+snake_case
+```
+
+Contoh:
+
+Benar:
+
+```
+restaurant_orders
+
+order_details
+
+inventory_items
+```
+
+Salah:
+
+```
+RestaurantOrders
+
+OrderDetail
+```
+
+---
+
+# 13. Migration Rule
+
+Perubahan database wajib menggunakan migration.
+
+Tidak boleh:
+
+```
+Edit database langsung production
+```
+
+Harus:
+
+```
+Migration File
+
+↓
+
+Testing
+
+↓
+
+Deploy
+```
+
+---
+
+# 14. API Development Rule
+
+Semua API menggunakan versioning.
+
+Contoh:
+
+```
+/api/v1/users
 
 /api/v1/orders
 
-/api/v1/payments
-
-/api/v1/tenants
-
+/api/v1/products
 ```
-
-
-## HTTP Methods
-
-
-```
-
-GET: Retrieve data
-
-POST: Create data
-
-PUT: Update data (full)
-
-PATCH: Update data (partial)
-
-DELETE: Delete data
-
-```
-
-
-## Response Format
-
-
-### Success
-
-
-```json
-{
-  "success": true,
-  "message": "Success",
-  "data": {}
-}
-```
-
-
-### Error
-
-
-```json
-{
-  "success": false,
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Invalid input",
-    "details": {}
-  }
-}
-```
-
-
-## Pagination
-
-
-```
-
-GET /api/v1/orders?page=1&limit=20
-
-Response:
-
-{
-  "success": true,
-  "data": {
-    "items": [],
-    "pagination": {
-      "page": 1,
-      "limit": 20,
-      "total": 100,
-      "total_pages": 5
-    }
-  }
-}
-```
-
-
 
 ---
 
-# 9. Git Rules
+# 15. API Response Standard
 
+Success:
 
-## Branch Strategy
-
-
+```json
+{
+ "success":true,
+ "data":{}
+}
 ```
 
+Error:
+
+```json
+{
+ "success":false,
+ "error":{
+   "code":"INVALID_REQUEST"
+ }
+}
+```
+
+---
+
+# 16. Security Rule
+
+Semua modul wajib memiliki:
+
+```
+Authentication
+
+Authorization
+
+Validation
+
+Audit Logging
+```
+
+---
+
+# 17. Multi Tenant Rule
+
+Semua data bisnis wajib memiliki:
+
+```
+tenant_id
+```
+
+Tidak boleh:
+
+```
+Query tanpa tenant filter
+```
+
+---
+
+# 18. Audit Rule
+
+Perubahan penting harus dicatat:
+
+```
+Who
+
+What
+
+When
+
+Before
+
+After
+```
+
+Contoh:
+
+```
+User:
+
+Manager
+
+
+Action:
+
+Change Price
+
+
+Before:
+
+10000
+
+
+After:
+
+15000
+```
+
+---
+
+# 19. Testing Rule
+
+Tidak ada fitur dianggap selesai tanpa test.
+
+Minimum:
+
+```
+Unit Test
+
+API Test
+
+Business Flow Test
+```
+
+---
+
+# 20. End To End Testing Rule
+
+Untuk fitur penting:
+
+gunakan:
+
+```
+Playwright
+```
+
+Contoh:
+
+Restaurant:
+
+```
+Login
+
+↓
+
+Create Order
+
+↓
+
+Kitchen
+
+↓
+
+Payment
+
+↓
+
+Receipt
+```
+
+---
+
+# 21. Git Development Rule
+
+Branch:
+
+```
 main
 
-    |
-
 development
-
-    |
 
 feature/*
 
 bugfix/*
-
-hotfix/*
-
 ```
 
+---
 
-## Branch Naming
-
+Contoh:
 
 ```
-
 feature/restaurant-pos
 
 feature/inventory-engine
-
-feature/kitchen-queue
-
-bugfix/auth-token
-
-hotfix/security-patch
-
 ```
 
+---
 
-## Commit Message
+# 22. Commit Rule
 
+Commit harus jelas.
+
+Benar:
+
+```
+Add restaurant order service
+
+Fix inventory stock calculation
+```
+
+Salah:
+
+```
+update
+
+fix
+
+test
+```
+
+---
+
+# 23. Documentation Rule
+
+Setiap fitur wajib memiliki:
+
+```
+Requirement Document
+
+Database Document
+
+API Document
+
+Testing Document
+```
+
+---
+
+# 24. Architecture Decision Record
+
+Keputusan besar harus dicatat.
 
 Format:
 
-
 ```
+ADR-XXX
 
-type(scope): subject
 
-body
+Tanggal:
 
-footer
+Keputusan:
 
+Alasan:
+
+Dampak:
+
+Alternatif:
 ```
-
-
-Type:
-
-
-```
-
-feat: new feature
-
-fix: bug fix
-
-docs: documentation
-
-refactor: refactoring
-
-test: testing
-
-chore: maintenance
-
-```
-
-
-Example:
-
-
-```
-
-feat(restaurant): add POS module
-
-- Implement order creation
-- Add payment processing
-- Integrate with inventory
-
-Closes #123
-
-```
-
-
 
 ---
 
-# 10. Versioning Rules
+# 25. Feature Development Lifecycle
 
-
-## Semantic Versioning
-
-
-Format: `MAJOR.MINOR.PATCH`
-
-
-### MAJOR
-
-
-Breaking changes
-
-
-* API changes
-* Database schema changes
-* Architecture changes
-
-
-### MINOR
-
-
-New features, backward compatible
-
-
-* New endpoints
-* New modules
-* New functionality
-
-
-### PATCH
-
-
-Bug fixes, backward compatible
-
-
-* Bug fixes
-* Performance improvements
-* Documentation updates
-
-
-## Database Migration
-
-
-Format:
-
+Setiap fitur:
 
 ```
-
-migration_001_create_users_table.sql
-
-migration_002_add_roles.sql
-
-migration_003_add_permissions.sql
-
-```
-
-
-## API Versioning
-
-
-```
-
-/api/v1/orders
-
-/api/v2/orders
-
-```
-
-
-
----
-
-# 11. Testing Rules
-
-
-## Aturan Utama
-
-
-```
-
-TIDAK BOLEH SELESAI TANPA TEST
-
-```
-
-
-## Test Types
-
-
-```
-
-Unit Test
+Idea
 
 ↓
 
-API Test
+Analysis
 
 ↓
 
-Integration Test
+Specification
 
 ↓
 
-E2E Test
+Development
 
+↓
+
+Testing
+
+↓
+
+Documentation
+
+↓
+
+Release
 ```
-
-
-## Coverage Target
-
-
-```
-
-Unit Test: > 80%
-
-API Test: 100%
-
-Critical Path: 100%
-
-```
-
-
-## Test Naming
-
-
-Format:
-
-
-```
-
-[MODULE]_[ACTION]_[EXPECTED_RESULT]
-
-```
-
-
-Example:
-
-
-```
-
-OrderService_createOrder_success
-
-OrderService_createOrder_invalidData_failed
-
-```
-
-
 
 ---
 
-# 12. Change Management Sederhana
-
-
-## Change Request Template
-
-
-```markdown
-# CHANGE_REQUEST.md
-
-## Tanggal
-2026-07-01
-
-## Perubahan
-Menambahkan fitur discount untuk restaurant
-
-## Alasan
-Customer membutuhkan diskon dinamis berdasarkan membership
-
-## Dampak
-- Database: Tambah tabel discount_rules
-- API: Tambah endpoint /api/v1/discounts
-- Backend: Tambah DiscountService
-
-## Testing
-- Unit test: DiscountService
-- API test: /api/v1/discounts
-- Integration test: Order dengan discount
-
-## Status
-[ ] Pending
-[ ] In Progress
-[ ] Completed
-```
-
-
-
----
-
-# 13. Naming Convention
-
-
-## Database
-
-
-```
-
-snake_case
-
-user_roles
-
-order_items
-
-```
-
-
-## PHP
-
-
-```
-
-PascalCase (class)
-
-camelCase (method/variable)
-
-```
-
-
-Example:
-
-
-```php
-class OrderService
-{
-    public function createOrder($data)
-    {
-        $orderId = $this->generateOrderId();
-    }
-}
-```
-
-
-## JavaScript
-
-
-```
-
-camelCase
-
-```
-
-
-Example:
-
-
-```javascript
-const createOrder = (data) => {
-    const orderId = generateOrderId();
-};
-```
-
-
-
----
-
-# 14. Definition of Done
-
+# 26. Definition of Done
 
 Fitur dianggap selesai jika:
 
-
 ```
+[ ] Business requirement selesai
 
-[ ] Requirement selesai
+[ ] Database selesai
 
-[ ] Business process selesai
+[ ] Backend selesai
 
-[ ] Database design selesai
+[ ] Frontend selesai
 
-[ ] API specification selesai
+[ ] API selesai
 
-[ ] Backend implementation selesai
+[ ] Security diperiksa
 
-[ ] Frontend implementation selesai
+[ ] Test berhasil
 
-[ ] Unit test selesai
-
-[ ] API test selesai
-
-[ ] Integration test selesai
-
-[ ] Dokumentasi selesai
-
-[ ] Code review selesai
-
-[ ] Merge ke development
-
+[ ] Dokumentasi diperbarui
 ```
-
-
 
 ---
 
-# 15. Code Quality Rules
+# 27. Technical Debt Rule
 
+Technical debt harus dicatat.
 
-## PSR Standards
-
-
-PHP code harus mengikuti:
-
+Contoh:
 
 ```
+TECH-DEBT-001
 
-PSR-4: Autoloading
 
-PSR-12: Coding Style
+Masalah:
 
+Legacy Query
+
+
+Solusi:
+
+Migration ke Repository Pattern
+
+
+Prioritas:
+
+Medium
 ```
-
-
-## Code Comments
-
-
-Wajib:
-
-
-```php
-/**
- * Create order
- * 
- * @param array $data Order data
- * @return Order Created order
- * @throws ValidationException If data invalid
- */
-public function createOrder($data)
-{
-    // Implementation
-}
-```
-
-
-## Magic Numbers
-
-
-Dilarang:
-
-
-```php
-if ($total > 1000000) // VIOLATION
-```
-
-
-Gunakan constant:
-
-
-```php
-const DISCOUNT_THRESHOLD = 1000000;
-
-if ($total > self::DISCOUNT_THRESHOLD) // CORRECT
-```
-
-
 
 ---
 
-# 16. Security Rules
+# 28. Product Expansion Rule
 
-
-## Input Validation
-
-
-Semua input harus divalidasi:
-
-```php
-$this->validate($data, [
-    'name' => 'required|string|max:255',
-    'email' => 'required|email',
-    'amount' => 'required|numeric|min:0'
-]);
-```
-
-
-## SQL Injection
-
-
-Selalu gunakan prepared statement:
-
-```php
-// CORRECT
-$stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
-$stmt->execute([$userId]);
-
-// VIOLATION
-$stmt = $pdo->query("SELECT * FROM users WHERE id = $userId");
-```
-
-
-## XSS Protection
-
-
-Output harus di-escape:
-
-```php
-// CORRECT
-echo htmlspecialchars($userInput, ENT_QUOTES, 'UTF-8');
-
-// VIOLATION
-echo $userInput;
-```
-
-
-
----
-
-# 17. Performance Rules
-
-
-## Database Query
-
-
-Selalu gunakan index:
-
-```sql
--- CORRECT
-SELECT * FROM orders WHERE tenant_id = ? AND created_at >= ?
-
--- VIOLATION (tanpa index)
-SELECT * FROM orders WHERE created_at >= ?
-```
-
-
-## N+1 Problem
-
-
-Hindari N+1 query:
-
-```php
-// VIOLATION
-$orders = Order::all();
-foreach ($orders as $order) {
-    $customer = $order->customer; // N+1 query
-}
-
-// CORRECT
-$orders = Order::with('customer')->get();
-```
-
-
-## Caching
-
-
-Gunakan caching untuk data yang sering diakses:
-
-```php
-// CORRECT
-$plans = Cache::remember('subscription_plans', 3600, function() {
-    return SubscriptionPlan::all();
-});
-```
-
-
-
----
-
-# 18. Documentation Rules
-
-
-## Code Documentation
-
-
-Setiap class dan method wajib memiliki docblock:
-
-```php
-/**
- * Order Service
- * 
- * Handles order creation, modification, and cancellation
- */
-class OrderService
-{
-    /**
-     * Create new order
-     * 
-     * @param array $data Order data
-     * @return Order
-     * @throws ValidationException
-     */
-    public function createOrder($data)
-    {
-        // Implementation
-    }
-}
-```
-
-
-## API Documentation
-
-
-Setiap endpoint wajib didokumentasikan:
-
-```markdown
-## Create Order
-
-POST /api/v1/orders
-
-### Request Body
-{
-  "customer_id": 1,
-  "items": [...],
-  "total": 100000
-}
-
-### Response
-{
-  "success": true,
-  "data": {
-    "order_id": 100,
-    "status": "pending"
-  }
-}
-```
-
-
-
----
-
-# 19. Backup Rules
-
-
-## Code Backup
-
-
-Selalu commit ke GitHub sebelum perubahan besar:
-
-```bash
-git add .
-git commit -m "backup: before major refactoring"
-git push
-```
-
-
-## Database Backup
-
-
-Sebelum migration:
-
-```bash
-mysqldump ebp > backup_$(date +%Y%m%d).sql
-```
-
-
-
----
-
-# 20. Best Practices Summary
-
-
-## Sebelum Coding
-
-
-- Pastikan requirement jelas
-- Pastikan business process dipahami
-- Pastikan database design siap
-- Pastikan API specification siap
-
-
-## Saat Coding
-
-
-- Ikuti architecture rules
-- Ikuti naming convention
-- Tulis documentation
-- Tulis test
-
-
-## Setelah Coding
-
-
-- Run test
-- Code review
-- Merge ke development
-- Update documentation
-
-
-
----
-
-# 21. Conclusion
-
-
-EBP Development Rules memastikan:
-
+Produk baru harus menggunakan:
 
 ```
-
-SISTEM KERJA
+EBP Core
 
 +
 
-SATU ORANG
+Shared Engine
+
++
+
+Product Module
+```
+
+Tidak boleh:
+
+```
+Copy aplikasi lama
+
+Rename
+
+Modify
+```
+
+---
+
+# 29. Release Rule
+
+Setiap release memiliki:
+
+```
+Version
+
+Changelog
+
+Migration
+
+Testing Report
+
+Rollback Plan
+```
+
+---
+
+# 30. Long Term Principle
+
+EBP dibangun dengan prinsip:
+
+```
+Today:
+
+Restaurant ERP
+
+
+Tomorrow:
+
+Enterprise Business Platform
+```
+
+Setiap keputusan harus mempertimbangkan:
+
+* reuse;
+* scalability;
+* security;
+* maintainability.
+
+---
+
+# Conclusion
+
+EBP Development Rules menjadi kontrak pembangunan seluruh software EBP.
+
+Dokumen ini memastikan:
+
+```
+Founder
 
 +
 
 AI
 
-=
++
 
-SOFTWARE ENTERPRISE KONSISTEN
+Architecture
 
++
+
+Automation
 ```
 
-
-Manfaat:
-
-
-* Konsistensi kode
-* Kualitas terjamin
-* Maintenance mudah
-- Scalable
-* Professional
-
-
-EBP Development Rules adalah kunci untuk membangun software enterprise secara konsisten dengan model satu orang + AI.
-
-
+dapat menghasilkan software enterprise yang konsisten dan dapat berkembang.
 
 ---
 
-# END OF DOCUMENT
-
+**END OF DOCUMENT**
 
 Document ID:
 
-EBP-DEVELOPMENT-RULES-001
-
+EBP-ENTERPRISE-CONTROL-DEVELOPMENT-RULES-001
 
 Version:
 
