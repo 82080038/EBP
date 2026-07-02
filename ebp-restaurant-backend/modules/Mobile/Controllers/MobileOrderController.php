@@ -38,7 +38,7 @@ class MobileOrderController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $productId = $request['params']['id'] ?? null;
+        $productId = $request['id'] ?? null;
 
         if (!$productId) {
             Response::error('Product ID is required');

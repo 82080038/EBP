@@ -85,13 +85,14 @@ class KioskApp {
     async loadMenu() {
         try {
             const response = await window.apiClient.getKioskMenu(this.tenantId, this.branchId);
-            if (response.success) {
+            if (response && response.success) {
                 this.menu = response.data;
                 this.extractCategories();
                 this.renderCategories();
                 this.renderMenu();
             } else {
-                console.error('Failed to load menu:', response.message);
+                console.error('Failed to load menu:', response ? response.message : 'No response');
+                this.loadMockMenu();
             }
         } catch (error) {
             console.error('Error loading menu:', error);
@@ -134,7 +135,7 @@ class KioskApp {
     renderCategories() {
         const nav = document.getElementById('categoryNav');
         nav.innerHTML = '<button class="category-btn active" data-category="all">All</button>';
-        
+
         this.categories.forEach(cat => {
             const btn = document.createElement('button');
             btn.className = 'category-btn';

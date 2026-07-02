@@ -92,7 +92,7 @@ class AuthController
 
 
 
-        Response::success("Login successful", [
+        Response::success([
 
             'access_token' => $token,
 

@@ -1,5 +1,8 @@
 <?php
 
+// Initialize error handler
+require_once __DIR__ . '/../core/Middleware/ErrorHandler.php';
+
 // Serve static files and HTML for root path
 $requestUri = $_SERVER['REQUEST_URI'];
 
@@ -7,6 +10,36 @@ $requestUri = $_SERVER['REQUEST_URI'];
 if ($requestUri === '/' || $requestUri === '/index.html') {
     require_once __DIR__ . '/index.html';
     exit;
+}
+
+// Serve frontend mobile app
+if (strpos($requestUri, '/frontend/mobile') === 0) {
+    $filePath = __DIR__ . $requestUri;
+    if (file_exists($filePath)) {
+        $mimeType = mime_content_type($filePath);
+        header("Content-Type: $mimeType");
+        readfile($filePath);
+        exit;
+    } else {
+        // Default to index.html for SPA routing
+        require_once __DIR__ . '/../frontend/mobile/index.html';
+        exit;
+    }
+}
+
+// Serve frontend kiosk app
+if (strpos($requestUri, '/frontend/kiosk') === 0) {
+    $filePath = __DIR__ . $requestUri;
+    if (file_exists($filePath)) {
+        $mimeType = mime_content_type($filePath);
+        header("Content-Type: $mimeType");
+        readfile($filePath);
+        exit;
+    } else {
+        // Default to index.html for SPA routing
+        require_once __DIR__ . '/../frontend/kiosk/index.html';
+        exit;
+    }
 }
 
 // Serve API routes for /api paths

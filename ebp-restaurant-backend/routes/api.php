@@ -374,6 +374,20 @@ $router->addRoute('GET', '/api/v1/tenants/{id}', function($request) use ($tenant
 $router->addRoute('POST', '/api/v1/sales/orders', function($request) use ($orderController) {
     return $orderController->create($request);
 });
+
+// Orders Routes (alias for frontend compatibility)
+$router->addRoute('GET', '/api/v1/orders', function($request) use ($orderController) {
+    return $orderController->getAll($request);
+});
+$router->addRoute('GET', '/api/v1/orders/{id}', function($request) use ($orderController) {
+    return $orderController->get($request);
+});
+$router->addRoute('POST', '/api/v1/orders', function($request) use ($orderController) {
+    return $orderController->create($request);
+});
+$router->addRoute('PUT', '/api/v1/orders/{id}', function($request) use ($orderController) {
+    return $orderController->update($request);
+});
 $router->addRoute('PUT', '/api/v1/sales/orders/{id}', function($request) use ($orderController) {
     return $orderController->update($request);
 });

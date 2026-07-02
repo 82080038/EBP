@@ -22,9 +22,9 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         headless: false,
-        viewport: { width: 1920, height: 1080 },
+        viewport: { width: 1440, height: 900 },
         launchOptions: {
-          args: ['--start-maximized']
+          args: ['--window-position=1140,0']
         }
       },
     },

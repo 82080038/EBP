@@ -1,7 +1,5 @@
 <?php
 
-namespace Modules\Reservation\Models;
-
 class Reservation
 {
     public $reservation_id;

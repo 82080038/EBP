@@ -1,7 +1,5 @@
 <?php
 
-namespace Modules\Menu\Models;
-
 class Recipe
 {
     public $recipe_id;

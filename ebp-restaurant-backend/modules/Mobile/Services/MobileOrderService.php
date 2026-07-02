@@ -4,6 +4,8 @@ if (!class_exists('database')) {
     require_once __DIR__ . '/../../../config/database.php';
 }
 
+use PDO;
+
 class MobileOrderService
 {
     private $db;

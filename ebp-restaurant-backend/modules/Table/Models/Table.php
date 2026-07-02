@@ -1,7 +1,5 @@
 <?php
 
-namespace Modules\Table\Models;
-
 class Table
 {
     public $table_id;

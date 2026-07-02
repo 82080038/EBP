@@ -118,7 +118,7 @@ class OrderRepository
 
     public function createPayment($orderId, $paymentMethod, $amount, $referenceNumber)
     {
-        $sql = "INSERT INTO payments (order_id, payment_method, amount, reference_number) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO payments (order_id, payment_method, amount, reference_number, payment_status) VALUES (?, ?, ?, ?, 'COMPLETED')";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$orderId, $paymentMethod, $amount, $referenceNumber]);
         return $this->db->lastInsertId();

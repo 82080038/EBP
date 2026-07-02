@@ -1,7 +1,5 @@
 <?php
 
-namespace Modules\Inventory\Models;
-
 class StockTransaction
 {
     public $stock_transaction_id;

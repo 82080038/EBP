@@ -23,6 +23,8 @@ if (!class_exists('Audit')) {
     require_once __DIR__ . '/../../../core/Audit.php';
 }
 
+use PDO;
+
 
 
 class OrderService
@@ -45,6 +47,79 @@ public function __construct()
 
     $this->db = $database->connect();
 
+}
+
+public function getOrders($tenantId, $branchId, $status = null)
+{
+    try {
+        $query = "SELECT * FROM orders WHERE tenant_id = :tenant_id AND branch_id = :branch_id";
+        $params = [
+            ':tenant_id' => $tenantId,
+            ':branch_id' => $branchId
+        ];
+
+        if ($status) {
+            $query .= " AND status = :status";
+            $params[':status'] = $status;
+        }
+
+        $query .= " ORDER BY created_at DESC";
+
+        $stmt = $this->db->prepare($query);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+        $stmt->execute();
+        $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return [
+            'success' => true,
+            'data' => $orders
+        ];
+    } catch (Exception $e) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get orders: ' . $e->getMessage()
+        ];
+    }
+}
+
+public function getOrder($orderId, $tenantId)
+{
+    try {
+        $query = "SELECT * FROM orders WHERE order_id = :order_id AND tenant_id = :tenant_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':order_id', $orderId);
+        $stmt->bindValue(':tenant_id', $tenantId);
+        $stmt->execute();
+        $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$order) {
+            return [
+                'success' => false,
+                'message' => 'Order not found'
+            ];
+        }
+
+        // Get order items
+        $query = "SELECT * FROM order_items WHERE order_id = :order_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':order_id', $orderId);
+        $stmt->execute();
+        $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $order['items'] = $items;
+
+        return [
+            'success' => true,
+            'data' => $order
+        ];
+    } catch (Exception $e) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get order: ' . $e->getMessage()
+        ];
+    }
 }
 
 
@@ -190,9 +265,9 @@ public function createOrder($data, $userId, $tenantId, $branchId)
         */
 
 
-        // Skip stock engine for Phase 1 (requires recipe tables)
-        // $stockEngine = new StockEngine($this->db);
-        // $stockEngine->deductFromRecipe($orderId, $branchId);
+        // Enable stock deduction integration
+        $stockEngine = new StockEngine($this->db);
+        $stockEngine->deductFromRecipe($orderId, $branchId);
 
 
 
@@ -203,9 +278,9 @@ public function createOrder($data, $userId, $tenantId, $branchId)
         */
 
 
-        // Skip kitchen engine for Phase 1 (requires recipe tables)
-        // $kitchenEngine = new KitchenEngine($this->db);
-        // $kitchenEngine->createKitchenOrder($orderId);
+        // Enable kitchen order integration
+        $kitchenEngine = new KitchenEngine($this->db);
+        $kitchenEngine->createKitchenOrder($orderId);
 
 
 

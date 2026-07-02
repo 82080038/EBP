@@ -18,8 +18,8 @@ class KioskController
 
     public function getMenu($request)
     {
-        $tenantId = $request['params']['tenant_id'] ?? null;
-        $branchId = $request['params']['branch_id'] ?? null;
+        $tenantId = $request['query']['tenant_id'] ?? null;
+        $branchId = $request['query']['branch_id'] ?? null;
 
         if (!$tenantId || !$branchId) {
             Response::error('Tenant ID and Branch ID are required');
@@ -37,8 +37,8 @@ class KioskController
 
     public function createOrder($request)
     {
-        $tenantId = $request['params']['tenant_id'] ?? null;
-        $branchId = $request['params']['branch_id'] ?? null;
+        $tenantId = $request['query']['tenant_id'] ?? null;
+        $branchId = $request['query']['branch_id'] ?? null;
         $data = $request['body'] ?? [];
 
         if (!$tenantId || !$branchId) {

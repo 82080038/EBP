@@ -1,7 +1,5 @@
 <?php
 
-namespace Modules\Kitchen\Models;
-
 class KitchenOrder
 {
     public $kitchen_order_id;

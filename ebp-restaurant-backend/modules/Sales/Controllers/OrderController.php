@@ -24,29 +24,78 @@ class OrderController
 
     public function create()
     {
+        try {
+            $authMiddleware = new AuthMiddleware();
+            $user = $authMiddleware->authenticate();
+
+            $permissionMiddleware = new PermissionMiddleware();
+            $permissionMiddleware->check($user['user_id'], 'ORDER_CREATE');
+
+            $input = json_decode(file_get_contents("php://input"), true);
+
+            if (!$input) {
+                Response::error('Invalid JSON input');
+                return;
+            }
+
+            $result = $this->service->createOrder(
+                $input,
+                $user['user_id'],
+                $user['tenant_id'],
+                $user['branch_id']
+            );
+
+            if ($result['success']) {
+                Response::success(
+                    $result['message'],
+                    [
+                        'order_id' => $result['order_id'],
+                        'total' => $result['total']
+                    ]
+                );
+            } else {
+                Response::error($result['message']);
+            }
+        } catch (Exception $e) {
+            Response::error('Order creation failed: ' . $e->getMessage());
+        }
+    }
+
+    public function getAll($request)
+    {
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
         $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'ORDER_CREATE');
+        $hasPermission = $permissionMiddleware->check($user['user_id'], 'ORDER_VIEW');
+        
+        if (!$hasPermission) {
+            Response::error("Permission denied: ORDER_VIEW", 403);
+        }
 
-        $input = json_decode(file_get_contents("php://input"), true);
+        $params = $request['query'] ?? [];
+        $status = $params['status'] ?? null;
 
-        $result = $this->service->createOrder(
-            $input,
-            $user['user_id'],
-            $user['tenant_id'],
-            $user['branch_id']
-        );
+        $result = $this->service->getOrders($user['tenant_id'], $user['branch_id'], $status);
 
         if ($result['success']) {
-            Response::success(
-                $result['message'],
-                [
-                    'order_id' => $result['order_id'],
-                    'total' => $result['total']
-                ]
-            );
+            Response::success($result['data'], 'Orders retrieved successfully');
+        } else {
+            Response::error($result['message']);
+        }
+    }
+
+    public function get($request)
+    {
+        $authMiddleware = new AuthMiddleware();
+        $user = $authMiddleware->authenticate();
+
+        $orderId = $request['params']['id'] ?? null;
+
+        $result = $this->service->getOrder($orderId, $user['tenant_id']);
+
+        if ($result['success']) {
+            Response::success('Order retrieved successfully', $result['data']);
         } else {
             Response::error($result['message']);
         }

@@ -2,8 +2,11 @@
 if (!class_exists('database')) {
     require_once __DIR__ . "/../../../config/database.php";
 }
+if (!class_exists('Table')) {
+    require_once __DIR__ . '/../Models/Table.php';
+}
 
-
+use PDO;
 
 class TableRepository
 {

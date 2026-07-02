@@ -78,7 +78,7 @@ class OfflineIndicator {
 
     updateStatus(status, data = {}) {
         this.status = status;
-        
+
         const statusDot = this.element.querySelector('.status-dot');
         const statusText = this.element.querySelector('.status-text');
 
@@ -88,6 +88,15 @@ class OfflineIndicator {
 
         if (statusText) {
             statusText.textContent = status;
+        }
+
+        // Show/hide indicator based on status
+        if (status === 'OFFLINE') {
+            this.element.classList.add('offline');
+            this.element.style.display = 'flex';
+        } else {
+            this.element.classList.remove('offline');
+            this.element.style.display = 'none';
         }
 
         // Dispatch custom event for other components to listen

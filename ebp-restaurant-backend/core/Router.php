@@ -52,7 +52,7 @@ class Router
                     }
                     
                     call_user_func($route['handler'], $request);
-                    return;
+                    exit;
                 }
             }
         }

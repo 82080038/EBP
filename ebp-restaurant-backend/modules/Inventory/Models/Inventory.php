@@ -1,7 +1,5 @@
 <?php
 
-namespace Modules\Inventory\Models;
-
 class Inventory
 {
     public $inventory_id;

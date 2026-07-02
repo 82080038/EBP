@@ -166,9 +166,11 @@ class MobileApp {
     async loadMenu() {
         try {
             const response = await window.apiClient.getMobileMenu();
-            if (response.success) {
+            if (response && response.success) {
                 this.menu = response.data || [];
                 this.renderMenu();
+            } else {
+                this.loadMockMenu();
             }
         } catch (error) {
             console.error('Error loading menu:', error);
@@ -265,11 +267,11 @@ class MobileApp {
     updateUserInfo() {
         const userName = 'Waiter John';
         const userEmail = 'john@ebp.com';
-        
+
         document.getElementById('userName').textContent = userName;
         document.getElementById('profileName').textContent = userName;
         document.getElementById('profileEmail').textContent = userEmail;
-        
+
         // Update stats
         document.getElementById('todayOrders').textContent = this.orders.length;
         const totalRevenue = this.orders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
@@ -303,7 +305,7 @@ class MobileApp {
     }
 
     searchMenu(query) {
-        const filtered = this.menu.filter(p => 
+        const filtered = this.menu.filter(p =>
             p.product_name.toLowerCase().includes(query.toLowerCase())
         );
         this.renderFilteredMenu(filtered);
@@ -375,10 +377,10 @@ class MobileApp {
         document.getElementById('detailTable').textContent = order.table_id || 'N/A';
         document.getElementById('detailStatus').textContent = order.status;
         document.getElementById('detailTotal').textContent = `Rp ${this.formatPrice(order.total_amount)}`;
-        
+
         const itemsContainer = document.getElementById('detailOrderItems');
         itemsContainer.innerHTML = '<p class="empty-message">Order items would be loaded here</p>';
-        
+
         this.openModal('orderDetailsModal');
     }
 
@@ -389,7 +391,7 @@ class MobileApp {
     logout() {
         if (confirm('Are you sure you want to logout?')) {
             window.apiClient.clearAuth();
-            window.location.href = '/login.html';
+            window.location.href = '/';
         }
     }
 

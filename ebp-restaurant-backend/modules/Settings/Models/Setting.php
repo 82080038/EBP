@@ -1,7 +1,5 @@
 <?php
 
-namespace Modules\Settings\Models;
-
 class Setting
 {
     public $setting_id;

@@ -1,7 +1,5 @@
 <?php
 
-namespace Modules\Menu\Models;
-
 class Category
 {
     public $category_id;

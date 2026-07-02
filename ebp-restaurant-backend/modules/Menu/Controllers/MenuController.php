@@ -25,13 +25,20 @@ class MenuController
     // Category Endpoints
     public function getCategories(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
+        $authMiddleware = new AuthMiddleware();
+        $user = $authMiddleware->authenticate();
 
-        $tenantId = $request['tenant_id'] ?? 1;
+        $permissionMiddleware = new PermissionMiddleware();
+        $hasPermission = $permissionMiddleware->check($user['user_id'], 'CATEGORY_VIEW');
+        
+        if (!$hasPermission) {
+            Response::error("Permission denied: CATEGORY_VIEW", 403);
+        }
+
+        $tenantId = $user['tenant_id'] ?? 1;
         $categories = $this->menuService->getAllCategories($tenantId);
 
-        return Response::success($categories);
+        Response::success($categories);
     }
 
     public function getCategory(array $request)
@@ -128,7 +135,7 @@ class MenuController
     public function getProducts(array $request)
     {
         $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
+        PermissionMiddleware::handle($request, 'PRODUCT_VIEW');
 
         $tenantId = $request['tenant_id'] ?? 1;
         $categoryId = $request['category_id'] ?? null;

@@ -2,8 +2,14 @@
 if (!class_exists('database')) {
     require_once __DIR__ . "/../../../config/database.php";
 }
+if (!class_exists('KitchenOrder')) {
+    require_once __DIR__ . '/../Models/KitchenOrder.php';
+}
+if (!class_exists('KitchenOrderItem')) {
+    require_once __DIR__ . '/../Models/KitchenOrderItem.php';
+}
 
-
+use PDO;
 
 class KitchenRepository
 {

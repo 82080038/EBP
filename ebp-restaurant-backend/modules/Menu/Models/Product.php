@@ -1,7 +1,5 @@
 <?php
 
-namespace Modules\Menu\Models;
-
 class Product
 {
     public $product_id;

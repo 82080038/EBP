@@ -41,7 +41,7 @@ class PermissionMiddleware
 
         if ($result['count'] == 0) {
 
-            Response::error("Permission denied: " . $permission);
+            return false;
 
         }
 
