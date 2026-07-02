@@ -1,1 +1,67 @@
- 
+ apakah mendukung seluruh bisnis makanan dan minuman di Indonesia ?
+
+Traditional F&B :
+
+Rumah Makan
+Restoran
+Cafe
+Coffee Shop
+Kedai Kopi
+Warung
+Warteg
+Warung Nasi
+Food Court
+Kantin
+Angkringan
+Street Food
+Booth
+
+Specialized F&B :
+
+Food Truck
+Bakery
+Cake Shop
+Dessert Shop
+Bubble Tea
+Juice Bar
+Es Campur
+Martabak
+Mie Ayam
+Bakso
+Soto
+Seafood
+
+Cuisine-Specific :
+
+Chinese Food
+Japanese Restaurant
+Korean Restaurant
+Western Restaurant
+Steak House
+Pizza
+Fast Food
+Buffet
+
+Large Scale :
+
+Hotel Restaurant
+Catering
+Cloud Kitchen
+Ghost Kitchen
+Dark Kitchen
+Meal Prep
+Central Kitchen
+Franchise
+Multi Brand Restaurant
+
+Entertainment + F&B :
+
+Bar (dengan fitur alkohol, atau  tanpa fitur alkohol jika tidak diperlukan)
+Lounge
+Karaoke yang menjual makanan
+Tempat Wisata yang memiliki restoran.
+
+
+apabila sudah, seharusnya jenis F&B yang didukung tersebut, tertulis di halaman utama, sebagai daya tarik tenant untuk menggunakan aplikasi ini.
+dan jenis F&B juga ada di database, dengan keterangan : didukung aplikasi atau belum didukung; atau tambahan kolom lain yang dibutuhkan (analisa, putuskan, buatkan).
+sehingga, selain F&B yang diatas, anda harus cari dari internet untuk jenis-jenis F&B dan simpan ke database, dengan aturan : didukung aplikasi atau belum didukung.
