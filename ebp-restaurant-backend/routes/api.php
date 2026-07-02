@@ -1,139 +1,290 @@
 <?php
 
-require_once __DIR__ . '/../core/Router.php';
-require_once __DIR__ . '/../core/Response.php';
-require_once __DIR__ . '/../config/database.php';
+if (!class_exists('Router')) {
+    require_once __DIR__ . '/../core/Router.php';
+}
+if (!class_exists('Response')) {
+    require_once __DIR__ . '/../core/Response.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../config/database.php';
+}
 
 // Auth Module
-require_once __DIR__ . '/../modules/Auth/Controllers/AuthController.php';
+if (!class_exists('AuthController')) {
+    require_once __DIR__ . '/../modules/Auth/Controllers/AuthController.php';
+}
 
 // Sales Module
-require_once __DIR__ . '/../modules/Sales/Controllers/OrderController.php';
-require_once __DIR__ . '/../modules/Sales/Controllers/PaymentManagementController.php';
+if (!class_exists('OrderController')) {
+    require_once __DIR__ . '/../modules/Sales/Controllers/OrderController.php';
+}
+if (!class_exists('PaymentManagementController')) {
+    require_once __DIR__ . '/../modules/Sales/Controllers/PaymentManagementController.php';
+}
 
 // Menu Module
-require_once __DIR__ . '/../modules/Menu/Controllers/MenuController.php';
-require_once __DIR__ . '/../modules/Menu/Controllers/ProductVariantController.php';
-require_once __DIR__ . '/../modules/Menu/Controllers/ProductModifierController.php';
-require_once __DIR__ . '/../modules/Menu/Controllers/ComboController.php';
+if (!class_exists('MenuController')) {
+    require_once __DIR__ . '/../modules/Menu/Controllers/MenuController.php';
+}
+if (!class_exists('ProductVariantController')) {
+    require_once __DIR__ . '/../modules/Menu/Controllers/ProductVariantController.php';
+}
+if (!class_exists('ProductModifierController')) {
+    require_once __DIR__ . '/../modules/Menu/Controllers/ProductModifierController.php';
+}
+if (!class_exists('ComboController')) {
+    require_once __DIR__ . '/../modules/Menu/Controllers/ComboController.php';
+}
 
 // Table Module
-require_once __DIR__ . '/../modules/Table/Controllers/TableController.php';
+if (!class_exists('TableController')) {
+    require_once __DIR__ . '/../modules/Table/Controllers/TableController.php';
+}
 
 // Reservation Module
-require_once __DIR__ . '/../modules/Reservation/Controllers/ReservationController.php';
+if (!class_exists('ReservationController')) {
+    require_once __DIR__ . '/../modules/Reservation/Controllers/ReservationController.php';
+}
 
 // Inventory Module
-require_once __DIR__ . '/../modules/Inventory/Controllers/InventoryController.php';
-require_once __DIR__ . '/../modules/Inventory/Controllers/SupplierController.php';
-require_once __DIR__ . '/../modules/Inventory/Controllers/StockAdjustmentController.php';
-require_once __DIR__ . '/../modules/Inventory/Controllers/StockOpnameController.php';
-require_once __DIR__ . '/../modules/Inventory/Controllers/PurchaseOrderController.php';
-require_once __DIR__ . '/../modules/Inventory/Controllers/GoodsReceiptController.php';
+if (!class_exists('InventoryController')) {
+    require_once __DIR__ . '/../modules/Inventory/Controllers/InventoryController.php';
+}
+if (!class_exists('SupplierController')) {
+    require_once __DIR__ . '/../modules/Inventory/Controllers/SupplierController.php';
+}
+if (!class_exists('StockAdjustmentController')) {
+    require_once __DIR__ . '/../modules/Inventory/Controllers/StockAdjustmentController.php';
+}
+if (!class_exists('StockOpnameController')) {
+    require_once __DIR__ . '/../modules/Inventory/Controllers/StockOpnameController.php';
+}
+if (!class_exists('PurchaseOrderController')) {
+    require_once __DIR__ . '/../modules/Inventory/Controllers/PurchaseOrderController.php';
+}
+if (!class_exists('GoodsReceiptController')) {
+    require_once __DIR__ . '/../modules/Inventory/Controllers/GoodsReceiptController.php';
+}
 
 // Kitchen Module
-require_once __DIR__ . '/../modules/Kitchen/Controllers/KitchenController.php';
+if (!class_exists('KitchenController')) {
+    require_once __DIR__ . '/../modules/Kitchen/Controllers/KitchenController.php';
+}
 
 // Location Module
-require_once __DIR__ . '/../modules/Location/Controllers/LocationController.php';
+if (!class_exists('LocationController')) {
+    require_once __DIR__ . '/../modules/Location/Controllers/LocationController.php';
+}
 
 // CRM Module
-require_once __DIR__ . '/../modules/CRM/Controllers/CustomerController.php';
+if (!class_exists('CustomerController')) {
+    require_once __DIR__ . '/../modules/CRM/Controllers/CustomerController.php';
+}
 
 // AI Module
-require_once __DIR__ . '/../modules/AI/Controllers/AIController.php';
+if (!class_exists('AIController')) {
+    require_once __DIR__ . '/../modules/AI/Controllers/AIController.php';
+}
 
 // Delivery Module
-require_once __DIR__ . '/../modules/Delivery/Controllers/DeliveryController.php';
+if (!class_exists('DeliveryController')) {
+    require_once __DIR__ . '/../modules/Delivery/Controllers/DeliveryController.php';
+}
 
 // HR Module
-require_once __DIR__ . '/../modules/HR/Controllers/EmployeeController.php';
+if (!class_exists('EmployeeController')) {
+    require_once __DIR__ . '/../modules/HR/Controllers/EmployeeController.php';
+}
 
 // Accounting Module
-require_once __DIR__ . '/../modules/Accounting/Controllers/AccountingController.php';
+if (!class_exists('AccountingController')) {
+    require_once __DIR__ . '/../modules/Accounting/Controllers/AccountingController.php';
+}
 
 // Supply Chain Module
-require_once __DIR__ . '/../modules/SupplyChain/Controllers/SupplyChainController.php';
+if (!class_exists('SupplyChainController')) {
+    require_once __DIR__ . '/../modules/SupplyChain/Controllers/SupplyChainController.php';
+}
 
 // Maintenance Module
-require_once __DIR__ . '/../modules/Maintenance/Controllers/MaintenanceController.php';
+if (!class_exists('MaintenanceController')) {
+    require_once __DIR__ . '/../modules/Maintenance/Controllers/MaintenanceController.php';
+}
 
 // Quality Module
-require_once __DIR__ . '/../modules/Quality/Controllers/QualityController.php';
+if (!class_exists('QualityController')) {
+    require_once __DIR__ . '/../modules/Quality/Controllers/QualityController.php';
+}
 
 // Sustainability Module
-require_once __DIR__ . '/../modules/Sustainability/Controllers/SustainabilityController.php';
+if (!class_exists('SustainabilityController')) {
+    require_once __DIR__ . '/../modules/Sustainability/Controllers/SustainabilityController.php';
+}
 
 // Integration Module
-require_once __DIR__ . '/../modules/Integration/Controllers/IntegrationController.php';
+if (!class_exists('IntegrationController')) {
+    require_once __DIR__ . '/../modules/Integration/Controllers/IntegrationController.php';
+}
 
 // Offline Sync Module
-require_once __DIR__ . '/../modules/Offline/Controllers/OfflineSyncController.php';
+if (!class_exists('OfflineSyncController')) {
+    require_once __DIR__ . '/../modules/Offline/Controllers/OfflineSyncController.php';
+}
 
 // Inventory Advanced Module
-require_once __DIR__ . '/../modules/Inventory/Controllers/InventoryAdvancedController.php';
+if (!class_exists('InventoryAdvancedController')) {
+    require_once __DIR__ . '/../modules/Inventory/Controllers/InventoryAdvancedController.php';
+}
 
 // Kitchen Performance Module
-require_once __DIR__ . '/../modules/Kitchen/Controllers/KitchenPerformanceController.php';
+if (!class_exists('KitchenPerformanceController')) {
+    require_once __DIR__ . '/../modules/Kitchen/Controllers/KitchenPerformanceController.php';
+}
 
 // Customer Advanced Module
-require_once __DIR__ . '/../modules/CRM/Controllers/CustomerAdvancedController.php';
+if (!class_exists('CustomerAdvancedController')) {
+    require_once __DIR__ . '/../modules/CRM/Controllers/CustomerAdvancedController.php';
+}
 
 // Cost Center Module
-require_once __DIR__ . '/../modules/Accounting/Controllers/CostCenterController.php';
+if (!class_exists('CostCenterController')) {
+    require_once __DIR__ . '/../modules/Accounting/Controllers/CostCenterController.php';
+}
 
 // WhatsApp Module
-require_once __DIR__ . '/../modules/WhatsApp/Controllers/WhatsAppController.php';
+if (!class_exists('WhatsAppController')) {
+    require_once __DIR__ . '/../modules/WhatsApp/Controllers/WhatsAppController.php';
+}
 
 // Tax Calculation Module
-require_once __DIR__ . '/../modules/Accounting/Controllers/TaxCalculationController.php';
+if (!class_exists('TaxCalculationController')) {
+    require_once __DIR__ . '/../modules/Accounting/Controllers/TaxCalculationController.php';
+}
 
 // Supply Chain Module
-require_once __DIR__ . '/../modules/SupplyChain/Controllers/PurchasePlanningController.php';
-require_once __DIR__ . '/../modules/SupplyChain/Controllers/QualityControlController.php';
-require_once __DIR__ . '/../modules/SupplyChain/Controllers/SupplierPerformanceController.php';
+if (!class_exists('PurchasePlanningController')) {
+    require_once __DIR__ . '/../modules/SupplyChain/Controllers/PurchasePlanningController.php';
+}
+if (!class_exists('QualityControlController')) {
+    require_once __DIR__ . '/../modules/SupplyChain/Controllers/QualityControlController.php';
+}
+if (!class_exists('SupplierPerformanceController')) {
+    require_once __DIR__ . '/../modules/SupplyChain/Controllers/SupplierPerformanceController.php';
+}
 
 // Currency Module
-require_once __DIR__ . '/../modules/Settings/Controllers/CurrencyController.php';
+if (!class_exists('CurrencyController')) {
+    require_once __DIR__ . '/../modules/Settings/Controllers/CurrencyController.php';
+}
 
 // AI Module
-require_once __DIR__ . '/../modules/AI/Controllers/SmartProcurementController.php';
-require_once __DIR__ . '/../modules/AI/Controllers/KitchenIntelligenceController.php';
-require_once __DIR__ . '/../modules/AI/Controllers/CustomerIntelligenceController.php';
-require_once __DIR__ . '/../modules/AI/Controllers/DynamicPricingController.php';
-require_once __DIR__ . '/../modules/AI/Controllers/WasteReductionController.php';
+if (!class_exists('SmartProcurementController')) {
+    require_once __DIR__ . '/../modules/AI/Controllers/SmartProcurementController.php';
+}
+if (!class_exists('KitchenIntelligenceController')) {
+    require_once __DIR__ . '/../modules/AI/Controllers/KitchenIntelligenceController.php';
+}
+if (!class_exists('CustomerIntelligenceController')) {
+    require_once __DIR__ . '/../modules/AI/Controllers/CustomerIntelligenceController.php';
+}
+if (!class_exists('DynamicPricingController')) {
+    require_once __DIR__ . '/../modules/AI/Controllers/DynamicPricingController.php';
+}
+if (!class_exists('WasteReductionController')) {
+    require_once __DIR__ . '/../modules/AI/Controllers/WasteReductionController.php';
+}
 
 // Maintenance Module
-require_once __DIR__ . '/../modules/Maintenance/Controllers/PredictiveMaintenanceController.php';
-require_once __DIR__ . '/../modules/Maintenance/Controllers/WorkOrderController.php';
-require_once __DIR__ . '/../modules/Maintenance/Controllers/EquipmentHistoryController.php';
+if (!class_exists('PredictiveMaintenanceController')) {
+    require_once __DIR__ . '/../modules/Maintenance/Controllers/PredictiveMaintenanceController.php';
+}
+if (!class_exists('WorkOrderController')) {
+    require_once __DIR__ . '/../modules/Maintenance/Controllers/WorkOrderController.php';
+}
+if (!class_exists('EquipmentHistoryController')) {
+    require_once __DIR__ . '/../modules/Maintenance/Controllers/EquipmentHistoryController.php';
+}
 
 // Offline Module
-require_once __DIR__ . '/../modules/Offline/Controllers/OfflineStatusController.php';
+if (!class_exists('OfflineStatusController')) {
+    require_once __DIR__ . '/../modules/Offline/Controllers/OfflineStatusController.php';
+}
 
 // Kiosk Module
-require_once __DIR__ . '/../modules/Kiosk/Controllers/KioskController.php';
+if (!class_exists('KioskController')) {
+    require_once __DIR__ . '/../modules/Kiosk/Controllers/KioskController.php';
+}
 
 // Mobile Module
-require_once __DIR__ . '/../modules/Mobile/Controllers/MobileOrderController.php';
+if (!class_exists('MobileOrderController')) {
+    require_once __DIR__ . '/../modules/Mobile/Controllers/MobileOrderController.php';
+}
 
 // WhatsApp Ordering Module
-require_once __DIR__ . '/../modules/WhatsApp/Controllers/WhatsAppOrderingController.php';
+if (!class_exists('WhatsAppOrderingController')) {
+    require_once __DIR__ . '/../modules/WhatsApp/Controllers/WhatsAppOrderingController.php';
+}
 
 // Quality Compliance Module
-require_once __DIR__ . '/../modules/Quality/Controllers/QualityComplianceController.php';
+if (!class_exists('QualityComplianceController')) {
+    require_once __DIR__ . '/../modules/Quality/Controllers/QualityComplianceController.php';
+}
 
 // User Module
-require_once __DIR__ . '/../modules/User/Controllers/UserController.php';
+if (!class_exists('UserController')) {
+    require_once __DIR__ . '/../modules/User/Controllers/UserController.php';
+}
 
 // Settings Module
-require_once __DIR__ . '/../modules/Settings/Controllers/SettingController.php';
+if (!class_exists('SettingController')) {
+    require_once __DIR__ . '/../modules/Settings/Controllers/SettingController.php';
+}
 
 // Report Module
-require_once __DIR__ . '/../modules/Report/Controllers/ReportController.php';
+if (!class_exists('ReportController')) {
+    require_once __DIR__ . '/../modules/Report/Controllers/ReportController.php';
+}
 
 // Tenant Module
-require_once __DIR__ . '/../modules/Tenant/Controllers/TenantController.php';
+if (!class_exists('TenantController')) {
+    require_once __DIR__ . '/../modules/Tenant/Controllers/TenantController.php';
+}
+
+// AI Advanced Module
+if (!class_exists('AdvancedAIController')) {
+    require_once __DIR__ . '/../modules/AI/Controllers/AdvancedAIController.php';
+}
+
+// Enterprise Module
+if (!class_exists('EnterpriseController')) {
+    require_once __DIR__ . '/../modules/Enterprise/Controllers/EnterpriseController.php';
+}
+
+// Credit Module
+if (!class_exists('CreditController')) {
+    require_once __DIR__ . '/../modules/CRM/Controllers/CreditController.php';
+}
+
+// Customer Pricing Module
+if (!class_exists('CustomerPricingController')) {
+    require_once __DIR__ . '/../modules/CRM/Controllers/CustomerPricingController.php';
+}
+
+// Bonus Module
+if (!class_exists('BonusController')) {
+    require_once __DIR__ . '/../modules/HR/Controllers/BonusController.php';
+}
+
+// Tip Module
+if (!class_exists('TipController')) {
+    require_once __DIR__ . '/../modules/HR/Controllers/TipController.php';
+}
+
+// Commission Module
+if (!class_exists('CommissionController')) {
+    require_once __DIR__ . '/../modules/HR/Controllers/CommissionController.php';
+}
 
 // Initialize dependencies
 $db = new Database();

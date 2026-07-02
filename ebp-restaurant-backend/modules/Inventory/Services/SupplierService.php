@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/SupplierRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('SupplierRepository')) {
+    require_once __DIR__ . '/../Repositories/SupplierRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class SupplierService
 {

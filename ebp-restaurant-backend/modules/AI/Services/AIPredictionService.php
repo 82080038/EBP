@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/AIPredictionRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('AIPredictionRepository')) {
+    require_once __DIR__ . '/../Repositories/AIPredictionRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class AIPredictionService
 {

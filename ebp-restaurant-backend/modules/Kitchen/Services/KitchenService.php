@@ -1,8 +1,14 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/KitchenRepository.php';
-require_once __DIR__ . '/../../../core/Transaction.php';
-require_once __DIR__ . '/../../../core/Audit.php';
+if (!class_exists('KitchenRepository')) {
+    require_once __DIR__ . '/../Repositories/KitchenRepository.php';
+}
+if (!class_exists('Transaction')) {
+    require_once __DIR__ . '/../../../core/Transaction.php';
+}
+if (!class_exists('Audit')) {
+    require_once __DIR__ . '/../../../core/Audit.php';
+}
 
 class KitchenService
 {

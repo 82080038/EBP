@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Test Results
+test-results/
+playwright-report/
+screenshots/
+
+# Simulation & Test Files
+simulation/
+test_report_*.txt
+
+# Temporary Scripts
+fix_require_once.php
+test_connection.php
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database (optional - uncomment if you don't want to sync database files)
+# database/current_data.sql
+# database/*.sql
+
+# Cache
+.cache/
+*.cache

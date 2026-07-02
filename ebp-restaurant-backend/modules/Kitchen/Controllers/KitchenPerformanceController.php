@@ -1,9 +1,17 @@
 <?php
 
-require_once __DIR__ . '/../Services/KitchenPerformanceService.php';
-require_once __DIR__ . '/../../../core/Response.php';
-require_once __DIR__ . '/../../../core/Middleware/AuthMiddleware.php';
-require_once __DIR__ . '/../../../core/Middleware/PermissionMiddleware.php';
+if (!class_exists('KitchenPerformanceService')) {
+    require_once __DIR__ . '/../Services/KitchenPerformanceService.php';
+}
+if (!class_exists('Response')) {
+    require_once __DIR__ . '/../../../core/Response.php';
+}
+if (!class_exists('AuthMiddleware')) {
+    require_once __DIR__ . '/../../../core/Middleware/AuthMiddleware.php';
+}
+if (!class_exists('PermissionMiddleware')) {
+    require_once __DIR__ . '/../../../core/Middleware/PermissionMiddleware.php';
+}
 
 class KitchenPerformanceController
 {

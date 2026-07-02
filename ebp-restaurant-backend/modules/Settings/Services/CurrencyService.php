@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/CurrencyRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('CurrencyRepository')) {
+    require_once __DIR__ . '/../Repositories/CurrencyRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class CurrencyService
 {

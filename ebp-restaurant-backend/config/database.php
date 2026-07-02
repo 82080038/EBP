@@ -7,7 +7,7 @@ class Database
     private $socket = "/opt/lampp/var/mysql/mysql.sock";
     private $dbname = "ebp_restaurant_db";
     private $username = "root";
-    private $password = "root";
+    private $password = "";
 
 
     public function connect()

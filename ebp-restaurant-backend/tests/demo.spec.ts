@@ -3,13 +3,17 @@ import { test } from '@playwright/test';
 test('Interactive demo - keeps browser open', async ({ page }) => {
   await page.goto('http://localhost:8000');
   
-  // Wait for user to see the login screen
+  // Wait for user to see the landing page
   await page.waitForTimeout(3000);
+  
+  // Click login button to show login form
+  await page.click('#loginBtn');
+  await page.waitForTimeout(1000);
   
   // Auto-login
   await page.fill('#username', 'admin');
   await page.fill('#password', 'admin123');
-  await page.click('.btn');
+  await page.click('#loginForm .btn');
   
   // Wait for dashboard
   await page.waitForSelector('.dashboard.active');

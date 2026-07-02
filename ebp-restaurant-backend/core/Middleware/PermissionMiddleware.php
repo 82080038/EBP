@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Response.php';
-require_once __DIR__ . '/../../config/database.php';
+if (!class_exists('Response')) {
+    require_once __DIR__ . '/../Response.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../config/database.php';
+}
 
 class PermissionMiddleware
 {

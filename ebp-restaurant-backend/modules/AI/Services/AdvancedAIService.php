@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/AdvancedAIRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('AdvancedAIRepository')) {
+    require_once __DIR__ . '/../Repositories/AdvancedAIRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class AdvancedAIService
 {

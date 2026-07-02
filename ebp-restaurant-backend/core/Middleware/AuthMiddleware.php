@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../JWT.php';
+if (!class_exists('JWT')) {
+    require_once __DIR__ . '/../JWT.php';
+}
 
 
 

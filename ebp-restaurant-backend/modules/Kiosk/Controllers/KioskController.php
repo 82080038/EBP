@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Services/KioskService.php';
-require_once __DIR__ . '/../../../core/Response.php';
+if (!class_exists('KioskService')) {
+    require_once __DIR__ . '/../Services/KioskService.php';
+}
+if (!class_exists('Response')) {
+    require_once __DIR__ . '/../../../core/Response.php';
+}
 
 class KioskController
 {

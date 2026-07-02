@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/InventoryAdvancedRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('InventoryAdvancedRepository')) {
+    require_once __DIR__ . '/../Repositories/InventoryAdvancedRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class InventoryAdvancedService
 {

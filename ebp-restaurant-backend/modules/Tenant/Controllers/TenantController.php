@@ -1,9 +1,25 @@
 <?php
 
-require_once __DIR__ . '/../Services/TenantService.php';
-require_once __DIR__ . '/../../core/Middleware/AuthMiddleware.php';
-require_once __DIR__ . '/../../core/Middleware/PermissionMiddleware.php';
-require_once __DIR__ . '/../../core/Response.php';
+if (!class_exists('TenantService')) {
+    if (!class_exists('TenantService')) {
+    require_once __DIR__ . '/../Services/TenantService.php';
+}
+}
+if (!class_exists('AuthMiddleware')) {
+    if (!class_exists('AuthMiddleware')) {
+    require_once __DIR__ . '/../../core/Middleware/AuthMiddleware.php';
+}
+}
+if (!class_exists('PermissionMiddleware')) {
+    if (!class_exists('PermissionMiddleware')) {
+    require_once __DIR__ . '/../../core/Middleware/PermissionMiddleware.php';
+}
+}
+if (!class_exists('Response')) {
+    if (!class_exists('Response')) {
+    require_once __DIR__ . '/../../core/Response.php';
+}
+}
 
 class TenantController {
     private $tenantService;

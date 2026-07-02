@@ -1,8 +1,14 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/CustomerRepository.php';
-require_once __DIR__ . '/../Repositories/CustomerAdvancedRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('CustomerRepository')) {
+    require_once __DIR__ . '/../Repositories/CustomerRepository.php';
+}
+if (!class_exists('CustomerAdvancedRepository')) {
+    require_once __DIR__ . '/../Repositories/CustomerAdvancedRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class CustomerAdvancedService
 {

@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/LocationRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('LocationRepository')) {
+    require_once __DIR__ . '/../Repositories/LocationRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class LocationService
 {

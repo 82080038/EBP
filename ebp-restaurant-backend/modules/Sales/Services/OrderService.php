@@ -1,13 +1,27 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/OrderRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
-require_once __DIR__ . '/../../../core/Transaction.php';
-require_once __DIR__ . '/../../../core/Engines/StockEngine.php';
+if (!class_exists('OrderRepository')) {
+    require_once __DIR__ . '/../Repositories/OrderRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
+if (!class_exists('Transaction')) {
+    require_once __DIR__ . '/../../../core/Transaction.php';
+}
+if (!class_exists('StockEngine')) {
+    require_once __DIR__ . '/../../../core/Engines/StockEngine.php';
+}
 
-require_once __DIR__ . '/../../../core/Engines/KitchenEngine.php';
-require_once __DIR__ . '/../../../core/Engines/AccountingEngine.php';
-require_once __DIR__ . '/../../../core/Audit.php';
+if (!class_exists('KitchenEngine')) {
+    require_once __DIR__ . '/../../../core/Engines/KitchenEngine.php';
+}
+if (!class_exists('AccountingEngine')) {
+    require_once __DIR__ . '/../../../core/Engines/AccountingEngine.php';
+}
+if (!class_exists('Audit')) {
+    require_once __DIR__ . '/../../../core/Audit.php';
+}
 
 
 
