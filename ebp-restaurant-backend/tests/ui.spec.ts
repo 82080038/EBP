@@ -6,19 +6,23 @@ test.describe('Restaurant Backend UI Tests', () => {
     await page.goto('http://localhost:8000');
 
     // Check if page loads with restaurant UI
-    await expect(page.locator('h1')).toContainText('Restaurant Management System');
-    await expect(page.locator('.login-section')).toBeVisible();
+    await expect(page.locator('h1')).toContainText('EBP Restaurant Management System');
+    await expect(page.locator('#landingPage')).toBeVisible();
+    await expect(page.locator('#loginBtn')).toBeVisible();
   });
 
   test('should login with valid credentials', async ({ page }) => {
     await page.goto('http://localhost:8000');
+
+    // Click login button to show login form
+    await page.click('#loginBtn');
 
     // Fill login form
     await page.fill('#username', 'admin');
     await page.fill('#password', 'admin123');
 
     // Submit form
-    await page.click('.btn');
+    await page.click('#loginForm .btn');
 
     // Wait for dashboard to appear
     await page.waitForSelector('.dashboard.active', { timeout: 5000 });
@@ -31,9 +35,10 @@ test.describe('Restaurant Backend UI Tests', () => {
     await page.goto('http://localhost:8000');
 
     // Login
+    await page.click('#loginBtn');
     await page.fill('#username', 'admin');
     await page.fill('#password', 'admin123');
-    await page.click('.btn');
+    await page.click('#loginForm .btn');
 
     // Wait for dashboard
     await page.waitForSelector('.dashboard.active');
@@ -53,9 +58,10 @@ test.describe('Restaurant Backend UI Tests', () => {
     await page.goto('http://localhost:8000');
 
     // Login
+    await page.click('#loginBtn');
     await page.fill('#username', 'admin');
     await page.fill('#password', 'admin123');
-    await page.click('.btn');
+    await page.click('#loginForm .btn');
 
     // Wait for dashboard
     await page.waitForSelector('.dashboard.active');
@@ -85,9 +91,10 @@ test.describe('Restaurant Backend UI Tests', () => {
     await page.goto('http://localhost:8000');
 
     // Login
+    await page.click('#loginBtn');
     await page.fill('#username', 'admin');
     await page.fill('#password', 'admin123');
-    await page.click('.btn');
+    await page.click('#loginForm .btn');
 
     // Wait for dashboard
     await page.waitForSelector('.dashboard.active');
@@ -104,9 +111,10 @@ test.describe('Restaurant Backend UI Tests', () => {
     await page.goto('http://localhost:8000');
 
     // Login
+    await page.click('#loginBtn');
     await page.fill('#username', 'admin');
     await page.fill('#password', 'admin123');
-    await page.click('.btn');
+    await page.click('#loginForm .btn');
 
     // Wait for dashboard
     await page.waitForSelector('.dashboard.active');
@@ -123,9 +131,10 @@ test.describe('Restaurant Backend UI Tests', () => {
     await page.goto('http://localhost:8000');
 
     // Login
+    await page.click('#loginBtn');
     await page.fill('#username', 'admin');
     await page.fill('#password', 'admin123');
-    await page.click('.btn');
+    await page.click('#loginForm .btn');
 
     // Wait for dashboard
     await page.waitForSelector('.dashboard.active');
@@ -133,8 +142,8 @@ test.describe('Restaurant Backend UI Tests', () => {
     // Click logout
     await page.click('#logoutBtn');
 
-    // Verify login section is visible again
-    await expect(page.locator('.login-section')).toBeVisible();
+    // Verify landing page is visible again (not login section)
+    await expect(page.locator('#landingPage')).toBeVisible();
     await expect(page.locator('.dashboard')).not.toHaveClass(/active/);
   });
 });

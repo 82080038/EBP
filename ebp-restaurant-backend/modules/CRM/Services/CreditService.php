@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/CreditRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('CreditRepository')) {
+    require_once __DIR__ . '/../Repositories/CreditRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class CreditService
 {

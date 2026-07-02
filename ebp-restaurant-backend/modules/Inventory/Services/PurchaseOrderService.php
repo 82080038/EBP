@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/PurchaseOrderRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('PurchaseOrderRepository')) {
+    require_once __DIR__ . '/../Repositories/PurchaseOrderRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class PurchaseOrderService
 {

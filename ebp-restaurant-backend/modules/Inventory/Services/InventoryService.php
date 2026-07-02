@@ -1,8 +1,14 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/InventoryRepository.php';
-require_once __DIR__ . '/../../../core/Transaction.php';
-require_once __DIR__ . '/../../../core/Audit.php';
+if (!class_exists('InventoryRepository')) {
+    require_once __DIR__ . '/../Repositories/InventoryRepository.php';
+}
+if (!class_exists('Transaction')) {
+    require_once __DIR__ . '/../../../core/Transaction.php';
+}
+if (!class_exists('Audit')) {
+    require_once __DIR__ . '/../../../core/Audit.php';
+}
 
 class InventoryService
 {

@@ -1,7 +1,15 @@
 <?php
 
-require_once __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../../core/Response.php';
+if (!class_exists('Database')) {
+    if (!class_exists('database')) {
+    require_once __DIR__ . '/../../config/database.php';
+}
+}
+if (!class_exists('Response')) {
+    if (!class_exists('Response')) {
+    require_once __DIR__ . '/../../core/Response.php';
+}
+}
 
 class TenantService {
     private $db;

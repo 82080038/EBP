@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/StockAdjustmentRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('StockAdjustmentRepository')) {
+    require_once __DIR__ . '/../Repositories/StockAdjustmentRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class StockAdjustmentService
 {

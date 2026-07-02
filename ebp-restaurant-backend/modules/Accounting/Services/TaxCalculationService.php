@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/TaxCalculationRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('TaxCalculationRepository')) {
+    require_once __DIR__ . '/../Repositories/TaxCalculationRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class TaxCalculationService
 {

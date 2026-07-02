@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/EmployeeRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('EmployeeRepository')) {
+    require_once __DIR__ . '/../Repositories/EmployeeRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class EmployeeService
 {

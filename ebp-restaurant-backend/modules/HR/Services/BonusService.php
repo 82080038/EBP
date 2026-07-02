@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/BonusRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('BonusRepository')) {
+    require_once __DIR__ . '/../Repositories/BonusRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class BonusService
 {

@@ -1,8 +1,14 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/ProductModifierRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
-require_once __DIR__ . '/../../../core/Response.php';
+if (!class_exists('ProductModifierRepository')) {
+    require_once __DIR__ . '/../Repositories/ProductModifierRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
+if (!class_exists('Response')) {
+    require_once __DIR__ . '/../../../core/Response.php';
+}
 
 class ProductModifierService
 {

@@ -47,13 +47,46 @@ ebp-restaurant-backend/
 
 ## Setup
 
-1. Import database schema from:
-   `/ENTERPRISE_BUSINESS_PLATFORM/09_DATABASE_DESIGN/EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql`
+1. **Database Setup:**
+   - Option 1: Import from current data (recommended for development):
+     ```bash
+     mysql -u root --socket=/opt/lampp/var/mysql/mysql.sock ebp_restaurant_db < database/current_data.sql
+     ```
+   - Option 2: Import schema only:
+     ```bash
+     mysql -u root --socket=/opt/lampp/var/mysql/mysql.sock ebp_restaurant_db < database/schema.sql
+     ```
+   - Option 3: Import from original schema:
+     `/ENTERPRISE_BUSINESS_PLATFORM/09_DATABASE_DESIGN/EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql`
+   - Run seed data for initial admin user:
+     ```bash
+     php seed_data.php
+     ```
 
 2. Configure database connection in:
    `config/database.php`
 
 3. Configure web server to point to `public/` directory
+
+## Database
+
+The database is synced with the project in the `database/` directory:
+
+- **current_data.sql** - Latest database export from phpMyAdmin (schema + data)
+- **schema.sql** - Database schema structure only
+- **migration_phase*.sql** - Migration files for development history
+
+**Export current database:**
+```bash
+mysqldump -u root --socket=/opt/lampp/var/mysql/mysql.sock ebp_restaurant_db > database/current_data.sql
+```
+
+**Restore database:**
+```bash
+mysql -u root --socket=/opt/lampp/var/mysql/mysql.sock ebp_restaurant_db < database/current_data.sql
+```
+
+See `database/README.md` for detailed database documentation.
 
 ## API Endpoints
 

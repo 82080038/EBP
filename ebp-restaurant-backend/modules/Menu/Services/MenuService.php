@@ -1,10 +1,20 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/CategoryRepository.php';
-require_once __DIR__ . '/../Repositories/ProductRepository.php';
-require_once __DIR__ . '/../Repositories/RecipeRepository.php';
-require_once __DIR__ . '/../../../core/Transaction.php';
-require_once __DIR__ . '/../../../core/Audit.php';
+if (!class_exists('CategoryRepository')) {
+    require_once __DIR__ . '/../Repositories/CategoryRepository.php';
+}
+if (!class_exists('ProductRepository')) {
+    require_once __DIR__ . '/../Repositories/ProductRepository.php';
+}
+if (!class_exists('RecipeRepository')) {
+    require_once __DIR__ . '/../Repositories/RecipeRepository.php';
+}
+if (!class_exists('Transaction')) {
+    require_once __DIR__ . '/../../../core/Transaction.php';
+}
+if (!class_exists('Audit')) {
+    require_once __DIR__ . '/../../../core/Audit.php';
+}
 class MenuService
 {
     private $categoryRepository;

@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/QualityComplianceRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('QualityComplianceRepository')) {
+    require_once __DIR__ . '/../Repositories/QualityComplianceRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class QualityComplianceService
 {

@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../Repositories/OfflineSyncRepository.php';
-require_once __DIR__ . '/../../../config/database.php';
+if (!class_exists('OfflineSyncRepository')) {
+    require_once __DIR__ . '/../Repositories/OfflineSyncRepository.php';
+}
+if (!class_exists('database')) {
+    require_once __DIR__ . '/../../../config/database.php';
+}
 
 class OfflineSyncService
 {
