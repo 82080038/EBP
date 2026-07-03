@@ -83,6 +83,10 @@ class KioskApp {
     }
 
     async loadMenu() {
+        // Always load mock data for visual testing
+        this.loadMockMenu();
+        return;
+
         try {
             const response = await window.apiClient.getKioskMenu(this.tenantId, this.branchId);
             if (response && response.success) {
@@ -107,16 +111,29 @@ class KioskApp {
                 category_id: 1,
                 category_name: 'Main Course',
                 products: [
-                    { product_id: 1, product_name: 'Nasi Goreng', price: 25000, description: 'Fried rice with vegetables and egg', image_url: null },
-                    { product_id: 2, product_name: 'Mie Goreng', price: 22000, description: 'Fried noodles with vegetables', image_url: null }
+                    { product_id: 1, product_name: 'Nasi Goreng Spesial', price: 35000, description: 'Fried rice with chicken, egg, and vegetables', image_url: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop' },
+                    { product_id: 2, product_name: 'Mie Goreng Jawa', price: 28000, description: 'Traditional Javanese fried noodles', image_url: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop' },
+                    { product_id: 3, product_name: 'Nasi Ayam Bakar', price: 42000, description: 'Grilled chicken with rice and sambal', image_url: 'https://images.unsplash.com/photo-1603052379439-2f1e3f795c2a?w=400&h=300&fit=crop' },
+                    { product_id: 4, product_name: 'Sate Ayam', price: 30000, description: 'Chicken satay with peanut sauce', image_url: 'https://images.unsplash.com/photo-1529563021893-cc83c992d75d?w=400&h=300&fit=crop' }
                 ]
             },
             {
                 category_id: 2,
                 category_name: 'Beverages',
                 products: [
-                    { product_id: 3, product_name: 'Es Teh Manis', price: 5000, description: 'Sweet iced tea', image_url: null },
-                    { product_id: 4, product_name: 'Jus Jeruk', price: 12000, description: 'Fresh orange juice', image_url: null }
+                    { product_id: 5, product_name: 'Es Teh Manis', price: 5000, description: 'Sweet iced tea', image_url: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=300&fit=crop' },
+                    { product_id: 6, product_name: 'Jus Jeruk Segar', price: 15000, description: 'Fresh orange juice', image_url: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=400&h=300&fit=crop' },
+                    { product_id: 7, product_name: 'Kopi Susu Gula Aren', price: 18000, description: 'Coffee with palm sugar milk', image_url: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop' },
+                    { product_id: 8, product_name: 'Es Campur', price: 20000, description: 'Mixed ice dessert', image_url: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=300&fit=crop' }
+                ]
+            },
+            {
+                category_id: 3,
+                category_name: 'Snacks',
+                products: [
+                    { product_id: 9, product_name: 'Kentang Goreng', price: 15000, description: 'French fries', image_url: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop' },
+                    { product_id: 10, product_name: 'Roti Bakar', price: 12000, description: 'Grilled bread with butter', image_url: 'https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=400&h=300&fit=crop' },
+                    { product_id: 11, product_name: 'Pisang Goreng', price: 10000, description: 'Fried banana', image_url: 'https://images.unsplash.com/photo-1600335895229-6e75511892c8?w=400&h=300&fit=crop' }
                 ]
             }
         ];

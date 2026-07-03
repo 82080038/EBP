@@ -132,6 +132,12 @@ body {
     flex: 1;
 }
 
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .user-name {
     font-weight: 600;
     font-size: 16px;
@@ -153,10 +159,6 @@ body {
 .sidebar-menu {
     list-style: none;
     padding: 20px 0;
-}
-
-.sidebar-menu li {
-    margin-bottom: 5px;
 }
 
 .menu-item {
@@ -233,6 +235,16 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+    font-size: 16px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    border: 2px dashed #e0e0e0;
 }
 
 .order-card {
@@ -537,7 +549,7 @@ body {
 
 .nav-icon {
     font-size: 24px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 .nav-label {
@@ -695,13 +707,6 @@ body {
 
 .order-items-list {
     margin-bottom: 15px;
-}
-
-.order-item-detail {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #e9ecef;
 }
 
 .order-totals {

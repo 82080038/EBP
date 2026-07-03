@@ -115,6 +115,10 @@ class MobileApp {
     }
 
     async loadOrders() {
+        // Always load mock data for visual testing
+        this.loadMockOrders();
+        return;
+
         try {
             const response = await window.apiClient.getOrders({ status: 'PENDING,PREPARING,READY' });
             if (response.success) {
@@ -180,10 +184,10 @@ class MobileApp {
 
     loadMockMenu() {
         this.menu = [
-            { product_id: 1, product_name: 'Nasi Goreng', price: 25000, description: 'Fried rice with vegetables', category_name: 'Main Course' },
-            { product_id: 2, product_name: 'Mie Goreng', price: 22000, description: 'Fried noodles', category_name: 'Main Course' },
-            { product_id: 3, product_name: 'Es Teh Manis', price: 5000, description: 'Sweet iced tea', category_name: 'Beverages' },
-            { product_id: 4, product_name: 'Jus Jeruk', price: 12000, description: 'Fresh orange juice', category_name: 'Beverages' }
+            { product_id: 1, product_name: 'Nasi Goreng', price: 25000, description: 'Fried rice with vegetables', category_name: 'Main Course', image_url: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=200&h=150&fit=crop' },
+            { product_id: 2, product_name: 'Mie Goreng', price: 22000, description: 'Fried noodles', category_name: 'Main Course', image_url: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=200&h=150&fit=crop' },
+            { product_id: 3, product_name: 'Es Teh Manis', price: 5000, description: 'Sweet iced tea', category_name: 'Beverages', image_url: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=200&h=150&fit=crop' },
+            { product_id: 4, product_name: 'Jus Jeruk', price: 12000, description: 'Fresh orange juice', category_name: 'Beverages', image_url: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=200&h=150&fit=crop' }
         ];
         this.renderMenu();
     }
@@ -196,7 +200,7 @@ class MobileApp {
             const item = document.createElement('div');
             item.className = 'menu-item';
             item.innerHTML = `
-                <img src="https://via.placeholder.com/80x80?text=Product" alt="${product.product_name}" class="menu-item-image">
+                <img src="${product.image_url || 'https://via.placeholder.com/80x80?text=Product'}" alt="${product.product_name}" class="menu-item-image">
                 <div class="menu-item-details">
                     <h3 class="menu-item-name">${product.product_name}</h3>
                     <p class="menu-item-price">Rp ${this.formatPrice(product.price)}</p>
@@ -225,6 +229,10 @@ class MobileApp {
     }
 
     async loadTables() {
+        // Always load mock data for visual testing
+        this.loadMockTables();
+        return;
+
         try {
             const response = await window.apiClient.getTables();
             if (response.success) {

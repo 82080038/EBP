@@ -3,13 +3,65 @@
 // Initialize error handler
 require_once __DIR__ . '/../core/Middleware/ErrorHandler.php';
 
-// Serve static files and HTML for root path
+// Get request URI
 $requestUri = $_SERVER['REQUEST_URI'];
+$requestUri = parse_url($requestUri, PHP_URL_PATH);
+
+// Detect and strip base path for Apache Alias setups
+// The app routes always start with /, /frontend/, or /api
+// Find where the actual route starts in the URI
+$routePatterns = ['/frontend/', '/api/', '/index.html', '/index.php'];
+$basePath = '';
+foreach ($routePatterns as $pattern) {
+    $pos = strpos($requestUri, $pattern);
+    if ($pos !== false && $pos > 0) {
+        $basePath = substr($requestUri, 0, $pos);
+        break;
+    }
+}
+// Check if URI ends with a known file extension (static files)
+if (!$basePath && preg_match('/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf)$/', $requestUri)) {
+    // Find /frontend/ or /css/ or /js/ in the path
+    if (preg_match('/^(.*?)(\/frontend\/.*)$/', $requestUri, $m)) {
+        $basePath = $m[1];
+    }
+}
+// If URI is just a base path with optional trailing slash, it's the root
+if (!$basePath) {
+    // Check if this looks like a root request (not matching any known route)
+    if ($requestUri !== '/' && strpos($requestUri, '/frontend/') === false && strpos($requestUri, '/api/') === false) {
+        // Could be a base path like /EBP/restaurant or /EBP/restaurant/
+        $basePath = rtrim($requestUri, '/');
+    }
+}
+
+// Strip base path from request URI
+if ($basePath && strpos($requestUri, $basePath) === 0) {
+    $requestUri = substr($requestUri, strlen($basePath));
+}
+// Ensure leading slash
+if ($requestUri === '' || $requestUri[0] !== '/') {
+    $requestUri = '/' . $requestUri;
+}
+
+// Override REQUEST_URI so Router and other code see the stripped path
+$_SERVER['REQUEST_URI'] = $requestUri;
 
 // Serve index.html for root path
 if ($requestUri === '/' || $requestUri === '/index.html') {
     require_once __DIR__ . '/index.html';
     exit;
+}
+
+// Serve frontend static files (CSS, JS, images)
+if (strpos($requestUri, '/frontend/') === 0) {
+    $filePath = __DIR__ . '/../' . ltrim($requestUri, '/');
+    if (file_exists($filePath) && !is_dir($filePath)) {
+        $mimeType = mime_content_type($filePath);
+        header("Content-Type: $mimeType");
+        readfile($filePath);
+        exit;
+    }
 }
 
 // Serve frontend mobile app
