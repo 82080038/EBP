@@ -7,13 +7,17 @@ class AuthController
 {
 
 
-    public function login()
+    public function login($request = null)
     {
-
-        $input = json_decode(
-            file_get_contents("php://input"),
-            true
-        );
+        // Get input from request parameter or php://input
+        if ($request && isset($request['body'])) {
+            $input = $request['body'];
+        } else {
+            $input = json_decode(
+                file_get_contents("php://input"),
+                true
+            );
+        }
 
 
 
@@ -78,20 +82,13 @@ class AuthController
 
 
         Response::success([
-
             'access_token' => $token,
-
             'user' => [
-
                 'id' => $user['user_id'],
-
                 'username' => $user['username'],
-
                 'role' => $user['role_name']
-
             ]
-
-        ]);
+        ], 'Login successful');
 
     }
 

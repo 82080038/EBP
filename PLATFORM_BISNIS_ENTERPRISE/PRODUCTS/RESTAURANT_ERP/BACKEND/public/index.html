@@ -994,7 +994,7 @@
     </div>
 
     <script>
-        const API_BASE = '/api/v1';
+        const API_BASE = '/restauran/api/v1';
         let authToken = null;
         let currentStep = 1;
         let setupData = {};
@@ -1027,7 +1027,7 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    authToken = data.message.access_token;
+                    authToken = data.data.access_token;
                     document.getElementById('loginSection').classList.remove('active');
                     document.getElementById('dashboard').classList.add('active');
                     loadDashboardData();
