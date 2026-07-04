@@ -12,6 +12,9 @@ if (!class_exists('PermissionMiddleware')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 
 class UserController
 {
@@ -45,7 +48,7 @@ class UserController
         $user = $this->userService->getUser($tenantId, $userId);
 
         if (!$user) {
-            return Response::error('User not found', 404);
+            return Response::error(Messages::USER_NOT_FOUND, 404);
         }
 
         return Response::success($user);
@@ -61,25 +64,25 @@ class UserController
 
         // Validation
         if (empty($data['username'])) {
-            return Response::error('Username is required', 400);
+            return Response::error(Messages::USER_USERNAME_REQUIRED, 400);
         }
         if (empty($data['email'])) {
-            return Response::error('Email is required', 400);
+            return Response::error(Messages::USER_EMAIL_REQUIRED, 400);
         }
         if (empty($data['password'])) {
-            return Response::error('Password is required', 400);
+            return Response::error(Messages::USER_PASSWORD_REQUIRED, 400);
         }
         if (empty($data['full_name'])) {
-            return Response::error('Full name is required', 400);
+            return Response::error(Messages::USER_FULL_NAME_REQUIRED, 400);
         }
 
         $result = $this->userService->createUser($tenantId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'User created successfully']);
+            return Response::success(['message' => Messages::USER_CREATED]);
         }
 
-        return Response::error('Failed to create user or username/email already exists', 500);
+        return Response::error(Messages::USER_FAILED_CREATE, 500);
     }
 
     public function updateUser(array $request)
@@ -93,25 +96,25 @@ class UserController
 
         // Validation
         if (empty($userId)) {
-            return Response::error('User ID is required', 400);
+            return Response::error(Messages::USER_ID_REQUIRED, 400);
         }
         if (empty($data['username'])) {
-            return Response::error('Username is required', 400);
+            return Response::error(Messages::USER_USERNAME_REQUIRED, 400);
         }
         if (empty($data['email'])) {
-            return Response::error('Email is required', 400);
+            return Response::error(Messages::USER_EMAIL_REQUIRED, 400);
         }
         if (empty($data['full_name'])) {
-            return Response::error('Full name is required', 400);
+            return Response::error(Messages::USER_FULL_NAME_REQUIRED, 400);
         }
 
         $result = $this->userService->updateUser($tenantId, $userId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'User updated successfully']);
+            return Response::success(['message' => Messages::USER_UPDATED]);
         }
 
-        return Response::error('Failed to update user', 500);
+        return Response::error(Messages::USER_FAILED_UPDATE, 500);
     }
 
     public function changePassword(array $request)
@@ -125,22 +128,22 @@ class UserController
 
         // Validation
         if (empty($userId)) {
-            return Response::error('User ID is required', 400);
+            return Response::error(Messages::USER_ID_REQUIRED, 400);
         }
         if (empty($data['old_password'])) {
-            return Response::error('Old password is required', 400);
+            return Response::error(Messages::USER_OLD_PASSWORD_REQUIRED, 400);
         }
         if (empty($data['new_password'])) {
-            return Response::error('New password is required', 400);
+            return Response::error(Messages::USER_NEW_PASSWORD_REQUIRED, 400);
         }
 
         $result = $this->userService->changePassword($tenantId, $userId, $data['old_password'], $data['new_password']);
 
         if ($result) {
-            return Response::success(['message' => 'Password changed successfully']);
+            return Response::success(['message' => Messages::USER_PASSWORD_CHANGED]);
         }
 
-        return Response::error('Failed to change password or old password is incorrect', 500);
+        return Response::error(Messages::USER_FAILED_PASSWORD_CHANGE, 500);
     }
 
     public function deleteUser(array $request)
@@ -153,15 +156,15 @@ class UserController
 
         // Validation
         if (empty($userId)) {
-            return Response::error('User ID is required', 400);
+            return Response::error(Messages::USER_ID_REQUIRED, 400);
         }
 
         $result = $this->userService->deleteUser($tenantId, $userId);
 
         if ($result) {
-            return Response::success(['message' => 'User deleted successfully']);
+            return Response::success(['message' => Messages::USER_DELETED]);
         }
 
-        return Response::error('Failed to delete user', 500);
+        return Response::error(Messages::USER_FAILED_DELETE, 500);
     }
 }

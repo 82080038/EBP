@@ -1,56 +1,56 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 
-# Platform Migration Plan Document
-
-
-**Document ID:** EBP-PLATFORM-MIGRATION-001
-
-**Version:** 1.0
-
-**Purpose:** Define the migration strategy from current structure to platform-based organization
+# Dokumen Rencana Migrasi Platform
 
 
+**ID Dokumen:** EBP-PLATFORM-MIGRATION-001
 
----
+**Versi:** 1.0
 
-# 1. Migration Objective
+**Tujuan:** Mendefinisikan strategi migrasi dari struktur saat ini ke organisasi berbasis platform
 
-
-Transform EBP from:
-
-
-```
-Single Project with Documentation
-
-```
-
-
-To:
-
-
-```
-
-Software Company Platform with Multiple Products
-
-```
-
-
-Goal:
-
-
-- Separate core platform from product-specific code
-- Enable asset reuse across products
-- Establish clear dependency rules
-- Create scalable organization structure
-- Enable multi-product development
 
 
 ---
 
-# 2. Current State Analysis
+# 1. Tujuan Migrasi
 
 
-## Current Structure
+Transformasikan EBP dari:
+
+
+```
+Proyek Tunggal dengan Dokumentasi
+
+```
+
+
+Ke:
+
+
+```
+
+Platform Perusahaan Software dengan Banyak Produk
+
+```
+
+
+Tujuan:
+
+
+- Pisahkan platform inti dari kode khusus produk
+- Aktifkan penggunaan ulang aset di berbagai produk
+- Tetapkan aturan dependensi yang jelas
+- Buat struktur organisasi yang skalabel
+- Aktifkan pengembangan multi-produk
+
+
+---
+
+# 2. Analisis Kondisi Saat Ini
+
+
+## Struktur Saat Ini
 
 
 ```
@@ -111,23 +111,23 @@ ENTERPRISE_BUSINESS_PLATFORM/
 ```
 
 
-## Issues Identified
+## Masalah yang Didentifikasi
 
 
-1. **No clear separation** between core platform and product-specific code
-2. **Mixed documentation** - core and product docs in same structure
-3. **No dependency management** - products cannot declare core dependencies
-4. **No versioning strategy** - core and products not versioned separately
-5. **No repository strategy** - single monolithic structure
-6. **Backend code mixed** - core and restaurant-specific code together
+1. **Tidak ada pemisahan yang jelas** antara platform inti dan kode khusus produk
+2. **Dokumentasi tercampur** - dokumen inti dan produk dalam struktur yang sama
+3. **Tidak ada manajemen dependensi** - produk tidak dapat mendeklarasikan dependensi inti
+4. **Tidak ada strategi versi** - inti dan produk tidak diberi versi secara terpisah
+5. **Tidak ada strategi repositori** - struktur monolitik tunggal
+6. **Kode backend tercampur** - kode inti dan kode khusus restoran bersama-sama
 
 
 ---
 
-# 3. Target State Structure
+# 3. Struktur Kondisi Target
 
 
-## Final Directory Structure
+## Struktur Direktori Akhir
 
 
 ```
@@ -434,16 +434,16 @@ EBP_PLATFORM/
 
 ---
 
-# 4. Core vs Product Classification
+# 4. Klasifikasi Inti vs Produk
 
 
-## Core Platform Components
+## Komponen Platform Inti
 
 
-Located in: `EBP_PLATFORM/00-09/`
+Lokasi: `EBP_PLATFORM/00-09/`
 
 
-### Authentication
+### Autentikasi
 
 
 ```
@@ -455,24 +455,24 @@ TokenService.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- User authentication
-- Token generation/validation
-- Session management
-- Password hashing
+- Autentikasi pengguna
+- Generasi/validasi token
+- Manajemen sesi
+- Hashing password
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products
+- Semua produk
 
 
 ---
 
-### Permission (RBAC)
+### Izin (RBAC)
 
 
 ```
@@ -483,24 +483,24 @@ PermissionChecker.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Role-based access control
-- Permission validation
-- Role management
-- Permission assignment
+- Kontrol akses berbasis peran
+- Validasi izin
+- Manajemen peran
+- Penugasan izin
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products
+- Semua produk
 
 
 ---
 
-### Tenant Management
+### Manajemen Tenant
 
 
 ```
@@ -511,24 +511,24 @@ TenantContext.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Multi-tenant isolation
-- Tenant context management
-- Data separation
-- Tenant configuration
+- Isolasi multi-tenant
+- Manajemen konteks tenant
+- Pemisahan data
+- Konfigurasi tenant
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products
+- Semua produk
 
 
 ---
 
-### Audit Trail
+### Jejak Audit
 
 
 ```
@@ -539,24 +539,24 @@ AuditQuery.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Activity logging
-- Change tracking
-- Compliance reporting
-- Security auditing
+- Pencatatan aktivitas
+- Pelacakan perubahan
+- Laporan kepatuhan
+- Audit keamanan
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products
+- Semua produk
 
 
 ---
 
-### Database Management
+### Manajemen Database
 
 
 ```
@@ -567,24 +567,24 @@ QueryBuilder.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Database connection
-- Transaction management
-- Query building
-- Connection pooling
+- Koneksi database
+- Manajemen transaksi
+- Pembangun query
+- Pooling koneksi
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products
+- Semua produk
 
 
 ---
 
-### API Framework
+### Framework API
 
 
 ```
@@ -595,19 +595,19 @@ Middleware.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- HTTP routing
-- Response formatting
-- Request handling
-- Middleware pipeline
+- Routing HTTP
+- Format respons
+- Penanganan request
+- Pipeline middleware
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products
+- Semua produk
 
 
 ---
@@ -623,24 +623,24 @@ LogFormatter.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Application logging
-- Error logging
-- Debug logging
-- Log rotation
+- Logging aplikasi
+- Logging error
+- Logging debug
+- Rotasi log
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products
+- Semua produk
 
 
 ---
 
-### File Management
+### Manajemen File
 
 
 ```
@@ -651,24 +651,24 @@ FileValidator.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- File upload/download
-- Storage management
-- File validation
-- File organization
+- Upload/download file
+- Manajemen penyimpanan
+- Validasi file
+- Organisasi file
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products
+- Semua produk
 
 
 ---
 
-### Pricing Engine
+### Mesin Harga
 
 
 ```
@@ -679,26 +679,26 @@ TaxCalculator.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Price calculation
-- Discount application
-- Promotion management
-- Tax calculation
+- Kalkulasi harga
+- Aplikasi diskon
+- Manajemen promosi
+- Kalkulasi pajak
 
 
-Used by:
+Digunakan oleh:
 
 
 - Restaurant ERP
 - Hotel ERP
-- Retail products
+- Produk retail
 
 
 ---
 
-### Inventory Engine
+### Mesin Inventaris
 
 
 ```
@@ -709,16 +709,16 @@ StockMovement.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Stock management
-- Stock calculation
-- Reorder logic
-- Stock movement tracking
+- Manajemen stok
+- Kalkulasi stok
+- Logika reorder
+- Pelacakan pergerakan stok
 
 
-Used by:
+Digunakan oleh:
 
 
 - Restaurant ERP
@@ -729,7 +729,7 @@ Used by:
 
 ---
 
-### Accounting Engine
+### Mesin Akuntansi
 
 
 ```
@@ -740,24 +740,24 @@ FinancialReport.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Journal entry creation
-- Ledger management
-- Balance calculation
-- Financial reporting
+- Pembuatan jurnal
+- Manajemen buku besar
+- Kalkulasi saldo
+- Laporan keuangan
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products with financial features
+- Semua produk dengan fitur keuangan
 
 
 ---
 
-### Workflow Engine
+### Mesin Workflow
 
 
 ```
@@ -768,24 +768,24 @@ WorkflowDefinition.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Workflow management
-- Approval processes
-- State transitions
-- Workflow definitions
+- Manajemen workflow
+- Proses persetujuan
+- Transisi state
+- Definisi workflow
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products with approval workflows
+- Semua produk dengan workflow persetujuan
 
 
 ---
 
-### Notification Engine
+### Mesin Notifikasi
 
 
 ```
@@ -796,24 +796,24 @@ PushNotification.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Notification delivery
-- Email sending
-- SMS sending
-- Push notifications
+- Pengiriman notifikasi
+- Pengiriman email
+- Pengiriman SMS
+- Notifikasi push
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products
+- Semua produk
 
 
 ---
 
-### Forecast Engine
+### Mesin Forecast
 
 
 ```
@@ -824,16 +824,16 @@ TrendAnalyzer.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Sales forecasting
-- Demand prediction
-- Trend analysis
-- Capacity planning
+- Forecast penjualan
+- Prediksi permintaan
+- Analisis tren
+- Perencanaan kapasitas
 
 
-Used by:
+Digunakan oleh:
 
 
 - Restaurant ERP
@@ -843,7 +843,7 @@ Used by:
 
 ---
 
-### AI Engine
+### Mesin AI
 
 
 ```
@@ -854,154 +854,154 @@ PatternRecognition.php
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- AI-powered features
-- Fraud detection
-- Recommendations
-- Pattern recognition
+- Fitur bertenaga AI
+- Deteksi fraud
+- Rekomendasi
+- Pengenalan pola
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products requiring AI
-
-
----
-
-## Product-Specific Components
-
-
-Located in: `EBP_PLATFORM/PRODUCTS/{PRODUCT_NAME}/`
-
-
-### Restaurant ERP Specific
-
-
-```
-Menu Management
-Recipe Management
-Kitchen Display System
-Table Management
-POS Interface
-Food Cost Calculation
-Restaurant Inventory
-Order Management
-Payment Processing
-```
-
-
-Purpose:
-
-
-- Restaurant-specific business logic
-- Industry-specific workflows
-- Restaurant UI components
-
-
-Used by:
-
-
-- Only Restaurant ERP
+- Semua produk yang membutuhkan AI
 
 
 ---
 
-### Hotel ERP Specific
+## Komponen Khusus Produk
+
+
+Lokasi: `EBP_PLATFORM/PRODUCTS/{PRODUCT_NAME}/`
+
+
+### Khusus Restaurant ERP
 
 
 ```
-Room Management
-Reservation System
+Manajemen Menu
+Manajemen Resep
+Sistem Tampilan Dapur
+Manajemen Meja
+Antarmuka POS
+Kalkulasi Biaya Makanan
+Inventaris Restoran
+Manajemen Pesanan
+Pemrosesan Pembayaran
+```
+
+
+Tujuan:
+
+
+- Logika bisnis khusus restoran
+- Workflow spesifik industri
+- Komponen UI restoran
+
+
+Digunakan oleh:
+
+
+- Hanya Restaurant ERP
+
+
+---
+
+### Khusus Hotel ERP
+
+
+```
+Manajemen Kamar
+Sistem Reservasi
 Check-in/Check-out
 Housekeeping
-Room Service
-Guest Management
+Layanan Kamar
+Manajemen Tamu
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Hotel-specific business logic
-- Industry-specific workflows
-- Hotel UI components
+- Logika bisnis khusus hotel
+- Workflow spesifik industri
+- Komponen UI hotel
 
 
-Used by:
+Digunakan oleh:
 
 
-- Only Hotel ERP
+- Hanya Hotel ERP
 
 
 ---
 
-### Parking System Specific
+### Khusus Sistem Parkir
 
 
 ```
-Slot Management
-Vehicle Entry/Exit
-Payment Calculation
-Parking Duration
-Rate Management
+Manajemen Slot
+Masuk/Keluar Kendaraan
+Kalkulasi Pembayaran
+Durasi Parkir
+Manajemen Tarif
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Parking-specific business logic
-- Industry-specific workflows
-- Parking UI components
+- Logika bisnis khusus parkir
+- Workflow spesifik industri
+- Komponen UI parkir
 
 
-Used by:
+Digunakan oleh:
 
 
-- Only Parking System
+- Hanya Sistem Parkir
 
 
 ---
 
-# 5. Dependency Rules
+# 5. Aturan Dependensi
 
 
-## Core Platform Rules
+## Aturan Platform Inti
 
 
-### Rule 1: No Product Knowledge
+### Aturan 1: Tidak Ada Pengetahuan Produk
 
 
-Core components MUST NOT:
+Komponen inti TIDAK BOLEH:
 
 
-- Know about specific products
-- Reference product-specific tables
-- Contain industry-specific logic
-- Depend on product code
+- Mengetahui tentang produk spesifik
+- Mengacu tabel khusus produk
+- Mengandung logika spesifik industri
+- Bergantung pada kode produk
 
 
-Example:
+Contoh:
 
 
-❌ **WRONG:**
+❌ **SALAH:**
 ```php
 class InventoryEngine {
     public function calculateFoodCost() {
-        // Food cost is restaurant-specific
+        // Biaya makanan spesifik restoran
     }
 }
 ```
 
 
-✅ **CORRECT:**
+✅ **BENAR:**
 ```php
 class InventoryEngine {
     public function calculateCost($itemType, $recipe) {
-        // Generic cost calculation
+        // Kalkulasi biaya generik
     }
 }
 ```
@@ -1009,36 +1009,36 @@ class InventoryEngine {
 
 ---
 
-### Rule 2: Generic Interface
+### Aturan 2: Antarmuka Generik
 
 
-Core components MUST:
+Komponen inti HARUS:
 
 
-- Accept generic parameters
-- Return generic results
-- Use industry-agnostic terminology
-- Provide extensible interfaces
+- Menerima parameter generik
+- Mengembalikan hasil generik
+- Menggunakan terminologi agnostik industri
+- Menyediakan antarmuka yang dapat diperluas
 
 
-Example:
+Contoh:
 
 
-❌ **WRONG:**
+❌ **SALAH:**
 ```php
 class StockService {
     public function deductFoodIngredient($menuId) {
-        // Menu is restaurant-specific
+        // Menu spesifik restoran
     }
 }
 ```
 
 
-✅ **CORRECT:**
+✅ **BENAR:**
 ```php
 class StockService {
     public function deductStock($itemId, $quantity, $reason) {
-        // Generic stock deduction
+        // Pengurangan stok generik
     }
 }
 ```
@@ -1046,23 +1046,23 @@ class StockService {
 
 ---
 
-## Product Rules
+## Aturan Produk
 
 
-### Rule 1: Use Core
+### Aturan 1: Gunakan Inti
 
 
-Product components MUST:
+Komponen produk HARUS:
 
 
-- Use core authentication
-- Use core permission system
-- Use core database layer
-- Use core API framework
-- Use core engines where applicable
+- Menggunakan autentikasi inti
+- Menggunakan sistem izin inti
+- Menggunakan layer database inti
+- Menggunakan framework API inti
+- Menggunakan mesin inti jika berlaku
 
 
-Example:
+Contoh:
 
 
 ```php
@@ -1084,25 +1084,25 @@ class OrderService {
 
 ---
 
-### Rule 2: Extend Core
+### Aturan 2: Perluas Inti
 
 
-Product components CAN:
+Komponen produk BOLEH:
 
 
-- Extend core classes
-- Override core methods
-- Add product-specific logic
-- Implement product-specific interfaces
+- Memperluas kelas inti
+- Mengganti metode inti
+- Menambah logika khusus produk
+- Mengimplementasikan antarmuka khusus produk
 
 
-Example:
+Contoh:
 
 
 ```php
 class RestaurantStockService extends StockService {
     public function deductFromRecipe($orderId) {
-        // Restaurant-specific recipe deduction
+        // Pengurangan resep spesifik restoran
         $recipeItems = $this->getRecipeItems($orderId);
         foreach ($recipeItems as $item) {
             parent::deductStock($item['item_id'], $item['quantity'], 'SALE_USAGE');
@@ -1114,38 +1114,38 @@ class RestaurantStockService extends StockService {
 
 ---
 
-### Rule 3: No Core Modification
+### Aturan 3: Tidak Ada Modifikasi Inti
 
 
-Product components MUST NOT:
+Komponen produk TIDAK BOLEH:
 
 
-- Modify core code directly
-- Change core database schema
-- Alter core API contracts
-- Break core dependencies
+- Memodifikasi kode inti secara langsung
+- Mengubah skema database inti
+- Mengubah kontrak API inti
+- Merusak dependensi inti
 
 
-Example:
+Contoh:
 
 
-❌ **WRONG:**
+❌ **SALAH:**
 ```php
-// In product code
+// Dalam kode produk
 class AuthMiddleware {
     public function authenticate() {
-        // Modified core authentication
+        // Autentikasi inti yang dimodifikasi
     }
 }
 ```
 
 
-✅ **CORRECT:**
+✅ **BENAR:**
 ```php
-// In product code
+// Dalam kode produk
 class RestaurantAuthMiddleware extends AuthMiddleware {
     public function authenticate() {
-        // Extend with restaurant-specific logic
+        // Perluas dengan logika spesifik restoran
         parent::authenticate();
         $this->checkRestaurantAccess();
     }
@@ -1155,16 +1155,16 @@ class RestaurantAuthMiddleware extends AuthMiddleware {
 
 ---
 
-# 6. Database Migration Strategy
+# 6. Strategi Migrasi Database
 
 
-## Core Database
+## Database Inti
 
 
-Database Name: `ebp_core`
+Nama Database: `ebp_core`
 
 
-Tables:
+Tabel:
 
 
 ```
@@ -1183,34 +1183,34 @@ approval_logs
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Multi-tenant foundation
-- User management
-- Role-based access control
-- Audit trail
-- Security logging
+- Fondasi multi-tenant
+- Manajemen pengguna
+- Kontrol akses berbasis peran
+- Jejak audit
+- Logging keamanan
 
 
-Used by:
+Digunakan oleh:
 
 
-- All products
+- Semua produk
 
 
 ---
 
-## Product Databases
+## Database Produk
 
 
 ### Restaurant ERP
 
 
-Database Name: `ebp_restaurant`
+Nama Database: `ebp_restaurant`
 
 
-Tables:
+Tabel:
 
 
 ```
@@ -1256,21 +1256,21 @@ ai_stock_prediction
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Restaurant-specific data
-- Menu management
-- Order processing
-- Kitchen operations
-- Restaurant inventory
-- Restaurant accounting
+- Restaurant-specific data (data spesifik restoran)
+- Menu management (manajemen menu)
+- Order processing (pemrosesan pesanan)
+- Kitchen operations (operasi dapur)
+- Restaurant inventory (inventaris restoran)
+- Restaurant accounting (akuntansi restoran)
 
 
-Used by:
+Digunakan oleh:
 
 
-- Only Restaurant ERP
+- Hanya Restaurant ERP
 
 
 ---
@@ -1278,10 +1278,10 @@ Used by:
 ### Hotel ERP
 
 
-Database Name: `ebp_hotel`
+Nama Database: `ebp_hotel`
 
 
-Tables:
+Tabel:
 
 
 ```
@@ -1298,19 +1298,19 @@ hotel_accounting
 ```
 
 
-Purpose:
+Tujuan:
 
 
-- Hotel-specific data
-- Room management
-- Reservation system
-- Hotel operations
+- Hotel-specific data (data spesifik hotel)
+- Room management (manajemen kamar)
+- Reservation system (sistem reservasi)
+- Hotel operations (operasi hotel)
 
 
-Used by:
+Digunakan oleh:
 
 
-- Only Hotel ERP
+- Hanya Hotel ERP
 
 
 ---
@@ -1318,24 +1318,24 @@ Used by:
 ## Database Connection Strategy
 
 
-Each product connects to:
+Setiap produk terhubung ke:
 
 
-1. Core database (for authentication, permissions, audit)
-2. Product database (for product-specific data)
+1. Database inti (untuk autentikasi, izin, audit)
+2. Database produk (untuk data khusus produk)
 
 
-Example:
+Contoh:
 
 
 ```php
 class Database {
     public function connectCore() {
-        // Connect to ebp_core
+        // Hubungkan ke ebp_core
     }
     
     public function connectProduct($productName) {
-        // Connect to product-specific database
+        // Hubungkan ke database khusus produk
     }
 }
 ```
@@ -1343,16 +1343,16 @@ class Database {
 
 ---
 
-# 7. Repository Strategy
+# 7. Strategi Repositori
 
 
-## Git Organization
+## Organisasi Git
 
 
-Organization: `EBP-PLATFORM`
+Organisasi: `EBP-PLATFORM`
 
 
-### Core Repositories
+### Repositori Inti
 
 
 ```
@@ -1369,7 +1369,7 @@ ebp-devops
 ```
 
 
-### Product Repositories
+### Repositori Produk
 
 
 ```
@@ -1383,10 +1383,10 @@ ebp-legal-system
 
 ---
 
-## Repository Structure
+## Struktur Repositori
 
 
-### Core Repository Example
+### Contoh Repositori Inti
 
 
 ```
@@ -1407,7 +1407,7 @@ ebp-core-code/
 ```
 
 
-### Product Repository Example
+### Contoh Repositori Produk
 
 
 ```
@@ -1426,10 +1426,10 @@ ebp-restaurant-erp/
 
 ---
 
-## Dependency Management
+## Manajemen Dependensi
 
 
-### Core Repository composer.json
+### composer.json Repositori Inti
 
 
 ```json
@@ -1451,7 +1451,7 @@ ebp-restaurant-erp/
 ```
 
 
-### Product Repository composer.json
+### composer.json Repositori Produk
 
 
 ```json
@@ -1476,13 +1476,13 @@ ebp-restaurant-erp/
 
 ---
 
-# 8. Coding Convention
+# 8. Konvensi Coding
 
 
-## Namespace Convention
+## Konvensi Namespace
 
 
-### Core Code
+### Kode Inti
 
 
 ```
@@ -1497,7 +1497,7 @@ EBP\Core\File
 ```
 
 
-### Shared Engines
+### Mesin Bersama
 
 
 ```
@@ -1511,7 +1511,7 @@ EBP\Engine\AI
 ```
 
 
-### Product Code
+### Kode Produk
 
 
 ```
@@ -1528,10 +1528,10 @@ EBP\Parking\Vehicle
 
 ---
 
-## Class Naming Convention
+## Konvensi Penamaan Kelas
 
 
-### Core Classes
+### Kelas Inti
 
 
 ```
@@ -1547,7 +1547,7 @@ FileManager
 ```
 
 
-### Engine Classes
+### Kelas Mesin
 
 
 ```
@@ -1561,7 +1561,7 @@ AIService
 ```
 
 
-### Product Classes
+### Kelas Produk
 
 
 ```
@@ -1577,10 +1577,10 @@ VehicleService
 
 ---
 
-## Database Naming Convention
+## Konvensi Penamaan Database
 
 
-### Core Tables
+### Tabel Inti
 
 
 ```
@@ -1598,7 +1598,7 @@ security_events
 ```
 
 
-### Product Tables
+### Tabel Produk
 
 
 ```
@@ -1611,15 +1611,15 @@ parking_vehicles
 ```
 
 
-Prefix with product name to avoid conflicts.
+Prefix dengan nama produk untuk menghindari konflik.
 
 
 ---
 
-## API Naming Convention
+## Konvensi Penamaan API
 
 
-### Core APIs
+### API Inti
 
 
 ```
@@ -1631,7 +1631,7 @@ Prefix with product name to avoid conflicts.
 ```
 
 
-### Product APIs
+### API Produk
 
 
 ```
@@ -1645,12 +1645,12 @@ Prefix with product name to avoid conflicts.
 ```
 
 
-Prefix with product name to avoid conflicts.
+Prefix dengan nama produk untuk menghindari konflik.
 
 
 ---
 
-## Git Commit Convention
+## Konvensi Commit Git
 
 
 ### Format
@@ -1665,590 +1665,592 @@ footer
 ```
 
 
-### Types
+### Tipe
 
 
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation
-- `style`: Code style
-- `refactor`: Code refactoring
-- `test`: Testing
-- `chore`: Maintenance
+- `feat`: Fitur baru
+- `fix`: Perbaikan bug
+- `docs`: Dokumentasi
+- `style`: Gaya kode
+- `refactor`: Refactoring kode
+- `test`: Pengujian
+- `chore`: Pemeliharaan
 
 
-### Examples
+### Contoh
 
 
 ```
-feat(core): add JWT authentication
+feat(core): tambahkan autentikasi JWT
 
-feat(restaurant): add POS order creation
+feat(restaurant): tambahkan pembuatan pesanan POS
 
-fix(core): resolve tenant isolation issue
+fix(core): selesaikan masalah isolasi tenant
 
-docs(core): update API documentation
+docs(core): perbarui dokumentasi API
 
-refactor(core): improve database connection pooling
+refactor(core): tingkatkan pooling koneksi database
 ```
 
 
 ---
 
-# 9. Development Roadmap
+# 9. Peta Jalan Pengembangan
 
 
-## Phase 1: EBP Foundation (3 months)
+## Fase 1: Fondasi EBP (3 bulan)
 
 
-### Objective
+### Tujuan
 
 
-Build core platform foundation
+Bangun fondasi platform inti
 
 
-### Tasks
+### Tugas
 
 
-1. **Authentication Module**
-   - JWT implementation
+1. **Modul Autentikasi**
+   - Implementasi JWT
    - Login/logout
-   - Token refresh
-   - Password hashing
+   - Refresh token
+   - Hashing password
 
-2. **Permission Module**
-   - RBAC implementation
-   - Permission checking
-   - Role management
-   - Permission assignment
+2. **Modul Izin**
+   - Implementasi RBAC
+   - Pengecekan izin
+   - Manajemen peran
+   - Penugasan izin
 
-3. **Tenant Module**
-   - Tenant isolation
-   - Tenant context
-   - Data separation
-   - Tenant configuration
+3. **Modul Tenant**
+   - Isolasi tenant
+   - Konteks tenant
+   - Pemisahan data
+   - Konfigurasi tenant
 
-4. **Audit Module**
-   - Activity logging
-   - Change tracking
-   - Audit query
-   - Compliance reporting
+4. **Modul Audit**
+   - Logging aktivitas
+   - Pelacakan perubahan
+   - Query audit
+   - Laporan kepatuhan
 
-5. **Database Layer**
-   - Connection management
-   - Transaction support
-   - Query builder
-   - Connection pooling
+5. **Layer Database**
+   - Manajemen koneksi
+   - Dukungan transaksi
+   - Pembangun query
+   - Pooling koneksi
 
-6. **API Framework**
+6. **Framework API**
    - Router
-   - Response handler
-   - Request handler
-   - Middleware pipeline
+   - Handler respons
+   - Handler request
+   - Pipeline middleware
 
-7. **Logging System**
-   - Logger implementation
-   - Log levels
-   - Log rotation
-   - Log formatting
+7. **Sistem Logging**
+   - Implementasi logger
+   - Level log
+   - Rotasi log
+   - Format log
 
-8. **File Management**
-   - File upload
-   - File download
-   - Storage service
-   - File validation
-
-
-### Deliverables
+8. **Manajemen File**
+   - Upload file
+   - Download file
+   - Layanan penyimpanan
+   - Validasi file
 
 
-- Core framework v1.0
-- Core database schema
-- API documentation
-- Testing suite
+### Hasil
+
+
+- Framework inti v1.0
+- Skema database inti
+- Dokumentasi API
+- Suite pengujian
 
 
 ---
 
-## Phase 2: Restaurant MVP (2 months)
+## Fase 2: Restaurant MVP (2 bulan)
 
 
-### Objective
+### Tujuan
 
 
-Build minimum viable restaurant ERP
+Bangun restaurant ERP minimum viable
 
 
-### Tasks
+### Tugas
 
 
-1. **Menu Management**
-   - Menu CRUD
-   - Category management
-   - Price management
-   - Recipe management
+1. **Manajemen Menu**
+   - CRUD menu
+   - Manajemen kategori
+   - Manajemen harga
+   - Manajemen resep
 
-2. **POS System**
-   - Order creation
-   - Order modification
-   - Payment processing
-   - Receipt generation
+2. **Sistem POS**
+   - Pembuatan pesanan
+   - Modifikasi pesanan
+   - Pemrosesan pembayaran
+   - Generasi receipt
 
-3. **Kitchen Display**
-   - Kitchen queue
-   - Order status
-   - Priority management
-   - Completion tracking
+3. **Tampilan Dapur**
+   - Antrian dapur
+   - Status pesanan
+   - Manajemen prioritas
+   - Pelacakan penyelesaian
 
-4. **Basic Inventory**
-   - Stock view
-   - Stock movement
-   - Low stock alert
-   - Supplier management
+4. **Inventaris Dasar**
+   - Tampilan stok
+   - Pergerakan stok
+   - Alert stok rendah
+   - Manajemen supplier
 
-5. **Basic Reporting**
-   - Sales report
-   - Item report
-   - Daily summary
-   - Revenue tracking
+5. **Laporan Dasar**
+   - Laporan penjualan
+   - Laporan item
+   - Ringkasan harian
+   - Pelacakan pendapatan
 
 
-### Deliverables
+### Hasil
 
 
 - Restaurant ERP v1.0
-- Restaurant database schema
-- POS interface
-- Kitchen display
-- Basic reports
+- Skema database restoran
+- Antarmuka POS
+- Tampilan dapur
+- Laporan dasar
 
 
 ---
 
-## Phase 3: Restaurant Enterprise (3 months)
+## Fase 3: Restaurant Enterprise (3 bulan)
 
 
-### Objective
+### Tujuan
 
 
-Add enterprise features to restaurant ERP
+Tambahkan fitur enterprise ke restaurant ERP
 
 
-### Tasks
+### Tugas
 
 
-1. **Advanced Inventory**
+1. **Inventaris Lanjutan**
    - Stock opname
-   - Stock transfer
+   - Transfer stok
    - Purchase order
-   - Goods receipt
+   - Penerimaan barang
 
-2. **Accounting Integration**
-   - Journal entries
-   - Ledger management
-   - Financial reports
-   - Tax calculation
+2. **Integrasi Akuntansi**
+   - Jurnal entries
+   - Manajemen buku besar
+   - Laporan keuangan
+   - Kalkulasi pajak
 
-3. **AI Features**
-   - Sales forecast
-   - Menu recommendation
-   - Fraud detection
-   - Stock prediction
+3. **Fitur AI**
+   - Forecast penjualan
+   - Rekomendasi menu
+   - Deteksi fraud
+   - Prediksi stok
 
 4. **Multi-Outlet**
-   - Branch management
-   - Centralized inventory
-   - Consolidated reporting
-   - Inter-branch transfer
+   - Manajemen cabang
+   - Inventaris terpusat
+   - Laporan konsolidasi
+   - Transfer antar-cabang
 
-5. **Advanced Reporting**
-   - Profit & loss
-   - Cash flow
-   - Food cost analysis
-   - Performance metrics
+5. **Laporan Lanjutan**
+   - Laba & rugi
+   - Arus kas
+   - Analisis biaya makanan
+   - Metrik kinerja
 
 
-### Deliverables
+### Hasil
 
 
 - Restaurant ERP v2.0
-- Advanced inventory
-- Accounting integration
-- AI features
-- Multi-outlet support
+- Inventaris lanjutan
+- Integrasi akuntansi
+- Fitur AI
+- Dukungan multi-outlet
 
 
 ---
 
-## Phase 4: Second Product (4 months)
+## Fase 4: Produk Kedua (4 bulan)
 
 
-### Objective
+### Tujuan
 
 
-Build second product on EBP platform
+Bangun produk kedua pada platform EBP
 
 
-### Options
+### Opsi
 
 
 - Hotel ERP
-- Parking System
+- Sistem Parkir
 - Farming ERP
-- Legal System
+- Sistem Legal
 
 
-### Tasks
+### Tugas
 
 
-1. **Product Analysis**
-   - Business process
-   - Module specification
-   - Database design
-   - API specification
+1. **Analisis Produk**
+   - Proses bisnis
+   - Spesifikasi modul
+   - Desain database
+   - Spesifikasi API
 
-2. **Product Development**
-   - Backend development
-   - Frontend development
-   - Integration with core
-   - Testing
+2. **Pengembangan Produk**
+   - Pengembangan backend
+   - Pengembangan frontend
+   - Integrasi dengan inti
+   - Pengujian
 
-3. **Product Launch**
+3. **Peluncuran Produk**
    - Deployment
-   - Documentation
-   - Training
-   - Support
+   - Dokumentasi
+   - Pelatihan
+   - Dukungan
 
 
-### Deliverables
+### Hasil
 
 
-- Second product v1.0
-- Product documentation
-- Integration with core
-- Launch ready
+- Produk kedua v1.0
+- Dokumentasi produk
+- Integrasi dengan inti
+- Siap peluncuran
 
 
 ---
 
-## Phase 5: Platform Enhancement (Ongoing)
+## Fase 5: Peningkatan Platform (Berlanjut)
 
 
-### Objective
+### Tujuan
 
 
-Continuously improve core platform
+Terus tingkatkan platform inti
 
 
-### Tasks
+### Tugas
 
 
-1. **Performance Optimization**
+1. **Optimasi Performa**
    - Caching
-   - Query optimization
+   - Optimasi query
    - Load balancing
-   - CDN integration
+   - Integrasi CDN
 
-2. **Security Enhancement**
-   - Advanced authentication
-   - Encryption
-   - Security monitoring
-   - Compliance
+2. **Peningkatan Keamanan**
+   - Autentikasi lanjutan
+   - Enkripsi
+   - Monitoring keamanan
+   - Kepatuhan
 
-3. **Feature Addition**
-   - New engines
-   - New integrations
-   - New capabilities
-   - Platform extensions
+3. **Penambahan Fitur**
+   - Mesin baru
+   - Integrasi baru
+   - Kapabilitas baru
+   - Ekstensi platform
 
-4. **Developer Experience**
-   - Better documentation
-   - Developer tools
-   - Testing frameworks
-   - Deployment automation
-
-
-### Deliverables
+4. **Pengalaman Developer**
+   - Dokumentasi lebih baik
+   - Tools developer
+   - Framework pengujian
+   - Otomasi deployment
 
 
-- Core platform v2.0+
-- Continuous improvement
-- Better developer experience
-- Enhanced capabilities
+### Hasil
 
 
----
-
-# 10. Migration Execution Plan
-
-
-## Phase 1: Documentation Reorganization (1 week)
-
-
-### Tasks
-
-
-1. Create new folder structure
-2. Move core documents to appropriate folders
-3. Move product documents to PRODUCTS/RESTAURANT_ERP/
-4. Update internal references
-5. Create README files for each folder
-
-
-### Deliverables
-
-
-- Reorganized documentation structure
-- Updated document references
-- Folder README files
+- Platform inti v2.0+
+- Peningkatan berkelanjutan
+- Pengalaman developer lebih baik
+- Kapabilitas yang ditingkatkan
 
 
 ---
 
-## Phase 2: Code Separation (2 weeks)
+# 10. Rencana Eksekusi Migrasi
 
 
-### Tasks
+## Fase 1: Reorganisasi Dokumentasi (1 minggu)
 
 
-1. Extract core code from ebp-restaurant-backend
-2. Move to EBP_PLATFORM/06_CORE_CODE/
-3. Remove product-specific logic from core
-4. Create proper interfaces
-5. Add dependency injection
+### Tugas
 
 
-### Deliverables
+1. Buat struktur folder baru
+2. Pindahkan dokumen inti ke folder yang sesuai
+3. Pindahkan dokumen produk ke PRODUCTS/RESTAURANT_ERP/
+4. Update referensi internal
+5. Buat file README untuk setiap folder
 
 
-- Separated core code
-- Core interfaces
-- Dependency injection setup
+### Hasil
 
 
----
-
-## Phase 3: Database Separation (1 week)
-
-
-### Tasks
-
-
-1. Split schema into core and restaurant
-2. Create ebp_core database
-3. Create ebp_restaurant database
-4. Update connection logic
-5. Migrate existing data
-
-
-### Deliverables
-
-
-- Core database schema
-- Restaurant database schema
-- Updated connection logic
-- Data migration
+- Struktur dokumentasi yang direorganisasi
+- Referensi dokumen yang diperbarui
+- File README folder
 
 
 ---
 
-## Phase 4: Repository Setup (1 week)
+## Fase 2: Pemisahan Kode (2 minggu)
 
 
-### Tasks
+### Tugas
 
 
-1. Create Git organization
-2. Create core repositories
-3. Create product repositories
-4. Setup composer dependencies
-5. Configure CI/CD
+1. Ekstrak kode inti dari ebp-restaurant-backend
+2. Pindahkan ke EBP_PLATFORM/06_CORE_CODE/
+3. Hapus logika khusus produk dari inti
+4. Buat antarmuka yang tepat
+5. Tambahkan dependency injection
 
 
-### Deliverables
+### Hasil
 
 
-- Git organization
-- Core repositories
-- Product repositories
-- Dependency management
-- CI/CD pipeline
-
-
----
-
-## Phase 5: Testing & Validation (1 week)
-
-
-### Tasks
-
-
-1. Test core framework
-2. Test product integration
-3. Test database connections
-4. Test API endpoints
-5. Validate dependencies
-
-
-### Deliverables
-
-
-- Test results
-- Validation report
-- Bug fixes
-- Documentation updates
+- Kode inti yang terpisah
+- Antarmuka inti
+- Setup dependency injection
 
 
 ---
 
-# 11. Risk Management
+## Fase 3: Pemisahan Database (1 minggu)
 
 
-## Risk 1: Breaking Changes
+### Tugas
 
 
-**Description:** Core changes may break products
+1. Pisahkan skema menjadi inti dan restoran
+2. Buat database ebp_core
+3. Buat database ebp_restaurant
+4. Update logika koneksi
+5. Migrasi data yang ada
 
 
-**Mitigation:**
-- Semantic versioning
-- Deprecation period
-- Migration guides
-- Backward compatibility
+### Hasil
 
 
----
-
-## Risk 2: Dependency Conflicts
-
-
-**Description:** Products may have conflicting dependencies
-
-
-**Mitigation:**
-- Strict versioning
-- Dependency resolution
-- Compatibility testing
-- Clear upgrade path
+- Skema database inti
+- Skema database restoran
+- Logika koneksi yang diperbarui
+- Migrasi data
 
 
 ---
 
-## Risk 3: Data Migration Issues
+## Fase 4: Setup Repositori (1 minggu)
 
 
-**Description:** Database migration may fail
+### Tugas
 
 
-**Mitigation:**
-- Backup strategy
-- Migration scripts
-- Rollback plan
-- Data validation
+1. Buat organisasi Git
+2. Buat repositori inti
+3. Buat repositori produk
+4. Setup dependensi composer
+5. Konfigurasi CI/CD
 
 
----
-
-## Risk 4: Team Adoption
+### Hasil
 
 
-**Description:** Team may resist new structure
-
-
-**Mitigation:**
-- Training
-- Documentation
-- Support
-- Gradual transition
+- Organisasi Git
+- Repositori inti
+- Repositori produk
+- Manajemen dependensi
+- Pipeline CI/CD
 
 
 ---
 
-# 12. Success Criteria
+## Fase 5: Pengujian & Validasi (1 minggu)
 
 
-## Technical Success
+### Tugas
 
 
-- ✅ Clear separation between core and product
-- ✅ Products can use core independently
-- ✅ Core changes don't break products
-- ✅ Proper dependency management
-- ✅ Versioned releases
+1. Uji framework inti
+2. Uji integrasi produk
+3. Uji koneksi database
+4. Uji endpoint API
+5. Validasi dependensi
 
 
-## Organizational Success
+### Hasil
 
 
-- ✅ Team understands structure
-- ✅ Development workflow established
-- ✅ Repository strategy implemented
-- ✅ Documentation complete
-- ✅ Training completed
-
-
-## Business Success
-
-
-- ✅ Platform enables product development
-- ✅ Asset reuse reduces development time
-- ✅ Consistent quality across products
-- ✅ Scalable organization
-- ✅ Long-term sustainability
+- Hasil pengujian
+- Laporan validasi
+- Perbaikan bug
+- Update dokumentasi
 
 
 ---
 
-# 13. Conclusion
+# 11. Manajemen Risiko
 
 
-This migration plan transforms EBP from:
+## Risiko 1: Perubahan yang Merusak
+
+
+**Deskripsi:** Perubahan inti dapat merusak produk
+
+
+**Mitigasi:**
+- Semantic versioning (versi semantik)
+- Periode deprecation (periode penghentian)
+- Panduan migrasi
+- Kompatibilitas backward (kompatibilitas mundur)
+
+
+---
+
+## Risiko 2: Konflik Dependensi
+
+
+**Deskripsi:** Produk mungkin memiliki dependensi yang konflik
+
+
+**Mitigasi:**
+- Versioning ketat (versi ketat)
+- Resolusi dependensi
+- Pengujian kompatibilitas
+- Jalur upgrade yang jelas
+
+
+---
+
+## Risiko 3: Masalah Migrasi Data
+
+
+**Deskripsi:** Migrasi database mungkin gagal
+
+
+**Mitigasi:**
+- Strategi backup (strategi cadangan)
+- Script migrasi
+- Rencana rollback (rencana pengembalian)
+- Validasi data
+
+
+---
+
+## Risiko 4: Adopsi Tim
+
+
+**Deskripsi:** Tim mungkin menolak struktur baru
+
+
+**Mitigasi:**
+- Pelatihan
+- Dokumentasi
+- Dukungan
+- Transisi bertahap
+
+
+---
+
+# 12. Kriteria Sukses
+
+
+## Sukses Teknis
+
+
+- ✅ Pemisahan yang jelas antara inti dan produk
+- ✅ Produk dapat menggunakan inti secara independen
+- ✅ Perubahan inti tidak merusak produk
+- ✅ Manajemen dependensi yang tepat
+- ✅ Rilis yang diberi versi
+
+
+## Sukses Organisasi
+
+
+- ✅ Tim memahami struktur
+- ✅ Workflow pengembangan yang ditetapkan
+- ✅ Strategi repositori yang diimplementasikan
+- ✅ Dokumentasi lengkap
+- ✅ Pelatihan selesai
+
+
+## Sukses Bisnis
+
+
+- ✅ Platform memungkinkan pengembangan produk
+- ✅ Penggunaan ulang aset mengurangi waktu pengembangan
+- ✅ Kualitas konsisten di berbagai produk
+- ✅ Organisasi yang skalabel
+- ✅ Keberlanjutan jangka panjang
+
+
+---
+
+# 13. Kesimpulan
+
+
+Rencana migrasi ini mengubah EBP dari:
 
 
 ```
-Single Project
+Proyek Tunggal
 
 ```
 
-To:
+
+Ke:
 
 
 ```
 
-Software Company Platform
+Platform Perusahaan Software
 
 +
 
-Multiple Products
+Banyak Produk
 
 ```
 
 
-The migration ensures:
+Migrasi ini memastikan:
 
 
-- Clear separation of concerns
-- Asset reuse across products
-- Scalable organization
-- Long-term sustainability
-- Professional software company structure
+- Pemisahan kepedulian yang jelas
+- Penggunaan ulang aset di berbagai produk
+- Organisasi yang skalabel
+- Keberlanjutan jangka panjang
+- Struktur perusahaan software yang profesional
 
 
-EBP is building not just applications.
+EBP tidak hanya membangun aplikasi.
 
-EBP is building a platform for building applications.
+
+EBP membangun platform untuk membangun aplikasi.
 
 
 ---
 
-# Document End
+# Akhir Dokumen
 
 
-Document ID:
+ID Dokumen:
 
 EBP-PLATFORM-MIGRATION-001
 
 
-Version:
+Versi:
 
 1.0

@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
-# Core Framework Document
+# Platform Bisnis Enterprise (EBP)
+# Dokumen Framework Inti
 
 
-**Document ID:** EBP-CORE-FRAMEWORK-001  
-**Version:** 1.0  
+**ID Dokumen:** EBP-CORE-FRAMEWORK-001  
+**Versi:** 1.0  
 **Status:** Core Software Blueprint  
-**Classification:** Mandatory Development Standard  
-**Owner:** Enterprise Business Platform Organization  
+**Klasifikasi:** Mandatory Development Standard  
+**Pemilik:** Organisasi Platform Bisnis Enterprise  
 
 
 ---
@@ -17,7 +17,7 @@
 ## 1.1 Tujuan Dokumen
 
 
-Dokumen ini mendefinisikan framework utama yang digunakan untuk membangun seluruh produk berbasis Enterprise Business Platform (EBP).
+Dokumen ini mendefinisikan framework utama yang digunakan untuk membangun seluruh produk berbasis Platform Bisnis Enterprise (EBP).
 
 
 Framework ini menjadi standar untuk:
@@ -1095,10 +1095,10 @@ Build Capabilities.
 
 # Document End
 
-Document ID:
+ID Dokumen:
 
 EBP-CORE-FRAMEWORK-001
 
-Version:
+Versi:
 
 1.0

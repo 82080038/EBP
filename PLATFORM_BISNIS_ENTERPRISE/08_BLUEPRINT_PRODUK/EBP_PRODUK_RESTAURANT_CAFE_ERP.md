@@ -1,11 +1,11 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 # Restaurant & Cafe ERP
 
 
 **Product ID:** EBP-PRODUCT-RCERP-001  
-**Version:** 1.0  
+**Versi:** 1.0  
 **Status:** Product Blueprint  
-**Classification:** Industry Solution  
+**Klasifikasi:** Industry Solution  
 **Parent Platform:** Enterprise Business Platform  
 
 
@@ -805,7 +805,7 @@ Outlet
 Aplikasi:
 
 
-Owner:
+Pemilik:
 
 
 - dashboard;
@@ -1087,6 +1087,6 @@ Product ID:
 EBP-PRODUCT-RCERP-001
 
 
-Version:
+Versi:
 
 1.0

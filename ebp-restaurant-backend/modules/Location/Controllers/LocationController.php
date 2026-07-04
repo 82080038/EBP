@@ -6,6 +6,9 @@ if (!class_exists('LocationService')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 if (!class_exists('AuthMiddleware')) {
     require_once __DIR__ . '/../../../core/Middleware/AuthMiddleware.php';
 }
@@ -30,14 +33,14 @@ class LocationController
         $radiusKm = $data['radius_km'] ?? 10;
 
         if (!$latitude || !$longitude) {
-            Response::error('Latitude and longitude are required');
+            Response::error(Messages::LOCATION_COORDINATES_REQUIRED);
             return;
         }
 
         $result = $this->service->findNearbyBranches($latitude, $longitude, $radiusKm);
 
         if ($result['success']) {
-            Response::success('Nearby branches found', $result['data']);
+            Response::success(Messages::LOCATION_BRANCHES_FOUND, $result['data']);
         } else {
             Response::error($result['message']);
         }
@@ -54,7 +57,7 @@ class LocationController
         $longitude = $data['longitude'] ?? null;
 
         if (!$latitude || !$longitude) {
-            Response::error('Latitude and longitude are required');
+            Response::error(Messages::LOCATION_COORDINATES_REQUIRED);
             return;
         }
 
@@ -82,7 +85,7 @@ class LocationController
         $deliveryRadius = $data['delivery_radius_km'] ?? 5;
 
         if (!$latitude || !$longitude) {
-            Response::error('Latitude and longitude are required');
+            Response::error(Messages::LOCATION_COORDINATES_REQUIRED);
             return;
         }
 
@@ -105,7 +108,7 @@ class LocationController
         $result = $this->service->getBranchLocation($branchId, $user['tenant_id']);
 
         if ($result['success']) {
-            Response::success('Branch location retrieved', $result['data']);
+            Response::success(Messages::SUCCESS_RETRIEVED, $result['data']);
         } else {
             Response::error($result['message']);
         }
@@ -118,7 +121,7 @@ class LocationController
         $longitude = $data['longitude'] ?? null;
 
         if (!$latitude || !$longitude) {
-            Response::error('Latitude and longitude are required');
+            Response::error(Messages::LOCATION_COORDINATES_REQUIRED);
             return;
         }
 
@@ -127,7 +130,7 @@ class LocationController
         if ($result['success'] && count($result['data']) > 0) {
             // Return the nearest branch
             $nearestBranch = $result['data'][0];
-            Response::success('Nearby branch detected', [
+            Response::success(Messages::LOCATION_BRANCH_DETECTED, [
                 'branch_id' => $nearestBranch['branch_id'],
                 'branch_name' => $nearestBranch['branch_name'],
                 'address' => $nearestBranch['address'],
@@ -135,7 +138,7 @@ class LocationController
                 'tenant_id' => $nearestBranch['tenant_id']
             ]);
         } else {
-            Response::success('No nearby branch detected', null);
+            Response::success(Messages::LOCATION_NO_BRANCH_DETECTED, null);
         }
     }
 }

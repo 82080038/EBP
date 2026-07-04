@@ -1,4 +1,4 @@
-# EBP Restaurant Backend - Enterprise Implementation
+# Backend Restoran EBP - Enterprise Implementation
 
 ## Project Structure
 

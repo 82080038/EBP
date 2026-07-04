@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
-# DevOps Architecture Document
+# Platform Bisnis Enterprise (EBP)
+# Dokumen Arsitektur DevOps
 
 
-**Document ID:** EBP-DEVOPS-ARCHITECTURE-001  
-**Version:** 1.0  
+**ID Dokumen:** EBP-DEVOPS-ARCHITECTURE-001  
+**Versi:** 1.0  
 **Status:** Enterprise Operational Standard  
-**Classification:** Mandatory Engineering Standard  
-**Owner:** Enterprise Business Platform Organization  
+**Klasifikasi:** Mandatory Engineering Standard  
+**Pemilik:** Organisasi Platform Bisnis Enterprise  
 
 
 ---
@@ -1326,11 +1326,11 @@ It Must Continuously Evolve.
 # Document End
 
 
-Document ID:
+ID Dokumen:
 
 EBP-DEVOPS-ARCHITECTURE-001
 
 
-Version:
+Versi:
 
 1.0

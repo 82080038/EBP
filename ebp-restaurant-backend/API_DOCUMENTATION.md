@@ -8,7 +8,7 @@
 
 ---
 
-# Authentication
+# Autentikasi
 
 ## Login
 

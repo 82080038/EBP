@@ -1,19 +1,19 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 
-# Database Architecture Document
+# Dokumen Arsitektur Database
 
 
-**Document ID:** EBP-DATABASE-ARCHITECTURE-001
+**ID Dokumen:** EBP-DATABASE-ARCHITECTURE-001
 
-**Version:** 1.0
+**Versi:** 1.0
 
-**Purpose:** Define the database architecture strategy for EBP platform and products
+**Tujuan:** Definisikan strategi arsitektur database untuk platform dan produk EBP
 
 
 
 ---
 
-# 1. Database Philosophy
+# 1. Filosofi Database
 
 
 EBP database architecture follows the principle:
@@ -134,7 +134,7 @@ Benefits:
 **Database Name:** `ebp_core`
 
 
-**Purpose:** Shared foundation used by all products
+**Tujuan:** Shared foundation used by all products
 
 
 ## Core Database Schema
@@ -537,7 +537,7 @@ business_partners
 **Database Name:** `ebp_restaurant`
 
 
-**Purpose:** Restaurant-specific data
+**Tujuan:** Restaurant-specific data
 
 
 ### Restaurant-Specific Tables
@@ -589,7 +589,7 @@ food_cost_analysis
 **Database Name:** `ebp_hotel`
 
 
-**Purpose:** Hotel-specific data
+**Tujuan:** Hotel-specific data
 
 
 ### Hotel-Specific Tables
@@ -622,7 +622,7 @@ guest_history
 **Database Name:** `ebp_parking`
 
 
-**Purpose:** Parking-specific data
+**Tujuan:** Parking-specific data
 
 
 ### Parking-Specific Tables
@@ -649,7 +649,7 @@ parking_owners
 **Database Name:** `ebp_agriculture`
 
 
-**Purpose:** Agriculture-specific data
+**Tujuan:** Agriculture-specific data
 
 
 ### Agriculture-Specific Tables
@@ -677,7 +677,7 @@ agriculture_accounting
 **Database Name:** `ebp_legal`
 
 
-**Purpose:** Legal-specific data
+**Tujuan:** Legal-specific data
 
 
 ### Legal-Specific Tables
@@ -1561,11 +1561,11 @@ EBP is building a database platform for building applications.
 # Document End
 
 
-Document ID:
+ID Dokumen:
 
 EBP-DATABASE-ARCHITECTURE-001
 
 
-Version:
+Versi:
 
 1.0

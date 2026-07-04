@@ -1,10 +1,10 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 # Restaurant & Cafe ERP
 # Entity Relationship Diagram
 
 
-**Document ID:** EBP-RC-ERD-001  
-**Version:** 1.0  
+**ID Dokumen:** EBP-RC-ERD-001  
+**Versi:** 1.0  
 **Database:** MySQL Enterprise  
 **Architecture:** Multi Tenant ERP Database  
 
@@ -1390,10 +1390,10 @@ Model ini mampu mendukung:
 
 # Document End
 
-Document ID:
+ID Dokumen:
 
 EBP-RC-ERD-001
 
-Version:
+Versi:
 
 1.0

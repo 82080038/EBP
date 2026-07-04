@@ -12,6 +12,9 @@ if (!class_exists('PermissionMiddleware')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 
 class ReportController
 {
@@ -243,7 +246,7 @@ class ReportController
                 $filename = 'top_products_' . date('Y-m-d');
                 break;
             default:
-                Response::error('Invalid report type');
+                Response::error(Messages::REPORT_TYPE_INVALID);
                 return;
         }
 
@@ -255,6 +258,6 @@ class ReportController
             exit;
         }
 
-        Response::error('Unsupported format');
+        Response::error(Messages::REPORT_FORMAT_UNSUPPORTED);
     }
 }

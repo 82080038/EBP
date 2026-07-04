@@ -1,11 +1,11 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 # Restaurant & Cafe Business Process
 
 
-**Document ID:** EBP-RC-BUSINESS-PROCESS-001  
-**Version:** 1.0  
+**ID Dokumen:** EBP-RC-BUSINESS-PROCESS-001  
+**Versi:** 1.0  
 **Status:** Business Analysis Standard  
-**Classification:** Operational Blueprint  
+**Klasifikasi:** Operational Blueprint  
 **Product:** EBP Restaurant & Cafe ERP  
 
 
@@ -1402,11 +1402,11 @@ Not Only The Transaction.
 # Document End
 
 
-Document ID:
+ID Dokumen:
 
 EBP-RC-BUSINESS-PROCESS-001
 
 
-Version:
+Versi:
 
 1.0

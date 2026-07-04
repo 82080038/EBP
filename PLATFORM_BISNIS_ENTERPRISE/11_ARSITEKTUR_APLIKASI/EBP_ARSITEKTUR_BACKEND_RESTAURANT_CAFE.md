@@ -1,13 +1,13 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 
 # Restaurant & Cafe ERP
 
 # Backend Architecture Document
 
 
-**Document ID:** EBP-RC-BACKEND-ARCHITECTURE-001
+**ID Dokumen:** EBP-RC-BACKEND-ARCHITECTURE-001
 
-**Version:** 1.0
+**Versi:** 1.0
 
 **Backend Technology Target:**
 
@@ -21,7 +21,7 @@ REST API Architecture
 
 ---
 
-# 1. Introduction
+# 1. Pendahuluan
 
 
 Dokumen ini mendefinisikan arsitektur backend EBP Restaurant & Cafe ERP.
@@ -1377,11 +1377,11 @@ Arsitektur ini siap mendukung:
 # Document End
 
 
-Document ID:
+ID Dokumen:
 
 EBP-RC-BACKEND-ARCHITECTURE-001
 
 
-Version:
+Versi:
 
 1.0

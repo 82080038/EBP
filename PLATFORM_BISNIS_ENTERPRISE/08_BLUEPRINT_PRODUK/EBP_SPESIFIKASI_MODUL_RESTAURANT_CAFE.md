@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 # Restaurant & Cafe ERP
 # Module Specification Document
 
 
-**Document ID:** EBP-RC-MODULE-SPECIFICATION-001  
-**Version:** 1.0  
+**ID Dokumen:** EBP-RC-MODULE-SPECIFICATION-001  
+**Versi:** 1.0  
 **Status:** System Analysis Standard  
-**Classification:** Product Technical Specification  
+**Klasifikasi:** Product Technical Specification  
 **Product:** EBP Restaurant & Cafe ERP  
 
 
@@ -1393,11 +1393,11 @@ Semua modul:
 # Document End
 
 
-Document ID:
+ID Dokumen:
 
 EBP-RC-MODULE-SPECIFICATION-001
 
 
-Version:
+Versi:
 
 1.0

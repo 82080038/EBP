@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 # Business Engine Architecture
 
 
-**Document ID:** EBP-ENGINE-ARCHITECTURE-001  
-**Version:** 1.0  
+**ID Dokumen:** EBP-ENGINE-ARCHITECTURE-001  
+**Versi:** 1.0  
 **Status:** Core Business Engine Blueprint  
-**Classification:** Enterprise Platform Standard  
-**Owner:** Enterprise Business Platform Organization  
+**Klasifikasi:** Enterprise Platform Standard  
+**Pemilik:** Organisasi Platform Bisnis Enterprise  
 
 
 ---
@@ -1072,10 +1072,10 @@ Not Applications.
 
 # Document End
 
-Document ID:
+ID Dokumen:
 
 EBP-ENGINE-ARCHITECTURE-001
 
-Version:
+Versi:
 
 1.0

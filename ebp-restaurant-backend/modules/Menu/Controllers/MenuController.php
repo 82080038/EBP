@@ -12,6 +12,9 @@ if (!class_exists('PermissionMiddleware')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 
 class MenuController
 {
@@ -52,7 +55,7 @@ class MenuController
         $category = $this->menuService->getCategory($tenantId, $categoryId);
 
         if (!$category) {
-            return Response::error('Category not found', 404);
+            return Response::error(Messages::CATEGORY_NOT_FOUND, 404);
         }
 
         return Response::success($category);
@@ -68,19 +71,19 @@ class MenuController
 
         // Validation
         if (empty($data['category_code'])) {
-            return Response::error('Category code is required', 400);
+            return Response::error(Messages::CATEGORY_CODE_REQUIRED, 400);
         }
         if (empty($data['category_name'])) {
-            return Response::error('Category name is required', 400);
+            return Response::error(Messages::CATEGORY_NAME_REQUIRED, 400);
         }
 
         $result = $this->menuService->createCategory($tenantId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'Category created successfully']);
+            return Response::success(['message' => Messages::CATEGORY_CREATED]);
         }
 
-        return Response::error('Failed to create category', 500);
+        return Response::error(Messages::CATEGORY_FAILED_CREATE, 500);
     }
 
     public function updateCategory(array $request)
@@ -94,19 +97,19 @@ class MenuController
 
         // Validation
         if (empty($categoryId)) {
-            return Response::error('Category ID is required', 400);
+            return Response::error(Messages::CATEGORY_ID_REQUIRED, 400);
         }
         if (empty($data['category_name'])) {
-            return Response::error('Category name is required', 400);
+            return Response::error(Messages::CATEGORY_NAME_REQUIRED, 400);
         }
 
         $result = $this->menuService->updateCategory($tenantId, $categoryId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'Category updated successfully']);
+            return Response::success(['message' => Messages::CATEGORY_UPDATED]);
         }
 
-        return Response::error('Failed to update category', 500);
+        return Response::error(Messages::CATEGORY_FAILED_UPDATE, 500);
     }
 
     public function deleteCategory(array $request)
@@ -119,16 +122,16 @@ class MenuController
 
         // Validation
         if (empty($categoryId)) {
-            return Response::error('Category ID is required', 400);
+            return Response::error(Messages::CATEGORY_ID_REQUIRED, 400);
         }
 
         $result = $this->menuService->deleteCategory($tenantId, $categoryId);
 
         if ($result) {
-            return Response::success(['message' => 'Category deleted successfully']);
+            return Response::success(['message' => Messages::CATEGORY_DELETED]);
         }
 
-        return Response::error('Failed to delete category', 500);
+        return Response::error(Messages::CATEGORY_FAILED_DELETE, 500);
     }
 
     // Product Endpoints
@@ -155,7 +158,7 @@ class MenuController
         $product = $this->menuService->getProduct($tenantId, $productId);
 
         if (!$product) {
-            return Response::error('Product not found', 404);
+            return Response::error(Messages::PRODUCT_NOT_FOUND, 404);
         }
 
         return Response::success($product);
@@ -171,22 +174,22 @@ class MenuController
 
         // Validation
         if (empty($data['product_code'])) {
-            return Response::error('Product code is required', 400);
+            return Response::error(Messages::PRODUCT_CODE_REQUIRED, 400);
         }
         if (empty($data['product_name'])) {
-            return Response::error('Product name is required', 400);
+            return Response::error(Messages::PRODUCT_NAME_REQUIRED, 400);
         }
         if (empty($data['price'])) {
-            return Response::error('Price is required', 400);
+            return Response::error(Messages::PRODUCT_PRICE_REQUIRED, 400);
         }
 
         $result = $this->menuService->createProduct($tenantId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'Product created successfully']);
+            return Response::success(['message' => Messages::PRODUCT_CREATED]);
         }
 
-        return Response::error('Failed to create product', 500);
+        return Response::error(Messages::PRODUCT_FAILED_CREATE, 500);
     }
 
     public function updateProduct(array $request)
@@ -200,22 +203,22 @@ class MenuController
 
         // Validation
         if (empty($productId)) {
-            return Response::error('Product ID is required', 400);
+            return Response::error(Messages::PRODUCT_ID_REQUIRED, 400);
         }
         if (empty($data['product_name'])) {
-            return Response::error('Product name is required', 400);
+            return Response::error(Messages::PRODUCT_NAME_REQUIRED, 400);
         }
         if (empty($data['price'])) {
-            return Response::error('Price is required', 400);
+            return Response::error(Messages::PRODUCT_PRICE_REQUIRED, 400);
         }
 
         $result = $this->menuService->updateProduct($tenantId, $productId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'Product updated successfully']);
+            return Response::success(['message' => Messages::PRODUCT_UPDATED]);
         }
 
-        return Response::error('Failed to update product', 500);
+        return Response::error(Messages::PRODUCT_FAILED_UPDATE, 500);
     }
 
     public function deleteProduct(array $request)
@@ -228,16 +231,16 @@ class MenuController
 
         // Validation
         if (empty($productId)) {
-            return Response::error('Product ID is required', 400);
+            return Response::error(Messages::PRODUCT_ID_REQUIRED, 400);
         }
 
         $result = $this->menuService->deleteProduct($tenantId, $productId);
 
         if ($result) {
-            return Response::success(['message' => 'Product deleted successfully']);
+            return Response::success(['message' => Messages::PRODUCT_DELETED]);
         }
 
-        return Response::error('Failed to delete product', 500);
+        return Response::error(Messages::PRODUCT_FAILED_DELETE, 500);
     }
 
     // Recipe Endpoints
@@ -263,7 +266,7 @@ class MenuController
         $recipe = $this->menuService->getRecipe($tenantId, $recipeId);
 
         if (!$recipe) {
-            return Response::error('Recipe not found', 404);
+            return Response::error(Messages::RECIPE_NOT_FOUND, 404);
         }
 
         return Response::success($recipe);
@@ -279,22 +282,22 @@ class MenuController
 
         // Validation
         if (empty($data['product_id'])) {
-            return Response::error('Product ID is required', 400);
+            return Response::error(Messages::PRODUCT_ID_REQUIRED, 400);
         }
         if (empty($data['recipe_code'])) {
-            return Response::error('Recipe code is required', 400);
+            return Response::error(Messages::RECIPE_CODE_REQUIRED, 400);
         }
         if (empty($data['recipe_name'])) {
-            return Response::error('Recipe name is required', 400);
+            return Response::error(Messages::RECIPE_NAME_REQUIRED, 400);
         }
 
         $result = $this->menuService->createRecipe($tenantId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'Recipe created successfully']);
+            return Response::success(['message' => Messages::RECIPE_CREATED]);
         }
 
-        return Response::error('Failed to create recipe', 500);
+        return Response::error(Messages::RECIPE_FAILED_CREATE, 500);
     }
 
     public function updateRecipe(array $request)
@@ -308,19 +311,19 @@ class MenuController
 
         // Validation
         if (empty($recipeId)) {
-            return Response::error('Recipe ID is required', 400);
+            return Response::error(Messages::RECIPE_ID_REQUIRED, 400);
         }
         if (empty($data['recipe_name'])) {
-            return Response::error('Recipe name is required', 400);
+            return Response::error(Messages::RECIPE_NAME_REQUIRED, 400);
         }
 
         $result = $this->menuService->updateRecipe($tenantId, $recipeId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'Recipe updated successfully']);
+            return Response::success(['message' => Messages::RECIPE_UPDATED]);
         }
 
-        return Response::error('Failed to update recipe', 500);
+        return Response::error(Messages::RECIPE_FAILED_UPDATE, 500);
     }
 
     public function deleteRecipe(array $request)
@@ -333,15 +336,15 @@ class MenuController
 
         // Validation
         if (empty($recipeId)) {
-            return Response::error('Recipe ID is required', 400);
+            return Response::error(Messages::RECIPE_ID_REQUIRED, 400);
         }
 
         $result = $this->menuService->deleteRecipe($tenantId, $recipeId);
 
         if ($result) {
-            return Response::success(['message' => 'Recipe deleted successfully']);
+            return Response::success(['message' => Messages::RECIPE_DELETED]);
         }
 
-        return Response::error('Failed to delete recipe', 500);
+        return Response::error(Messages::RECIPE_FAILED_DELETE, 500);
     }
 }

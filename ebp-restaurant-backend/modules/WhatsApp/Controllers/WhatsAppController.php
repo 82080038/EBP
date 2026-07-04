@@ -6,6 +6,9 @@ if (!class_exists('WhatsAppService')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 if (!class_exists('AuthMiddleware')) {
     require_once __DIR__ . '/../../../core/Middleware/AuthMiddleware.php';
 }
@@ -87,7 +90,7 @@ class WhatsAppController
         $dateTo = $request['params']['end_date'] ?? null;
 
         if (!$reportType) {
-            Response::error('Report type is required');
+            Response::error(Messages::WHATSAPP_REPORT_TYPE_REQUIRED);
             return;
         }
 

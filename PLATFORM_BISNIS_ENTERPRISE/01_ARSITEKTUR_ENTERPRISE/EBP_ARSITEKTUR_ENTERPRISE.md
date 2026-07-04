@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
-# Enterprise Architecture Document
+# Platform Bisnis Enterprise (EBP)
+# Dokumen Arsitektur Enterprise
 
 
-**Document ID:** EBP-ENTERPRISE-ARCHITECTURE-001  
-**Version:** 1.0  
-**Status:** Core Technical Blueprint  
-**Classification:** Enterprise Architecture Standard  
-**Owner:** Enterprise Business Platform Organization  
+**ID Dokumen:** EBP-ARSITEKTUR-ENTERPRISE-001
+**Versi:** 1.0
+**Status:** Blueprint Teknis Inti
+**Klasifikasi:** Standar Arsitektur Enterprise
+**Pemilik:** Organisasi Platform Bisnis Enterprise  
 
 
 ---
@@ -16,19 +16,19 @@
 
 ## 1.1 Tujuan Dokumen
 
-Dokumen ini mendefinisikan arsitektur teknis Enterprise Business Platform (EBP).
+Dokumen ini mendefinisikan arsitektur teknis Platform Bisnis Enterprise (EBP).
 
 Dokumen ini menjelaskan:
 
 - struktur platform;
 - hubungan antar komponen;
 - pembagian layer;
-- business engine;
-- data architecture;
-- integration architecture;
-- AI architecture;
-- security architecture;
-- scalability strategy.
+- mesin bisnis;
+- arsitektur data;
+- arsitektur integrasi;
+- arsitektur AI;
+- arsitektur keamanan;
+- strategi skalabilitas.
 
 
 ---
@@ -40,19 +40,19 @@ EBP dirancang berdasarkan konsep:
 
 
 ```
-ONE PLATFORM
+SATU PLATFORM
 
         ↓
 
-MANY INDUSTRIES
+BANYAK INDUSTRI
 
         ↓
 
-SHARED FOUNDATION
+FONDASI BERSAMA
 
         ↓
 
-BUSINESS INTELLIGENCE
+INTELLIGENSI BISNIS
 ```
 
 
@@ -65,32 +65,32 @@ Platform
 
     +
     
-Business Engine
+Mesin Bisnis
 
     +
 
-Industry Solution
+Solusi Industri
 
     +
 
-Artificial Intelligence
+Kecerdasan Buatan
 
     +
 
-Data Intelligence
+Intelligensia Data
 ```
 
 
 ---
 
-# 3. High Level Architecture
+# 3. Arsitektur Tingkat Tinggi
 
 
 Arsitektur utama:
 
 
 ```
-                         USERS
+                         PENGGUNA
                            |
                            |
               --------------------------------
@@ -103,29 +103,29 @@ Arsitektur utama:
                     API Gateway
                            |
                            |
-              Application Platform Layer
+              Layer Platform Aplikasi
                            |
                            |
-              Business Module Layer
+              Layer Modul Bisnis
                            |
                            |
-              Business Engine Layer
+              Layer Mesin Bisnis
                            |
                            |
-              Core Platform Layer
+              Layer Platform Inti
                            |
                            |
-              Data Platform Layer
+              Layer Platform Data
                            |
                            |
-              Infrastructure Layer
+              Layer Infrastruktur
 
 ```
 
 
 ---
 
-# 4. EBP Architecture Layer
+# 4. Layer Arsitektur EBP
 
 
 EBP terdiri dari 8 lapisan utama.
@@ -135,7 +135,7 @@ EBP terdiri dari 8 lapisan utama.
 
 # Layer 1
 
-# Experience Layer
+# Layer Pengalaman
 
 
 ## Fungsi
@@ -145,13 +145,13 @@ Lapisan yang berhubungan langsung dengan pengguna.
 
 Komponen:
 
-- Web Application
-- Mobile Application
-- Tablet Application
+- Aplikasi Web
+- Aplikasi Mobile
+- Aplikasi Tablet
 - Kiosk
-- Dashboard Display
-- Chat Interface
-- Voice Interface
+- Tampilan Dashboard
+- Antarmuka Chat
+- Antarmuka Suara
 
 
 Contoh:
@@ -175,7 +175,7 @@ Customer
 
 # Layer 2
 
-# Application Layer
+# Layer Aplikasi
 
 
 ## Fungsi
@@ -202,23 +202,23 @@ Parking ERP
 Aplikasi hanya bertanggung jawab terhadap:
 
 - kebutuhan industri;
-- user experience;
+- pengalaman pengguna;
 - konfigurasi bisnis.
 
 
 Tidak boleh membuat ulang:
 
 - login;
-- permission;
-- workflow;
-- reporting.
+- izin;
+- alur kerja;
+- pelaporan.
 
 
 ---
 
 # Layer 3
 
-# Business Module Layer
+# Layer Modul Bisnis
 
 
 ## Fungsi
@@ -230,27 +230,27 @@ Contoh:
 
 
 ```
-Sales
+Penjualan
 
-Purchasing
+Pembelian
 
-Inventory
+Inventaris
 
-Finance
+Keuangan
 
-Human Resource
+Sumber Daya Manusia
 
 CRM
 
-Asset
+Aset
 
-Production
+Produksi
 
-Customer Service
+Layanan Pelanggan
 ```
 
 
-Module:
+Modul:
 
 - dapat digunakan kembali;
 - memiliki boundary;
@@ -261,7 +261,7 @@ Module:
 
 # Layer 4
 
-# Business Engine Layer
+# Layer Mesin Bisnis
 
 
 Ini adalah jantung EBP.
@@ -274,25 +274,25 @@ Contoh:
 
 
 ```
-Workflow Engine
+Mesin Workflow
 
-Approval Engine
+Mesin Persetujuan
 
-Pricing Engine
+Mesin Harga
 
-Inventory Engine
+Mesin Inventaris
 
-Accounting Engine
+Mesin Akuntansi
 
-Notification Engine
+Mesin Notifikasi
 
-Reporting Engine
+Mesin Pelaporan
 
-AI Engine
+Mesin AI
 
-Rule Engine
+Mesin Aturan
 
-Forecast Engine
+Mesin Forecast
 ```
 
 
@@ -300,7 +300,7 @@ Forecast Engine
 
 # Layer 5
 
-# Core Platform Layer
+# Layer Platform Inti
 
 
 Merupakan fondasi semua aplikasi.
@@ -310,38 +310,38 @@ Komponen:
 
 
 ```
-Authentication
+Autentikasi
 
-Authorization
+Otorisasi
 
-User Management
+Manajemen Pengguna
 
-Role Permission
+Peran Izin
 
-Configuration
+Konfigurasi
 
-Audit Trail
+Jejak Audit
 
 Logging
 
-File Management
+Manajemen File
 
-Scheduler
+Penjadwal
 
-Search
+Pencarian
 
-API Management
+Manajemen API
 ```
 
 
-Tidak boleh ada aplikasi yang membuat ulang fungsi Core.
+Tidak boleh ada aplikasi yang membuat ulang fungsi Inti.
 
 
 ---
 
 # Layer 6
 
-# Data Platform Layer
+# Layer Platform Data
 
 
 Mengelola seluruh data.
@@ -351,17 +351,17 @@ Komponen:
 
 
 ```
-Operational Database
+Database Operasional
 
 Data Warehouse
 
 Data Lake
 
-Master Data
+Data Master
 
-Analytics Database
+Database Analitik
 
-AI Dataset
+Dataset AI
 ```
 
 
@@ -369,7 +369,7 @@ AI Dataset
 
 # Layer 7
 
-# Integration Layer
+# Layer Integrasi
 
 
 Menghubungkan EBP dengan sistem eksternal.
@@ -379,7 +379,7 @@ Contoh:
 
 
 ```
-Payment Gateway
+Gateway Pembayaran
 
 Bank
 
@@ -391,13 +391,13 @@ Email
 
 SMS
 
-IoT Device
+Perangkat IoT
 
-Barcode Scanner
+Pemindai Barcode
 
-POS Hardware
+Perangkat POS
 
-Government API
+API Pemerintah
 ```
 
 
@@ -405,7 +405,7 @@ Government API
 
 # Layer 8
 
-# Infrastructure Layer
+# Layer Infrastruktur
 
 
 Fondasi teknologi.
@@ -419,15 +419,15 @@ Server
 
 Cloud
 
-Network
+Jaringan
 
-Storage
+Penyimpanan
 
 Backup
 
 Monitoring
 
-Security
+Keamanan
 
 Deployment
 ```
@@ -435,47 +435,47 @@ Deployment
 
 ---
 
-# 5. Core Architecture
+# 5. Arsitektur Inti
 
 
-Core adalah bagian yang tidak berubah antar industri.
+Inti adalah bagian yang tidak berubah antar industri.
 
 
 Struktur:
 
 
 ```
-EBP CORE
+INTI EBP
 
 
-├── Identity Service
+├── Layanan Identitas
 
-├── Access Control
+├── Kontrol Akses
 
-├── User Service
+├── Layanan Pengguna
 
-├── Organization Service
+├── Layanan Organisasi
 
-├── Notification Service
+├── Layanan Notifikasi
 
-├── Document Service
+├── Layanan Dokumen
 
-├── Audit Service
+├── Layanan Audit
 
-├── Configuration Service
+├── Layanan Konfigurasi
 
-├── Scheduler Service
+├── Layanan Penjadwal
 
-├── Logging Service
+├── Layanan Logging
 
-└── API Service
+└── Layanan API
 
 ```
 
 
 ---
 
-# 6. Business Engine Architecture
+# 6. Arsitektur Mesin Bisnis
 
 
 Engine adalah kemampuan bisnis yang dapat digunakan ulang.
@@ -483,14 +483,14 @@ Engine adalah kemampuan bisnis yang dapat digunakan ulang.
 
 ---
 
-## Workflow Engine
+## Mesin Workflow
 
 
 Mengatur:
 
 
 - alur kerja;
-- approval;
+- persetujuan;
 - proses bisnis.
 
 
@@ -501,11 +501,11 @@ Pembelian:
 
 
 ```
-Request
+Permintaan
 
 ↓
 
-Approval Manager
+Persetujuan Manager
 
 ↓
 
@@ -519,7 +519,7 @@ Supplier
 
 ---
 
-## Rule Engine
+## Mesin Aturan
 
 
 Mengatur aturan bisnis.
@@ -549,7 +549,7 @@ Diskon 10%
 
 ---
 
-## Formula Engine
+## Mesin Formula
 
 
 Mengatur perhitungan dinamis.
@@ -559,14 +559,14 @@ Contoh:
 
 
 ```
-Profit =
-Revenue - Cost
+Laba =
+Pendapatan - Biaya
 ```
 
 
 ---
 
-## Notification Engine
+## Mesin Notifikasi
 
 
 Mengirim:
@@ -575,12 +575,12 @@ Mengirim:
 - Email;
 - WhatsApp;
 - SMS;
-- Push Notification.
+- Notifikasi Push.
 
 
 ---
 
-## Reporting Engine
+## Mesin Pelaporan
 
 
 Menghasilkan:
@@ -593,56 +593,56 @@ Menghasilkan:
 
 ---
 
-# 7. Data Architecture
+# 7. Arsitektur Data
 
 
-## 7.1 Master Data
+## 7.1 Data Master
 
 
 Data utama:
 
 
 ```
-Customer
+Pelanggan
 
 Supplier
 
-Product
+Produk
 
-Employee
+Karyawan
 
-Location
+Lokasi
 
-Organization
+Organisasi
 
-Asset
+Aset
 ```
 
 
 ---
 
-## 7.2 Transaction Data
+## 7.2 Data Transaksi
 
 
 Contoh:
 
 
 ```
-Order
+Pesanan
 
-Payment
+Pembayaran
 
-Purchase
+Pembelian
 
-Stock Movement
+Pergerakan Stok
 
-Invoice
+Faktur
 ```
 
 
 ---
 
-## 7.3 Analytical Data
+## 7.3 Data Analitik
 
 
 Digunakan untuk:
@@ -655,51 +655,51 @@ Digunakan untuk:
 
 ---
 
-# 8. Database Architecture
+# 8. Arsitektur Database
 
 
 Konsep:
 
 
 ```
-Master Database
+Database Master
 
         |
 
-Transaction Database
+Database Transaksi
 
         |
 
-Analytics Database
+Database Analitik
 
         |
 
-AI Data Repository
+Repositori Data AI
 ```
 
 
 ---
 
-# 9. Multi Tenant Architecture
+# 9. Arsitektur Multi Tenant
 
 
 EBP dirancang mendukung:
 
 
 ```
-One Platform
+Satu Platform
 
         |
 
-Many Companies
+Banyak Perusahaan
 
         |
 
-Many Branches
+Banyak Cabang
 
         |
 
-Many Users
+Banyak Pengguna
 ```
 
 
@@ -709,13 +709,13 @@ Contoh:
 ```
 EBP
 
-Company A
+Perusahaan A
 
  ├── Cabang 1
  ├── Cabang 2
 
 
-Company B
+Perusahaan B
 
  ├── Cabang 1
 ```
@@ -723,30 +723,30 @@ Company B
 
 ---
 
-# 10. Security Architecture
+# 10. Arsitektur Keamanan
 
 
 Prinsip:
 
 
-Security By Design
+Keamanan Secara Desain
 
 
 Komponen:
 
 
 ```
-Authentication
+Autentikasi
 
-Authorization
+Otorisasi
 
-Encryption
+Enkripsi
 
 Audit
 
 Monitoring
 
-Threat Detection
+Deteksi Ancaman
 
 Backup
 ```
@@ -754,7 +754,7 @@ Backup
 
 ---
 
-# 11. API Architecture
+# 11. Arsitektur API
 
 
 Semua komunikasi menggunakan API.
@@ -764,7 +764,7 @@ Konsep:
 
 
 ```
-Client
+Klien
 
  |
 
@@ -772,7 +772,7 @@ API Gateway
 
  |
 
-Service Layer
+Layer Layanan
 
  |
 
@@ -784,25 +784,25 @@ API harus:
 
 
 - terdokumentasi;
-- versioned;
-- secure.
+- memiliki versi;
+- aman.
 
 
 Contoh:
 
 
 ```
-/api/v1/customer
+/api/v1/pelanggan
 
-/api/v1/order
+/api/v1/pesanan
 
-/api/v1/payment
+/api/v1/pembayaran
 ```
 
 
 ---
 
-# 12. Event Driven Architecture
+# 12. Arsitektur Event Driven
 
 
 EBP menggunakan konsep event.
@@ -811,34 +811,34 @@ EBP menggunakan konsep event.
 Contoh:
 
 
-Ketika order dibuat:
+Ketika pesanan dibuat:
 
 
 ```
-ORDER_CREATED
+PESANAN_DIBUAT
 
 
 ↓
 
-Inventory Update
+Update Inventaris
 
 ↓
 
-Notification
+Notifikasi
 
 ↓
 
-Accounting Record
+Catatan Akuntansi
 
 ↓
 
-Analytics Update
+Update Analitik
 ```
 
 
 ---
 
-# 13. AI Architecture
+# 13. Arsitektur AI
 
 
 AI menjadi bagian platform.
@@ -848,23 +848,23 @@ Struktur:
 
 
 ```
-Business Data
+Data Bisnis
 
 ↓
 
-Data Processing
+Pemrosesan Data
 
 ↓
 
-AI Model
+Model AI
 
 ↓
 
-Recommendation Engine
+Mesin Rekomendasi
 
 ↓
 
-Business Decision
+Keputusan Bisnis
 ```
 
 
@@ -872,14 +872,14 @@ AI digunakan untuk:
 
 
 - forecasting;
-- anomaly detection;
-- optimization;
-- recommendation.
+- deteksi anomali;
+- optimasi;
+- rekomendasi.
 
 
 ---
 
-# 14. Scalability Architecture
+# 14. Arsitektur Skalabilitas
 
 
 EBP harus mampu berkembang:
@@ -889,11 +889,11 @@ Tahap awal:
 
 
 ```
-Single Server
+Server Tunggal
 
 +
 
-Modular Application
+Aplikasi Modular
 ```
 
 
@@ -905,7 +905,7 @@ Load Balancer
 
 +
 
-Multiple Server
+Server Berganda
 ```
 
 
@@ -917,27 +917,27 @@ Microservice
 
 +
 
-Cloud Infrastructure
+Infrastruktur Cloud
 
 +
 
-Distributed Database
+Database Terdistribusi
 ```
 
 
 ---
 
-# 15. Plugin Architecture
+# 15. Arsitektur Plugin
 
 
-EBP harus dapat menerima extension.
+EBP harus dapat menerima ekstensi.
 
 
 Contoh:
 
 
 ```
-Core Platform
+Platform Inti
 
         |
 
@@ -945,44 +945,44 @@ Plugin
 
         |
 
-Industry Module
+Modul Industri
 ```
 
 
 ---
 
-# 16. Development Architecture
+# 16. Arsitektur Pengembangan
 
 
 Standar:
 
 
 ```
-Requirement
+Persyaratan
 
 ↓
 
-Business Analysis
+Analisis Bisnis
 
 ↓
 
-Architecture Design
+Desain Arsitektur
 
 ↓
 
-Database Design
+Desain Database
 
 ↓
 
-Development
+Pengembangan
 
 ↓
 
-Testing
+Pengujian
 
 ↓
 
-Security Review
+Tinjauan Keamanan
 
 ↓
 
@@ -996,7 +996,7 @@ Monitoring
 
 ---
 
-# 17. Deployment Architecture
+# 17. Arsitektur Deployment
 
 
 Mendukung:
@@ -1007,9 +1007,9 @@ On Premise
 
 Cloud
 
-Hybrid Cloud
+Cloud Hibrida
 
-Private Cloud
+Cloud Privat
 
 SaaS
 ```
@@ -1017,66 +1017,66 @@ SaaS
 
 ---
 
-# 18. Monitoring Architecture
+# 18. Arsitektur Monitoring
 
 
 Sistem harus mengetahui:
 
 
-- performance;
+- performa;
 - error;
-- security event;
-- usage.
+- kejadian keamanan;
+- penggunaan.
 
 
 ---
 
-# 19. Disaster Recovery
+# 19. Pemulihan Bencana
 
 
 Wajib memiliki:
 
 
-- Backup Strategy
-- Recovery Plan
-- Data Replication
-- Failure Handling
+- Strategi Backup
+- Rencana Pemulihan
+- Replikasi Data
+- Penanganan Kegagalan
 
 
 ---
 
-# 20. Cloud Native Architecture
+# 20. Arsitektur Cloud Native
 
 EBP dirancang untuk cloud-native deployment.
 
-## 20.1 Container Strategy
+## 20.1 Strategi Container
 
 Setiap komponen dapat di-container:
 
 ```
 Docker Container
 
-Kubernetes Orchestration
+Orkestrasi Kubernetes
 
 Helm Charts
 
-Container Registry
+Registry Container
 ```
 
-## 20.2 Microservices Evolution
+## 20.2 Evolusi Microservices
 
 Arsitektur mendukung transisi ke microservices:
 
 ```
-Monolith (Initial)
+Monolit (Awal)
 
         ↓
 
-Modular Monolith
+Monolit Modular
 
         ↓
 
-Service Oriented
+Berorientasi Layanan
 
         ↓
 
@@ -1085,21 +1085,21 @@ Microservices
 
 ## 20.3 Service Mesh
 
-Untuk microservices deployment:
+Untuk deployment microservices:
 
 ```
 Istio
 
 Linkerd
 
-Service Discovery
+Penemuan Layanan
 
 Load Balancing
 
 Circuit Breaker
 ```
 
-## 20.4 Serverless Ready
+## 20.4 Siap Serverless
 
 Komponen tertentu dapat menjadi serverless:
 
@@ -1111,14 +1111,14 @@ Azure Functions
 Google Cloud Functions
 ```
 
-## 20.5 Event Driven Microservices
+## 20.5 Microservices Event Driven
 
 Microservices berkomunikasi melalui event:
 
 ```
 Event Bus
 
-Message Queue
+Antrian Pesan
 
 Event Sourcing
 
@@ -1127,86 +1127,86 @@ CQRS
 
 ---
 
-# 21. Multi Tenant Cloud Architecture
+# 21. Arsitektur Cloud Multi Tenant
 
-## 21.1 Tenant Isolation Models
+## 21.1 Model Isolasi Tenant
 
 EBP mendukung berbagai model:
 
 ```
-Shared Database
+Database Bersama
 
-Shared Schema
+Schema Bersama
 
-Separate Database per Tenant
+Database Terpisah per Tenant
 
-Separate Schema per Tenant
+Schema Terpisah per Tenant
 ```
 
-## 21.2 Tenant Tiering
+## 21.2 Tiering Tenant
 
-Support untuk tenant tiering:
+Dukungan untuk tenant tiering:
 
 ```
-Basic Tier
+Tier Dasar
 
-Business Tier
+Tier Bisnis
 
-Enterprise Tier
+Tier Enterprise
 
-Custom Tier
+Tier Kustom
 ```
 
-## 21.3 Resource Pooling
+## 21.3 Pooling Resource
 
 Efisiensi resource melalui pooling:
 
 ```
-Compute Pooling
+Pooling Komputasi
 
-Storage Pooling
+Pooling Penyimpanan
 
-Network Pooling
+Pooling Jaringan
 ```
 
-## 21.4 Noisy Neighbor Mitigation
+## 21.4 Mitigasi Noisy Neighbor
 
 Mencegah tenant berat mempengaruhi lain:
 
 ```
-Resource Quota
+Kuota Resource
 
 Rate Limiting
 
-Priority Queue
+Antrian Prioritas
 ```
 
 ---
 
-# 22. Observability Architecture
+# 22. Arsitektur Observability
 
-## 22.1 Metrics Collection
+## 22.1 Pengumpulan Metrik
 
 ```
 Prometheus
 
 Grafana
 
-Custom Metrics
+Metrik Kustom
 
-Business Metrics
+Metrik Bisnis
 ```
 
-## 22.2 Logging Strategy
+## 22.2 Strategi Logging
 
 ```
-Structured Logging
+Logging Terstruktur
 
-JSON Format
+Format JSON
 
-Log Aggregation
+Agregasi Log
 
-Centralized Logging (ELK Stack)
+Logging Terpusat (ELK Stack)
 ```
 
 ## 22.3 Distributed Tracing
@@ -1218,39 +1218,39 @@ Jaeger
 
 Zipkin
 
-Trace Context Propagation
+Propagasi Konteks Trace
 ```
 
 ## 22.4 Alerting
 
 ```
 
-Alert Manager
+Manajer Alert
 
-Incident Response
+Respon Insiden
 
-On-call Rotation
+Rotasi On-call
 
-Escalation Policy
+Kebijakan Eskalasi
 ```
 
 ---
 
-# 23. CI/CD Architecture
+# 23. Arsitektur CI/CD
 
-## 23.1 Pipeline Strategy
+## 23.1 Strategi Pipeline
 
 ```
 
 Git Flow
 
-Feature Branch
+Branch Fitur
 
 Pull Request
 
-Automated Testing
+Pengujian Otomatis
 
-Automated Deployment
+Deployment Otomatis
 ```
 
 ## 23.2 Infrastructure as Code
@@ -1263,27 +1263,27 @@ Ansible
 
 Docker Compose
 
-Kubernetes Manifests
+Manifest Kubernetes
 ```
 
 ## 23.3 GitOps
 
 ```
 
-Git as Single Source of Truth
+Git sebagai Sumber Kebenara Tunggal
 
-Automated Sync
+Sinkronisasi Otomatis
 
-Drift Detection
+Deteksi Drift
 
-Rollback Capability
+Kemampuan Rollback
 ```
 
 ---
 
-# 24. Disaster Recovery Architecture
+# 24. Arsitektur Pemulihan Bencana
 
-## 24.1 High Availability
+## 24.1 Ketersediaan Tinggi
 
 ```
 
@@ -1296,7 +1296,7 @@ Auto Scaling
 Health Checks
 ```
 
-## 24.2 Data Replication
+## 24.2 Replikasi Data
 
 ```
 
@@ -1304,65 +1304,65 @@ Master-Slave
 
 Master-Master
 
-Cross-Region Replication
+Replikasi Cross-Region
 
-Point-in-Time Recovery
+Pemulihan Point-in-Time
 ```
 
-## 24.3 Backup Strategy
-
-```
-
-Incremental Backup
-
-Full Backup
-
-Off-site Backup
-
-Backup Encryption
-```
-
-## 24.4 RPO/RTO Targets
+## 24.3 Strategi Backup
 
 ```
 
-RPO: 5 minutes
+Backup Inkremental
 
-RTO: 1 hour
+Backup Penuh
 
-Critical System: RPO 0, RTO 15 minutes
+Backup Off-site
+
+Enkripsi Backup
+```
+
+## 24.4 Target RPO/RTO
+
+```
+
+RPO: 5 menit
+
+RTO: 1 jam
+
+Sistem Kritis: RPO 0, RTO 15 menit
 ```
 
 ---
 
-# 25. Future Architecture Direction
+# 25. Arah Arsitektur Masa Depan
 
 
 EBP diarahkan menuju:
 
 
 ```
-Enterprise Digital Operating System
+Sistem Operasi Digital Enterprise
 
 
         +
 
-Artificial Intelligence
+Kecerdasan Buatan
 
 
         +
 
-Business Intelligence
+Intelligensia Bisnis
 
 
         +
 
-Automation Platform
+Platform Otomasi
 
 
         +
 
-Cloud Native Platform
+Platform Cloud Native
 
 
         +
@@ -1376,7 +1376,7 @@ Edge Computing
 # 26. Kesimpulan
 
 
-Enterprise Business Platform dirancang bukan sebagai aplikasi tunggal.
+Platform Bisnis Enterprise dirancang bukan sebagai aplikasi tunggal.
 
 EBP adalah arsitektur platform yang memungkinkan berbagai industri membangun solusi digital di atas fondasi yang sama.
 
@@ -1384,34 +1384,34 @@ Prinsip utama:
 
 
 ```
-One Core
+Satu Inti
 
-Many Engines
+Banyak Mesin
 
-Many Industries
+Banyak Industri
 
-Infinite Possibilities
+Kemungkinan Tak Terbatas
 
 Cloud Native
 
 Observable
 
-Secure
+Aman
 
-Scalable
+Skalabel
 ```
 
 
 ---
 
-# Document End
+# Akhir Dokumen
 
 
-Document ID:
+ID Dokumen:
 
-EBP-ENTERPRISE-ARCHITECTURE-001
+EBP-ARSITEKTUR-ENTERPRISE-001
 
 
-Version:
+Versi:
 
 1.1

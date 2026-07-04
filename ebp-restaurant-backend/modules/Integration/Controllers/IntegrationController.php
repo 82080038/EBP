@@ -6,6 +6,9 @@ if (!class_exists('IntegrationService')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 if (!class_exists('AuthMiddleware')) {
     require_once __DIR__ . '/../../../core/Middleware/AuthMiddleware.php';
 }
@@ -34,7 +37,7 @@ class IntegrationController
         $data = $request['body'] ?? [];
 
         if (!$integrationType) {
-            Response::error('Integration type is required');
+            Response::error(Messages::INTEGRATION_TYPE_REQUIRED);
             return;
         }
 
@@ -55,7 +58,7 @@ class IntegrationController
         $integrationType = $request['params']['type'] ?? null;
 
         if (!$integrationType) {
-            Response::error('Integration type is required');
+            Response::error(Messages::INTEGRATION_TYPE_REQUIRED);
             return;
         }
 
@@ -79,7 +82,7 @@ class IntegrationController
         $integrationType = $request['params']['type'] ?? null;
 
         if (!$integrationType) {
-            Response::error('Integration type is required');
+            Response::error(Messages::INTEGRATION_TYPE_REQUIRED);
             return;
         }
 
@@ -101,7 +104,7 @@ class IntegrationController
         $externalOrderId = $request['body']['external_order_id'] ?? null;
 
         if (!$integrationType || !$externalOrderId) {
-            Response::error('Integration type and external order ID are required');
+            Response::error(Messages::INTEGRATION_EXTERNAL_ID_REQUIRED);
             return;
         }
 
@@ -124,6 +127,6 @@ class IntegrationController
 
         $logs = $this->service->repository->getLogs($user['tenant_id'], $user['branch_id'], $integrationType, $limit);
 
-        Response::success('Logs retrieved successfully', $logs);
+        Response::success(Messages::INTEGRATION_LOGS_RETRIEVED, $logs);
     }
 }

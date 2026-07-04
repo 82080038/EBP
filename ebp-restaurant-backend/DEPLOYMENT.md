@@ -1,13 +1,13 @@
-# Deployment Guide
+# Panduan Deployment
 
-## Prerequisites
+## Prasyarat
 
 - PHP 8.0 or higher
 - MySQL 5.7 or higher
 - Node.js 16 or higher (for Playwright tests)
 - XAMPP/LAMP stack (recommended for development)
 
-## Installation
+## Instalasi
 
 ### 1. Clone Repository
 ```bash
@@ -91,7 +91,7 @@ After running `seed_data.php`:
 
 ```
 ebp-restaurant-backend/
-├── config/          # Configuration files
+├── config/          # Konfigurasi files
 ├── core/            # Core classes (Router, Response, JWT, etc.)
 ├── database/        # SQL files and database exports
 ├── frontend/        # Frontend assets (kiosk, mobile)

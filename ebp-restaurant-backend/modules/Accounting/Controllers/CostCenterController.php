@@ -6,6 +6,9 @@ if (!class_exists('CostCenterService')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 if (!class_exists('AuthMiddleware')) {
     require_once __DIR__ . '/../../../core/Middleware/AuthMiddleware.php';
 }
@@ -85,7 +88,7 @@ class CostCenterController
         $data = $request['body'] ?? [];
 
         if (!$costCenterId) {
-            Response::error('Cost center ID is required');
+            Response::error(Messages::ACCOUNTING_COST_CENTER_REQUIRED);
             return;
         }
 

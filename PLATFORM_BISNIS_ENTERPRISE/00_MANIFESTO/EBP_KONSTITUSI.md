@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
-# Constitution Document
+# Platform Bisnis Enterprise (EBP)
+# Dokumen Konstitusi
 
-**Document ID:** EBP-CONSTITUTION-001  
-**Version:** 1.0  
-**Status:** Foundation Document  
-**Classification:** Internal Strategic Document  
-**Owner:** Enterprise Business Platform Organization  
-**Category:** Corporate Architecture & Product Philosophy  
+**ID Dokumen:** EBP-KONSTITUSI-001
+**Versi:** 1.0
+**Status:** Dokumen Fondasi
+**Klasifikasi:** Dokumen Strategis Internal
+**Pemilik:** Organisasi Platform Bisnis Enterprise
+**Kategori:** Arsitektur Korporat & Filosofi Produk  
 
 ---
 
@@ -14,7 +14,7 @@
 
 ## 1.1 Tentang Dokumen Ini
 
-Dokumen ini merupakan konstitusi utama dari Enterprise Business Platform (EBP).
+Dokumen ini merupakan konstitusi utama dari Platform Bisnis Enterprise (EBP).
 
 Dokumen ini mendefinisikan:
 

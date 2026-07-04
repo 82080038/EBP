@@ -6,6 +6,9 @@ if (!class_exists('OrderService')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 if (!class_exists('AuthMiddleware')) {
     require_once __DIR__ . '/../../../core/Middleware/AuthMiddleware.php';
 }
@@ -34,7 +37,7 @@ class OrderController
             $input = json_decode(file_get_contents("php://input"), true);
 
             if (!$input) {
-                Response::error('Invalid JSON input');
+                Response::error(Messages::VALIDATION_INVALID);
                 return;
             }
 
@@ -79,7 +82,7 @@ class OrderController
         $result = $this->service->getOrders($user['tenant_id'], $user['branch_id'], $status);
 
         if ($result['success']) {
-            Response::success($result['data'], 'Orders retrieved successfully');
+            Response::success($result['data'], Messages::SUCCESS_RETRIEVED);
         } else {
             Response::error($result['message']);
         }
@@ -95,7 +98,7 @@ class OrderController
         $result = $this->service->getOrder($orderId, $user['tenant_id']);
 
         if ($result['success']) {
-            Response::success('Order retrieved successfully', $result['data']);
+            Response::success(Messages::SUCCESS_RETRIEVED, $result['data']);
         } else {
             Response::error($result['message']);
         }

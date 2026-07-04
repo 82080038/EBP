@@ -1,4 +1,4 @@
-# ESAMF Analysis Report: EBP Restaurant Backend
+# Laporan Analisis ESAMF: EBP Restaurant Backend
 
 **Document ID:** ESAMF-ANALYSIS-RESTAURANT-001
 
@@ -12,7 +12,7 @@
 
 ---
 
-# Executive Summary
+# Ringkasan Eksekutif
 
 This document provides a comprehensive analysis of the ebp-restaurant-backend repository according to the Enterprise Software Asset Management Framework (ESAMF) standards. The analysis covers module structure, database schema, reusability assessment, and EBP compliance.
 

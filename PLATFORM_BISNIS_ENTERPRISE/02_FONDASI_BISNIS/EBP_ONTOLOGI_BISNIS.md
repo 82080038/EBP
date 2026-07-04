@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
-# Business Ontology Document
+# Platform Bisnis Enterprise (EBP)
+# Dokumen Ontologi Bisnis
 
 
-**Document ID:** EBP-BUSINESS-ONTOLOGY-001  
-**Version:** 1.0  
-**Status:** Foundation Business Model  
-**Classification:** Enterprise Data Architecture  
-**Owner:** Enterprise Business Platform Organization  
+**ID Dokumen:** EBP-ONTOLOGI-BISNIS-001
+**Versi:** 1.0
+**Status:** Model Bisnis Fondasi
+**Klasifikasi:** Arsitektur Data Enterprise
+**Pemilik:** Organisasi Platform Bisnis Enterprise  
 
 
 ---
@@ -17,17 +17,17 @@
 ## 1.1 Tujuan Dokumen
 
 
-Dokumen ini mendefinisikan objek bisnis utama yang digunakan oleh seluruh ekosistem Enterprise Business Platform (EBP).
+Dokumen ini mendefinisikan objek bisnis utama yang digunakan oleh seluruh ekosistem Platform Bisnis Enterprise (EBP).
 
 
-Business Ontology adalah:
+Ontologi Bisnis adalah:
 
 > Model konsep bisnis yang mendefinisikan apa saja objek yang ada dalam dunia bisnis, bagaimana hubungan antar objek, serta bagaimana objek tersebut digunakan oleh berbagai industri.
 
 
 ---
 
-# 2. Prinsip Business Ontology
+# 2. Prinsip Ontologi Bisnis
 
 
 EBP menggunakan prinsip:
@@ -35,19 +35,19 @@ EBP menggunakan prinsip:
 
 ```
 
-Universal Concept
+Konsep Universal
 
 ```
     ↓
 ```
 
-Enterprise Object
+Objek Enterprise
 
 ```
     ↓
 ```
 
-Industry Specialization
+Spesialisasi Industri
 
 ```
 
@@ -59,16 +59,16 @@ Universal:
 
 ```
 
-Party
+Pihak
 
 ```
 
 
-Restaurant:
+Restoran:
 
 ```
 
-Customer
+Pelanggan
 
 ```
 
@@ -77,7 +77,7 @@ Hotel:
 
 ```
 
-Guest
+Tamu
 
 ```
 
@@ -86,7 +86,7 @@ Legal:
 
 ```
 
-Client
+Klien
 
 ```
 
@@ -95,14 +95,14 @@ Semua berasal dari konsep:
 
 ```
 
-Party
+Pihak
 
 ```
 
 
 ---
 
-# 3. Business Object Hierarchy
+# 3. Hirarki Objek Bisnis
 
 
 Struktur utama EBP:
@@ -149,18 +149,18 @@ Decision
 
 ---
 
-# 4. CORE BUSINESS OBJECT
+# 4. OBJEK BISNIS INTI
 
 
 ---
 
-# 4.1 Organization
+# 4.1 Organisasi
 
 
 ## Definisi
 
 
-Organization adalah entitas bisnis yang memiliki tujuan, struktur, sumber daya, dan aktivitas.
+Organisasi adalah entitas bisnis yang memiliki tujuan, struktur, sumber daya, dan aktivitas.
 
 
 Contoh:
@@ -176,7 +176,7 @@ Contoh:
 
 ---
 
-## Attributes
+## Atribut
 
 
 ```
@@ -200,54 +200,54 @@ status
 
 ---
 
-## Relationship
+## Relasi
 
 
-Organization memiliki:
+Organisasi memiliki:
 
 
 ```
 
-Organization
+Organisasi
 
 |
 
-├── Location
+├── Lokasi
 
-├── Department
+├── Departemen
 
-├── Employee
+├── Karyawan
 
-├── Asset
+├── Aset
 
-├── Account
+├── Akun
 
-└── Transaction
+└── Transaksi
 
 ```
 
 
 ---
 
-# 4.2 Party
+# 4.2 Pihak
 
 
 ## Definisi
 
 
-Party adalah pihak yang memiliki hubungan dengan organisasi.
+Pihak adalah pihak yang memiliki hubungan dengan organisasi.
 
 
-Party dapat berupa:
+Pihak dapat berupa:
 
 
 ```
 
-Person
+Orang
 
 atau
 
-Organization
+Organisasi
 
 ```
 
@@ -257,11 +257,11 @@ Organization
 ## Contoh
 
 
-Customer:
+Pelanggan:
 
 ```
 
-Person
+Orang
 
 ```
 
@@ -270,32 +270,32 @@ Supplier:
 
 ```
 
-Organization
+Organisasi
 
 ```
 
 
-Employee:
+Karyawan:
 
 ```
 
-Person
+Orang
 
 ```
 
 
-Partner:
+Mitra:
 
 ```
 
-Organization
+Organisasi
 
 ```
 
 
 ---
 
-## Attributes
+## Atribut
 
 
 ```
@@ -317,7 +317,7 @@ status
 
 ---
 
-# 4.3 Person
+# 4.3 Orang
 
 
 ## Definisi
@@ -329,16 +329,16 @@ Representasi individu manusia.
 Digunakan untuk:
 
 
-- customer;
-- employee;
-- owner;
-- driver;
-- member.
+- pelanggan;
+- karyawan;
+- pemilik;
+- pengemudi;
+- anggota.
 
 
 ---
 
-# 4.4 Location
+# 4.4 Lokasi
 
 
 ## Definisi
@@ -352,22 +352,22 @@ Contoh:
 
 ```
 
-Head Office
+Kantor Pusat
 
-Warehouse
+Gudang
 
-Restaurant Branch
+Cabang Restoran
 
-Farm Location
+Lokasi Pertanian
 
-Parking Area
+Area Parkir
 
 ```
 
 
 ---
 
-## Attributes
+## Atribut
 
 
 ```
@@ -403,25 +403,25 @@ Resource terdiri dari:
 
 ```
 
-Human Resource
+Sumber Daya Manusia
 
-Physical Resource
+Resource Fisik
 
-Financial Resource
+Resource Keuangan
 
-Digital Resource
+Resource Digital
 
 ```
 
 
 ---
 
-# 5. PRODUCT AND SERVICE ONTOLOGY
+# 5. ONTOLOGI PRODUK DAN LAYANAN
 
 
 ---
 
-# 5.1 Product
+# 5.1 Produk
 
 
 ## Definisi
@@ -433,7 +433,7 @@ Barang atau jasa yang memiliki nilai bisnis.
 Contoh:
 
 
-Restaurant:
+Restoran:
 
 ```
 
@@ -462,7 +462,7 @@ Produk toko
 
 ---
 
-## Attributes
+## Atribut
 
 
 ```
@@ -486,7 +486,7 @@ status
 
 ---
 
-# 5.2 Service
+# 5.2 Layanan
 
 
 ## Definisi
@@ -499,13 +499,13 @@ Contoh:
 
 
 - konsultasi hukum;
-- tour guide;
+- pemandu wisata;
 - jasa parkir.
 
 
 ---
 
-# 5.3 Category
+# 5.3 Kategori
 
 
 ## Definisi
@@ -519,18 +519,18 @@ Contoh:
 
 ```
 
-Food Category
+Kategori Makanan
 
-Legal Service Category
+Kategori Layanan Hukum
 
-Product Category
+Kategori Produk
 
 ```
 
 
 ---
 
-# 6. INVENTORY ONTOLOGY
+# 6. ONTOLOGI INVENTARIS
 
 
 ---
@@ -560,7 +560,7 @@ Sparepart
 
 ---
 
-# 6.2 Stock
+# 6.2 Stok
 
 
 Definisi:
@@ -574,26 +574,26 @@ Formula:
 
 ```
 
-Available Stock
+Stok Tersedia
 
 =
 
-Beginning Stock
+Stok Awal
 
 *
 
-Incoming
+Masuk
 
 *
 
-Outgoing
+Keluar
 
 ```
 
 
 ---
 
-# 6.3 Stock Movement
+# 6.3 Pergerakan Stok
 
 
 Perubahan jumlah inventory.
@@ -604,29 +604,29 @@ Jenis:
 
 ```
 
-Purchase
+Pembelian
 
-Sale
+Penjualan
 
 Transfer
 
-Adjustment
+Penyesuaian
 
 Waste
 
-Production
+Produksi
 
 ```
 
 
 ---
 
-# 7. TRANSACTION ONTOLOGY
+# 7. ONTOLOGI TRANSAKSI
 
 
 ---
 
-# 7.1 Transaction
+# 7.1 Transaksi
 
 
 ## Definisi
@@ -642,22 +642,22 @@ Contoh:
 
 ```
 
-Sales
+Penjualans
 
-Purchase
+Pembelian
 
-Payment
+Pembayaran
 
 Transfer
 
-Expense
+Biaya
 
 ```
 
 
 ---
 
-# 7.2 Order
+# 7.2 Pesanan
 
 
 Definisi:
@@ -677,7 +677,7 @@ Customer
 
 ↓
 
-Order
+Pesanan
 
 ↓
 
@@ -685,14 +685,14 @@ Product
 
 ↓
 
-Payment
+Pembayaran
 
 ```
 
 
 ---
 
-# 7.3 Payment
+# 7.3 Pembayaran
 
 
 Definisi:
@@ -710,21 +710,21 @@ Cash
 
 Bank
 
-Digital Payment
+Digital Pembayaran
 
-Credit
+Kredit
 
 ```
 
 
 ---
 
-# 8. FINANCIAL ONTOLOGY
+# 8. ONTOLOGI KEUANGAN
 
 
 ---
 
-# 8.1 Account
+# 8.1 Akun
 
 
 Tempat pencatatan nilai keuangan.
@@ -732,7 +732,7 @@ Tempat pencatatan nilai keuangan.
 
 ---
 
-# 8.2 Revenue
+# 8.2 Pendapatan
 
 
 Pendapatan organisasi.
@@ -740,7 +740,7 @@ Pendapatan organisasi.
 
 ---
 
-# 8.3 Expense
+# 8.3 Biaya
 
 
 Pengeluaran organisasi.
@@ -763,11 +763,11 @@ Profit
 
 =
 
-Revenue
+Pendapatan
 
 *
 
-Expense
+Biaya
 
 ```
 
@@ -835,11 +835,11 @@ Contoh:
 
 ```
 
-Invoice
+Faktur
 
 Contract
 
-Receipt
+Resi
 
 Permit
 
@@ -882,7 +882,7 @@ Contoh:
 
 ```
 
-Purchase Request
+Pembelian Request
 
 ↓
 
@@ -890,11 +890,11 @@ Approval
 
 ↓
 
-Purchase Order
+Pembelian Pesanan
 
 ↓
 
-Payment
+Pembayaran
 
 ```
 
@@ -925,9 +925,9 @@ Contoh:
 
 ```
 
-Order Created
+Pesanan Created
 
-Payment Received
+Pembayaran Received
 
 Stock Changed
 
@@ -953,7 +953,7 @@ Event digunakan untuk:
 
 ---
 
-# 13.1 Asset
+# 13.1 Aset
 
 
 Sumber daya bernilai yang dimiliki organisasi.
@@ -1015,7 +1015,7 @@ Profile
 
 Behavior
 
-Purchase History
+Pembelian History
 
 Loyalty
 
@@ -1112,7 +1112,7 @@ Customer
 
 ↓
 
-Order
+Pesanan
 
 ↓
 
@@ -1242,7 +1242,7 @@ Transaction
 
 ↓
 
-Order
+Pesanan
 
 Resource
 

@@ -287,7 +287,7 @@ Comprehensive testing of the ebp-restaurant-backend application was completed fo
 
 ---
 
-# Issues Found and Fixed
+# Masalah Ditemukan and Fixed
 
 ## Critical Issues Fixed
 

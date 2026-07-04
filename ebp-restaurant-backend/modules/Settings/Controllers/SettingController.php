@@ -12,6 +12,9 @@ if (!class_exists('PermissionMiddleware')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 
 class SettingController
 {
@@ -42,13 +45,13 @@ class SettingController
         $key = $request['key'] ?? '';
 
         if (empty($key)) {
-            return Response::error('Setting key is required', 400);
+            return Response::error(Messages::SETTING_KEY_REQUIRED, 400);
         }
 
         $setting = $this->settingService->getSetting($tenantId, $key);
 
         if (!$setting) {
-            return Response::error('Setting not found', 404);
+            return Response::error(Messages::SETTING_NOT_FOUND, 404);
         }
 
         return Response::success($setting);
@@ -63,7 +66,7 @@ class SettingController
         $prefix = $request['prefix'] ?? '';
 
         if (empty($prefix)) {
-            return Response::error('Prefix is required', 400);
+            return Response::error(Messages::SETTING_PREFIX_REQUIRED, 400);
         }
 
         $settings = $this->settingService->getSettingGroup($tenantId, $prefix);
@@ -81,19 +84,19 @@ class SettingController
 
         // Validation
         if (empty($data['setting_key'])) {
-            return Response::error('Setting key is required', 400);
+            return Response::error(Messages::SETTING_KEY_REQUIRED, 400);
         }
         if (!isset($data['setting_value'])) {
-            return Response::error('Setting value is required', 400);
+            return Response::error(Messages::SETTING_VALUE_REQUIRED, 400);
         }
 
         $result = $this->settingService->createSetting($tenantId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'Setting created successfully']);
+            return Response::success(['message' => Messages::SETTING_CREATED]);
         }
 
-        return Response::error('Failed to create setting or key already exists', 500);
+        return Response::error(Messages::SETTING_FAILED_CREATE, 500);
     }
 
     public function updateSetting(array $request)
@@ -107,22 +110,22 @@ class SettingController
 
         // Validation
         if (empty($settingId)) {
-            return Response::error('Setting ID is required', 400);
+            return Response::error(Messages::SETTING_ID_REQUIRED, 400);
         }
         if (empty($data['setting_key'])) {
-            return Response::error('Setting key is required', 400);
+            return Response::error(Messages::SETTING_KEY_REQUIRED, 400);
         }
         if (!isset($data['setting_value'])) {
-            return Response::error('Setting value is required', 400);
+            return Response::error(Messages::SETTING_VALUE_REQUIRED, 400);
         }
 
         $result = $this->settingService->updateSetting($tenantId, $settingId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'Setting updated successfully']);
+            return Response::success(['message' => Messages::SETTING_UPDATED]);
         }
 
-        return Response::error('Failed to update setting', 500);
+        return Response::error(Messages::SETTING_FAILED_UPDATE, 500);
     }
 
     public function upsertSetting(array $request)
@@ -135,10 +138,10 @@ class SettingController
 
         // Validation
         if (empty($data['setting_key'])) {
-            return Response::error('Setting key is required', 400);
+            return Response::error(Messages::SETTING_KEY_REQUIRED, 400);
         }
         if (!isset($data['setting_value'])) {
-            return Response::error('Setting value is required', 400);
+            return Response::error(Messages::SETTING_VALUE_REQUIRED, 400);
         }
 
         $result = $this->settingService->upsertSetting(
@@ -150,10 +153,10 @@ class SettingController
         );
 
         if ($result) {
-            return Response::success(['message' => 'Setting saved successfully']);
+            return Response::success(['message' => Messages::SETTING_SAVED]);
         }
 
-        return Response::error('Failed to save setting', 500);
+        return Response::error(Messages::SETTING_FAILED_SAVE, 500);
     }
 
     public function deleteSetting(array $request)
@@ -172,10 +175,10 @@ class SettingController
         $result = $this->settingService->deleteSetting($tenantId, $settingId);
 
         if ($result) {
-            return Response::success(['message' => 'Setting deleted successfully']);
+            return Response::success(['message' => Messages::SETTING_DELETED]);
         }
 
-        return Response::error('Failed to delete setting', 500);
+        return Response::error(Messages::SETTING_FAILED_DELETE, 500);
     }
 
     public function initializeSettings(array $request)
@@ -188,9 +191,9 @@ class SettingController
         $result = $this->settingService->initializeDefaultSettings($tenantId);
 
         if ($result) {
-            return Response::success(['message' => 'Default settings initialized successfully']);
+            return Response::success(['message' => Messages::SUCCESS_SAVED]);
         }
 
-        return Response::error('Failed to initialize default settings', 500);
+        return Response::error(Messages::SETTING_FAILED_INIT, 500);
     }
 }

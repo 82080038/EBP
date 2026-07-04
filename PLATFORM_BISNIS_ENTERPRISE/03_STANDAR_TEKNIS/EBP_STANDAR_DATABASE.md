@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
-# Database Standard Document
+# Platform Bisnis Enterprise (EBP)
+# Dokumen Standar Database
 
 
-**Document ID:** EBP-DATABASE-STANDARD-001  
-**Version:** 1.0  
+**ID Dokumen:** EBP-DATABASE-STANDARD-001  
+**Versi:** 1.0  
 **Status:** Mandatory Technical Standard  
-**Classification:** Database Governance  
-**Owner:** Enterprise Business Platform Organization  
+**Klasifikasi:** Database Governance  
+**Pemilik:** Organisasi Platform Bisnis Enterprise  
 
 
 ---
@@ -17,7 +17,7 @@
 ## 1.1 Tujuan Dokumen
 
 
-Dokumen ini mendefinisikan standar implementasi database untuk seluruh sistem yang dibangun menggunakan Enterprise Business Platform (EBP).
+Dokumen ini mendefinisikan standar implementasi database untuk seluruh sistem yang dibangun menggunakan Platform Bisnis Enterprise (EBP).
 
 
 Standar ini mencakup:
@@ -1147,11 +1147,11 @@ Karena itu:
 # Document End
 
 
-Document ID:
+ID Dokumen:
 
 EBP-DATABASE-STANDARD-001
 
 
-Version:
+Versi:
 
 1.0

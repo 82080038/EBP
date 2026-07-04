@@ -6,6 +6,9 @@ if (!class_exists('TaxCalculationService')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 if (!class_exists('AuthMiddleware')) {
     require_once __DIR__ . '/../../../core/Middleware/AuthMiddleware.php';
 }
@@ -33,7 +36,7 @@ class TaxCalculationController
         $orderId = $request['params']['id'] ?? null;
 
         if (!$orderId) {
-            Response::error('Order ID is required');
+            Response::error(Messages::ACCOUNTING_ORDER_ID_REQUIRED);
             return;
         }
 

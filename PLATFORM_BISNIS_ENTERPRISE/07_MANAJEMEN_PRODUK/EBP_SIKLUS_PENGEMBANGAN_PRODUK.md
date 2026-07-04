@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 # Product Development Lifecycle
 
 
-**Document ID:** EBP-PRODUCT-DEVELOPMENT-LIFECYCLE-001  
-**Version:** 1.0  
+**ID Dokumen:** EBP-PRODUCT-DEVELOPMENT-LIFECYCLE-001  
+**Versi:** 1.0  
 **Status:** Enterprise Product Standard  
-**Classification:** Product Development Governance  
-**Owner:** Enterprise Business Platform Organization  
+**Klasifikasi:** Product Development Governance  
+**Pemilik:** Organisasi Platform Bisnis Enterprise  
 
 
 ---
@@ -1082,11 +1082,11 @@ Great Products Are Managed.
 # Document End
 
 
-Document ID:
+ID Dokumen:
 
 EBP-PRODUCT-DEVELOPMENT-LIFECYCLE-001
 
 
-Version:
+Versi:
 
 1.0

@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
-# Core Principles Document
+# Platform Bisnis Enterprise (EBP)
+# Dokumen Prinsip Inti
 
-**Document ID:** EBP-CORE-PRINCIPLES-001  
-**Version:** 1.0  
-**Status:** Foundation Standard  
-**Classification:** Mandatory Rule Document  
-**Owner:** Enterprise Business Platform Organization  
-**Category:** Architecture, Engineering & Business Governance  
+**ID Dokumen:** EBP-PRINSIP-INTI-001
+**Versi:** 1.0
+**Status:** Standar Fondasi
+**Klasifikasi:** Dokumen Aturan Wajib
+**Pemilik:** Organisasi Platform Bisnis Enterprise
+**Kategori:** Tata Kelola Arsitektur, Engineering & Bisnis  
 
 
 ---
@@ -15,7 +15,7 @@
 
 ## 1.1 Tujuan Dokumen
 
-Dokumen ini mendefinisikan prinsip inti yang wajib dipatuhi dalam seluruh pengembangan, implementasi, dan pengelolaan Enterprise Business Platform (EBP).
+Dokumen ini mendefinisikan prinsip inti yang wajib dipatuhi dalam seluruh pengembangan, implementasi, dan pengelolaan Platform Bisnis Enterprise (EBP).
 
 Prinsip dalam dokumen ini bersifat:
 
@@ -62,13 +62,13 @@ Continuous Improvement
 
 ---
 
-# 3. BUSINESS PRINCIPLES
+# 3. PRINSIP BISNIS
 
 ---
 
 # BP-001
 
-# Business Problem Before Feature
+# Masalah Bisnis Sebelum Fitur
 
 ## Aturan
 

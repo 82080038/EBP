@@ -12,6 +12,9 @@ if (!class_exists('PermissionMiddleware')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 
 class TableController
 {
@@ -57,7 +60,7 @@ class TableController
         $table = $this->tableService->getTable($tenantId, $tableId);
 
         if (!$table) {
-            return Response::error('Table not found', 404);
+            return Response::error(Messages::TABLE_NOT_FOUND, 404);
         }
 
         return Response::success($table);
@@ -73,19 +76,19 @@ class TableController
 
         // Validation
         if (empty($data['branch_id'])) {
-            return Response::error('Branch ID is required', 400);
+            return Response::error(Messages::TABLE_BRANCH_REQUIRED, 400);
         }
         if (empty($data['table_number'])) {
-            return Response::error('Table number is required', 400);
+            return Response::error(Messages::TABLE_NUMBER_REQUIRED, 400);
         }
 
         $result = $this->tableService->createTable($tenantId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'Table created successfully']);
+            return Response::success(['message' => Messages::TABLE_CREATED]);
         }
 
-        return Response::error('Failed to create table or table number already exists', 500);
+        return Response::error(Messages::TABLE_FAILED_CREATE, 500);
     }
 
     public function updateTable(array $request)
@@ -99,16 +102,16 @@ class TableController
 
         // Validation
         if (empty($tableId)) {
-            return Response::error('Table ID is required', 400);
+            return Response::error(Messages::TABLE_ID_REQUIRED, 400);
         }
 
         $result = $this->tableService->updateTable($tenantId, $tableId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'Table updated successfully']);
+            return Response::success(['message' => Messages::TABLE_UPDATED]);
         }
 
-        return Response::error('Failed to update table', 500);
+        return Response::error(Messages::TABLE_FAILED_UPDATE, 500);
     }
 
     public function updateTableStatus(array $request)
@@ -122,24 +125,24 @@ class TableController
 
         // Validation
         if (empty($tableId)) {
-            return Response::error('Table ID is required', 400);
+            return Response::error(Messages::TABLE_ID_REQUIRED, 400);
         }
         if (empty($status)) {
-            return Response::error('Status is required', 400);
+            return Response::error(Messages::TABLE_STATUS_REQUIRED, 400);
         }
 
         $validStatuses = ['AVAILABLE', 'OCCUPIED', 'RESERVED', 'CLEANING'];
         if (!in_array($status, $validStatuses)) {
-            return Response::error('Invalid status', 400);
+            return Response::error(Messages::VALIDATION_INVALID, 400);
         }
 
         $result = $this->tableService->updateTableStatus($tenantId, $tableId, $status);
 
         if ($result) {
-            return Response::success(['message' => 'Table status updated successfully']);
+            return Response::success(['message' => Messages::TABLE_UPDATED]);
         }
 
-        return Response::error('Failed to update table status', 500);
+        return Response::error(Messages::TABLE_FAILED_UPDATE, 500);
     }
 
     public function deleteTable(array $request)
@@ -152,15 +155,15 @@ class TableController
 
         // Validation
         if (empty($tableId)) {
-            return Response::error('Table ID is required', 400);
+            return Response::error(Messages::TABLE_ID_REQUIRED, 400);
         }
 
         $result = $this->tableService->deleteTable($tenantId, $tableId);
 
         if ($result) {
-            return Response::success(['message' => 'Table deleted successfully']);
+            return Response::success(['message' => Messages::TABLE_DELETED]);
         }
 
-        return Response::error('Failed to delete table', 500);
+        return Response::error(Messages::TABLE_FAILED_DELETE, 500);
     }
 }

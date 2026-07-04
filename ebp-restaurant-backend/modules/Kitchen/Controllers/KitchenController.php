@@ -12,6 +12,9 @@ if (!class_exists('PermissionMiddleware')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 
 class KitchenController
 {
@@ -81,7 +84,7 @@ class KitchenController
         $kitchenOrder = $this->kitchenService->getKitchenOrder($tenantId, $kitchenOrderId);
 
         if (!$kitchenOrder) {
-            return Response::error('Kitchen order not found', 404);
+            return Response::error(Messages::KITCHEN_ORDER_NOT_FOUND, 404);
         }
 
         return Response::success($kitchenOrder);
@@ -97,19 +100,19 @@ class KitchenController
 
         // Validation
         if (empty($data['order_id'])) {
-            return Response::error('Order ID is required', 400);
+            return Response::error(Messages::ORDER_ID_REQUIRED, 400);
         }
         if (empty($data['items']) || !is_array($data['items'])) {
-            return Response::error('Items are required', 400);
+            return Response::error(Messages::ORDER_ITEMS_REQUIRED, 400);
         }
 
         $result = $this->kitchenService->createKitchenOrder($tenantId, $data['order_id'], $data['items']);
 
         if ($result) {
-            return Response::success(['message' => 'Kitchen order created successfully']);
+            return Response::success(['message' => Messages::KITCHEN_ORDER_CREATED]);
         }
 
-        return Response::error('Failed to create kitchen order', 500);
+        return Response::error(Messages::KITCHEN_FAILED_CREATE, 500);
     }
 
     public function updateKitchenOrderStatus(array $request)
@@ -123,24 +126,24 @@ class KitchenController
 
         // Validation
         if (empty($kitchenOrderId)) {
-            return Response::error('Kitchen order ID is required', 400);
+            return Response::error(Messages::KITCHEN_ORDER_ID_REQUIRED, 400);
         }
         if (empty($status)) {
-            return Response::error('Status is required', 400);
+            return Response::error(Messages::KITCHEN_STATUS_REQUIRED, 400);
         }
 
         $validStatuses = ['PENDING', 'IN_PROGRESS', 'READY', 'SERVED', 'CANCELLED'];
         if (!in_array($status, $validStatuses)) {
-            return Response::error('Invalid status', 400);
+            return Response::error(Messages::KITCHEN_STATUS_INVALID, 400);
         }
 
         $result = $this->kitchenService->updateKitchenOrderStatus($tenantId, $kitchenOrderId, $status);
 
         if ($result) {
-            return Response::success(['message' => 'Kitchen order status updated successfully']);
+            return Response::success(['message' => Messages::KITCHEN_ORDER_UPDATED]);
         }
 
-        return Response::error('Failed to update kitchen order status', 500);
+        return Response::error(Messages::KITCHEN_FAILED_UPDATE_STATUS, 500);
     }
 
     public function updateKitchenOrderPriority(array $request)
@@ -154,24 +157,24 @@ class KitchenController
 
         // Validation
         if (empty($kitchenOrderId)) {
-            return Response::error('Kitchen order ID is required', 400);
+            return Response::error(Messages::KITCHEN_ORDER_ID_REQUIRED, 400);
         }
         if (empty($priority)) {
-            return Response::error('Priority is required', 400);
+            return Response::error(Messages::KITCHEN_PRIORITY_REQUIRED, 400);
         }
 
         $validPriorities = ['LOW', 'NORMAL', 'HIGH', 'URGENT'];
         if (!in_array($priority, $validPriorities)) {
-            return Response::error('Invalid priority', 400);
+            return Response::error(Messages::KITCHEN_PRIORITY_INVALID, 400);
         }
 
         $result = $this->kitchenService->updateKitchenOrderPriority($tenantId, $kitchenOrderId, $priority);
 
         if ($result) {
-            return Response::success(['message' => 'Kitchen order priority updated successfully']);
+            return Response::success(['message' => Messages::KITCHEN_ORDER_UPDATED]);
         }
 
-        return Response::error('Failed to update kitchen order priority', 500);
+        return Response::error(Messages::KITCHEN_FAILED_UPDATE_PRIORITY, 500);
     }
 
     public function updateKitchenItemStatus(array $request)
@@ -184,23 +187,23 @@ class KitchenController
 
         // Validation
         if (empty($kitchenOrderItemId)) {
-            return Response::error('Kitchen order item ID is required', 400);
+            return Response::error(Messages::KITCHEN_ORDER_ID_REQUIRED_ITEM, 400);
         }
         if (empty($status)) {
-            return Response::error('Status is required', 400);
+            return Response::error(Messages::KITCHEN_STATUS_REQUIRED, 400);
         }
 
         $validStatuses = ['PENDING', 'PREPARING', 'READY', 'SERVED', 'CANCELLED'];
         if (!in_array($status, $validStatuses)) {
-            return Response::error('Invalid status', 400);
+            return Response::error(Messages::KITCHEN_STATUS_INVALID, 400);
         }
 
         $result = $this->kitchenService->updateKitchenItemStatus($kitchenOrderItemId, $status);
 
         if ($result) {
-            return Response::success(['message' => 'Kitchen item status updated successfully']);
+            return Response::success(['message' => Messages::KITCHEN_ORDER_UPDATED]);
         }
 
-        return Response::error('Failed to update kitchen item status', 500);
+        return Response::error(Messages::KITCHEN_FAILED_UPDATE_ITEM, 500);
     }
 }

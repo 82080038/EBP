@@ -6,6 +6,9 @@ if (!class_exists('CreditService')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 if (!class_exists('AuthMiddleware')) {
     require_once __DIR__ . '/../../../core/Middleware/AuthMiddleware.php';
 }
@@ -53,7 +56,7 @@ class CreditController
         $amount = $request['body']['amount'] ?? null;
 
         if (!$creditId || !$amount) {
-            Response::error('Credit ID and amount are required');
+            Response::error(Messages::CRM_CREDIT_ID_REQUIRED);
             return;
         }
 
@@ -74,7 +77,7 @@ class CreditController
         $customerId = $request['params']['customer_id'] ?? null;
 
         if (!$customerId) {
-            Response::error('Customer ID is required');
+            Response::error(Messages::CRM_CUSTOMER_ID_REQUIRED);
             return;
         }
 

@@ -12,6 +12,9 @@ if (!class_exists('PermissionMiddleware')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 
 class InventoryController
 {
@@ -57,7 +60,7 @@ class InventoryController
         $inventory = $this->inventoryService->getInventory($tenantId, $inventoryId);
 
         if (!$inventory) {
-            return Response::error('Inventory item not found', 404);
+            return Response::error(Messages::INVENTORY_NOT_FOUND, 404);
         }
 
         return Response::success($inventory);
@@ -73,19 +76,19 @@ class InventoryController
 
         // Validation
         if (empty($data['branch_id'])) {
-            return Response::error('Branch ID is required', 400);
+            return Response::error(Messages::INVENTORY_BRANCH_REQUIRED, 400);
         }
         if (empty($data['product_id'])) {
-            return Response::error('Product ID is required', 400);
+            return Response::error(Messages::INVENTORY_PRODUCT_REQUIRED, 400);
         }
 
         $result = $this->inventoryService->createInventory($tenantId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'Inventory created successfully']);
+            return Response::success(['message' => Messages::INVENTORY_CREATED]);
         }
 
-        return Response::error('Failed to create inventory or inventory already exists for this product', 500);
+        return Response::error(Messages::INVENTORY_FAILED_CREATE, 500);
     }
 
     public function updateInventory(array $request)
@@ -99,16 +102,16 @@ class InventoryController
 
         // Validation
         if (empty($inventoryId)) {
-            return Response::error('Inventory ID is required', 400);
+            return Response::error(Messages::INVENTORY_ID_REQUIRED, 400);
         }
 
         $result = $this->inventoryService->updateInventory($tenantId, $inventoryId, $data);
 
         if ($result) {
-            return Response::success(['message' => 'Inventory updated successfully']);
+            return Response::success(['message' => Messages::INVENTORY_UPDATED]);
         }
 
-        return Response::error('Failed to update inventory', 500);
+        return Response::error(Messages::INVENTORY_FAILED_UPDATE, 500);
     }
 
     public function adjustStock(array $request)
@@ -121,21 +124,21 @@ class InventoryController
 
         // Validation
         if (empty($data['branch_id'])) {
-            return Response::error('Branch ID is required', 400);
+            return Response::error(Messages::INVENTORY_BRANCH_REQUIRED, 400);
         }
         if (empty($data['product_id'])) {
-            return Response::error('Product ID is required', 400);
+            return Response::error(Messages::INVENTORY_PRODUCT_REQUIRED, 400);
         }
         if (empty($data['quantity'])) {
-            return Response::error('Quantity is required', 400);
+            return Response::error(Messages::INVENTORY_QUANTITY_REQUIRED, 400);
         }
         if (empty($data['type'])) {
-            return Response::error('Type is required (IN, OUT, or ADJUSTMENT)', 400);
+            return Response::error(Messages::INVENTORY_TYPE_REQUIRED, 400);
         }
 
         $validTypes = ['IN', 'OUT', 'ADJUSTMENT'];
         if (!in_array($data['type'], $validTypes)) {
-            return Response::error('Invalid type. Must be IN, OUT, or ADJUSTMENT', 400);
+            return Response::error(Messages::VALIDATION_INVALID, 400);
         }
 
         $reference = [
@@ -154,10 +157,10 @@ class InventoryController
         );
 
         if ($result) {
-            return Response::success(['message' => 'Stock adjusted successfully']);
+            return Response::success(['message' => Messages::INVENTORY_ADJUSTED]);
         }
 
-        return Response::error('Failed to adjust stock or insufficient stock', 500);
+        return Response::error(Messages::INVENTORY_INSUFFICIENT, 500);
     }
 
     public function deleteInventory(array $request)
@@ -170,16 +173,16 @@ class InventoryController
 
         // Validation
         if (empty($inventoryId)) {
-            return Response::error('Inventory ID is required', 400);
+            return Response::error(Messages::INVENTORY_ID_REQUIRED, 400);
         }
 
         $result = $this->inventoryService->deleteInventory($tenantId, $inventoryId);
 
         if ($result) {
-            return Response::success(['message' => 'Inventory deleted successfully']);
+            return Response::success(['message' => Messages::INVENTORY_DELETED]);
         }
 
-        return Response::error('Failed to delete inventory', 500);
+        return Response::error(Messages::ERROR_FAILED, 500);
     }
 
     public function getTransactions(array $request)

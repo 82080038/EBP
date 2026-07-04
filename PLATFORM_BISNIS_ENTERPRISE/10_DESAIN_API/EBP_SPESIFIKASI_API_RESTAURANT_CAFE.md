@@ -1,13 +1,13 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 
 # Restaurant & Cafe ERP
 
 # API Specification Document
 
 
-**Document ID:** EBP-RC-API-SPECIFICATION-001
+**ID Dokumen:** EBP-RC-API-SPECIFICATION-001
 
-**Version:** 1.0
+**Versi:** 1.0
 
 **Architecture:** REST API Enterprise Standard
 
@@ -1237,10 +1237,10 @@ API harus:
 
 # Document End
 
-Document ID:
+ID Dokumen:
 
 EBP-RC-API-SPECIFICATION-001
 
-Version:
+Versi:
 
 1.0

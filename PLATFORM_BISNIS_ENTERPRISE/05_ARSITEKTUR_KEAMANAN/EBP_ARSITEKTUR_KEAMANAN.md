@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
-# Security Architecture Document
+# Platform Bisnis Enterprise (EBP)
+# Dokumen Arsitektur Keamanan
 
 
-**Document ID:** EBP-SECURITY-ARCHITECTURE-001  
-**Version:** 1.0  
+**ID Dokumen:** EBP-SECURITY-ARCHITECTURE-001  
+**Versi:** 1.0  
 **Status:** Enterprise Security Standard  
-**Classification:** Mandatory Security Policy  
-**Owner:** Enterprise Business Platform Organization  
+**Klasifikasi:** Mandatory Security Policy  
+**Pemilik:** Organisasi Platform Bisnis Enterprise  
 
 
 ---
@@ -1388,10 +1388,10 @@ Security by Design
 
 # Document End
 
-Document ID:
+ID Dokumen:
 
 EBP-SECURITY-ARCHITECTURE-001
 
-Version:
+Versi:
 
 1.1

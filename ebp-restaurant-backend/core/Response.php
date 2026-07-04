@@ -18,7 +18,7 @@ class Response
 
 
 
-    public static function success($data = [], $message = 'Success')
+    public static function success($data = [], $message = 'Berhasil')
     {
         self::json([
             "success" => true,

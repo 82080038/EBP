@@ -1,13 +1,13 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 
 # Restaurant & Cafe ERP
 
 # Frontend Architecture Document
 
 
-**Document ID:** EBP-RC-FRONTEND-ARCHITECTURE-001
+**ID Dokumen:** EBP-RC-FRONTEND-ARCHITECTURE-001
 
-**Version:** 1.0
+**Versi:** 1.0
 
 **Frontend Architecture:**
 
@@ -1371,11 +1371,11 @@ Frontend harus:
 # Document End
 
 
-Document ID:
+ID Dokumen:
 
 EBP-RC-FRONTEND-ARCHITECTURE-001
 
 
-Version:
+Versi:
 
 1.0

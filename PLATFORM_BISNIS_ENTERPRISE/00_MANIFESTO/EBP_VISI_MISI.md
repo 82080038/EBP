@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
-# Vision & Mission Document
+# Platform Bisnis Enterprise (EBP)
+# Dokumen Visi & Misi
 
-**Document ID:** EBP-VISION-MISSION-001  
-**Version:** 1.0  
-**Status:** Foundation Document  
-**Classification:** Strategic Document  
-**Owner:** Enterprise Business Platform Organization  
-**Category:** Corporate Strategy & Product Direction  
+**ID Dokumen:** EBP-VISI-MISI-001
+**Versi:** 1.0
+**Status:** Dokumen Fondasi
+**Klasifikasi:** Dokumen Strategis
+**Pemilik:** Organisasi Platform Bisnis Enterprise
+**Kategori:** Strategi Korporat & Arah Produk  
 
 ---
 
@@ -14,7 +14,7 @@
 
 ## 1.1 Tujuan Dokumen
 
-Dokumen ini mendefinisikan visi, misi, tujuan strategis, dan arah pengembangan jangka panjang Enterprise Business Platform (EBP).
+Dokumen ini mendefinisikan visi, misi, tujuan strategis, dan arah pengembangan jangka panjang Platform Bisnis Enterprise (EBP).
 
 Dokumen ini menjadi pedoman bagi:
 

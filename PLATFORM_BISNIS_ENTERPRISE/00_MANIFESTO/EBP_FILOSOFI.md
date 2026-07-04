@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
-# Philosophy Document
+# Platform Bisnis Enterprise (EBP)
+# Dokumen Filosofi
 
-**Document ID:** EBP-PHILOSOPHY-001  
-**Version:** 1.0  
-**Status:** Foundation Document  
-**Classification:** Strategic & Cultural Document  
-**Owner:** Enterprise Business Platform Organization  
-**Category:** Corporate Philosophy & Engineering Culture  
+**ID Dokumen:** EBP-FILOSOFI-001
+**Versi:** 1.0
+**Status:** Dokumen Fondasi
+**Klasifikasi:** Dokumen Strategis & Budaya
+**Pemilik:** Organisasi Platform Bisnis Enterprise
+**Kategori:** Filosofi Korporat & Budaya Engineering  
 
 ---
 
@@ -14,7 +14,7 @@
 
 ## 1.1 Tujuan Dokumen
 
-Dokumen ini mendefinisikan filosofi dasar yang menjadi landasan cara berpikir, cara bekerja, dan cara mengambil keputusan dalam pembangunan Enterprise Business Platform (EBP).
+Dokumen ini mendefinisikan filosofi dasar yang menjadi landasan cara berpikir, cara bekerja, dan cara mengambil keputusan dalam pembangunan Platform Bisnis Enterprise (EBP).
 
 Filosofi ini menjadi pedoman bagi:
 
@@ -57,7 +57,7 @@ Karena itu:
 
 ---
 
-# 3. Business First Philosophy
+# 3. Filosofi Bisnis Utama
 
 ## 3.1 Prinsip
 
@@ -97,7 +97,7 @@ Solusi dibuat berdasarkan akar masalah.
 
 ---
 
-# 4. Problem Before Feature Philosophy
+# 4. Filosofi Masalah Sebelum Fitur
 
 ## 4.1 Prinsip
 

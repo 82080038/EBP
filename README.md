@@ -1,244 +1,245 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 
-**A Software Company Platform for Building Enterprise Applications**
+**Platform Perusahaan Software untuk Membangun Aplikasi Enterprise**
 
 ---
 
-## About EBP
+## Tentang EBP
 
-EBP is not just an application. EBP is a **software company platform** designed to build and manage multiple enterprise products with shared foundation and independent domain databases.
+EBP bukan hanya sebuah aplikasi. EBP adalah **platform perusahaan software** yang dirancang untuk membangun dan mengelola banyak produk enterprise dengan fondasi bersama dan database domain independen.
 
-### Philosophy
+### Filosofi
 
 ```
 
-ONE PLATFORM
+SATU PLATFORM
 
 +
 
-MANY PRODUCTS
+BANYAK PRODUK
 
 ```
 
-### Vision
+### Visi
 
-To build a sustainable software company platform that enables rapid development of enterprise-grade applications across multiple industries.
+Untuk membangun platform perusahaan software yang berkelanjutan yang memungkinkan pengembangan cepat aplikasi enterprise-grade di berbagai industri.
 
-### Mission
+### Misi
 
-- Provide a robust foundation for enterprise applications
-- Enable asset reuse across products
-- Maintain high quality and security standards
-- Support scalable multi-tenant architecture
-- Facilitate long-term organizational growth
-
----
-
-## Platform Architecture
-
-### Core Platform
-
-The core platform provides shared foundation used by all products:
-
-- **Identity Management**: Users, Roles, Permissions, RBAC
-- **Organization**: Tenants, Companies, Branches, Departments
-- **Security**: Audit Trail, Login History, Security Events
-- **Workflow**: Workflow Engine, Approval System
-- **Notification**: Email, SMS, Push Notifications
-- **File Management**: File Upload, Document Storage
-- **Master Data**: Countries, Currencies, Tax Codes, Units
-- **Business Partners**: Shared partner management
-
-### Product Ecosystem
-
-Each product has its own domain-specific database and business logic:
-
-- **Restaurant ERP**: Menu, Orders, Kitchen, Inventory, Accounting
-- **Hotel ERP**: Rooms, Reservations, Check-in/out, Housekeeping
-- **Parking System**: Slots, Vehicles, Tickets, Rates
-- **Agriculture ERP**: Farms, Harvests, Production, Warehouses
-- **Legal System**: Clients, Cases, Documents, Billing
+- Menyediakan fondasi yang kuat untuk aplikasi enterprise
+- Memungkinkan penggunaan ulang aset di berbagai produk
+- Menjaga standar kualitas dan keamanan yang tinggi
+- Mendukung arsitektur multi-tenant yang skalabel
+- Memfasilitasi pertumbuhan organisasi jangka panjang
 
 ---
 
-## Project Structure
+## Arsitektur Platform
+
+### Platform Inti
+
+Platform inti menyediakan fondasi bersama yang digunakan oleh semua produk:
+
+- **Manajemen Identitas**: Pengguna, Peran, Izin, RBAC
+- **Organisasi**: Tenant, Perusahaan, Cabang, Departemen
+- **Keamanan**: Jejak Audit, Riwayat Login, Kejadian Keamanan
+- **Workflow**: Mesin Workflow, Sistem Persetujuan
+- **Notifikasi**: Email, SMS, Notifikasi Push
+- **Manajemen File**: Upload File, Penyimpanan Dokumen
+- **Data Master**: Negara, Mata Uang, Kode Pajak, Satuan
+- **Mitra Bisnis**: Manajemen mitra bersama
+
+### Ekosistem Produk
+
+Setiap produk memiliki database domain-spesifik dan logika bisnisnya sendiri:
+
+- **Restaurant ERP**: Menu, Pesanan, Dapur, Inventaris, Akuntansi
+- **Hotel ERP**: Kamar, Reservasi, Check-in/out, Housekeeping
+- **Sistem Parkir**: Slot, Kendaraan, Tiket, Tarif
+- **Agriculture ERP**: Pertanian, Panen, Produksi, Gudang
+- **Sistem Legal**: Klien, Kasus, Dokumen, Tagihan
+
+---
+
+## Struktur Proyek
 
 ```
 
 EBP/
 
-├── ENTERPRISE_BUSINESS_PLATFORM/
+├── PLATFORM_BISNIS_ENTERPRISE/
 
-│   ├── 00_EBP_MANIFESTO/              # Constitution, Vision, Philosophy
-│   ├── 01_ENTERPRISE_ARCHITECTURE/     # Architecture Overview
-│   ├── 02_BUSINESS_FOUNDATION/         # Business Ontology, Master Data
-│   ├── 03_TECHNICAL_STANDARD/         # Database Standard, Core Framework
-│   ├── 04_BUSINESS_ENGINE/             # Engine Architecture
-│   ├── 05_SECURITY_ARCHITECTURE/       # Security Architecture
-│   ├── 06_DEVOPS_ARCHITECTURE/         # DevOps Architecture
-│   ├── 07_PRODUCT_MANAGEMENT/         # Product Development Lifecycle
-│   ├── 08_PRODUCT_BLUEPRINT/           # Restaurant ERP Blueprint
-│   ├── 09_DATABASE_DESIGN/             # Database Design & ERD
-│   ├── 10_API_DESIGN/                  # API Specification
-│   ├── 11_APPLICATION_ARCHITECTURE/    # Backend & Frontend Architecture
-│   ├── EBP_PLATFORM_DIRECTORY_STRUCTURE.md
-│   ├── EBP_PLATFORM_MIGRATION_PLAN.md
-│   └── EBP_DATABASE_ARCHITECTURE.md
+│   ├── 00_MANIFESTO_EBP/              # Konstitusi, Visi, Filosofi
+│   ├── 01_ARSITEKTUR_ENTERPRISE/       # Ikhtisar Arsitektur
+│   ├── 02_FONDASI_BISNIS/             # Ontologi Bisnis, Data Master
+│   ├── 03_STANDAR_TEKNIS/             # Standar Database, Framework Inti
+│   ├── 04_MESIN_BISNIS/               # Arsitektur Mesin
+│   ├── 05_ARSITEKTUR_KEAMANAN/        # Arsitektur Keamanan
+│   ├── 06_ARSITEKTUR_DEVOPS/          # Arsitektur DevOps
+│   ├── 07_MANAJEMEN_PRODUK/           # Siklus Pengembangan Produk
+│   ├── 08_BLUEPRINT_PRODUK/           # Blueprint Restaurant ERP
+│   ├── 09_DESAIN_DATABASE/            # Desain Database & ERD
+│   ├── 10_DESIGN_API/                 # Spesifikasi API
+│   ├── 11_ARSITEKTUR_APLIKASI/        # Arsitektur Backend & Frontend
+│   ├── EBP_STRUKTUR_DIREKTORI_PLATFORM.md
+│   ├── EBP_RENCANA_MIGRASI_PLATFORM.md
+│   └── EBP_ARSITEKTUR_DATABASE.md
 
 │
-└── ebp-restaurant-backend/              # Restaurant ERP Backend Implementation
+└── ebp-restaurant-backend/              # Implementasi Backend Restaurant ERP
 
-    ├── config/                          # Database Configuration
-    ├── core/                            # Core Framework (JWT, Response, Router)
-    │   ├── Engines/                     # Business Engines (Stock, Kitchen, Accounting)
-    │   └── Middleware/                  # Auth, Permission, Tenant Middleware
-    ├── modules/                         # Business Modules
-    │   ├── Auth/                         # Authentication Module
-    │   └── Sales/                        # Sales Module (Orders, POS)
-    ├── routes/                          # API Routes
-    ├── public/                          # Public Entry Point
+    ├── config/                          # Konfigurasi Database
+    ├── core/                            # Framework Inti (JWT, Response, Router)
+    │   ├── Engines/                     # Mesin Bisnis (Stock, Kitchen, Accounting)
+    │   └── Middleware/                  # Middleware Auth, Permission, Tenant
+    ├── modules/                         # Modul Bisnis
+    │   ├── Auth/                         # Modul Autentikasi
+    │   └── Sales/                        # Modul Penjualan (Pesanan, POS)
+    ├── routes/                          # Route API
+    ├── public/                          # Titik Masuk Publik
     └── README.md
 
 ```
 
----
-
-## Documentation
-
-### Foundation Documents
-
-| Document | Description |
-|----------|-------------|
-| [EBP_CONSTITUTION.md](ENTERPRISE_BUSINESS_PLATFORM/00_EBP_MANIFESTO/EBP_CONSTITUTION.md) | Platform constitution and fundamental principles |
-| [EBP_VISION_MISSION.md](ENTERPRISE_BUSINESS_PLATFORM/00_EBP_MANIFESTO/EBP_VISION_MISSION.md) | Vision and mission statements |
-| [EBP_PHILOSOPHY.md](ENTERPRISE_BUSINESS_PLATFORM/00_EBP_MANIFESTO/EBP_PHILOSOPHY.md) | Platform philosophy and culture |
-| [EBP_CORE_PRINCIPLES.md](ENTERPRISE_BUSINESS_PLATFORM/00_EBP_MANIFESTO/EBP_CORE_PRINCIPLES.md) | Core principles that must be followed |
-
-### Architecture Documents
-
-| Document | Description |
-|----------|-------------|
-| [EBP_ENTERPRISE_ARCHITECTURE.md](ENTERPRISE_BUSINESS_PLATFORM/01_ENTERPRISE_ARCHITECTURE/EBP_ENTERPRISE_ARCHITECTURE.md) | Enterprise architecture overview |
-| [EBP_SECURITY_ARCHITECTURE.md](ENTERPRISE_BUSINESS_PLATFORM/05_SECURITY_ARCHITECTURE/EBP_SECURITY_ARCHITECTURE.md) | Security architecture and standards |
-| [EBP_DEVOPS_ARCHITECTURE.md](ENTERPRISE_BUSINESS_PLATFORM/06_DEVOPS_ARCHITECTURE/EBP_DEVOPS_ARCHITECTURE.md) | DevOps and deployment architecture |
-
-### Technical Documents
-
-| Document | Description |
-|----------|-------------|
-| [EBP_DATABASE_STANDARD.md](ENTERPRISE_BUSINESS_PLATFORM/03_TECHNICAL_STANDARD/EBP_DATABASE_STANDARD.md) | Database design standards |
-| [EBP_CORE_FRAMEWORK.md](ENTERPRISE_BUSINESS_PLATFORM/03_TECHNICAL_STANDARD/EBP_CORE_FRAMEWORK.md) | Core framework blueprint |
-| [EBP_ENGINE_ARCHITECTURE.md](ENTERPRISE_BUSINESS_PLATFORM/04_BUSINESS_ENGINE/EBP_ENGINE_ARCHITECTURE.md) | Business engine architecture |
-
-### Platform Strategy Documents
-
-| Document | Description |
-|----------|-------------|
-| [EBP_PLATFORM_DIRECTORY_STRUCTURE.md](ENTERPRISE_BUSINESS_PLATFORM/EBP_PLATFORM_DIRECTORY_STRUCTURE.md) | Platform directory structure |
-| [EBP_PLATFORM_MIGRATION_PLAN.md](ENTERPRISE_BUSINESS_PLATFORM/EBP_PLATFORM_MIGRATION_PLAN.md) | Migration strategy and plan |
-| [EBP_DATABASE_ARCHITECTURE.md](ENTERPRISE_BUSINESS_PLATFORM/EBP_DATABASE_ARCHITECTURE.md) | Database architecture strategy |
-
-### Restaurant ERP Documents
-
-| Document | Description |
-|----------|-------------|
-| [EBP_PRODUCT_RESTAURANT_CAFE_ERP.md](ENTERPRISE_BUSINESS_PLATFORM/08_PRODUCT_BLUEPRINT/EBP_PRODUCT_RESTAURANT_CAFE_ERP.md) | Restaurant ERP product blueprint |
-| [EBP_RESTAURANT_CAFE_BUSINESS_PROCESS.md](ENTERPRISE_BUSINESS_PLATFORM/08_PRODUCT_BLUEPRINT/EBP_RESTAURANT_CAFE_BUSINESS_PROCESS.md) | Business process documentation |
-| [EBP_RESTAURANT_CAFE_MODULE_SPECIFICATION.md](ENTERPRISE_BUSINESS_PLATFORM/08_PRODUCT_BLUEPRINT/EBP_RESTAURANT_CAFE_MODULE_SPECIFICATION.md) | Module specifications |
-| [EBP_RESTAURANT_CAFE_DATABASE_DESIGN.md](ENTERPRISE_BUSINESS_PLATFORM/09_DATABASE_DESIGN/EBP_RESTAURANT_CAFE_DATABASE_DESIGN.md) | Database design documentation |
-| [EBP_RESTAURANT_CAFE_ERD.md](ENTERPRISE_BUSINESS_PLATFORM/09_DATABASE_DESIGN/EBP_RESTAURANT_CAFE_ERD.md) | Entity Relationship Diagram |
-| [EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql](ENTERPRISE_BUSINESS_PLATFORM/09_DATABASE_DESIGN/EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql) | Complete MySQL schema |
-| [EBP_RESTAURANT_CAFE_API_SPECIFICATION.md](ENTERPRISE_BUSINESS_PLATFORM/10_API_DESIGN/EBP_RESTAURANT_CAFE_API_SPECIFICATION.md) | API specification |
-| [EBP_RESTAURANT_CAFE_BACKEND_ARCHITECTURE.md](ENTERPRISE_BUSINESS_PLATFORM/11_APPLICATION_ARCHITECTURE/EBP_RESTAURANT_CAFE_BACKEND_ARCHITECTURE.md) | Backend architecture |
-| [EBP_RESTAURANT_CAFE_FRONTEND_ARCHITECTURE.md](ENTERPRISE_BUSINESS_PLATFORM/11_APPLICATION_ARCHITECTURE/EBP_RESTAURANT_CAFE_FRONTEND_ARCHITECTURE.md) | Frontend architecture |
 
 ---
 
-## Technology Stack
+## Dokumentasi
+
+### Dokumen Fondasi
+
+| Dokumen | Deskripsi |
+|----------|-------------|
+| [EBP_CONSTITUTION.md](PLATFORM_BISNIS_ENTERPRISE/00_MANIFESTO_EBP/EBP_CONSTITUTION.md) | Konstitusi platform dan prinsip fundamental |
+| [EBP_VISION_MISSION.md](PLATFORM_BISNIS_ENTERPRISE/00_MANIFESTO_EBP/EBP_VISION_MISSION.md) | Pernyataan visi dan misi |
+| [EBP_PHILOSOPHY.md](PLATFORM_BISNIS_ENTERPRISE/00_MANIFESTO_EBP/EBP_PHILOSOPHY.md) | Filosofi dan budaya platform |
+| [EBP_CORE_PRINCIPLES.md](PLATFORM_BISNIS_ENTERPRISE/00_MANIFESTO_EBP/EBP_CORE_PRINCIPLES.md) | Prinsip inti yang harus diikuti |
+
+### Dokumen Arsitektur
+
+| Dokumen | Deskripsi |
+|----------|-------------|
+| [EBP_ENTERPRISE_ARCHITECTURE.md](PLATFORM_BISNIS_ENTERPRISE/01_ARSITEKTUR_ENTERPRISE/EBP_ENTERPRISE_ARCHITECTURE.md) | Ikhtisar arsitektur enterprise |
+| [EBP_SECURITY_ARCHITECTURE.md](PLATFORM_BISNIS_ENTERPRISE/05_ARSITEKTUR_KEAMANAN/EBP_SECURITY_ARCHITECTURE.md) | Arsitektur dan standar keamanan |
+| [EBP_DEVOPS_ARCHITECTURE.md](PLATFORM_BISNIS_ENTERPRISE/06_ARSITEKTUR_DEVOPS/EBP_DEVOPS_ARCHITECTURE.md) | Arsitektur DevOps dan deployment |
+
+### Dokumen Teknis
+
+| Dokumen | Deskripsi |
+|----------|-------------|
+| [EBP_DATABASE_STANDARD.md](PLATFORM_BISNIS_ENTERPRISE/03_STANDAR_TEKNIS/EBP_DATABASE_STANDARD.md) | Standar desain database |
+| [EBP_CORE_FRAMEWORK.md](PLATFORM_BISNIS_ENTERPRISE/03_STANDAR_TEKNIS/EBP_CORE_FRAMEWORK.md) | Blueprint framework inti |
+| [EBP_ENGINE_ARCHITECTURE.md](PLATFORM_BISNIS_ENTERPRISE/04_MESIN_BISNIS/EBP_ENGINE_ARCHITECTURE.md) | Arsitektur mesin bisnis |
+
+### Dokumen Strategi Platform
+
+| Dokumen | Deskripsi |
+|----------|-------------|
+| [EBP_STRUKTUR_DIREKTORI_PLATFORM.md](PLATFORM_BISNIS_ENTERPRISE/EBP_STRUKTUR_DIREKTORI_PLATFORM.md) | Struktur direktori platform |
+| [EBP_RENCANA_MIGRASI_PLATFORM.md](PLATFORM_BISNIS_ENTERPRISE/EBP_RENCANA_MIGRASI_PLATFORM.md) | Strategi dan rencana migrasi |
+| [EBP_ARSITEKTUR_DATABASE.md](PLATFORM_BISNIS_ENTERPRISE/EBP_ARSITEKTUR_DATABASE.md) | Strategi arsitektur database |
+
+### Dokumen Restaurant ERP
+
+| Dokumen | Deskripsi |
+|----------|-------------|
+| [EBP_PRODUCT_RESTAURANT_CAFE_ERP.md](PLATFORM_BISNIS_ENTERPRISE/08_BLUEPRINT_PRODUK/EBP_PRODUCT_RESTAURANT_CAFE_ERP.md) | Blueprint produk Restaurant ERP |
+| [EBP_RESTAURANT_CAFE_BUSINESS_PROCESS.md](PLATFORM_BISNIS_ENTERPRISE/08_BLUEPRINT_PRODUK/EBP_RESTAURANT_CAFE_BUSINESS_PROCESS.md) | Dokumentasi proses bisnis |
+| [EBP_RESTAURANT_CAFE_MODULE_SPECIFICATION.md](PLATFORM_BISNIS_ENTERPRISE/08_BLUEPRINT_PRODUK/EBP_RESTAURANT_CAFE_MODULE_SPECIFICATION.md) | Spesifikasi modul |
+| [EBP_RESTAURANT_CAFE_DATABASE_DESIGN.md](PLATFORM_BISNIS_ENTERPRISE/09_DESAIN_DATABASE/EBP_RESTAURANT_CAFE_DATABASE_DESIGN.md) | Dokumentasi desain database |
+| [EBP_RESTAURANT_CAFE_ERD.md](PLATFORM_BISNIS_ENTERPRISE/09_DESAIN_DATABASE/EBP_RESTAURANT_CAFE_ERD.md) | Diagram Hubungan Entitas |
+| [EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql](PLATFORM_BISNIS_ENTERPRISE/09_DESAIN_DATABASE/EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql) | Skema MySQL lengkap |
+| [EBP_RESTAURANT_CAFE_API_SPECIFICATION.md](PLATFORM_BISNIS_ENTERPRISE/10_DESIGN_API/EBP_RESTAURANT_CAFE_API_SPECIFICATION.md) | Spesifikasi API |
+| [EBP_RESTAURANT_CAFE_BACKEND_ARCHITECTURE.md](PLATFORM_BISNIS_ENTERPRISE/11_ARSITEKTUR_APLIKASI/EBP_RESTAURANT_CAFE_BACKEND_ARCHITECTURE.md) | Arsitektur backend |
+| [EBP_RESTAURANT_CAFE_FRONTEND_ARCHITECTURE.md](PLATFORM_BISNIS_ENTERPRISE/11_ARSITEKTUR_APLIKASI/EBP_RESTAURANT_CAFE_FRONTEND_ARCHITECTURE.md) | Arsitektur frontend |
+
+---
+
+## Stack Teknologi
 
 ### Backend
 
-- **Language**: PHP 8.x
+- **Bahasa**: PHP 8.x
 - **Database**: MySQL 8.x
-- **Architecture**: REST API
-- **Authentication**: JWT
-- **Pattern**: Service Repository Pattern
-- **Multi-tenant**: Supported
+- **Arsitektur**: REST API
+- **Autentikasi**: JWT
+- **Pola**: Service Repository Pattern
+- **Multi-tenant**: Didukung
 
 ### Frontend
 
-- **Language**: HTML5, CSS3, JavaScript
+- **Bahasa**: HTML5, CSS3, JavaScript
 - **Framework**: jQuery, AJAX
-- **UI Library**: Bootstrap
-- **Architecture**: AJAX-based Application
+- **Library UI**: Bootstrap
+- **Arsitektur**: Aplikasi Berbasis AJAX
 
 ### DevOps
 
-- **Version Control**: Git
-- **Repository**: GitHub
-- **Containerization**: Docker (planned)
-- **CI/CD**: GitHub Actions (planned)
+- **Kontrol Versi**: Git
+- **Repositori**: GitHub
+- **Kontainerisasi**: Docker (rencana)
+- **CI/CD**: GitHub Actions (rencana)
 
 ---
 
-## Database Architecture
+## Arsitektur Database
 
-### Core Database (ebp_core)
+### Database Inti (ebp_core)
 
-Shared foundation used by all products:
+Fondasi bersama yang digunakan oleh semua produk:
 
-- Identity Management (users, roles, permissions)
-- Organization (tenants, companies, branches)
-- Security (audit_logs, login_history, security_events)
+- Manajemen Identitas (users, roles, permissions)
+- Organisasi (tenants, companies, branches)
+- Keamanan (audit_logs, login_history, security_events)
 - Workflow (workflow_definitions, approval_requests)
-- Notification (notifications, email_queue, sms_queue)
-- File Management (files, documents, attachments)
-- Master Data (countries, currencies, tax_codes, units)
-- Business Partners (business_partners)
+- Notifikasi (notifications, email_queue, sms_queue)
+- Manajemen File (files, documents, attachments)
+- Data Master (countries, currencies, tax_codes, units)
+- Mitra Bisnis (business_partners)
 
-### Product Databases
+### Database Produk
 
-Each product has its own domain-specific database:
+Setiap produk memiliki database domain-spesifiknya sendiri:
 
-- **ebp_restaurant**: Menu, Orders, Kitchen, Inventory, Accounting
-- **ebp_hotel**: Rooms, Reservations, Check-in/out, Housekeeping
-- **ebp_parking**: Slots, Vehicles, Tickets, Rates
-- **ebp_agriculture**: Farms, Harvests, Production, Warehouses
-- **ebp_legal**: Clients, Cases, Documents, Billing
+- **ebp_restaurant**: Menu, Pesanan, Dapur, Inventaris, Akuntansi
+- **ebp_hotel**: Kamar, Reservasi, Check-in/out, Housekeeping
+- **ebp_parking**: Slot, Kendaraan, Tiket, Tarif
+- **ebp_agriculture**: Pertanian, Panen, Produksi, Gudang
+- **ebp_legal**: Klien, Kasus, Dokumen, Tagihan
 
-### Multi-Tenant Strategy
+### Strategi Multi-Tenant
 
 - **Model A**: Database per tenant (Enterprise)
-- **Model B**: Shared database with tenant_id (Startup)
-- **Model C**: Hybrid (SaaS Platform)
+- **Model B**: Database bersama dengan tenant_id (Startup)
+- **Model C**: Hibrida (Platform SaaS)
 
 ---
 
-## Getting Started
+## Memulai
 
-### Prerequisites
+### Prasyarat
 
-- PHP 8.x or higher
-- MySQL 8.x or higher
-- Composer (for dependency management)
+- PHP 8.x atau lebih tinggi
+- MySQL 8.x atau lebih tinggi
+- Composer (untuk manajemen dependensi)
 - Git
 
-### Installation
+### Instalasi
 
-1. **Clone the repository**
+1. **Clone repositori**
 
 ```bash
 git clone https://github.com/82080038/EBP.git
 cd EBP
 ```
 
-2. **Import Core Database Schema**
+2. **Impor Skema Database Inti**
 
 ```bash
-mysql -u root -p < ENTERPRISE_BUSINESS_PLATFORM/09_DATABASE_DESIGN/EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql
+mysql -u root -p < PLATFORM_BISNIS_ENTERPRISE/09_DESAIN_DATABASE/EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql
 ```
 
-3. **Configure Database Connection**
+3. **Konfigurasi Koneksi Database**
 
 Edit `ebp-restaurant-backend/config/database.php`:
 
@@ -249,13 +250,13 @@ private $username = "root";
 private $password = "";
 ```
 
-4. **Configure Web Server**
+4. **Konfigurasi Web Server**
 
-Point your web server to `ebp-restaurant-backend/public/` directory.
+Arahkan web server Anda ke direktori `ebp-restaurant-backend/public/`.
 
-### API Endpoints
+### Endpoint API
 
-#### Authentication
+#### Autentikasi
 
 **POST** `/api/v1/auth/login`
 
@@ -266,16 +267,16 @@ Point your web server to `ebp-restaurant-backend/public/` directory.
 }
 ```
 
-#### Create Order
+#### Buat Pesanan
 
 **POST** `/api/v1/orders`
 
-**Headers:**
+**Header:**
 ```
 Authorization: Bearer {access_token}
 ```
 
-**Request Body:**
+**Body Request:**
 ```json
 {
   "customer_id": null,
@@ -291,152 +292,152 @@ Authorization: Bearer {access_token}
 
 ---
 
-## Enterprise Features
+## Fitur Enterprise
 
-The Restaurant ERP backend includes enterprise-ready features:
+Backend Restaurant ERP mencakup fitur enterprise-ready:
 
-✅ **JWT Authentication** - Token-based authentication with expiration
-✅ **RBAC Permission Check** - Role-based access control
-✅ **Tenant Isolation** - Multi-tenant data separation
-✅ **Database Transaction** - ACID compliance with rollback on error
-✅ **Stock Engine** - Automatic inventory deduction from recipe
-✅ **Kitchen Queue** - Kitchen order creation
-✅ **Accounting Journal** - Automatic journal entry generation
-✅ **Audit Trail** - Complete activity logging
+✅ **Autentikasi JWT** - Autentikasi berbasis token dengan kedaluwarsa
+✅ **Pengecekan Izin RBAC** - Kontrol akses berbasis peran
+✅ **Isolasi Tenant** - Pemisahan data multi-tenant
+✅ **Transaksi Database** - Kepatuhan ACID dengan rollback saat error
+✅ **Mesin Stok** - Pengurangan inventaris otomatis dari resep
+✅ **Antrian Dapur** - Pembuatan pesanan dapur
+✅ **Jurnal Akuntansi** - Generasi jurnal otomatis
+✅ **Jejak Audit** - Logging aktivitas lengkap
 
-### Order Transaction Flow
+### Alur Transaksi Pesanan
 
 ```
 Request
   ↓
-JWT Authentication
+Autentikasi JWT
   ↓
-Permission Check (ORDER_CREATE)
+Pengecekan Izin (ORDER_CREATE)
   ↓
-Validation
+Validasi
   ↓
 BEGIN TRANSACTION
   ↓
-Create Order
+Buat Pesanan
   ↓
-Create Order Details
+Buat Detail Pesanan
   ↓
-Stock Engine (Deduct Inventory)
+Mesin Stok (Kurangi Inventaris)
   ↓
-Kitchen Engine (Create Kitchen Order)
+Mesin Dapur (Buat Pesanan Dapur)
   ↓
-Accounting Engine (Create Journal)
+Mesin Akuntansi (Buat Jurnal)
   ↓
-Audit Trail (Log Activity)
+Jejak Audit (Log Aktivitas)
   ↓
 COMMIT TRANSACTION
   ↓
-Response
+Respons
 ```
 
 ---
 
-## Development Roadmap
+## Peta Jalan Pengembangan
 
-### Phase 1: EBP Foundation (3 months)
+### Fase 1: Fondasi EBP (3 bulan)
 
-- Authentication Module
-- Permission Module
-- Tenant Module
-- Audit Module
-- Database Layer
-- API Framework
-- Logging System
-- File Management
+- Modul Autentikasi
+- Modul Izin
+- Modul Tenant
+- Modul Audit
+- Layer Database
+- Framework API
+- Sistem Logging
+- Manajemen File
 
-### Phase 2: Restaurant MVP (2 months)
+### Fase 2: Restaurant MVP (2 bulan)
 
-- Menu Management
-- POS System
-- Kitchen Display
-- Basic Inventory
-- Basic Reporting
+- Manajemen Menu
+- Sistem POS
+- Tampilan Dapur
+- Inventaris Dasar
+- Laporan Dasar
 
-### Phase 3: Restaurant Enterprise (3 months)
+### Fase 3: Restaurant Enterprise (3 bulan)
 
-- Advanced Inventory
-- Accounting Integration
-- AI Features
+- Inventaris Lanjutan
+- Integrasi Akuntansi
+- Fitur AI
 - Multi-Outlet
-- Advanced Reporting
+- Laporan Lanjutan
 
-### Phase 4: Second Product (4 months)
+### Fase 4: Produk Kedua (4 bulan)
 
-- Hotel ERP or Parking System
-- Product Analysis
-- Product Development
-- Product Launch
+- Hotel ERP atau Sistem Parkir
+- Analisis Produk
+- Pengembangan Produk
+- Peluncuran Produk
 
-### Phase 5: Platform Enhancement (Ongoing)
+### Fase 5: Peningkatan Platform (Berlanjut)
 
-- Performance Optimization
-- Security Enhancement
-- Feature Addition
-- Developer Experience
+- Optimasi Performa
+- Peningkatan Keamanan
+- Penambahan Fitur
+- Pengalaman Developer
 
 ---
 
-## Contributing
+## Kontribusi
 
-EBP follows professional software development practices:
+EBP mengikuti praktik pengembangan software profesional:
 
-1. **Follow Core Principles** - All changes must align with EBP_CORE_PRINCIPLES.md
-2. **Separate Core from Product** - Core changes require architecture review
-3. **Use Proper Branching** - feature branches for new features
-4. **Write Tests** - Unit tests for core components
-5. **Document Changes** - Update relevant documentation
-6. **Follow Coding Standards** - Adhere to EBP_DATABASE_STANDARD.md
+1. **Ikuti Prinsip Inti** - Semua perubahan harus selaras dengan EBP_CORE_PRINCIPLES.md
+2. **Pisahkan Inti dari Produk** - Perubahan inti memerlukan tinjauan arsitektur
+3. **Gunakan Branching yang Tepat** - branch fitur untuk fitur baru
+4. **Tulis Tes** - Unit test untuk komponen inti
+5. **Dokumentasikan Perubahan** - Update dokumentasi yang relevan
+6. **Ikuti Standar Coding** - Patuhi EBP_DATABASE_STANDARD.md
 
-### Commit Convention
+### Konvensi Commit
 
 Format: `[type]: subject`
 
-Types:
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation
-- `style`: Code style
-- `refactor`: Code refactoring
-- `test`: Testing
-- `chore`: Maintenance
+Tipe:
+- `feat`: Fitur baru
+- `fix`: Perbaikan bug
+- `docs`: Dokumentasi
+- `style`: Gaya kode
+- `refactor`: Refactoring kode
+- `test`: Pengujian
+- `chore`: Pemeliharaan
 
-Examples:
+Contoh:
 ```
-feat(core): add JWT authentication
-feat(restaurant): add POS order creation
-fix(core): resolve tenant isolation issue
-docs(core): update API documentation
+feat(core): tambahkan autentikasi JWT
+feat(restaurant): tambahkan pembuatan pesanan POS
+fix(core): selesaikan masalah isolasi tenant
+docs(core): perbarui dokumentasi API
 ```
 
 ---
 
-## License
+## Lisensi
 
-This project is proprietary software. All rights reserved.
-
----
-
-## Contact
-
-- **Repository**: https://github.com/82080038/EBP
-- **Platform**: Enterprise Business Platform (EBP)
-- **First Product**: Restaurant & Cafe ERP
+Proyek ini adalah software proprietary. Hak cipta dilindungi.
 
 ---
 
-## Acknowledgments
+## Kontak
 
-EBP is built with the vision of creating a sustainable software company platform that enables rapid development of enterprise-grade applications across multiple industries.
+- **Repositori**: https://github.com/82080038/EBP
+- **Platform**: Platform Bisnis Enterprise (EBP)
+- **Produk Pertama**: Restaurant & Cafe ERP
 
 ---
 
-**Version**: 1.0
+## Penghargaan
 
-**Last Updated**: 2026-07-01
+EBP dibangun dengan visi menciptakan platform perusahaan software yang berkelanjutan yang memungkinkan pengembangan cepat aplikasi enterprise-grade di berbagai industri.
 
-**Status**: Foundation Complete - Restaurant ERP in Development
+---
+
+**Versi**: 1.0
+
+**Terakhir Diperbarui**: 2026-07-01
+
+**Status**: Fondasi Selesai - Restaurant ERP dalam Pengembangan

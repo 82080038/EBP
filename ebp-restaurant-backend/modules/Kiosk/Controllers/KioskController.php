@@ -6,6 +6,9 @@ if (!class_exists('KioskService')) {
 if (!class_exists('Response')) {
     require_once __DIR__ . '/../../../core/Response.php';
 }
+if (!class_exists('Messages')) {
+    require_once __DIR__ . '/../../../core/Messages.php';
+}
 
 class KioskController
 {
@@ -22,7 +25,7 @@ class KioskController
         $branchId = $request['query']['branch_id'] ?? null;
 
         if (!$tenantId || !$branchId) {
-            Response::error('Tenant ID and Branch ID are required');
+            Response::error(Messages::KIOSK_TENANT_BRANCH_REQUIRED);
             return;
         }
 
@@ -42,7 +45,7 @@ class KioskController
         $data = $request['body'] ?? [];
 
         if (!$tenantId || !$branchId) {
-            Response::error('Tenant ID and Branch ID are required');
+            Response::error(Messages::KIOSK_TENANT_BRANCH_REQUIRED);
             return;
         }
 

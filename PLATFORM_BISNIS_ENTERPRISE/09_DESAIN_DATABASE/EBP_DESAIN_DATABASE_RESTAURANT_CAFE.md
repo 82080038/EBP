@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 # Restaurant & Cafe ERP
 # Database Design Document
 
 
-**Document ID:** EBP-RC-DATABASE-DESIGN-001  
-**Version:** 1.0  
+**ID Dokumen:** EBP-RC-DATABASE-DESIGN-001  
+**Versi:** 1.0  
 **Database Engine:** MySQL Enterprise  
-**Classification:** Enterprise Data Architecture  
+**Klasifikasi:** Enterprise Data Architecture  
 **Product:** Restaurant & Cafe ERP  
 
 
@@ -1517,11 +1517,11 @@ Database harus mampu:
 # Document End
 
 
-Document ID:
+ID Dokumen:
 
 EBP-RC-DATABASE-DESIGN-001
 
 
-Version:
+Versi:
 
 1.0

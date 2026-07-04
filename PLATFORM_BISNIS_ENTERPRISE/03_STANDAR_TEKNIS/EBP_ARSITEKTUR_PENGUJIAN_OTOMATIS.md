@@ -1,9 +1,9 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 
 # Automated Testing Architecture
 
-**Document ID:** EBP-QA-AUTOMATED-TESTING-001
-**Version:** 1.0
+**ID Dokumen:** EBP-QA-AUTOMATED-TESTING-001
+**Versi:** 1.0
 **Category:** Technical Standard
 **Status:** Official Standard
 
@@ -11,9 +11,9 @@
 
 ---
 
-# 1. Introduction
+# 1. Pendahuluan
 
-Dokumen ini mendefinisikan standar arsitektur automated testing untuk seluruh produk yang dibangun di atas Enterprise Business Platform (EBP).
+Dokumen ini mendefinisikan standar arsitektur automated testing untuk seluruh produk yang dibangun di atas Platform Bisnis Enterprise (EBP).
 
 Automated Testing bertujuan memastikan:
 
@@ -1084,10 +1084,10 @@ harus mengikuti standar testing yang sama.
 
 # END OF DOCUMENT
 
-Document ID:
+ID Dokumen:
 
 EBP-QA-AUTOMATED-TESTING-001
 
-Version:
+Versi:
 
 1.0

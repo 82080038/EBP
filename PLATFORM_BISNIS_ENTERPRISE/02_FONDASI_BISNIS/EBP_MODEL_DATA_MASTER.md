@@ -1,12 +1,12 @@
-# Enterprise Business Platform (EBP)
-# Master Data Model Document
+# Platform Bisnis Enterprise (EBP)
+# Dokumen Model Data Master
 
 
-**Document ID:** EBP-MASTER-DATA-MODEL-001  
-**Version:** 1.0  
-**Status:** Enterprise Data Foundation  
-**Classification:** Core Data Architecture  
-**Owner:** Enterprise Business Platform Organization  
+**ID Dokumen:** EBP-MASTER-DATA-MODEL-001  
+**Versi:** 1.0  
+**Status:** Fondasi Data Enterprise  
+**Klasifikasi:** Arsitektur Data Inti  
+**Pemilik:** Organisasi Platform Bisnis Enterprise  
 
 
 ---
@@ -17,17 +17,17 @@
 ## 1.1 Tujuan Dokumen
 
 
-Dokumen ini mendefinisikan struktur Master Data Model yang digunakan oleh seluruh ekosistem Enterprise Business Platform (EBP).
+Dokumen ini mendefinisikan struktur Master Data Model yang digunakan oleh seluruh ekosistem Platform Bisnis Enterprise (EBP).
 
 
 Master Data Model adalah:
 
-> Struktur data utama yang menjadi sumber kebenaran (Single Source of Truth) untuk seluruh proses bisnis.
+> Struktur data utama yang menjadi sumber kebenaran (Sumber Kebenara Tunggal) untuk seluruh proses bisnis.
 
 
 ---
 
-# 2. Prinsip Master Data EBP
+# 2. Prinsip Data Master EBP
 
 
 EBP menggunakan prinsip:
@@ -35,19 +35,19 @@ EBP menggunakan prinsip:
 
 ```
 
-One Data Model
+Satu Model Data
 
 ```
     ↓
 ```
 
-Many Business Applications
+Banyak Aplikasi Bisnis
 
 ```
     ↓
 ```
 
-Consistent Information
+Informasi Konsisten
 
 ```
 
@@ -1258,11 +1258,11 @@ Dengan model ini:
 # Document End
 
 
-Document ID:
+ID Dokumen:
 
 EBP-MASTER-DATA-MODEL-001
 
 
-Version:
+Versi:
 
 1.0
