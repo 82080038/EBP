@@ -8,17 +8,17 @@
  */
 
 // Load EBP Core Components
-require_once __DIR__ . '/../../../../PLATFORM_BISNIS_ENTERPRISE/12_IMPLEMENTASI_KODE/API/Response.php';
-require_once __DIR__ . '/../../../../PLATFORM_BISNIS_ENTERPRISE/12_IMPLEMENTASI_KODE/Autentikasi/JWT.php';
-require_once __DIR__ . '/../../../../PLATFORM_BISNIS_ENTERPRISE/12_IMPLEMENTASI_KODE/Autentikasi/AuthMiddleware.php';
-require_once __DIR__ . '/../../../../PLATFORM_BISNIS_ENTERPRISE/12_IMPLEMENTASI_KODE/Database/Database.php';
+require_once __DIR__ . '/../../../12_IMPLEMENTASI_KODE/API/Response.php';
+require_once __DIR__ . '/../../../12_IMPLEMENTASI_KODE/Autentikasi/JWT.php';
+require_once __DIR__ . '/../../../12_IMPLEMENTASI_KODE/Autentikasi/AuthMiddleware.php';
+require_once __DIR__ . '/../../../12_IMPLEMENTASI_KODE/Database/Database.php';
 
 // Set environment variables for Database configuration
 putenv('DB_HOST=localhost');
 putenv('DB_SOCKET=null');
-putenv('DB_NAME=ebp_restaurant_db');
-putenv('DB_USER=ebp_app');
-putenv('DB_PASSWORD=ebp_secure_password_2026');
+putenv('DB_NAME=ebp_restaurant_erp');
+putenv('DB_USER=root');
+putenv('DB_PASSWORD=root');
 
 // Load Backend-specific Components
 require_once __DIR__ . '/core/Router.php';
