@@ -1,0 +1,183 @@
+{
+  "role": {
+    "name": "appOwner",
+    "code": "appOwner",
+    "hierarchy_level": 0,
+    "description": "Platform owner dengan akses penuh untuk pengelolaan platform, billing, dan approval koperasi",
+    "status": "aktif"
+  },
+  "access_scope": {
+    "type": "platform",
+    "branches": "all_platforms",
+    "data_visibility": "all"
+  },
+  "application_standards": {
+    "language": {
+      "ui_language": "Bahasa Indonesia",
+      "labels": "Indonesian",
+      "messages": "Indonesian",
+      "notifications": "Indonesian"
+    },
+    "formatting": {
+      "currency": {
+        "symbol": "Rp",
+        "format": "Rp1.000.000",
+        "thousands_separator": ".",
+        "decimal_separator": ",",
+        "php_function": "number_format($value, 0, ',', '.')"
+      },
+      "date": {
+        "display_format": "d F Y",
+        "example": "16 April 2026",
+        "database_format": "Y-m-d",
+        "example_db": "2026-04-16",
+        "library": "Flatpickr",
+        "altFormat": "d F Y"
+      },
+      "number": {
+        "thousands_separator": ".",
+        "decimal_separator": ",",
+        "example": "1.000,50"
+      }
+    }
+  },
+  "permissions": {
+    "automatic_grant": true,
+    "can_manage": [
+      "bos",
+      "manager_pusat",
+      "manager_cabang",
+      "admin_pusat",
+      "admin_cabang",
+      "petugas_pusat",
+      "petugas_cabang",
+      "karyawan"
+    ]
+  },
+  "modules": {
+    "dashboard": {
+      "access": true,
+      "permissions": ["dashboard.read", "manage_app"],
+      "features": [
+        "Lihat statistik platform",
+        "Lihat total koperasi",
+        "Lihat total users",
+        "Lihat revenue platform",
+        "Lihat kesehatan sistem",
+        "Kelola pengaturan platform"
+      ]
+    },
+    "koperasi_management": {
+      "access": true,
+      "permissions": ["approve_bos", "view_koperasi", "suspend_koperasi", "manage_app"],
+      "features": [
+        "Lihat semua koperasi",
+        "Setujui registrasi koperasi baru",
+        "Suspend koperasi bermasalah",
+        "Lihat statistik koperasi",
+        "Kelola billing koperasi",
+        "Lihat metrik penggunaan koperasi"
+      ]
+    },
+    "billing": {
+      "access": true,
+      "permissions": ["manage_billing", "view_billing"],
+      "features": [
+        "Lihat laporan billing",
+        "Generate invoice",
+        "Kelola proses pembayaran",
+        "Lihat riwayat pembayaran",
+        "Konfigurasi plan billing"
+      ]
+    },
+    "users": {
+      "access": true,
+      "permissions": ["users.create", "users.read", "manage_users"],
+      "features": [
+        "Lihat users platform",
+        "Buat akun appOwner baru",
+        "Kelola akses user platform",
+        "Lihat log aktivitas user"
+      ]
+    },
+    "laporan": {
+      "access": true,
+      "permissions": ["view_laporan", "manage_app"],
+      "features": [
+        "Lihat laporan platform",
+        "Lihat analitik revenue",
+        "Lihat statistik penggunaan",
+        "Export laporan platform",
+        "Filter berdasarkan koperasi"
+      ]
+    },
+    "audit": {
+      "access": true,
+      "permissions": ["view_laporan", "manage_app"],
+      "features": [
+        "Lihat audit log platform",
+        "Filter berdasarkan koperasi",
+        "Filter berdasarkan action",
+        "Filter berdasarkan tanggal",
+        "Export audit log"
+      ]
+    },
+    "settings": {
+      "access": true,
+      "permissions": ["manage_app", "view_settings"],
+      "features": [
+        "Lihat pengaturan platform",
+        "Edit konfigurasi platform",
+        "Kelola parameter sistem",
+        "Lihat log sistem"
+      ]
+    },
+    "ai_advisor": {
+      "access": true,
+      "permissions": ["manage_app"],
+      "features": [
+        "Lihat pengaturan AI advisor",
+        "Konfigurasi AI advisor",
+        "Lihat penggunaan AI advisor",
+        "Kelola akses AI advisor"
+      ]
+    },
+    "nasabah": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "pinjaman": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "angsuran": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "cabang": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "petugas": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "permissions": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    }
+  },
+  "simulation_parameters": {
+    "login": {
+      "username": "appowner",
+      "password": "AppOwner2024!",
+      "test_login_url": "/login.php?test_login=true&username=appowner&password=AppOwner2024!"
+    }
+  }
+}

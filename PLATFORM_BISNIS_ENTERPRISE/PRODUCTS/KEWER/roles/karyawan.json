@@ -1,0 +1,173 @@
+{
+  "role": {
+    "name": "Karyawan",
+    "code": "karyawan",
+    "hierarchy_level": 8,
+    "description": "Karyawan dengan dukungan administratif dasar dan tanggung jawab penanganan kas",
+    "status": "aktif"
+  },
+  "access_scope": {
+    "type": "single_office",
+    "branches": "single",
+    "data_visibility": "all"
+  },
+  "application_standards": {
+    "language": {
+      "ui_language": "Bahasa Indonesia",
+      "labels": "Indonesian",
+      "messages": "Indonesian",
+      "notifications": "Indonesian"
+    },
+    "formatting": {
+      "currency": {
+        "symbol": "Rp",
+        "format": "Rp1.000.000",
+        "thousands_separator": ".",
+        "decimal_separator": ",",
+        "php_function": "number_format($value, 0, ',', '.')"
+      },
+      "date": {
+        "display_format": "d F Y",
+        "example": "16 April 2026",
+        "database_format": "Y-m-d",
+        "example_db": "2026-04-16",
+        "library": "Flatpickr",
+        "altFormat": "d F Y"
+      },
+      "number": {
+        "thousands_separator": ".",
+        "decimal_separator": ",",
+        "example": "1.000,50"
+      }
+    }
+  },
+  "permissions": {
+    "automatic_grant": false,
+    "can_manage": []
+  },
+  "modules": {
+    "dashboard": {
+      "access": true,
+      "permissions": ["dashboard.read"],
+      "features": [
+        "View statistics",
+        "View nasabah count",
+        "View pinjaman count",
+        "View outstanding balance",
+        "View recent activities"
+      ]
+    },
+    "nasabah": {
+      "access": true,
+      "permissions": ["nasabah.read"],
+      "features": [
+        "View nasabah",
+        "View nasabah details",
+        "View nasabah history"
+      ]
+    },
+    "pinjaman": {
+      "access": true,
+      "permissions": ["pinjaman.read"],
+      "features": [
+        "View pinjaman",
+        "View pinjaman details",
+        "View pinjaman history"
+      ]
+    },
+    "angsuran": {
+      "access": true,
+      "permissions": ["angsuran.read"],
+      "features": [
+        "View angsuran",
+        "View payment history",
+        "View outstanding angsuran"
+      ]
+    },
+    "aktivitas_lapangan": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "kas_petugas": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "rekonsiliasi_kas": {
+      "access": true,
+      "permissions": ["kas.read", "kas.update"],
+      "features": [
+        "View cash reconciliation",
+        "Create reconciliation",
+        "Edit reconciliation",
+        "View reconciliation history"
+      ]
+    },
+    "auto_confirm": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "users": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "cabang": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "laporan": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "pengeluaran": {
+      "access": true,
+      "permissions": ["view_pengeluaran"],
+      "features": [
+        "View pengeluaran",
+        "Filter by date"
+      ]
+    },
+    "kas_bon": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "setting_bunga": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "family_risk": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "petugas": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "audit": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "permissions": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    }
+  },
+  "simulation_parameters": {
+    "login": {
+      "username": "krw_pngr",
+      "password": "Kewer2024!",
+      "test_login_url": "/login.php?test_login=true&username=krw_pngr&password=Kewer2024!"
+    }
+  }
+}

@@ -76,7 +76,8 @@ EBP/
 │       ├── MY_WISATA/
 │       ├── PANGLONG/
 │       ├── PELAJARAN/
-│       └── SAHAM/
+│       ├── SAHAM/
+│       └── KEWER/
 └── .devin/ (Workflows development)
     └── workflows/
 
@@ -119,6 +120,13 @@ EBP/
 - **Struktur:** src/ + frontend/ + docs/ + tests/ + docker-compose.yml
 - **Tech Stack:** Python, ML (RandomForest, XGBoost, LightGBM), Pytest, Docker
 - **Workflows:** .devin/workflows/ (product-level)
+
+
+### 6. KEWER (Microfinance Platform - Sistem Pinjaman Modal Pedagang)
+- **Status:** ✅ Terimplementasi
+- **Struktur:** api/ + config/ + controllers/ + models/ + pages/ + database/ + tests/
+- **Tech Stack:** PHP 8.2, MariaDB, Bootstrap 5.3, DataTable.js, SweetAlert2
+- **Workflows:** .devin/workflows/ (product-level - perlu dibuat)
 
 
 
@@ -256,6 +264,18 @@ PLATFORM_BISNIS_ENTERPRISE/
     │   ├── tests/ (Pytest tests)
     │   ├── docker-compose.yml
     │   └── .devin/ (Product-specific workflows)
+    │
+    │
+    └── KEWER/ (Microfinance Platform - Sistem Pinjaman Modal Pedagang)
+    │
+    │   ├── api/ (PHP API)
+    │   ├── config/ (Configuration)
+    │   ├── controllers/ (Controllers)
+    │   ├── models/ (Models)
+    │   ├── pages/ (Pages)
+    │   ├── database/ (Database)
+    │   ├── tests/ (Tests)
+    │   └── .devin/ (Product-specific workflows)
 
 ```
 
@@ -383,6 +403,7 @@ Semua produk sudah diorganisasi di `PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/`
 - PANGLONG: Workflows di product-level .devin/
 - PELAJARAN: Workflows di product-level .devin/ (baru dibuat)
 - SAHAM: Workflows di product-level .devin/
+- KEWER: Workflows di product-level .devin/ (perlu dibuat)
 
 
 ## Fase 4: Implementasi Produk Blueprint (Pending)

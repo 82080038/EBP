@@ -196,6 +196,8 @@ PANGLONG (Construction ERP - Material Distribution)
 PELAJARAN (Education Platform - Kurikulum Merdeka SD)
 
 SAHAM (Finance Platform - Stock Trading Simulation)
+
+KEWER (Microfinance Platform - Sistem Pinjaman Modal Pedagang)
 ```
 
 

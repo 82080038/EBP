@@ -1,0 +1,230 @@
+{
+  "role": {
+    "name": "Nasabah",
+    "code": "nasabah",
+    "hierarchy_level": 9,
+    "description": "Nasabah koperasi dengan akses untuk melihat pinjaman, angsuran, riwayat pembayaran, mengajukan pinjaman baru, dan mengajukan simpanan",
+    "status": "aktif"
+  },
+  "access_scope": {
+    "type": "self_data_only",
+    "branches": "all",
+    "data_visibility": "own",
+    "notes": "Nasabah hanya bisa melihat data pinjaman dan pembayaran milik sendiri"
+  },
+  "application_standards": {
+    "language": {
+      "ui_language": "Bahasa Indonesia",
+      "labels": "Indonesian",
+      "messages": "Indonesian",
+      "notifications": "Indonesian"
+    },
+    "formatting": {
+      "currency": {
+        "symbol": "Rp",
+        "format": "Rp1.000.000",
+        "thousands_separator": ".",
+        "decimal_separator": ",",
+        "php_function": "number_format($value, 0, ',', '.')"
+      },
+      "date": {
+        "display_format": "d F Y",
+        "example": "16 April 2026",
+        "database_format": "Y-m-d",
+        "example_db": "2026-04-16",
+        "library": "Flatpickr",
+        "altFormat": "d F Y"
+      },
+      "number": {
+        "thousands_separator": ".",
+        "decimal_separator": ",",
+        "example": "1.000,50"
+      }
+    }
+  },
+  "permissions": {
+    "automatic_grant": false,
+    "can_manage": [],
+    "notes": "Nasabah tidak bisa mengelola user lain"
+  },
+  "modules": {
+    "dashboard": {
+      "access": true,
+      "permissions": ["dashboard.read"],
+      "features": [
+        "Lihat ringkasan pinjaman sendiri",
+        "Lihat pembayaran berikutnya",
+        "Lihat total sisa hutang",
+        "Lihat ringkasan riwayat pembayaran"
+      ]
+    },
+    "nasabah_profile": {
+      "access": true,
+      "permissions": ["nasabah.read.own"],
+      "features": [
+        "Lihat profil sendiri",
+        "Lihat informasi pribadi",
+        "Lihat informasi alamat",
+        "Update nomor HP",
+        "Update email",
+        "Lihat status blacklist"
+      ],
+      "limitations": "Tidak bisa edit KTP, nama, atau informasi kritis lainnya"
+    },
+    "pinjaman": {
+      "access": true,
+      "permissions": ["pinjaman.read.own"],
+      "features": [
+        "Lihat pinjaman aktif sendiri",
+        "Lihat detail pinjaman",
+        "Lihat riwayat pinjaman",
+        "Lihat status pinjaman",
+        "Lihat total pinjaman",
+        "Lihat sisa saldo"
+      ]
+    },
+    "pengajuan_pinjaman": {
+      "access": true,
+      "permissions": ["pengajuan_pinjaman.create"],
+      "features": [
+        "Ajukan pinjaman baru",
+        "Lihat limit pengajuan pinjaman (min/max diatur bos)",
+        "Pilih tenor dan frekuensi",
+        "Tentukan tujuan pinjaman",
+        "Sediakan informasi jaminan",
+        "Lacak status pengajuan",
+        "Lihat riwayat pengajuan",
+        "Pilih metode pengambilan: teller (ambil di kantor) atau diantar_petugas (diantar petugas)"
+      ],
+      "limitations": "Tergantung approval bos/manager. Limit: Rp500rb - Rp10jt, tenor 1-24 bulan"
+    },
+    "pengajuan_simpanan": {
+      "access": true,
+      "permissions": ["pengajuan_simpanan.create"],
+      "features": [
+        "Ajukan simpanan",
+        "Pilih jenis simpanan (sukarela/wajib/pokok/berjangka)",
+        "Set jumlah setoran dalam limit",
+        "Pilih frekuensi setoran",
+        "Tentukan tujuan simpanan",
+        "Lacak status pengajuan",
+        "Lihat riwayat simpanan",
+        "Pilih metode penyetoran: teller (setor di kantor) atau dijemput_petugas (dijemput petugas)"
+      ],
+      "limitations": "Limit: Rp100rb - Rp50jt. Tergantung approval bos."
+    },
+    "metode_pengambilan": {
+      "pinjaman": {
+        "teller": "Nasabah mengambil dana di teller kantor setelah pengajuan disetujui",
+        "diantar_petugas": "Petugas mengantar dana ke alamat nasabah. Tugas otomatis dibuat saat approval."
+      },
+      "simpanan": {
+        "teller": "Nasabah setor dana di teller kantor setelah pengajuan disetujui",
+        "dijemput_petugas": "Petugas menjemput dana di alamat nasabah. Tugas otomatis dibuat saat approval."
+      }
+    },
+    "data_keluarga": {
+      "access": true,
+      "permissions": ["data_keluarga.read.own", "data_keluarga.create", "data_keluarga.update"],
+      "features": [
+        "Input nomor KK dan data kepala keluarga",
+        "Upload foto Kartu Keluarga (KK)",
+        "Tambah anggota keluarga lengkap (NIK, nama, hubungan, dll)",
+        "Lihat status verifikasi data keluarga",
+        "Edit data keluarga yang belum terverifikasi"
+      ],
+      "requirement_rule": "Wajib untuk nasabah yang sudah pernah mengajukan pinjaman (pinjaman ke-2+)",
+      "purpose": "Anti tukar kulit - mencegah nasabah blacklist mengajukan pinjaman melalui keluarga lain",
+      "can_be_filled_by": ["nasabah", "petugas_lapangan"]
+    },
+    "angsuran": {
+      "access": true,
+      "permissions": ["angsuran.read.own"],
+      "features": [
+        "Lihat jadwal pembayaran sendiri",
+        "Lihat pembayaran yang akan datang",
+        "Lihat riwayat pembayaran",
+        "Lihat pembayaran terlambat",
+        "Lihat informasi denda",
+        "Download kartu pembayaran"
+      ]
+    },
+    "pembayaran": {
+      "access": true,
+      "permissions": ["pembayaran.read.own"],
+      "features": [
+        "Lihat riwayat pembayaran",
+        "Lihat bukti pembayaran",
+        "Download bukti pembayaran",
+        "Lihat sisa hutang setelah pembayaran"
+      ]
+    },
+    "notifications": {
+      "access": true,
+      "permissions": ["notifications.read.own"],
+      "features": [
+        "Terima pengingat pembayaran via WhatsApp",
+        "Terima notifikasi jatuh tempo",
+        "Lihat riwayat notifikasi"
+      ]
+    },
+    "laporan": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "users": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "petugas": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "permissions": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    }
+  },
+  "nasabah_specific": {
+    "login_method": {
+      "primary": "kode_nasabah",
+      "secondary": "ktp",
+      "notes": "Nasabah login menggunakan kode nasabah atau nomor KTP"
+    },
+    "password_policy": {
+      "initial": "Generated from KTP last 6 digits",
+      "can_change": true,
+      "reset_via": "WhatsApp or officer assistance"
+    },
+    "security": {
+      "session_timeout": "30 minutes",
+      "max_login_attempts": 5,
+      "lockout_duration": "30 minutes"
+    }
+  },
+  "simulation_parameters": {
+    "login": {
+      "username": "kode_nasabah (contoh: NSW0001)",
+      "password": "Last 6 digits of KTP",
+      "example": "KTP: 1273123456789000 -> Password: 6789000",
+      "test_login_url": "/login.php?test_login=true&username=NSW0001&password=6789000"
+    }
+  },
+  "notes": "Nasabah adalah role untuk customer/anggota koperasi yang memiliki pinjaman. Mereka dapat melihat status pinjaman dan pembayaran mereka sendiri, mengajukan pinjaman baru (dengan limit yang ditentukan bos), dan mengajukan simpanan. Semua pengajuan memerlukan persetujuan dari bos/manager. Setelah pengajuan disetujui, nasabah dapat memilih metode pengambilan: (1) Teller - ambil/setor di kantor, atau (2) Petugas - diantar/dijemput petugas lapangan ke alamat nasabah. FITUR ANTI TUKAR KULIT: Nasabah yang sudah pernah mengajukan pinjaman (pinjaman ke-2+) wajib melengkapi data keluarga dengan foto KK sebelum bisa mengajukan pinjaman lagi. Ini untuk mencegah nasabah blacklist mengajukan pinjaman melalui anggota keluarga lainnya.",
+  "koperasi_selection": {
+    "description": "Nasabah dapat memilih koperasi tujuan untuk pengajuan pinjaman/simpanan",
+    "source": "Daftar koperasi diambil dari tabel nasabah_koperasi_terdaftar - koperasi tempat nasabah pernah transaksi atau terdaftar",
+    "default": "Koperasi default (koperasi_id = 1)",
+    "multiple": true
+  },
+  "tugas_petugas": {
+    "description": "Sistem tugas otomatis dibuat saat pengajuan dengan metode petugas disetujui",
+    "jenis_tugas": ["antar_pinjaman", "jemput_simpanan"],
+    "status_tugas": ["dibuat", "dikerjakan", "selesai", "dibatalkan"],
+    "workflow": "Approval pengajuan → Tugas dibuat → Petugas ambil tugas → Petugas kunjungi nasabah → Input hasil → Selesai"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "summary": [
+    {
+      "role": "bos",
+      "status": "PASSED",
+      "pages": 14
+    },
+    {
+      "role": "manager_pusat",
+      "status": "PASSED",
+      "pages": 3
+    },
+    {
+      "role": "manager_cabang",
+      "status": "PASSED",
+      "pages": 3
+    },
+    {
+      "role": "admin_pusat",
+      "status": "PASSED",
+      "pages": 3
+    },
+    {
+      "role": "admin_cabang",
+      "status": "PASSED",
+      "pages": 3
+    },
+    {
+      "role": "petugas_pusat",
+      "status": "PASSED",
+      "pages": 3
+    },
+    {
+      "role": "petugas_cabang",
+      "status": "PASSED",
+      "pages": 3
+    },
+    {
+      "role": "karyawan",
+      "status": "PASSED",
+      "pages": 3
+    }
+  ],
+  "errors": [],
+  "consoleErrors": []
+}

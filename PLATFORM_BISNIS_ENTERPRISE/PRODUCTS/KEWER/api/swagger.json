@@ -1,0 +1,543 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Kewer API",
+    "description": "API documentation for Kewer - Sistem Pinjaman Modal Pedagang Digital",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Kewer Support",
+      "email": "support@kewer.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost/kewer/api",
+      "description": "Development server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "Success": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/auth": {
+      "post": {
+        "summary": "User authentication",
+        "description": "Authenticate user and return JWT token",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "refresh_token": {
+                      "type": "string"
+                    },
+                    "token_type": {
+                      "type": "string"
+                    },
+                    "expires_in": {
+                      "type": "integer"
+                    },
+                    "user": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "summary": "Get dashboard statistics",
+        "description": "Retrieve dashboard statistics for the current branch",
+        "tags": ["Dashboard"],
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "cabang_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dashboard statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total_nasabah": {
+                      "type": "integer"
+                    },
+                    "total_pinjaman": {
+                      "type": "integer"
+                    },
+                    "outstanding": {
+                      "type": "number"
+                    },
+                    "late_payments": {
+                      "type": "integer"
+                    },
+                    "recent_activities": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nasabah": {
+      "get": {
+        "summary": "Get customers list",
+        "description": "Retrieve list of customers for the branch",
+        "tags": ["Nasabah"],
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "cabang_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of customers"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new customer",
+        "description": "Create a new customer record",
+        "tags": ["Nasabah"],
+        "security": [{"bearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["nama", "ktp", "alamat"],
+                "properties": {
+                  "nama": {
+                    "type": "string"
+                  },
+                  "ktp": {
+                    "type": "string"
+                  },
+                  "alamat": {
+                    "type": "string"
+                  },
+                  "telp": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Customer created successfully"
+          }
+        }
+      }
+    },
+    "/pinjaman": {
+      "get": {
+        "summary": "Get loans list",
+        "description": "Retrieve list of loans for the branch",
+        "tags": ["Pinjaman"],
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "cabang_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of loans"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new loan",
+        "description": "Create a new loan application",
+        "tags": ["Pinjaman"],
+        "security": [{"bearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["nasabah_id", "plafon", "tenor"],
+                "properties": {
+                  "nasabah_id": {
+                    "type": "integer"
+                  },
+                  "plafon": {
+                    "type": "number"
+                  },
+                  "tenor": {
+                    "type": "integer"
+                  },
+                  "bunga_persen": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Loan created successfully"
+          }
+        }
+      }
+    },
+    "/angsuran": {
+      "get": {
+        "summary": "Get installments list",
+        "description": "Retrieve list of installments for loans",
+        "tags": ["Angsuran"],
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "cabang_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of installments"
+          }
+        }
+      }
+    },
+    "/family_risk": {
+      "get": {
+        "summary": "Get family risk assessments",
+        "description": "Retrieve family risk assessments",
+        "tags": ["Family Risk"],
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "cabang_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Family risk assessments"
+          }
+        }
+      }
+    },
+    "/kas_bon": {
+      "get": {
+        "summary": "Get cash advances",
+        "description": "Retrieve cash advance records",
+        "tags": ["Kas Bon"],
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "cabang_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cash advance records"
+          }
+        }
+      }
+    },
+    "/kas_petugas": {
+      "get": {
+        "summary": "Get staff cash records",
+        "description": "Retrieve staff cash tracking records",
+        "tags": ["Kas Petugas"],
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "cabang_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Staff cash records"
+          }
+        }
+      }
+    },
+    "/pengeluaran": {
+      "get": {
+        "summary": "Get expenses",
+        "description": "Retrieve expense records",
+        "tags": ["Pengeluaran"],
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "cabang_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expense records"
+          }
+        }
+      }
+    },
+    "/setting_bunga": {
+      "get": {
+        "summary": "Get interest rate settings",
+        "description": "Retrieve dynamic interest rate settings",
+        "tags": ["Setting Bunga"],
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "cabang_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Interest rate settings"
+          }
+        }
+      }
+    },
+    "/ocr": {
+      "post": {
+        "summary": "OCR KTP processing",
+        "description": "Process KTP image using OCR",
+        "tags": ["OCR"],
+        "security": [{"bearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["ktp_image"],
+                "properties": {
+                  "ktp_image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OCR processing result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "nik": {
+                          "type": "string"
+                        },
+                        "nama": {
+                          "type": "string"
+                        },
+                        "tempat_lahir": {
+                          "type": "string"
+                        },
+                        "tanggal_lahir": {
+                          "type": "string"
+                        },
+                        "alamat": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "User authentication endpoints"
+    },
+    {
+      "name": "Dashboard",
+      "description": "Dashboard statistics"
+    },
+    {
+      "name": "Nasabah",
+      "description": "Customer management"
+    },
+    {
+      "name": "Pinjaman",
+      "description": "Loan management"
+    },
+    {
+      "name": "Angsuran",
+      "description": "Installment management"
+    },
+    {
+      "name": "Family Risk",
+      "description": "Family risk assessment"
+    },
+    {
+      "name": "Kas Bon",
+      "description": "Cash advance management"
+    },
+    {
+      "name": "Kas Petugas",
+      "description": "Staff cash tracking"
+    },
+    {
+      "name": "Pengeluaran",
+      "description": "Expense management"
+    },
+    {
+      "name": "Setting Bunga",
+      "description": "Interest rate settings"
+    },
+    {
+      "name": "OCR",
+      "description": "OCR KTP processing"
+    }
+  ]
+}

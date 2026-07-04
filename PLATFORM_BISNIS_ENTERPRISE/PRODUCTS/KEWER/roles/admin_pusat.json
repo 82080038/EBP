@@ -1,0 +1,228 @@
+{
+  "role": {
+    "name": "Admin Pusat",
+    "code": "admin_pusat",
+    "hierarchy_level": 4,
+    "description": "Administrator pusat dengan fungsi administratif",
+    "status": "aktif"
+  },
+  "access_scope": {
+    "type": "single_office",
+    "branches": "single",
+    "data_visibility": "all"
+  },
+  "application_standards": {
+    "language": {
+      "ui_language": "Bahasa Indonesia",
+      "labels": "Indonesian",
+      "messages": "Indonesian",
+      "notifications": "Indonesian"
+    },
+    "formatting": {
+      "currency": {
+        "symbol": "Rp",
+        "format": "Rp1.000.000",
+        "thousands_separator": ".",
+        "decimal_separator": ",",
+        "php_function": "number_format($value, 0, ',', '.')"
+      },
+      "date": {
+        "display_format": "d F Y",
+        "example": "16 April 2026",
+        "database_format": "Y-m-d",
+        "example_db": "2026-04-16",
+        "library": "Flatpickr",
+        "altFormat": "d F Y"
+      },
+      "number": {
+        "thousands_separator": ".",
+        "decimal_separator": ",",
+        "example": "1.000,50"
+      }
+    }
+  },
+  "permissions": {
+    "automatic_grant": false,
+    "can_manage": [
+      "petugas_pusat",
+      "petugas_cabang",
+      "karyawan"
+    ]
+  },
+  "modules": {
+    "dashboard": {
+      "access": true,
+      "permissions": ["dashboard.read"],
+      "features": [
+        "Lihat statistik konsolidasi",
+        "Lihat total nasabah",
+        "Lihat total pinjaman",
+        "Lihat saldo outstanding",
+        "Lihat aktivitas terbaru"
+      ]
+    },
+    "nasabah": {
+      "access": true,
+      "permissions": ["nasabah.read", "manage_nasabah", "manage_blacklist"],
+      "features": [
+        "Lihat nasabah",
+        "Tambah nasabah baru",
+        "Edit informasi nasabah",
+        "Hapus nasabah",
+        "Lihat detail nasabah",
+        "Lihat hubungan keluarga nasabah",
+        "Blacklist/unblacklist nasabah",
+        "Lihat log blacklist"
+      ]
+    },
+    "pinjaman": {
+      "access": true,
+      "permissions": ["pinjaman.read", "manage_pinjaman"],
+      "features": [
+        "Lihat pinjaman",
+        "Buat pengajuan pinjaman baru (harian/mingguan/bulanan)",
+        "Lihat detail pinjaman",
+        "Lihat jadwal pinjaman (harian/mingguan/bulanan)",
+        "Cetak kartu angsuran",
+        "Cetak kwitansi pembayaran"
+      ]
+    },
+    "angsuran": {
+      "access": true,
+      "permissions": ["angsuran.read", "manage_pembayaran", "manage_denda"],
+      "features": [
+        "Lihat angsuran",
+        "Catat pembayaran",
+        "Edit catatan pembayaran",
+        "Hapus catatan pembayaran",
+        "Lihat riwayat pembayaran",
+        "Lihat denda otomatis",
+        "Cetak kwitansi pembayaran"
+      ]
+    },
+    "users": {
+      "access": true,
+      "permissions": ["users.create", "users.read", "manage_users", "assign_permissions"],
+      "features": [
+        "Lihat users",
+        "Buat user baru",
+        "Edit informasi user",
+        "Hapus users",
+        "Assign role ke user",
+        "Assign permission ke user"
+      ]
+    },
+    "cabang": {
+      "access": true,
+      "permissions": ["cabang.read"],
+      "features": [
+        "Lihat informasi cabang",
+        "Lihat statistik cabang",
+        "Lihat kinerja cabang"
+      ]
+    },
+    "aktivitas_lapangan": {
+      "access": true,
+      "permissions": ["angsuran.read"],
+      "features": [
+        "Lihat aktivitas lapangan",
+        "Lihat laporan aktivitas"
+      ]
+    },
+    "kas_petugas": {
+      "access": true,
+      "permissions": ["kas_petugas.read", "kas_petugas.update"],
+      "features": [
+        "Lihat kas petugas",
+        "Kelola alokasi kas",
+        "Lihat pelacakan setoran",
+        "Lihat riwayat transaksi"
+      ]
+    },
+    "setting_bunga": {
+      "access": true,
+      "permissions": ["manage_bunga", "view_settings"],
+      "features": [
+        "Lihat pengaturan suku bunga",
+        "Ubah suku bunga dasar",
+        "Konfigurasi faktor penyesuaian risiko"
+      ]
+    },
+    "pengeluaran": {
+      "access": true,
+      "permissions": ["manage_pengeluaran", "view_pengeluaran"],
+      "features": [
+        "Lihat pengeluaran",
+        "Catat pengeluaran",
+        "Kategorisasi pengeluaran",
+        "Lihat laporan pengeluaran"
+      ]
+    },
+    "kas_bon": {
+      "access": true,
+      "permissions": ["manage_kas_bon", "view_kas_bon"],
+      "features": [
+        "Lihat kas bon",
+        "Proses permintaan kas bon",
+        "Pantau potongan",
+        "Hitung saldo"
+      ]
+    },
+    "family_risk": {
+      "access": true,
+      "permissions": ["view_laporan"],
+      "features": [
+        "Lihat laporan risiko keluarga",
+        "Lihat pelacakan hubungan keluarga",
+        "Lihat perhitungan skor risiko"
+      ]
+    },
+    "petugas": {
+      "access": true,
+      "permissions": ["manage_petugas", "view_petugas"],
+      "features": [
+        "Lihat petugas",
+        "Kelola profil petugas",
+        "Pantau kinerja petugas"
+      ]
+    },
+    "permissions": {
+      "access": true,
+      "permissions": ["assign_permissions"],
+      "features": [
+        "Lihat sistem izin",
+        "Kelola izin role",
+        "Kelola izin pengguna"
+      ]
+    },
+    "laporan": {
+      "access": true,
+      "permissions": ["view_laporan"],
+      "features": [
+        "Lihat laporan keuangan konsolidasi",
+        "Lihat laporan kinerja pinjaman",
+        "Lihat laporan nasabah",
+        "Lihat laporan komprehensif",
+        "Cetak laporan"
+      ]
+    },
+    "audit": {
+      "access": true,
+      "permissions": ["view_laporan"],
+      "features": [
+        "Lihat audit log",
+        "Filter berdasarkan user",
+        "Filter berdasarkan action",
+        "Filter berdasarkan tanggal",
+        "Export audit log"
+      ]
+    }
+  },
+  "simulation_parameters": {
+    "login": {
+      "username": "adm_pusat",
+      "password": "Kewer2024!",
+      "test_login_url": "/login.php?test_login=true&username=adm_pusat&password=Kewer2024!"
+    }
+  }
+}

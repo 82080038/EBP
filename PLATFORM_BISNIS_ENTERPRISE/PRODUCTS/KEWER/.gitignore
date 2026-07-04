@@ -1,0 +1,15 @@
+node_modules/
+vendor/
+.env
+logs/
+cron/logs/
+tests/screenshots/
+tests/logs/
+simulation/backup_*.sql
+simulation/logs/
+simulation/screenshots/
+composer-setup.php
+.windsurf/credentials.env
+cookies*.txt
+*.pyc
+/tmp/
