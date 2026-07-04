@@ -1,0 +1,15 @@
+# Development dependencies (opsional)
+# Usage:
+#   CPU : pip install -r requirements.txt -r requirements-dev.txt -r requirements-torch-cpu.txt
+#   CUDA: pip install -r requirements.txt -r requirements-dev.txt -r requirements-torch-cuda.txt
+pytest>=7.0
+pytest-cov>=4.0
+pytest-asyncio>=0.21
+black>=23.0
+flake8>=6.0
+isort>=5.12
+mypy>=1.0
+ipython>=8.0
+jupyter>=1.0
+httpx>=0.25
+pyarrow>=14.0

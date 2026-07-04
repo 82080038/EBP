@@ -1,0 +1,123 @@
+services:
+  postgres:
+    image: timescale/timescaledb:latest-pg16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-saham}
+      POSTGRES_USER: ${POSTGRES_USER:-saham}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-saham_dev}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U saham"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      args:
+        INSTALL_DEV: "false"
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./:/app
+      - mlruns:/app/mlruns
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app
+      - MLFLOW_TRACKING_URI=file:///app/mlruns
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-saham}:${POSTGRES_PASSWORD:-saham_dev}@postgres:5432/${POSTGRES_DB:-saham}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      args:
+        INSTALL_DEV: "false"
+    command: uvicorn src.api_main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+      - mlruns:/app/mlruns
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-saham}:${POSTGRES_PASSWORD:-saham_dev}@postgres:5432/${POSTGRES_DB:-saham}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      args:
+        INSTALL_DEV: "false"
+    command: celery -A src.celery_app worker --loglevel=info --concurrency=2
+    volumes:
+      - ./:/app
+      - mlruns:/app/mlruns
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-saham}:${POSTGRES_PASSWORD:-saham_dev}@postgres:5432/${POSTGRES_DB:-saham}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  mlflow:
+    build:
+      context: .
+      args:
+        INSTALL_DEV: "false"
+    command: mlflow ui --host 0.0.0.0 --port 5000 --backend-store-uri file:///app/mlruns
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlruns:/app/mlruns
+    restart: unless-stopped
+
+volumes:
+  mlruns:
+  pgdata:
+  redisdata:
