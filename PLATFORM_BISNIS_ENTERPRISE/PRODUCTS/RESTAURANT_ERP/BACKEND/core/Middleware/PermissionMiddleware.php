@@ -6,8 +6,12 @@ require_once __DIR__ . '/../../bootstrap.php';
 class PermissionMiddleware
 {
 
-    public function check($userId, $permission)
+    public function check($userId, $permission, $isPlatformOwner = false)
     {
+        // Platform owners have all permissions by default
+        if ($isPlatformOwner) {
+            return true;
+        }
 
         $database = new Database();
 
@@ -52,10 +56,11 @@ class PermissionMiddleware
         $middleware = new self();
         // Get user_id from request (should be set by AuthMiddleware)
         $userId = $request['user_id'] ?? null;
+        $isPlatformOwner = $request['is_platform_owner'] ?? false;
         if (!$userId) {
             Response::error("User not authenticated");
         }
-        return $middleware->check($userId, $permission);
+        return $middleware->check($userId, $permission, $isPlatformOwner);
     }
 
 }

@@ -160,4 +160,50 @@ class UserController
 
         return Response::error(Messages::USER_FAILED_DELETE, 500);
     }
+
+    public function createUserWithRole(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        PermissionMiddleware::handle($request, 'USER_MANAGE');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $branchId = $request['branch_id'] ?? 1;
+        $data = $request['body'] ?? [];
+
+        // Validation
+        if (empty($data['username'])) {
+            return Response::error('Username is required', 400);
+        }
+        if (empty($data['email'])) {
+            return Response::error('Email is required', 400);
+        }
+        if (empty($data['password'])) {
+            return Response::error('Password is required', 400);
+        }
+        if (empty($data['full_name'])) {
+            return Response::error('Full name is required', 400);
+        }
+        if (empty($data['role_code'])) {
+            return Response::error('Role code is required', 400);
+        }
+
+        $result = $this->userService->createUserWithRole($tenantId, $branchId, $data, $data['role_code']);
+
+        if ($result['success']) {
+            return Response::success($result, 'User created successfully');
+        }
+
+        return Response::error($result['message'], 400);
+    }
+
+    public function getAvailableRoles(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        PermissionMiddleware::handle($request, 'USER_MANAGE');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $roles = $this->userService->getAvailableRoles($tenantId);
+
+        return Response::success($roles, 'Roles retrieved successfully');
+    }
 }

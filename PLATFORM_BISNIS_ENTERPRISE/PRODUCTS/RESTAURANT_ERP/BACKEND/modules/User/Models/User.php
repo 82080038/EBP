@@ -11,6 +11,7 @@ class User
     public $full_name;
     public $phone;
     public $status;
+    public $is_platform_owner;
     public $created_at;
     public $updated_at;
     public $deleted_at;

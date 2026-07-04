@@ -41,7 +41,7 @@ class UserService
     public function createUser(int $tenantId, array $data): bool
     {
         $this->transaction->begin();
-        
+
         try {
             // Check if username already exists
             $existing = $this->userRepository->findByUsername($tenantId, $data['username']);
@@ -49,32 +49,37 @@ class UserService
                 $this->transaction->rollback();
                 return false;
             }
-            
+
             // Check if email already exists
             $existing = $this->userRepository->findByEmail($tenantId, $data['email']);
             if ($existing) {
                 $this->transaction->rollback();
                 return false;
             }
-            
+
             // Hash password
             $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-            
+
             $data['tenant_id'] = $tenantId;
             $user = new \Modules\User\Models\User($data);
-            
+
             $result = $this->userRepository->create($user);
-            
+
             if ($result) {
                 $userId = $this->transaction->getLastInsertId();
-                
+
                 // Assign roles if provided
                 if (isset($data['roles']) && is_array($data['roles'])) {
                     foreach ($data['roles'] as $roleId) {
                         $this->userRepository->assignRole($userId, $roleId);
                     }
                 }
-                
+
+                // Assign role by code if provided
+                if (isset($data['role_code'])) {
+                    $this->assignRoleByCode($userId, $data['role_code'], $tenantId);
+                }
+
                 $this->audit->log([
                     'tenant_id' => $tenantId,
                     'module' => 'USER',
@@ -83,17 +88,104 @@ class UserService
                     'table_name' => 'users',
                     'new_values' => json_encode(array_diff_key($data, ['password' => '']))
                 ]);
-                
+
                 $this->transaction->commit();
                 return true;
             }
-            
+
             $this->transaction->rollback();
             return false;
         } catch (\Exception $e) {
             $this->transaction->rollback();
             throw $e;
         }
+    }
+
+    public function createUserWithRole(int $tenantId, int $branchId, array $userData, string $roleCode): array
+    {
+        $this->transaction->begin();
+
+        try {
+            // Check if username already exists
+            $existing = $this->userRepository->findByUsername($tenantId, $userData['username']);
+            if ($existing) {
+                $this->transaction->rollback();
+                return ['success' => false, 'message' => 'Username already exists'];
+            }
+
+            // Check if email already exists
+            $existing = $this->userRepository->findByEmail($tenantId, $userData['email']);
+            if ($existing) {
+                $this->transaction->rollback();
+                return ['success' => false, 'message' => 'Email already exists'];
+            }
+
+            // Hash password
+            $userData['password'] = password_hash($userData['password'], PASSWORD_BCRYPT);
+            $userData['tenant_id'] = $tenantId;
+            $userData['branch_id'] = $branchId;
+
+            $user = new \Modules\User\Models\User($userData);
+            $result = $this->userRepository->create($user);
+
+            if ($result) {
+                $userId = $this->transaction->getLastInsertId();
+
+                // Assign role by code
+                $roleAssigned = $this->assignRoleByCode($userId, $roleCode, $tenantId);
+
+                if (!$roleAssigned) {
+                    $this->transaction->rollback();
+                    return ['success' => false, 'message' => 'Role not found'];
+                }
+
+                $this->audit->log([
+                    'tenant_id' => $tenantId,
+                    'module' => 'USER',
+                    'action' => 'CREATE_USER_WITH_ROLE',
+                    'record_id' => $userId,
+                    'table_name' => 'users',
+                    'new_values' => json_encode(array_merge($userData, ['role_code' => $roleCode]))
+                ]);
+
+                $this->transaction->commit();
+                return ['success' => true, 'message' => 'User created successfully', 'user_id' => $userId];
+            }
+
+            $this->transaction->rollback();
+            return ['success' => false, 'message' => 'Failed to create user'];
+        } catch (\Exception $e) {
+            $this->transaction->rollback();
+            return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
+        }
+    }
+
+    private function assignRoleByCode(int $userId, string $roleCode, int $tenantId): bool
+    {
+        $db = new \Database();
+        $pdo = $db->connect();
+
+        $stmt = $pdo->prepare("SELECT role_id FROM roles WHERE tenant_id = ? AND role_code = ?");
+        $stmt->execute([$tenantId, $roleCode]);
+        $role = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$role) {
+            return false;
+        }
+
+        $stmt = $pdo->prepare("INSERT INTO user_roles (user_id, role_id, assigned_at) VALUES (?, ?, NOW())");
+        return $stmt->execute([$userId, $role['role_id']]);
+    }
+
+    public function getAvailableRoles(int $tenantId): array
+    {
+        $db = new \Database();
+        $pdo = $db->connect();
+
+        $stmt = $pdo->prepare("SELECT role_id, role_code, role_name, description FROM roles WHERE tenant_id = ? AND status = 'ACTIVE'");
+        $stmt->execute([$tenantId]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function updateUser(int $tenantId, int $userId, array $data): bool

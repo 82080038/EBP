@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EBP Restaurant Management System</title>
+    <!-- Leaflet CSS for map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         * {
             margin: 0;
@@ -741,7 +743,13 @@
                 </div>
                 <button type="submit" class="btn">Login</button>
                 <button type="button" class="btn btn-secondary" id="backToLanding">Kembali</button>
+                <button type="button" class="btn btn-quick-login" id="quickLoginBtn" style="margin-top: 10px; background-color: #28a745;">⚡ Quick Login (Admin)</button>
             </form>
+            <div style="margin-top: 15px; padding: 10px; background-color: #f8f9fa; border-radius: 4px; font-size: 12px; color: #666;">
+                <strong>Default Credentials:</strong><br>
+                Username: <code>admin</code><br>
+                Password: <code>admin123</code>
+            </div>
         </div>
 
         <!-- Setup Wizard -->
@@ -777,11 +785,116 @@
                     </div>
                     <div class="form-group">
                         <label for="address">Alamat</label>
-                        <input type="text" id="address">
+                        <input type="text" id="address" placeholder="Masukkan alamat lengkap">
                     </div>
                     <div class="form-group">
                         <label for="phone">Telepon</label>
-                        <input type="text" id="phone">
+                        <input type="text" id="phone" placeholder="Contoh: 08123456789">
+                    </div>
+                    <div class="form-group">
+                        <label for="logoUpload">Logo Perusahaan</label>
+                        <input type="file" id="logoUpload" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp">
+                        <div id="logoPreview" style="margin-top: 10px; display: none;">
+                            <img id="logoPreviewImg" style="max-width: 150px; max-height: 150px; border: 1px solid #ccc; border-radius: 4px;">
+                            <button type="button" id="removeLogoBtn" style="margin-left: 10px; padding: 5px 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Hapus</button>
+                        </div>
+                        <input type="hidden" id="logoUrl">
+                    </div>
+                    <div class="form-group">
+                        <label for="branchImageUpload">Foto Cabang/Restoran</label>
+                        <input type="file" id="branchImageUpload" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp">
+                        <div id="branchImagePreview" style="margin-top: 10px; display: none;">
+                            <img id="branchImagePreviewImg" style="max-width: 150px; max-height: 150px; border: 1px solid #ccc; border-radius: 4px;">
+                            <button type="button" id="removeBranchImageBtn" style="margin-left: 10px; padding: 5px 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Hapus</button>
+                        </div>
+                        <input type="hidden" id="branchImageUrl">
+                    </div>
+                    <div class="form-group">
+                        <label for="taxId">NPWP / Tax ID</label>
+                        <input type="text" id="taxId" placeholder="Masukkan NPWP (opsional)">
+                    </div>
+                    <div class="form-group">
+                        <label for="currencyCode">Mata Uang</label>
+                        <select id="currencyCode">
+                            <option value="IDR">IDR - Rupiah Indonesia</option>
+                            <option value="USD">USD - US Dollar</option>
+                            <option value="EUR">EUR - Euro</option>
+                            <option value="SGD">SGD - Singapore Dollar</option>
+                            <option value="MYR">MYR - Malaysian Ringgit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="timeZone">Time Zone</label>
+                        <select id="timeZone">
+                            <option value="Asia/Jakarta">Asia/Jakarta (WIB)</option>
+                            <option value="Asia/Makassar">Asia/Makassar (WITA)</option>
+                            <option value="Asia/Jayapura">Asia/Jayapura (WIT)</option>
+                            <option value="Asia/Singapore">Asia/Singapore</option>
+                            <option value="Asia/Kuala_Lumpur">Asia/Kuala_Lumpur</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Lokasi di Peta (Klik untuk menentukan lokasi)</label>
+                        <div id="map" style="height: 300px; width: 100%; border: 1px solid #ccc; border-radius: 4px;"></div>
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Klik pada peta untuk menentukan lokasi restoran. Koordinat akan terisi otomatis.
+                        </small>
+                    </div>
+                    <div class="form-group" style="display: flex; gap: 10px;">
+                        <div style="flex: 1;">
+                            <label for="latitude">Latitude</label>
+                            <input type="text" id="latitude" readonly placeholder="Klik peta untuk isi">
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="longitude">Longitude</label>
+                            <input type="text" id="longitude" readonly placeholder="Klik peta untuk isi">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryRadiusKm">Radius Pengiriman (km)</label>
+                        <input type="number" id="deliveryRadiusKm" min="1" max="50" value="5" step="0.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="taxRate">Pajak (%)</label>
+                        <input type="number" id="taxRate" min="0" max="100" value="0" step="0.1" placeholder="Contoh: 10">
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceCharge">Service Charge (%)</label>
+                        <input type="number" id="serviceCharge" min="0" max="100" value="0" step="0.1" placeholder="Contoh: 5">
+                    </div>
+                    <div class="form-group">
+                        <label for="tipConfig">Konfigurasi Tip</label>
+                        <select id="tipConfig">
+                            <option value="OPTIONAL">Opsional</option>
+                            <option value="MANDATORY">Wajib</option>
+                            <option value="DISABLED">Tidak Aktif</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryFee">Biaya Pengiriman</label>
+                        <input type="number" id="deliveryFee" min="0" value="0" step="1000" placeholder="Contoh: 10000">
+                    </div>
+                    <div class="form-group">
+                        <label for="minimumOrderAmount">Minimum Order untuk Delivery</label>
+                        <input type="number" id="minimumOrderAmount" min="0" value="0" step="1000" placeholder="Contoh: 20000">
+                    </div>
+                    <div class="form-group">
+                        <label for="freeDeliveryThreshold">Gratis Delivery di atas (Rp)</label>
+                        <input type="number" id="freeDeliveryThreshold" min="0" value="0" step="10000" placeholder="Contoh: 100000">
+                    </div>
+                    <div class="form-group">
+                        <label>Jam Operasional</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>
+                                <label style="font-size: 12px;">Buka</label>
+                                <input type="time" id="openingTime" value="08:00">
+                            </div>
+                            <div>
+                                <label style="font-size: 12px;">Tutup</label>
+                                <input type="time" id="closingTime" value="22:00">
+                            </div>
+                        </div>
+                        <small style="color: #666;">Jam operasional sama untuk setiap hari</small>
                     </div>
                 </form>
             </div>
@@ -876,6 +989,123 @@
             </div>
         </div>
 
+        <!-- Post-Onboarding Setup Wizard -->
+        <div id="postOnboardingWizard" class="setup-wizard" style="display: none;">
+            <div id="postOnboardingMessage" class="message"></div>
+            <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Setup Tambahan</h2>
+
+            <div class="wizard-steps">
+                <div class="step active" data-step="1">1. Metode Pembayaran</div>
+                <div class="step" data-step="2">2. Diskon & Promo</div>
+                <div class="step" data-step="3">3. Konfigurasi Receipt</div>
+                <div class="step" data-step="4">4. Selesai</div>
+            </div>
+
+            <!-- Step 1: Payment Methods -->
+            <div class="wizard-content active" data-step="1">
+                <form id="postStep1Form">
+                    <div class="form-group">
+                        <label>Metode Pembayaran yang Diterima *</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <label style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                                <input type="checkbox" id="paymentCash" checked> 💵 Tunai
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                                <input type="checkbox" id="paymentCard"> 💳 Kartu Kredit/Debit
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                                <input type="checkbox" id="paymentQRIS"> 📱 QRIS
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                                <input type="checkbox" id="paymentEwallet"> 🔋 E-Wallet (GoPay, OVO, dll)
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                                <input type="checkbox" id="paymentTransfer"> 🏦 Transfer Bank
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                                <input type="checkbox" id="paymentVoucher"> 🎫 Voucher/Gift Card
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="splitPayment">Izinkan Split Payment?</label>
+                        <select id="splitPayment">
+                            <option value="yes">Ya</option>
+                            <option value="no">Tidak</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 2: Discounts & Promos -->
+            <div class="wizard-content" data-step="2">
+                <form id="postStep2Form">
+                    <div class="form-group">
+                        <label for="maxDiscountPercent">Maksimum Diskon (%)</label>
+                        <input type="number" id="maxDiscountPercent" min="0" max="100" value="20" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="managerOverridePassword">Password Manager Override</label>
+                        <input type="password" id="managerOverridePassword" placeholder="Password untuk override diskon/void">
+                    </div>
+                    <div class="form-group">
+                        <label for="allowVoid">Izinkan Void Order?</label>
+                        <select id="allowVoid">
+                            <option value="yes">Ya (dengan password)</option>
+                            <option value="no">Tidak</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="allowRefund">Izinkan Refund?</label>
+                        <select id="allowRefund">
+                            <option value="yes">Ya (dengan password)</option>
+                            <option value="no">Tidak</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 3: Receipt Configuration -->
+            <div class="wizard-content" data-step="3">
+                <form id="postStep3Form">
+                    <div class="form-group">
+                        <label for="receiptHeader">Header Receipt</label>
+                        <textarea id="receiptHeader" rows="3" placeholder="Terima kasih telah berkunjung ke restoran kami"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="receiptFooter">Footer Receipt</label>
+                        <textarea id="receiptFooter" rows="3" placeholder="Barang yang sudah dibeli tidak dapat ditukar/dikembalikan"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="showCustomerInfo">Tampilkan Info Customer di Receipt?</label>
+                        <select id="showCustomerInfo">
+                            <option value="yes">Ya</option>
+                            <option value="no">Tidak</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="receiptCopies">Jumlah Copy Receipt</label>
+                        <input type="number" id="receiptCopies" min="1" max="3" value="1">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 4: Complete -->
+            <div class="wizard-content" data-step="4">
+                <div class="card">
+                    <h3>Setup Tambahan Selesai!</h3>
+                    <p>Konfigurasi tambahan telah berhasil disimpan. Anda sekarang siap menggunakan sistem.</p>
+                    <button class="btn" id="goToDashboard">Masuk ke Dashboard</button>
+                </div>
+            </div>
+
+            <div class="wizard-buttons">
+                <button class="btn btn-secondary" id="postPrevStep" style="display: none;">Sebelumnya</button>
+                <button class="btn" id="postNextStep">Selanjutnya</button>
+                <button class="btn" id="postCompleteSetup" style="display: none;">Simpan & Selesai</button>
+            </div>
+        </div>
+
         <!-- Dashboard -->
         <div id="dashboard" class="dashboard">
             <div class="nav-tabs">
@@ -885,6 +1115,7 @@
                 <button class="nav-tab" data-tab="orders">Orders</button>
                 <button class="nav-tab" data-tab="inventory">Inventory</button>
                 <button class="nav-tab" data-tab="kitchen">Kitchen</button>
+                <button class="nav-tab" data-tab="users">Users</button>
             </div>
 
             <div id="dashboardMessage" class="message"></div>
@@ -921,6 +1152,20 @@
             <div id="menuTab" class="tab-content">
                 <div class="card">
                     <h3>Menu Categories</h3>
+                    <div id="menuMessage" class="message"></div>
+                    <div class="form-group">
+                        <button class="btn" id="showCreateCategoryForm">Add Category</button>
+                    </div>
+                    <div id="createCategoryForm" style="display: none;" class="form-group">
+                        <input type="text" id="categoryCode" placeholder="Category Code">
+                        <input type="text" id="categoryName" placeholder="Category Name">
+                        <select id="categoryStatus">
+                            <option value="ACTIVE">Active</option>
+                            <option value="INACTIVE">Inactive</option>
+                        </select>
+                        <button class="btn" id="createCategoryBtn">Create</button>
+                        <button class="btn btn-secondary" id="cancelCategoryBtn">Cancel</button>
+                    </div>
                     <div id="menuCategories" class="loading">
                         <div class="spinner"></div>
                         <p>Loading...</p>
@@ -928,6 +1173,24 @@
                 </div>
                 <div class="card">
                     <h3>Menu Products</h3>
+                    <div id="productMessage" class="message"></div>
+                    <div class="form-group">
+                        <button class="btn" id="showCreateProductForm">Add Product</button>
+                    </div>
+                    <div id="createProductForm" style="display: none;" class="form-group">
+                        <input type="text" id="productCode" placeholder="Product Code">
+                        <input type="text" id="productName" placeholder="Product Name">
+                        <select id="productCategory">
+                            <option value="">Select Category</option>
+                        </select>
+                        <input type="number" id="productPrice" placeholder="Price" step="0.01">
+                        <select id="productStatus">
+                            <option value="ACTIVE">Active</option>
+                            <option value="INACTIVE">Inactive</option>
+                        </select>
+                        <button class="btn" id="createProductBtn">Create</button>
+                        <button class="btn btn-secondary" id="cancelProductBtn">Cancel</button>
+                    </div>
                     <div id="menuProducts" class="loading">
                         <div class="spinner"></div>
                         <p>Loading...</p>
@@ -938,6 +1201,21 @@
             <div id="tablesTab" class="tab-content">
                 <div class="card">
                     <h3>All Tables</h3>
+                    <div id="tableMessage" class="message"></div>
+                    <div class="form-group">
+                        <button class="btn" id="showCreateTableForm">Add Table</button>
+                    </div>
+                    <div id="createTableForm" style="display: none;" class="form-group">
+                        <input type="number" id="tableNumber" placeholder="Table Number" min="1">
+                        <input type="number" id="tableCapacity" placeholder="Capacity" min="1">
+                        <select id="tableStatus">
+                            <option value="AVAILABLE">Available</option>
+                            <option value="OCCUPIED">Occupied</option>
+                            <option value="RESERVED">Reserved</option>
+                        </select>
+                        <button class="btn" id="createTableBtn">Create</button>
+                        <button class="btn btn-secondary" id="cancelTableBtn">Cancel</button>
+                    </div>
                     <div id="tablesList" class="loading">
                         <div class="spinner"></div>
                         <p>Loading...</p>
@@ -955,6 +1233,21 @@
             <div id="ordersTab" class="tab-content">
                 <div class="card">
                     <h3>Orders</h3>
+                    <div id="orderMessage" class="message"></div>
+                    <div class="form-group">
+                        <button class="btn" id="showCreateOrderForm">Create Order</button>
+                    </div>
+                    <div id="createOrderForm" style="display: none;" class="form-group">
+                        <select id="orderTable">
+                            <option value="">Select Table</option>
+                        </select>
+                        <select id="orderProduct">
+                            <option value="">Select Product</option>
+                        </select>
+                        <input type="number" id="orderQuantity" placeholder="Quantity" min="1" value="1">
+                        <button class="btn" id="createOrderBtn">Create Order</button>
+                        <button class="btn btn-secondary" id="cancelOrderBtn">Cancel</button>
+                    </div>
                     <div id="ordersList" class="loading">
                         <div class="spinner"></div>
                         <p>Loading...</p>
@@ -989,6 +1282,57 @@
                 </div>
             </div>
 
+            <div id="usersTab" class="tab-content">
+                <div class="card">
+                    <h3>User Management</h3>
+                    <div id="usersMessage" class="message"></div>
+                    
+                    <div class="form-group">
+                        <button class="btn" id="showCreateUserForm">Create New User</button>
+                    </div>
+
+                    <div id="createUserForm" style="display: none; margin-top: 20px;">
+                        <h4>Create New User</h4>
+                        <form id="newUserForm">
+                            <div class="form-group">
+                                <label for="newUsername">Username *</label>
+                                <input type="text" id="newUsername" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newEmail">Email *</label>
+                                <input type="email" id="newEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newFullName">Full Name *</label>
+                                <input type="text" id="newFullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">Password *</label>
+                                <input type="password" id="newPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newRole">Role *</label>
+                                <select id="newRole" required>
+                                    <option value="">-- Select Role --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn">Create User</button>
+                                <button type="button" class="btn" id="cancelCreateUser">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="usersList" style="margin-top: 20px;">
+                        <h4>Existing Users</h4>
+                        <div id="usersTable" class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <button class="btn logout-btn" id="logoutBtn">Logout</button>
         </div>
     </div>
@@ -1011,6 +1355,13 @@
             document.getElementById('landingPage').style.display = 'block';
         });
 
+        // Quick login functionality
+        document.getElementById('quickLoginBtn').addEventListener('click', () => {
+            document.getElementById('username').value = 'admin';
+            document.getElementById('password').value = 'admin123';
+            document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+        });
+
         // Login functionality
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -1029,8 +1380,11 @@
                 if (data.success) {
                     authToken = data.data.access_token;
                     document.getElementById('loginSection').classList.remove('active');
-                    document.getElementById('dashboard').classList.add('active');
-                    loadDashboardData();
+                    // Check if post-onboarding is needed (simplified: always show for now)
+                    // In production, check settings table for completion flag
+                    document.getElementById('postOnboardingWizard').style.display = 'block';
+                    postCurrentStep = 1;
+                    updatePostWizardUI();
                 } else {
                     // Check if user doesn't exist - show setup wizard
                     if (data.message && data.message.includes('not found')) {
@@ -1084,6 +1438,33 @@
                 setupData.branchName = branchName;
                 setupData.address = document.getElementById('address').value;
                 setupData.phone = document.getElementById('phone').value;
+                setupData.latitude = document.getElementById('latitude').value;
+                setupData.longitude = document.getElementById('longitude').value;
+                setupData.deliveryRadiusKm = document.getElementById('deliveryRadiusKm').value;
+                setupData.logoUrl = document.getElementById('logoUrl').value;
+                setupData.branchImageUrl = document.getElementById('branchImageUrl').value;
+                setupData.taxId = document.getElementById('taxId').value;
+                setupData.currencyCode = document.getElementById('currencyCode').value;
+                setupData.timeZone = document.getElementById('timeZone').value;
+                setupData.taxRate = document.getElementById('taxRate').value;
+                setupData.serviceCharge = document.getElementById('serviceCharge').value;
+                setupData.tipConfig = document.getElementById('tipConfig').value;
+                setupData.deliveryFee = document.getElementById('deliveryFee').value;
+                setupData.minimumOrderAmount = document.getElementById('minimumOrderAmount').value;
+                setupData.freeDeliveryThreshold = document.getElementById('freeDeliveryThreshold').value;
+
+                // Build operating hours JSON
+                const openingTime = document.getElementById('openingTime').value;
+                const closingTime = document.getElementById('closingTime').value;
+                setupData.operatingHours = JSON.stringify({
+                    monday: { open: openingTime, close: closingTime },
+                    tuesday: { open: openingTime, close: closingTime },
+                    wednesday: { open: openingTime, close: closingTime },
+                    thursday: { open: openingTime, close: closingTime },
+                    friday: { open: openingTime, close: closingTime },
+                    saturday: { open: openingTime, close: closingTime },
+                    sunday: { open: openingTime, close: closingTime }
+                });
             }
 
             if (step === 2) {
@@ -1198,8 +1579,10 @@
                         if (loginData.success) {
                             authToken = loginData.message.access_token;
                             document.getElementById('setupWizard').classList.remove('active');
-                            document.getElementById('dashboard').classList.add('active');
-                            loadDashboardData();
+                            // Show post-onboarding wizard instead of dashboard
+                            document.getElementById('postOnboardingWizard').style.display = 'block';
+                            postCurrentStep = 1;
+                            updatePostWizardUI();
                         }
                     }, 2000);
                 } else {
@@ -1207,6 +1590,210 @@
                 }
             } catch (error) {
                 showMessage('setupMessage', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        // Image upload handling
+        async function uploadImage(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch(`${API_BASE}/upload/image`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    return data.message.url;
+                } else {
+                    throw new Error(data.message || 'Upload failed');
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                throw error;
+            }
+        }
+
+        // Logo upload handler
+        document.getElementById('logoUpload').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                document.getElementById('logoPreviewImg').src = event.target.result;
+                document.getElementById('logoPreview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+
+            // Upload image
+            try {
+                const url = await uploadImage(file);
+                document.getElementById('logoUrl').value = url;
+                showMessage('setupMessage', 'Logo berhasil diupload', 'success');
+            } catch (error) {
+                showMessage('setupMessage', 'Gagal upload logo: ' + error.message, 'error');
+                document.getElementById('logoPreview').style.display = 'none';
+                document.getElementById('logoUpload').value = '';
+            }
+        });
+
+        // Remove logo handler
+        document.getElementById('removeLogoBtn').addEventListener('click', () => {
+            document.getElementById('logoUpload').value = '';
+            document.getElementById('logoUrl').value = '';
+            document.getElementById('logoPreview').style.display = 'none';
+            document.getElementById('logoPreviewImg').src = '';
+        });
+
+        // Branch image upload handler
+        document.getElementById('branchImageUpload').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                document.getElementById('branchImagePreviewImg').src = event.target.result;
+                document.getElementById('branchImagePreview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+
+            // Upload image
+            try {
+                const url = await uploadImage(file);
+                document.getElementById('branchImageUrl').value = url;
+                showMessage('setupMessage', 'Foto cabang berhasil diupload', 'success');
+            } catch (error) {
+                showMessage('setupMessage', 'Gagal upload foto cabang: ' + error.message, 'error');
+                document.getElementById('branchImagePreview').style.display = 'none';
+                document.getElementById('branchImageUpload').value = '';
+            }
+        });
+
+        // Remove branch image handler
+        document.getElementById('removeBranchImageBtn').addEventListener('click', () => {
+            document.getElementById('branchImageUpload').value = '';
+            document.getElementById('branchImageUrl').value = '';
+            document.getElementById('branchImagePreview').style.display = 'none';
+            document.getElementById('branchImagePreviewImg').src = '';
+        });
+
+        // Post-Onboarding Setup Wizard
+        let postCurrentStep = 1;
+        let postSetupData = {};
+
+        // Post-onboarding navigation
+        document.getElementById('postNextStep').addEventListener('click', () => {
+            if (validatePostStep(postCurrentStep)) {
+                if (postCurrentStep < 4) {
+                    postCurrentStep++;
+                    updatePostWizardUI();
+                }
+            }
+        });
+
+        document.getElementById('postPrevStep').addEventListener('click', () => {
+            if (postCurrentStep > 1) {
+                postCurrentStep--;
+                updatePostWizardUI();
+            }
+        });
+
+        document.getElementById('postCompleteSetup').addEventListener('click', async () => {
+            await completePostSetup();
+        });
+
+        document.getElementById('goToDashboard').addEventListener('click', () => {
+            document.getElementById('postOnboardingWizard').style.display = 'none';
+            document.getElementById('dashboard').classList.add('active');
+            loadDashboardData();
+        });
+
+        function validatePostStep(step) {
+            if (step === 1) {
+                const paymentMethods = [];
+                if (document.getElementById('paymentCash').checked) paymentMethods.push('CASH');
+                if (document.getElementById('paymentCard').checked) paymentMethods.push('CARD');
+                if (document.getElementById('paymentQRIS').checked) paymentMethods.push('QRIS');
+                if (document.getElementById('paymentEwallet').checked) paymentMethods.push('EWALLET');
+                if (document.getElementById('paymentTransfer').checked) paymentMethods.push('TRANSFER');
+                if (document.getElementById('paymentVoucher').checked) paymentMethods.push('VOUCHER');
+
+                if (paymentMethods.length === 0) {
+                    showMessage('postOnboardingMessage', 'Pilih minimal satu metode pembayaran', 'error');
+                    return false;
+                }
+
+                postSetupData.paymentMethods = paymentMethods;
+                postSetupData.splitPayment = document.getElementById('splitPayment').value;
+            }
+
+            if (step === 2) {
+                postSetupData.maxDiscountPercent = document.getElementById('maxDiscountPercent').value;
+                postSetupData.managerOverridePassword = document.getElementById('managerOverridePassword').value;
+                postSetupData.allowVoid = document.getElementById('allowVoid').value;
+                postSetupData.allowRefund = document.getElementById('allowRefund').value;
+            }
+
+            if (step === 3) {
+                postSetupData.receiptHeader = document.getElementById('receiptHeader').value;
+                postSetupData.receiptFooter = document.getElementById('receiptFooter').value;
+                postSetupData.showCustomerInfo = document.getElementById('showCustomerInfo').value;
+                postSetupData.receiptCopies = document.getElementById('receiptCopies').value;
+            }
+
+            return true;
+        }
+
+        function updatePostWizardUI() {
+            // Update step indicators
+            document.querySelectorAll('#postOnboardingWizard .step').forEach(step => {
+                step.classList.remove('active');
+                if (parseInt(step.dataset.step) === postCurrentStep) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Update content
+            document.querySelectorAll('#postOnboardingWizard .wizard-content').forEach(content => {
+                content.classList.remove('active');
+                if (parseInt(content.dataset.step) === postCurrentStep) {
+                    content.classList.add('active');
+                }
+            });
+
+            // Update buttons
+            document.getElementById('postPrevStep').style.display = postCurrentStep > 1 ? 'inline-block' : 'none';
+            document.getElementById('postNextStep').style.display = postCurrentStep < 3 ? 'inline-block' : 'none';
+            document.getElementById('postCompleteSetup').style.display = postCurrentStep === 3 ? 'inline-block' : 'none';
+        }
+
+        async function completePostSetup() {
+            try {
+                const response = await fetch(`${API_BASE}/tenant/configure`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(postSetupData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('postOnboardingMessage', 'Konfigurasi berhasil disimpan!', 'success');
+                    postCurrentStep = 4;
+                    updatePostWizardUI();
+                } else {
+                    showMessage('postOnboardingMessage', data.message || 'Gagal menyimpan konfigurasi', 'error');
+                }
+            } catch (error) {
+                showMessage('postOnboardingMessage', 'Error: ' + error.message, 'error');
             }
         }
 
@@ -1238,6 +1825,8 @@
                     loadInventory();
                 } else if (tabName === 'kitchen') {
                     loadKitchen();
+                } else if (tabName === 'users') {
+                    loadUsers();
                 }
             });
         });
@@ -1309,6 +1898,129 @@
             }
         }
 
+        // Load users data
+        async function loadUsers() {
+            try {
+                const response = await fetch(`${API_BASE}/users`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    const users = data.message;
+                    let tableHtml = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Full Name</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    users.forEach(user => {
+                        tableHtml += `
+                            <tr>
+                                <td>${user.username}</td>
+                                <td>${user.email}</td>
+                                <td>${user.full_name || '-'}</td>
+                                <td>${user.roles ? user.roles.map(r => r.role_name).join(', ') : '-'}</td>
+                                <td>${user.status}</td>
+                            </tr>
+                        `;
+                    });
+
+                    tableHtml += `
+                            </tbody>
+                        </table>
+                    `;
+
+                    document.getElementById('usersTable').innerHTML = tableHtml;
+                } else {
+                    document.getElementById('usersTable').innerHTML = '<p>Error loading users</p>';
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+                document.getElementById('usersTable').innerHTML = '<p>Error loading users</p>';
+            }
+        }
+
+        // Load available roles
+        async function loadRoles() {
+            try {
+                const response = await fetch(`${API_BASE}/users/roles`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    const roles = data.message;
+                    const select = document.getElementById('newRole');
+                    select.innerHTML = '<option value="">-- Select Role --</option>';
+                    
+                    roles.forEach(role => {
+                        select.innerHTML += `<option value="${role.role_code}">${role.role_name} - ${role.description}</option>`;
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading roles:', error);
+            }
+        }
+
+        // Show create user form
+        document.getElementById('showCreateUserForm').addEventListener('click', () => {
+            document.getElementById('createUserForm').style.display = 'block';
+            loadRoles();
+        });
+
+        // Hide create user form
+        document.getElementById('cancelCreateUser').addEventListener('click', () => {
+            document.getElementById('createUserForm').style.display = 'none';
+            document.getElementById('newUserForm').reset();
+        });
+
+        // Create new user
+        document.getElementById('newUserForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const userData = {
+                username: document.getElementById('newUsername').value,
+                email: document.getElementById('newEmail').value,
+                full_name: document.getElementById('newFullName').value,
+                password: document.getElementById('newPassword').value,
+                role_code: document.getElementById('newRole').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/users/with-role`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(userData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('usersMessage', 'User created successfully!', 'success');
+                    document.getElementById('createUserForm').style.display = 'none';
+                    document.getElementById('newUserForm').reset();
+                    loadUsers();
+                } else {
+                    showMessage('usersMessage', data.message || 'Failed to create user', 'error');
+                }
+            } catch (error) {
+                console.error('Error creating user:', error);
+                showMessage('usersMessage', 'Error creating user', 'error');
+            }
+        });
+
         // Load menu data
         async function loadMenu() {
             try {
@@ -1344,6 +2056,13 @@
                     });
                     categoriesHtml += '</tbody></table>';
                     document.getElementById('menuCategories').innerHTML = categoriesHtml;
+                    
+                    // Populate category dropdown for products
+                    const categorySelect = document.getElementById('productCategory');
+                    categorySelect.innerHTML = '<option value="">Select Category</option>';
+                    categories.data.forEach(cat => {
+                        categorySelect.innerHTML += `<option value="${cat.category_id}">${cat.category_name}</option>`;
+                    });
                 } else {
                     document.getElementById('menuCategories').innerHTML = '<p>No categories found</p>';
                 }
@@ -1369,8 +2088,8 @@
                                 <td>${prod.product_id}</td>
                                 <td>${prod.product_code}</td>
                                 <td>${prod.product_name}</td>
-                                <td>${prod.category_name || '-'}</td>
-                                <td>Rp ${prod.price.toLocaleString()}</td>
+                                <td>${prod.category_id || '-'}</td>
+                                <td>${prod.price || 0}</td>
                                 <td>${prod.status}</td>
                             </tr>
                         `;
@@ -1386,6 +2105,106 @@
                 document.getElementById('menuProducts').innerHTML = '<p>Error loading products</p>';
             }
         }
+
+        // Menu CRUD handlers
+        document.getElementById('showCreateCategoryForm').addEventListener('click', () => {
+            document.getElementById('createCategoryForm').style.display = 'block';
+        });
+
+        document.getElementById('cancelCategoryBtn').addEventListener('click', () => {
+            document.getElementById('createCategoryForm').style.display = 'none';
+        });
+
+        document.getElementById('createCategoryBtn').addEventListener('click', async () => {
+            const categoryCode = document.getElementById('categoryCode').value;
+            const categoryName = document.getElementById('categoryName').value;
+            const categoryStatus = document.getElementById('categoryStatus').value;
+
+            if (!categoryCode || !categoryName) {
+                showMessage('menuMessage', 'Please fill in all required fields', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/menu/categories`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        category_code: categoryCode,
+                        category_name: categoryName,
+                        status: categoryStatus
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showMessage('menuMessage', 'Category created successfully', 'success');
+                    document.getElementById('createCategoryForm').style.display = 'none';
+                    document.getElementById('categoryCode').value = '';
+                    document.getElementById('categoryName').value = '';
+                    loadMenu();
+                } else {
+                    showMessage('menuMessage', data.message || 'Failed to create category', 'error');
+                }
+            } catch (error) {
+                showMessage('menuMessage', 'Error: ' + error.message, 'error');
+            }
+        });
+
+        document.getElementById('showCreateProductForm').addEventListener('click', () => {
+            document.getElementById('createProductForm').style.display = 'block';
+        });
+
+        document.getElementById('cancelProductBtn').addEventListener('click', () => {
+            document.getElementById('createProductForm').style.display = 'none';
+        });
+
+        document.getElementById('createProductBtn').addEventListener('click', async () => {
+            const productCode = document.getElementById('productCode').value;
+            const productName = document.getElementById('productName').value;
+            const productCategory = document.getElementById('productCategory').value;
+            const productPrice = document.getElementById('productPrice').value;
+            const productStatus = document.getElementById('productStatus').value;
+
+            if (!productCode || !productName || !productPrice) {
+                showMessage('productMessage', 'Please fill in all required fields', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/menu/products`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        product_code: productCode,
+                        product_name: productName,
+                        category_id: productCategory,
+                        price: parseFloat(productPrice),
+                        status: productStatus
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showMessage('productMessage', 'Product created successfully', 'success');
+                    document.getElementById('createProductForm').style.display = 'none';
+                    document.getElementById('productCode').value = '';
+                    document.getElementById('productName').value = '';
+                    document.getElementById('productPrice').value = '';
+                    loadMenu();
+                } else {
+                    showMessage('productMessage', data.message || 'Failed to create product', 'error');
+                }
+            } catch (error) {
+                showMessage('productMessage', 'Error: ' + error.message, 'error');
+            }
+        });
 
         // Load tables data
         async function loadTables() {
@@ -1428,7 +2247,6 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Number</th>
-                                    <th>Name</th>
                                     <th>Capacity</th>
                                 </tr>
                             </thead>
@@ -1439,7 +2257,6 @@
                             <tr>
                                 <td>${table.table_id}</td>
                                 <td>${table.table_number}</td>
-                                <td>${table.table_name || '-'}</td>
                                 <td>${table.capacity}</td>
                             </tr>
                         `;
@@ -1456,6 +2273,164 @@
                 document.getElementById('availableTables').innerHTML = '<p>Error loading available tables</p>';
             }
         }
+
+        // Table CRUD handlers
+        document.getElementById('showCreateTableForm').addEventListener('click', () => {
+            document.getElementById('createTableForm').style.display = 'block';
+        });
+
+        document.getElementById('cancelTableBtn').addEventListener('click', () => {
+            document.getElementById('createTableForm').style.display = 'none';
+        });
+
+        document.getElementById('createTableBtn').addEventListener('click', async () => {
+            const tableNumber = document.getElementById('tableNumber').value;
+            const tableCapacity = document.getElementById('tableCapacity').value;
+            const tableStatus = document.getElementById('tableStatus').value;
+
+            if (!tableNumber || !tableCapacity) {
+                showMessage('tableMessage', 'Please fill in all required fields', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/tables`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        table_number: parseInt(tableNumber),
+                        capacity: parseInt(tableCapacity),
+                        status: tableStatus
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showMessage('tableMessage', 'Table created successfully', 'success');
+                    document.getElementById('createTableForm').style.display = 'none';
+                    document.getElementById('tableNumber').value = '';
+                    document.getElementById('tableCapacity').value = '';
+                    loadTables();
+                } else {
+                    showMessage('tableMessage', data.message || 'Failed to create table', 'error');
+                }
+            } catch (error) {
+                showMessage('tableMessage', 'Error: ' + error.message, 'error');
+            }
+        });
+
+        // Load orders data
+        async function loadOrders() {
+            try {
+                const orders = await apiCall('/orders');
+                const tables = await apiCall('/tables');
+                const products = await apiCall('/menu/products');
+
+                // Populate dropdowns
+                if (tables.success && tables.data) {
+                    const tableSelect = document.getElementById('orderTable');
+                    tableSelect.innerHTML = '<option value="">Select Table</option>';
+                    tables.data.filter(t => t.status === 'AVAILABLE').forEach(table => {
+                        tableSelect.innerHTML += `<option value="${table.table_id}">Table ${table.table_number}</option>`;
+                    });
+                }
+
+                if (products.success && products.data) {
+                    const productSelect = document.getElementById('orderProduct');
+                    productSelect.innerHTML = '<option value="">Select Product</option>';
+                    products.data.filter(p => p.status === 'ACTIVE').forEach(product => {
+                        productSelect.innerHTML += `<option value="${product.product_id}">${product.product_name} - Rp ${product.price}</option>`;
+                    });
+                }
+
+                if (orders.success && orders.data) {
+                    let ordersHtml = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Table</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                    <th>Created At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    orders.data.forEach(order => {
+                        ordersHtml += `
+                            <tr>
+                                <td>${order.order_id}</td>
+                                <td>${order.table_id || '-'}</td>
+                                <td>${order.status}</td>
+                                <td>Rp ${(order.total_amount || 0).toLocaleString()}</td>
+                                <td>${new Date(order.created_at).toLocaleString()}</td>
+                            </tr>
+                        `;
+                    });
+                    ordersHtml += '</tbody></table>';
+                    document.getElementById('ordersList').innerHTML = ordersHtml;
+                } else {
+                    document.getElementById('ordersList').innerHTML = '<p>No orders found</p>';
+                }
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                document.getElementById('ordersList').innerHTML = '<p>Error loading orders</p>';
+            }
+        }
+
+        // Order CRUD handlers
+        document.getElementById('showCreateOrderForm').addEventListener('click', () => {
+            document.getElementById('createOrderForm').style.display = 'block';
+            loadOrders(); // Refresh dropdowns
+        });
+
+        document.getElementById('cancelOrderBtn').addEventListener('click', () => {
+            document.getElementById('createOrderForm').style.display = 'none';
+        });
+
+        document.getElementById('createOrderBtn').addEventListener('click', async () => {
+            const orderTable = document.getElementById('orderTable').value;
+            const orderProduct = document.getElementById('orderProduct').value;
+            const orderQuantity = document.getElementById('orderQuantity').value;
+
+            if (!orderTable || !orderProduct || !orderQuantity) {
+                showMessage('orderMessage', 'Please fill in all required fields', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/orders`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        table_id: parseInt(orderTable),
+                        items: [{
+                            product_id: parseInt(orderProduct),
+                            quantity: parseInt(orderQuantity)
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showMessage('orderMessage', 'Order created successfully', 'success');
+                    document.getElementById('createOrderForm').style.display = 'none';
+                    document.getElementById('orderQuantity').value = '1';
+                    loadOrders();
+                } else {
+                    showMessage('orderMessage', data.message || 'Failed to create order', 'error');
+                }
+            } catch (error) {
+                showMessage('orderMessage', 'Error: ' + error.message, 'error');
+            }
+        });
 
         // Load inventory data
         async function loadInventory() {
@@ -1571,7 +2546,91 @@
                 element.classList.remove('active');
             }, 5000);
         }
+
+        // Map initialization for location picker
+        let map;
+        let marker;
+
+        function initMap() {
+            if (map) return; // Already initialized
+
+            // Default to Jakarta coordinates
+            map = L.map('map').setView([-6.2088, 106.8456], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Add click event to map
+            map.on('click', function(e) {
+                const lat = e.latlng.lat.toFixed(8);
+                const lng = e.latlng.lng.toFixed(8);
+
+                // Update input fields
+                document.getElementById('latitude').value = lat;
+                document.getElementById('longitude').value = lng;
+
+                // Remove existing marker if any
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+
+                // Add new marker
+                marker = L.marker([lat, lng]).addTo(map)
+                    .bindPopup('Lokasi Restoran')
+                    .openPopup();
+            });
+
+            // Try to get user's current location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        map.setView([lat, lng], 15);
+                        
+                        // Update input fields
+                        document.getElementById('latitude').value = lat.toFixed(8);
+                        document.getElementById('longitude').value = lng.toFixed(8);
+
+                        // Add marker
+                        marker = L.marker([lat, lng]).addTo(map)
+                            .bindPopup('Lokasi Anda')
+                            .openPopup();
+                    },
+                    function(error) {
+                        console.log('Geolocation error:', error);
+                        // Keep default Jakarta view
+                    }
+                );
+            }
+        }
+
+        // Initialize map when setup wizard step 1 is shown
+        function showStep(step) {
+            document.querySelectorAll('.wizard-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            document.querySelector(`[data-step="${step}"]`).style.display = 'block';
+
+            // Initialize map when step 1 is shown
+            if (step === 1 && !map) {
+                setTimeout(initMap, 100);
+            }
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'inline-block';
+            document.getElementById('nextBtn').style.display = step === 4 ? 'none' : 'inline-block';
+            document.getElementById('completeSetup').style.display = step === 4 ? 'inline-block' : 'none';
+
+            // Show summary on step 4
+            if (step === 4) {
+                showSetupSummary();
+            }
+        }
     </script>
+    <!-- Leaflet JS for map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </body>
 
 </html>

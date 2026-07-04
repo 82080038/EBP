@@ -3,6 +3,11 @@
 // Load EBP Core and Backend Components
 require_once __DIR__ . '/../bootstrap.php';
 
+// Upload Module
+if (!class_exists('UploadController')) {
+    require_once __DIR__ . '/../modules/Upload/Controllers/UploadController.php';
+}
+
 // Auth Module
 if (!class_exists('AuthController')) {
     require_once __DIR__ . '/../modules/Auth/Controllers/AuthController.php';
@@ -312,6 +317,7 @@ $goodsReceiptController = new GoodsReceiptController();
 $kitchenController = new KitchenController();
 $locationController = new LocationController();
 $customerController = new CustomerController();
+$uploadController = new UploadController();
 $aiController = new AIController();
 $deliveryController = new DeliveryController();
 $employeeController = new EmployeeController();
@@ -366,6 +372,14 @@ $router->addRoute('POST', '/api/v1/auth/login', function($request) use ($authCon
     return $authController->login($request);
 });
 
+// Upload Routes
+$router->addRoute('POST', '/api/v1/upload/image', function($request) use ($uploadController) {
+    return $uploadController->uploadImage($request);
+});
+$router->addRoute('DELETE', '/api/v1/upload/image', function($request) use ($uploadController) {
+    return $uploadController->deleteImage($request);
+});
+
 // Simple Menu Routes (for testing without complex middleware)
 $router->addRoute('GET', '/api/v1/menu/categories', function($request) use ($simpleMenuController) {
     return $simpleMenuController->getCategories($request);
@@ -388,6 +402,9 @@ $router->addRoute('GET', '/api/v1/tenants', function($request) use ($tenantContr
 });
 $router->addRoute('GET', '/api/v1/tenants/{id}', function($request) use ($tenantController) {
     return $tenantController->getTenant($request);
+});
+$router->addRoute('POST', '/api/v1/tenant/configure', function($request) use ($tenantController) {
+    return $tenantController->configure($request);
 });
 
 // Sales Routes
@@ -760,6 +777,12 @@ $router->addRoute('POST', '/api/v1/users/{id}/change-password', function($reques
 });
 $router->addRoute('DELETE', '/api/v1/users/{id}', function($request) use ($userController) {
     return $userController->deleteUser($request);
+});
+$router->addRoute('POST', '/api/v1/users/with-role', function($request) use ($userController) {
+    return $userController->createUserWithRole($request);
+});
+$router->addRoute('GET', '/api/v1/users/roles', function($request) use ($userController) {
+    return $userController->getAvailableRoles($request);
 });
 
 // Settings Routes
