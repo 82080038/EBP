@@ -1,9 +1,20 @@
-# Backend Restoran EBP - Enterprise Implementation
+# EBP Restaurant ERP - Backend
 
 ## Project Structure
 
+**Note:** Frontend files have been moved to `../FRONTEND/` directory for better separation of concerns.
+
 ```
-PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/BACKEND/
+PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/
+├── BACKEND/          (This directory - PHP API Server)
+│   ├── public/
+│   ├── core/
+│   ├── modules/
+│   └── routes/
+├── FRONTEND/         (Frontend assets - mobile, kiosk, css, js)
+├── DATABASE/         (Database schema & migrations)
+└── DOCUMENTATION/    (Documentation)
+```
 
 ├── public/
 │   ├── index.php

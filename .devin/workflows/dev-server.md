@@ -51,8 +51,28 @@ The server will be available at: http://localhost:8000
 
 ## Frontend Access
 
+Frontend files are now located in `PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/FRONTEND/`
+
 - Mobile App: http://localhost:8000/frontend/mobile
 - Kiosk App: http://localhost:8000/frontend/kiosk
+
+## Project Structure
+
+```
+PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/
+├── BACKEND/          (PHP API server)
+│   ├── public/
+│   ├── core/
+│   ├── modules/
+│   └── routes/
+├── FRONTEND/         (Frontend assets)
+│   ├── mobile/
+│   ├── kiosk/
+│   ├── css/
+│   └── js/
+├── DATABASE/         (Database schema & migrations)
+└── DOCUMENTATION/    (Documentation)
+```
 
 ## Default Credentials
 
