@@ -8,6 +8,16 @@ if (!class_exists('AuthController')) {
     require_once __DIR__ . '/../modules/Auth/Controllers/AuthController.php';
 }
 
+// Simple Menu Module (for testing without complex middleware)
+if (!class_exists('SimpleMenuController')) {
+    require_once __DIR__ . '/../modules/Menu/Controllers/SimpleMenuController.php';
+}
+
+// Simple Table Module (for testing without complex middleware)
+if (!class_exists('SimpleTableController')) {
+    require_once __DIR__ . '/../modules/Table/Controllers/SimpleTableController.php';
+}
+
 // Sales Module
 if (!class_exists('OrderController')) {
     require_once __DIR__ . '/../modules/Sales/Controllers/OrderController.php';
@@ -347,9 +357,26 @@ $settingController = new SettingController();
 $reportController = new ReportController();
 $tenantController = new TenantController();
 
+// Simple controllers for testing
+$simpleMenuController = new SimpleMenuController();
+$simpleTableController = new SimpleTableController();
+
 // Auth Routes
 $router->addRoute('POST', '/api/v1/auth/login', function($request) use ($authController) {
     return $authController->login($request);
+});
+
+// Simple Menu Routes (for testing without complex middleware)
+$router->addRoute('GET', '/api/v1/menu/categories', function($request) use ($simpleMenuController) {
+    return $simpleMenuController->getCategories($request);
+});
+$router->addRoute('GET', '/api/v1/menu/products', function($request) use ($simpleMenuController) {
+    return $simpleMenuController->getProducts($request);
+});
+
+// Simple Table Routes (for testing without complex middleware)
+$router->addRoute('GET', '/api/v1/tables', function($request) use ($simpleTableController) {
+    return $simpleTableController->getTables($request);
 });
 
 // Tenant Routes

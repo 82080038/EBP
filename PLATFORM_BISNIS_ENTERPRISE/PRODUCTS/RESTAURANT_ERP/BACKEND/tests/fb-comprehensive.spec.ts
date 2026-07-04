@@ -129,14 +129,43 @@ test.describe('Restaurant ERP - Comprehensive F&B Features & Roles Testing', () 
         await page.waitForTimeout(3000);
       }
 
-      // Check if menu section exists
-      const menuSection = page.locator('#menuSection');
-      if (await menuSection.isVisible()) {
-        const categories = await page.locator('.category-item').count();
-        console.log(`Menu categories found: ${categories}`);
-      } else {
-        console.log('Menu section not visible');
+      // Click on menu tab
+      const menuTab = page.locator('button[data-tab="menu"]');
+      if (await menuTab.isVisible()) {
+        await menuTab.click();
+        await page.waitForTimeout(3000);
       }
+
+      // Monitor API calls
+      page.on('console', msg => {
+        console.log(`Browser console: ${msg.text()}`);
+      });
+
+      // Monitor network requests
+      page.on('request', request => {
+        if (request.url().includes('/api/')) {
+          console.log(`API Request: ${request.method()} ${request.url()}`);
+        }
+      });
+
+      page.on('response', response => {
+        if (response.url().includes('/api/')) {
+          console.log(`API Response: ${response.status()} ${response.url()}`);
+        }
+      });
+
+      // Check for error messages
+      const menuCategories = page.locator('#menuCategories');
+      const text = await menuCategories.textContent();
+      console.log(`Menu categories content: ${text}`);
+
+      // Check if menu data exists
+      const categories = await page.locator('#menuCategories table tbody tr').count();
+      console.log(`Menu categories found: ${categories}`);
+
+      // Check menu products
+      const products = await page.locator('#menuProducts table tbody tr').count();
+      console.log(`Menu products found: ${products}`);
     });
 
     test('2.2 View menu products', async ({ page }) => {
@@ -158,13 +187,16 @@ test.describe('Restaurant ERP - Comprehensive F&B Features & Roles Testing', () 
         await page.waitForTimeout(3000);
       }
 
-      const menuSection = page.locator('#menuSection');
-      if (await menuSection.isVisible()) {
-        const products = await page.locator('.product-item').count();
-        console.log(`Menu products found: ${products}`);
-      } else {
-        console.log('Menu section not visible');
+      // Click on menu tab
+      const menuTab = page.locator('button[data-tab="menu"]');
+      if (await menuTab.isVisible()) {
+        await menuTab.click();
+        await page.waitForTimeout(1000);
       }
+
+      // Check if menu products data exists
+      const products = await page.locator('#menuProducts table tbody tr').count();
+      console.log(`Menu products found: ${products}`);
     });
   });
 
@@ -225,14 +257,16 @@ test.describe('Restaurant ERP - Comprehensive F&B Features & Roles Testing', () 
         await page.waitForTimeout(3000);
       }
 
-      // Check if tables section exists
-      const tablesSection = page.locator('#tablesSection');
-      if (await tablesSection.isVisible()) {
-        const tables = await page.locator('.table-item').count();
-        console.log(`Tables found: ${tables}`);
-      } else {
-        console.log('Tables section not visible');
+      // Click on tables tab
+      const tablesTab = page.locator('button[data-tab="tables"]');
+      if (await tablesTab.isVisible()) {
+        await tablesTab.click();
+        await page.waitForTimeout(3000);
       }
+
+      // Check if tables data exists
+      const tables = await page.locator('#tablesList table tbody tr').count();
+      console.log(`Tables found: ${tables}`);
     });
 
     test.skip('4.2 Update table status simulation', async ({ page }) => {

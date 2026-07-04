@@ -1225,6 +1225,20 @@
 
                 tab.classList.add('active');
                 document.getElementById(`${tab.dataset.tab}Tab`).classList.add('active');
+
+                // Load data based on tab
+                const tabName = tab.dataset.tab;
+                if (tabName === 'menu') {
+                    loadMenu();
+                } else if (tabName === 'tables') {
+                    loadTables();
+                } else if (tabName === 'orders') {
+                    loadOrders();
+                } else if (tabName === 'inventory') {
+                    loadInventory();
+                } else if (tabName === 'kitchen') {
+                    loadKitchen();
+                }
             });
         });
 
@@ -1235,7 +1249,8 @@
                 ...options.headers
             };
 
-            if (authToken) {
+            // Only add auth token for protected endpoints
+            if (authToken && !endpoint.includes('/menu/') && !endpoint.includes('/tables')) {
                 headers['Authorization'] = `Bearer ${authToken}`;
             }
 
@@ -1250,10 +1265,7 @@
         // Load dashboard data
         async function loadDashboardData() {
             loadOverview();
-            loadMenu();
-            loadTables();
-            loadInventory();
-            loadKitchen();
+            // Don't load other tabs immediately - they'll load when clicked
         }
 
         // Load overview data
@@ -1300,76 +1312,78 @@
         // Load menu data
         async function loadMenu() {
             try {
+                console.log('Loading menu data...');
                 const categories = await apiCall('/menu/categories');
                 const products = await apiCall('/menu/products');
 
-                if (categories.success) {
-                    document.getElementById('menuCategories').innerHTML = `
+                console.log('Categories response:', categories);
+                console.log('Products response:', products);
+
+                if (categories.success && categories.data) {
+                    let categoriesHtml = `
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Code</th>
                                     <th>Name</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Main Course</td>
-                                    <td>Active</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Beverages</td>
-                                    <td>Active</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Desserts</td>
-                                    <td>Active</td>
-                                </tr>
-                            </tbody>
-                        </table>
                     `;
+                    categories.data.forEach(cat => {
+                        categoriesHtml += `
+                            <tr>
+                                <td>${cat.category_id}</td>
+                                <td>${cat.category_code}</td>
+                                <td>${cat.category_name}</td>
+                                <td>${cat.status}</td>
+                            </tr>
+                        `;
+                    });
+                    categoriesHtml += '</tbody></table>';
+                    document.getElementById('menuCategories').innerHTML = categoriesHtml;
+                } else {
+                    document.getElementById('menuCategories').innerHTML = '<p>No categories found</p>';
                 }
 
-                if (products.success) {
-                    document.getElementById('menuProducts').innerHTML = `
+                if (products.success && products.data) {
+                    let productsHtml = `
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Code</th>
                                     <th>Name</th>
-                                    <th>Price</th>
                                     <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Nasi Goreng Spesial</td>
-                                    <td>Rp 35.000</td>
-                                    <td>Main Course</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Ayam Bakar</td>
-                                    <td>Rp 45.000</td>
-                                    <td>Main Course</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Es Teh Manis</td>
-                                    <td>Rp 8.000</td>
-                                    <td>Beverages</td>
-                                </tr>
-                            </tbody>
-                        </table>
                     `;
+                    products.data.forEach(prod => {
+                        productsHtml += `
+                            <tr>
+                                <td>${prod.product_id}</td>
+                                <td>${prod.product_code}</td>
+                                <td>${prod.product_name}</td>
+                                <td>${prod.category_name || '-'}</td>
+                                <td>Rp ${prod.price.toLocaleString()}</td>
+                                <td>${prod.status}</td>
+                            </tr>
+                        `;
+                    });
+                    productsHtml += '</tbody></table>';
+                    document.getElementById('menuProducts').innerHTML = productsHtml;
+                } else {
+                    document.getElementById('menuProducts').innerHTML = '<p>No products found</p>';
                 }
             } catch (error) {
                 console.error('Error loading menu:', error);
+                document.getElementById('menuCategories').innerHTML = '<p>Error loading categories</p>';
+                document.getElementById('menuProducts').innerHTML = '<p>Error loading products</p>';
             }
         }
 
@@ -1377,68 +1391,69 @@
         async function loadTables() {
             try {
                 const tables = await apiCall('/tables');
-                const available = await apiCall('/tables/available');
 
-                document.getElementById('tablesList').innerHTML = `
-                    <table class="table">
-                        <thead>
+                if (tables.success && tables.data) {
+                    let tablesHtml = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Number</th>
+                                    <th>Name</th>
+                                    <th>Capacity</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    tables.data.forEach(table => {
+                        tablesHtml += `
                             <tr>
-                                <th>Table #</th>
-                                <th>Capacity</th>
-                                <th>Status</th>
+                                <td>${table.table_id}</td>
+                                <td>${table.table_number}</td>
+                                <td>${table.table_name || '-'}</td>
+                                <td>${table.capacity}</td>
+                                <td>${table.status}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>4 seats</td>
-                                <td><span style="color: green">Available</span></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>6 seats</td>
-                                <td><span style="color: red">Occupied</span></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>4 seats</td>
-                                <td><span style="color: green">Available</span></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>8 seats</td>
-                                <td><span style="color: orange">Reserved</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
+                        `;
+                    });
+                    tablesHtml += '</tbody></table>';
+                    document.getElementById('tablesList').innerHTML = tablesHtml;
 
-                document.getElementById('availableTables').innerHTML = `
-                    <table class="table">
-                        <thead>
+                    // Filter available tables
+                    const availableTables = tables.data.filter(t => t.status === 'AVAILABLE');
+                    let availableHtml = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Number</th>
+                                    <th>Name</th>
+                                    <th>Capacity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    availableTables.forEach(table => {
+                        availableHtml += `
                             <tr>
-                                <th>Table #</th>
-                                <th>Capacity</th>
+                                <td>${table.table_id}</td>
+                                <td>${table.table_number}</td>
+                                <td>${table.table_name || '-'}</td>
+                                <td>${table.capacity}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>4 seats</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>4 seats</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>2 seats</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
+                        `;
+                    });
+                    availableHtml += '</tbody></table>';
+                    document.getElementById('availableTables').innerHTML = availableHtml;
+                } else {
+                    document.getElementById('tablesList').innerHTML = '<p>No tables found</p>';
+                    document.getElementById('availableTables').innerHTML = '<p>No available tables</p>';
+                }
             } catch (error) {
                 console.error('Error loading tables:', error);
+                document.getElementById('tablesList').innerHTML = '<p>Error loading tables</p>';
+                document.getElementById('availableTables').innerHTML = '<p>Error loading available tables</p>';
             }
         }
 
