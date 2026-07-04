@@ -1,0 +1,238 @@
+{
+  "project_info": {
+    "name": "Tour Guide Application",
+    "tech_stack": {
+      "backend": "PHP 8.1+",
+      "database": "MySQL 8.0+",
+      "frontend": "Bootstrap 5",
+      "javascript": "jQuery",
+      "architecture": "MVC"
+    }
+  },
+  "starting_point": {
+    "start_module": "FASE_4_PRODUCTION",
+    "modules_completed": [
+      "01_KONSEP_DAN_ANALISIS_SISTEM",
+      "02_SRS_REQUIREMENT_SYSTEM",
+      "03_DESAIN_ARSITEKTUR_APLIKASI",
+      "04_STRUKTUR_FOLDER_PHP_NATIVE",
+      "05_DESAIN_DATABASE_MYSQL_ERD",
+      "06_KAMUS_DATA_DATABASE",
+      "07_MODUL_ADMINISTRATOR",
+      "08_MODUL_WISATAWAN",
+      "09_MODUL_TOUR_GUIDE",
+      "10_MODUL_MAP_GPS_OPENSTREETMAP",
+      "11_MODUL_BOOKING_DAN_TRANSAKSI",
+      "12_MODUL_TIKET_WISATA",
+      "13_MODUL_HOTEL_HOMESTAY",
+      "14_MODUL_RESTORAN_UMKM",
+      "15_MODUL_EVENT_BUDAYA",
+      "16_MODUL_AUDIO_GUIDE",
+      "17_MODUL_AI_TOUR_GUIDE",
+      "18_MODUL_NOTIFICATION",
+      "19_MODUL_REPORT_ANALYTIC",
+      "20_SECURITY_SYSTEM",
+      "21_API_DESIGN_AJAX_JSON",
+      "22_USER_ROLE_PERMISSION",
+      "23_DATABASE_BACKUP_RECOVERY",
+      "24_TESTING_SYSTEM"
+    ],
+    "modules_in_progress": [
+      "25_DEPLOYMENT_SERVER",
+      "32_AUDIT_KEAMANAN_CHECKLIST"
+    ],
+    "resume_from_state": true
+  },
+  "environments": {
+    "local": {
+      "database": {
+        "host": "localhost",
+        "port": "3306",
+        "username": "root",
+        "password": "",
+        "database_name": "mywisata",
+        "charset": "utf8mb4",
+        "collation": "utf8mb4_unicode_ci"
+      },
+      "url": "http://localhost/mywisata",
+      "os_specific": {
+        "linux": {
+          "project_root": "/opt/lampp/htdocs/mywisata",
+          "php_path": "/opt/lampp/bin/php",
+          "mysql_path": "/opt/lampp/bin/mysql",
+          "composer_path": "/usr/local/bin/composer",
+          "sudo_password": "8208",
+          "phpmyadmin_password": "8208",
+          "phpmyadmin_url": "http://localhost/phpmyadmin"
+        },
+        "windows": {
+          "project_root": "C:\\xampp\\htdocs\\mywisata",
+          "php_path": "C:\\xampp\\php\\php.exe",
+          "mysql_path": "C:\\xampp\\mysql\\bin\\mysql.exe",
+          "composer_path": "C:\\ProgramData\\ComposerSetup\\bin\\composer.bat",
+          "sudo_password": null,
+          "phpmyadmin_password": "8208",
+          "phpmyadmin_url": "http://localhost/phpmyadmin"
+        }
+      }
+    },
+    "staging": {
+      "database": {
+        "host": null,
+        "port": "3306",
+        "username": null,
+        "password": null,
+        "database_name": "mywisata_staging",
+        "charset": "utf8mb4",
+        "collation": "utf8mb4_unicode_ci"
+      },
+      "url": null,
+      "os_specific": {
+        "linux": {
+          "project_root": null,
+          "php_path": "/usr/bin/php",
+          "mysql_path": "/usr/bin/mysql",
+          "composer_path": "/usr/local/bin/composer",
+          "sudo_password": null,
+          "phpmyadmin_password": null,
+          "phpmyadmin_url": null
+        },
+        "windows": {
+          "project_root": null,
+          "php_path": null,
+          "mysql_path": null,
+          "composer_path": null,
+          "sudo_password": null,
+          "phpmyadmin_password": null,
+          "phpmyadmin_url": null
+        }
+      }
+    },
+    "production": {
+      "database": {
+        "host": null,
+        "port": "3306",
+        "username": null,
+        "password": null,
+        "database_name": "mywisata_prod",
+        "charset": "utf8mb4",
+        "collation": "utf8mb4_unicode_ci"
+      },
+      "url": null,
+      "os_specific": {
+        "linux": {
+          "project_root": null,
+          "php_path": "/usr/bin/php",
+          "mysql_path": "/usr/bin/mysql",
+          "composer_path": "/usr/local/bin/composer",
+          "sudo_password": null,
+          "phpmyadmin_password": null,
+          "phpmyadmin_url": null
+        },
+        "windows": {
+          "project_root": null,
+          "php_path": null,
+          "mysql_path": null,
+          "composer_path": null,
+          "sudo_password": null,
+          "phpmyadmin_password": null,
+          "phpmyadmin_url": null
+        }
+      }
+    }
+  },
+  "api_keys": {
+    "openstreetmap": "free_no_api_key_required",
+    "payment_gateway": null,
+    "email_service": null,
+    "sms_service": null,
+    "other": {}
+  },
+  "permissions": {
+    "auto_write_files": true,
+    "auto_execute_commands": false,
+    "auto_database_changes": false,
+    "approval_required_for": [
+      "database_changes",
+      "deployment",
+      "production_changes"
+    ]
+  },
+  "escalation": {
+    "contact_method": "IDE Chat",
+    "escalation_criteria": [
+      "Critical security issues",
+      "Database corruption",
+      "Unrecoverable errors",
+      "Ambiguous requirements",
+      "Architecture conflicts"
+    ],
+    "auto_escalate_after_retries": 3
+  },
+  "testing": {
+    "test_environment": "local",
+    "auto_run_tests": true,
+    "test_coverage_target": 80
+  },
+  "deployment": {
+    "deployment_method": "manual",
+    "auto_deploy": false,
+    "deployment_target": null
+  },
+  "scope": {
+    "skip_modules": [],
+    "priority_modules": [
+      "25_DEPLOYMENT_SERVER",
+      "32_AUDIT_KEAMANAN_CHECKLIST",
+      "39_AUTOMATION_TESTING_GUIDE",
+      "40_LOAD_TESTING_SCENARIOS"
+    ],
+    "must_have_features": [
+      "Security hardening",
+      "SSL setup",
+      "Production deployment",
+      "Monitoring setup",
+      "Backup automation"
+    ],
+    "nice_to_have_features": [
+      "Payment gateway integration",
+      "PWA (Progressive Web App)",
+      "AI enhancement with OpenAI API",
+      "Redis caching",
+      "CDN integration"
+    ],
+    "deadline": "2026-12-31"
+  },
+  "preferences": {
+    "coding_style": "PSR-12",
+    "architecture_patterns": [
+      "MVC",
+      "Repository Pattern",
+      "Service Layer"
+    ],
+    "library_preferences": {
+      "php": "8.1+",
+      "database": "MySQL 8.0+",
+      "frontend": "Bootstrap 5",
+      "javascript": "jQuery"
+    },
+    "performance_requirements": {
+      "response_time": "< 500ms",
+      "concurrent_users": "1000+"
+    },
+    "security_standards": [
+      "OWASP Top 10",
+      "Input Validation",
+      "SQL Injection Prevention",
+      "XSS Prevention",
+      "CSRF Protection"
+    ]
+  },
+  "collected_at": "2026-06-30T21:27:00+07:00",
+  "last_updated": "2026-07-01T13:03:00+07:00",
+  "current_phase": "FASE_4_PRODUCTION",
+  "development_status": "CORE_FEATURES_COMPLETE",
+  "test_coverage": "82.9%",
+  "database_status": "33_TABLES_READY",
+  "api_endpoints": "IMPLEMENTED"
+}

@@ -1,0 +1,38 @@
+# Environment
+.env
+app/config/config.local.php
+
+# Logs
+logs/*.log
+logs/*.log.*
+
+# Database backups
+database/backup/*.sql
+database/backup/*.sql.gz
+
+# Uploads (user-generated content)
+public/uploads/*
+!public/uploads/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Composer
+vendor/
+composer.lock
+
+# Node (if used in future)
+node_modules/
+package-lock.json
+
+# XAMPP temp
+*.tmp

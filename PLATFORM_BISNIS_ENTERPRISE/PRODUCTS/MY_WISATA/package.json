@@ -1,0 +1,28 @@
+{
+  "name": "mywisata",
+  "version": "1.0.0",
+  "description": "> Aplikasi pemandu wisata berbasis web yang menghubungkan wisatawan dengan tour guide profesional, destinasi wisata, hotel, restoran, dan event budaya.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/82080038/mywisata.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/82080038/mywisata/issues"
+  },
+  "homepage": "https://github.com/82080038/mywisata#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.0.1"
+  }
+}
