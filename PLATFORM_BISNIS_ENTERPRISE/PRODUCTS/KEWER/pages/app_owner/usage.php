@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../config/path.php';
 require_once BASE_PATH . '/includes/functions.php';
 requireLogin();
+$user = getCurrentUser();
 $page_title = 'Usage';
 ?>
 <?php include __DIR__ . '/_header.php'; ?>
@@ -128,7 +129,7 @@ function loadUsageData() {
     $('#usage-content').hide();
     
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'GET',
         data: { action: 'usage_data', days: currentDays },
         success: function(response) {

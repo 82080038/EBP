@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../config/path.php';
 require_once BASE_PATH . '/includes/functions.php';
 requireLogin();
+$user = getCurrentUser();
 $page_title = 'Persetujuan Bos';
 ?>
 <?php include __DIR__ . '/_header.php'; ?>
@@ -70,7 +71,7 @@ let currentFilter = 'pending';
 let rejectRegistrationId = null;
 
 $(document).ready(function() {
-    loadRegistrations();
+    loadApprovals();
     setupFilterTabs();
     setupRejectModal();
 });
@@ -81,21 +82,17 @@ function setupFilterTabs() {
         $('#filterTabs .nav-link').removeClass('active');
         $(this).addClass('active');
         currentFilter = $(this).data('status');
-        loadRegistrations();
     });
 }
 
-function loadRegistrations() {
-    $('#loading-spinner').show();
-    $('#approvals-content').hide();
-    
+function loadApprovals() {
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'GET',
         data: { action: 'bos_registrations', status: currentFilter },
         success: function(response) {
             if (response.success) {
-                renderRegistrations(response.data);
+                renderApprovals(response.data);
                 $('#loading-spinner').hide();
                 $('#approvals-content').show();
             } else {
@@ -103,19 +100,20 @@ function loadRegistrations() {
             }
         },
         error: function() {
-            showAlert('Gagal memuat data pendaftaran', 'danger');
+            showAlert('Gagal memuat data persetujuan', 'danger');
         }
     });
 }
 
-function renderRegistrations(data) {
+function renderApprovals(data) {
     // Update stats
-    $('#pendingCount').text(data.stats.pending);
-    $('#approvedCount').text(data.stats.approved);
-    $('#rejectedCount').text(data.stats.rejected);
+    $('#pendingCount').text(data.stats?.pending || 0);
+    $('#approvedCount').text(data.stats?.approved || 0);
+    $('#rejectedCount').text(data.stats?.rejected || 0);
 
     // Render list
-    if (data.registrations.length === 0) {
+    const registrations = data.registrations || [];
+    if (registrations.length === 0) {
         const statusText = currentFilter !== 'all' ? `dengan status '${currentFilter}'` : '';
         $('#registrationsList').html(`
             <div class="text-center text-muted py-5">
@@ -127,7 +125,7 @@ function renderRegistrations(data) {
     }
 
     let html = '';
-    data.registrations.forEach(reg => {
+    registrations.forEach(reg => {
         const date = new Date(reg.created_at);
         const dateStr = date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
         const timeStr = date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
@@ -191,7 +189,7 @@ function approveRegistration(registrationId) {
     if (!confirm('Setujui pendaftaran ini?')) return;
     
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({
@@ -222,7 +220,7 @@ function setupRejectModal() {
         }
         
         $.ajax({
-            url: 'api/business.php',
+            url: '/kewer/api/business.php',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             data: JSON.stringify({

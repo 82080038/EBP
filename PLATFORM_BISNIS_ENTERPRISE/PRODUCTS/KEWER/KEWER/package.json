@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "test:puppeteer": "node tests/puppeteer-runner.js",
+    "test:v23": "node tests/puppeteer-v23-features.test.js"
+  },
+  "dependencies": {
+    "playwright": "^1.59.1",
+    "puppeteer": "^24.43.0"
+  }
+}

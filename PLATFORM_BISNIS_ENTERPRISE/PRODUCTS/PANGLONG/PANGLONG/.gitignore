@@ -1,0 +1,35 @@
+# Dependencies (kept for reference, not used by pure PHP app)
+node_modules/
+
+# Database — COMMITTED to repo so other developers have working database
+# Only ignore backup files and SQLite journals (temporary runtime files)
+database/*.sqlite-journal
+database/*.sqlite-wal
+database/*.sqlite-shm
+database/*.sqlite.backup.*
+database/*.sqlite.bak
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+coverage/
+coverage/html/
+coverage/*.xml
+*.log
+
+# Test artifacts
+test-results/
+playwright-report/
+
+# Backups
+backups/*/*.sqlite.gz
+backups/*/*.sqlite

@@ -1,0 +1,523 @@
+{
+  "app_info": {
+    "app_name": "Kewer - Sistem Manajemen Koperasi",
+    "app_type": "Usaha Pribadi Mikrofinance",
+    "organizational_structure": "Multi-cabang dengan pusat sebagai koordinator"
+  },
+  "organizational_structure": {
+    "pusat": {
+      "description": "Kantor pusat sebagai koordinator dan pengawas",
+      "has_field_officers": false,
+      "roles": ["owner", "superadmin", "admin"],
+      "responsibilities": [
+        "Pengaturan global dan kebijakan",
+        "Pengawasan cabang",
+        "Laporan konsolidasi",
+        "Manajemen user sistem",
+        "Pengaturan auto-confirm untuk peminjaman"
+      ]
+    },
+    "cabang": {
+      "description": "Cabang operasional dengan petugas lapangan",
+      "has_field_officers": true,
+      "max_field_officers": 20,
+      "roles": ["manager", "petugas", "karyawan"],
+      "responsibilities": [
+        "Operasional harian",
+        "Pelayanan nasabah",
+        "Pengelolaan pinjaman dan angsuran",
+        "Akuntansi cabang",
+        "Manajemen kas"
+      ]
+    }
+  },
+  "roles": {
+    "owner": {
+      "level": 1,
+      "scope": "pusat",
+      "description": "Pemilik usaha - otoritas tertinggi",
+      "tasks": [
+        "Menetapkan kebijakan global",
+        "Mengatur auto-confirm untuk peminjaman",
+        "Melihat laporan konsolidasi semua cabang",
+        "Manajemen user dan permission",
+        "Pengaturan parameter bunga dan plafon global",
+        "Approve/reject pinjaman besar (di atas batas tertentu)",
+        "Monitoring kinerja cabang"
+      ],
+      "responsibilities": [
+        "Bertanggung jawab atas kinerja seluruh perusahaan",
+        "Mengambil keputusan strategis",
+        "Memastikan kepatuhan regulasi"
+      ],
+      "rights": [
+        "Akses ke semua cabang",
+        "Create/Read/Update/Delete semua data",
+        "Approve pinjaman tanpa batas",
+        "Melihat laporan keuangan lengkap",
+        "Manajemen user dan role",
+        "Pengaturan sistem"
+      ],
+      "obligations": [
+        "Memastikan sistem berjalan dengan baik",
+        "Melakukan audit berkala",
+        "Melaporkan kinerja kepada stakeholder"
+      ],
+      "menu_access": [
+        "Dashboard",
+        "Nasabah",
+        "Pinjaman",
+        "Angsuran",
+        "Cabang",
+        "Users",
+        "Laporan",
+        "Pengaturan"
+      ],
+      "can_auto_confirm": true,
+      "auto_confirm_settings": {
+        "can_enable": true,
+        "can_set_threshold": true,
+        "can_override": true
+      }
+    },
+    "superadmin": {
+      "level": 2,
+      "scope": "pusat",
+      "description": "Administrator sistem - teknis dan operasional",
+      "tasks": [
+        "Manajemen user dan role",
+        "Konfigurasi sistem",
+        "Monitoring teknis",
+        "Backup dan recovery",
+        "Troubleshooting",
+        "Support cabang"
+      ],
+      "responsibilities": [
+        "Memastikan sistem berjalan stabil",
+        "Keamanan data dan sistem",
+        "Dokumentasi teknis"
+      ],
+      "rights": [
+        "Akses ke semua cabang",
+        "Create/Read/Update/Delete user",
+        "Konfigurasi sistem",
+        "View logs dan error reports",
+        "Manajemen database"
+      ],
+      "obligations": [
+        "Maintain uptime sistem",
+        "Backup data rutin",
+        "Update security patches"
+      ],
+      "menu_access": [
+        "Dashboard",
+        "Users",
+        "Cabang",
+        "Settings",
+        "Logs"
+      ],
+      "can_auto_confirm": false
+    },
+    "admin": {
+      "level": 3,
+      "scope": "pusat",
+      "description": "Administrator operasional pusat",
+      "tasks": [
+        "Review laporan cabang",
+        "Konsolidasi laporan keuangan",
+        "Koordinasi dengan manager cabang",
+        "Pengaturan parameter operasional",
+        "Auto-confirm peminjaman (jika diizinkan)"
+      ],
+      "responsibilities": [
+        "Memastikan cabang mengikuti SOP",
+        "Review kinerja cabang",
+        "Koordinasi operasional"
+      ],
+      "rights": [
+        "Read semua data cabang",
+        "Approve pinjaman dalam batas tertentu",
+        "View laporan lengkap",
+        "Auto-confirm peminjaman cabang"
+      ],
+      "obligations": [
+        "Review laporan harian",
+        "Koordinasi dengan manager cabang",
+        "Report ke owner"
+      ],
+      "menu_access": [
+        "Dashboard",
+        "Pinjaman",
+        "Cabang",
+        "Laporan",
+        "Pengaturan"
+      ],
+      "can_auto_confirm": true,
+      "auto_confirm_settings": {
+        "can_enable": true,
+        "can_set_threshold": true,
+        "can_override": false
+      }
+    },
+    "manager": {
+      "level": 4,
+      "scope": "cabang",
+      "description": "Manager cabang - kepala operasional cabang",
+      "tasks": [
+        "Manajemen operasional cabang",
+        "Supervisi petugas lapangan",
+        "Review dan approve pinjaman cabang",
+        "Manajemen kas cabang",
+        "Laporan harian ke pusat",
+        "Evaluasi kinerja petugas"
+      ],
+      "responsibilities": [
+        "Bertanggung jawab atas kinerja cabang",
+        "Memastikan SOP diikuti",
+        "Manajemen risiko cabang"
+      ],
+      "rights": [
+        "CRUD nasabah cabang",
+        "Approve pinjaman cabang",
+        "View semua data cabang",
+        "Manajemen petugas cabang",
+        "Laporan keuangan cabang",
+        "Auto-confirm peminjaman petugas (jika diizinkan)"
+      ],
+      "obligations": [
+        "Laporan harian ke pusat",
+        "Supervisi petugas",
+        "Memastikan target tercapai"
+      ],
+      "menu_access": [
+        "Dashboard",
+        "Nasabah",
+        "Pinjaman",
+        "Angsuran",
+        "Petugas",
+        "Kas",
+        "Laporan"
+      ],
+      "can_auto_confirm": true,
+      "auto_confirm_settings": {
+        "can_enable": false,
+        "can_set_threshold": false,
+        "can_override": false,
+        "note": "Auto-confirm diatur oleh pusat"
+      }
+    },
+    "petugas": {
+      "level": 5,
+      "scope": "cabang",
+      "description": "Petugas lapangan - front line dengan nasabah",
+      "tasks": [
+        "Survey dan verifikasi nasabah baru",
+        "Input pengajuan pinjaman nasabah",
+        "Kutip pembayaran angsuran",
+        "Update status nasabah",
+        "Rekam aktivitas harian",
+        "Dokumentasi kunjungan lapangan"
+      ],
+      "responsibilities": [
+        "Data nasabah akurat dan lengkap",
+        "Kutipan pembayaran tepat waktu",
+        "Kunjungan lapangan rutin",
+        "Follow-up penunggakan"
+      ],
+      "rights": [
+        "Create nasabah (limited)",
+        "Create pinjaman (pending approval)",
+        "Update pembayaran angsuran",
+        "View nasabah dan pinjaman cabang",
+        "Input kas harian",
+        "View laporan pribadi"
+      ],
+      "obligations": [
+        "Kunjungan lapangan rutin",
+        "Input data akurat",
+        "Kutip pembayaran tepat waktu",
+        "Laporan aktivitas harian"
+      ],
+      "menu_access": [
+        "Dashboard",
+        "Nasabah",
+        "Pinjaman",
+        "Angsuran",
+        "Kas Petugas",
+        "Laporan Pribadi"
+      ],
+      "can_auto_confirm": false,
+      "field_activities": [
+        "Survey nasabah",
+        "Verifikasi jaminan",
+        "Kutip angsuran",
+        "Follow-up penunggakan",
+        "Promosi produk",
+        "Edukasi nasabah"
+      ]
+    },
+    "karyawan": {
+      "level": 6,
+      "scope": "cabang",
+      "description": "Karyawan cabang - support operasional",
+      "tasks": [
+        "Administrasi kantor",
+        "Input data",
+        "Pembukuan sederhana",
+        "Support petugas lapangan",
+        "Customer service"
+      ],
+      "responsibilities": [
+        "Administrasi akurat",
+        "Support operasional"
+      ],
+      "rights": [
+        "Read nasabah dan pinjaman cabang",
+        "Input pembayaran (supervised)",
+        "View laporan dasar",
+        "Kas bon (terbatas)"
+      ],
+      "obligations": [
+        "Support petugas dan manager",
+        "Administrasi tepat waktu"
+      ],
+      "menu_access": [
+        "Dashboard",
+        "Nasabah",
+        "Pinjaman (read only)",
+        "Angsuran (read only)",
+        "Kas Bon"
+      ],
+      "can_auto_confirm": false
+    }
+  },
+  "workflow_pinjaman": {
+    "flow": [
+      {
+        "step": 1,
+        "actor": "petugas",
+        "action": "Survey dan verifikasi nasabah",
+        "output": "Data nasabah lengkap"
+      },
+      {
+        "step": 2,
+        "actor": "petugas",
+        "action": "Input pengajuan pinjaman",
+        "output": "Pinjaman status: pengajuan",
+        "notes": "Petugas tidak bisa approve sendiri"
+      },
+      {
+        "step": 3,
+        "actor": "auto_confirm",
+        "action": "Auto-check (jika enabled)",
+        "condition": "Pusat/admin mengaktifkan auto-confirm",
+        "output": "Auto-approve jika memenuhi kriteria"
+      },
+      {
+        "step": 4,
+        "actor": "manager",
+        "action": "Review dan approve/reject",
+        "condition": "Jika tidak auto-confirm atau melebihi threshold",
+        "output": "Pinjaman status: disetujui/ditolak"
+      },
+      {
+        "step": 5,
+        "actor": "system",
+        "action": "Generate jadwal angsuran",
+        "output": "Pinjaman status: aktif"
+      },
+      {
+        "step": 6,
+        "actor": "petugas",
+        "action": "Kutip pembayaran angsuran",
+        "output": "Angsuran status: lunas"
+      },
+      {
+        "step": 7,
+        "actor": "system",
+        "action": "Update status pinjaman lunas",
+        "condition": "Semua angsuran lunas",
+        "output": "Pinjaman status: lunas"
+      }
+    ],
+    "auto_confirm_rules": {
+      "enabled_by": ["owner", "admin"],
+      "applies_to": "cabang",
+      "criteria": {
+        "plafon_threshold": "Diatur oleh pusat",
+        "tenor_limit": "Diatur oleh pusat",
+        "risk_score": "Diatur oleh pusat",
+        "nasabah_history": "Diatur oleh pusat"
+      },
+      "override": {
+        "can_override": ["owner"],
+        "override_reason": "Manual approval oleh owner"
+      }
+    }
+  },
+  "workflow_pembayaran": {
+    "flow": [
+      {
+        "step": 1,
+        "actor": "petugas",
+        "action": "Kunjungi nasabah",
+        "output": "Kunjungan tercatat"
+      },
+      {
+        "step": 2,
+        "actor": "petugas",
+        "action": "Kutip pembayaran",
+        "output": "Pembayaran recorded"
+      },
+      {
+        "step": 3,
+        "actor": "petugas",
+        "action": "Input ke kas petugas",
+        "output": "Kas petugas updated"
+      },
+      {
+        "step": 4,
+        "actor": "petugas",
+        "action": "Setor ke kas cabang",
+        "frequency": "Harian/mingguan",
+        "output": "Kas cabang updated"
+      },
+      {
+        "step": 5,
+        "actor": "manager",
+        "action": "Rekonsiliasi kas",
+        "frequency": "Harian",
+        "output": "Laporan kas harian"
+      },
+      {
+        "step": 6,
+        "actor": "admin",
+        "action": "Konsolidasi kas pusat",
+        "frequency": "Mingguan/bulanan",
+        "output": "Laporan konsolidasi"
+      }
+    ]
+  },
+  "akuntansi_flow": {
+    "description": "Alur akuntansi dari aktivitas petugas lapangan",
+    "activities": [
+      {
+        "activity": "Penambahan nasabah",
+        "actor": "petugas",
+        "accounting_impact": "Data nasabah baru tercatat",
+        "frequency": "Sesuai kebutuhan"
+      },
+      {
+        "activity": "Pengajuan pinjaman",
+        "actor": "petugas",
+        "accounting_impact": "Pinjaman pending approval",
+        "frequency": "Harian"
+      },
+      {
+        "activity": "Approve pinjaman",
+        "actor": "manager/auto-confirm",
+        "accounting_impact": "Pinjaman aktif, jadwal angsuran generated",
+        "frequency": "Real-time"
+      },
+      {
+        "activity": "Kutip angsuran",
+        "actor": "petugas",
+        "accounting_impact": "Pembayaran recorded, angsuran status updated",
+        "frequency": "Harian (sesuai jadwal)"
+      },
+      {
+        "activity": "Setoran kas petugas",
+        "actor": "petugas",
+        "accounting_impact": "Kas petugas - , Kas cabang +",
+        "frequency": "Harian/mingguan"
+      },
+      {
+        "activity": "Rekonsiliasi kas cabang",
+        "actor": "manager",
+        "accounting_impact": "Laporan kas harian, match dengan fisik",
+        "frequency": "Harian"
+      },
+      {
+        "activity": "Laporan ke pusat",
+        "actor": "manager",
+        "accounting_impact": "Data konsolidasi ke pusat",
+        "frequency": "Harian"
+      },
+      {
+        "activity": "Laporan konsolidasi",
+        "actor": "admin/owner",
+        "accounting_impact": "Laporan keuangan gabungan",
+        "frequency": "Mingguan/bulanan"
+      }
+    ]
+  },
+  "permission_matrix": {
+    "nasabah": {
+      "owner": ["create", "read", "update", "delete"],
+      "superadmin": ["create", "read", "update", "delete"],
+      "admin": ["read", "update"],
+      "manager": ["create", "read", "update", "delete"],
+      "petugas": ["create", "read", "update"],
+      "karyawan": ["read"]
+    },
+    "pinjaman": {
+      "owner": ["create", "read", "update", "delete", "approve"],
+      "superadmin": ["read"],
+      "admin": ["read", "approve"],
+      "manager": ["create", "read", "update", "approve"],
+      "petugas": ["create", "read"],
+      "karyawan": ["read"]
+    },
+    "angsuran": {
+      "owner": ["create", "read", "update", "delete"],
+      "superadmin": ["read"],
+      "admin": ["read"],
+      "manager": ["create", "read", "update", "delete"],
+      "petugas": ["create", "read", "update"],
+      "karyawan": ["read"]
+    },
+    "cabang": {
+      "owner": ["create", "read", "update", "delete"],
+      "superadmin": ["create", "read", "update", "delete"],
+      "admin": ["read", "update"],
+      "manager": ["read"],
+      "petugas": [],
+      "karyawan": []
+    },
+    "users": {
+      "owner": ["create", "read", "update", "delete"],
+      "superadmin": ["create", "read", "update", "delete"],
+      "admin": ["read"],
+      "manager": ["create", "read", "update"],
+      "petugas": [],
+      "karyawan": []
+    },
+    "laporan": {
+      "owner": ["read_all"],
+      "superadmin": ["read_technical"],
+      "admin": ["read_all", "read_consolidated"],
+      "manager": ["read_cabang"],
+      "petugas": ["read_personal"],
+      "karyawan": ["read_basic"]
+    }
+  },
+  "simulation_requirements": {
+    "field_officers_per_branch": "5-20",
+    "daily_activities_per_officer": "10-30",
+    "loan_types": ["harian", "mingguan", "bulanan", "multi_guna"],
+    "accounting_activities": [
+      "Setoran kas petugas ke cabang",
+      "Rekonsiliasi kas harian",
+      "Laporan aktivitas harian",
+      "Laporan konsolidasi mingguan/bulanan"
+    ],
+    "key_metrics": [
+      "Jumlah nasabah per cabang",
+      "Jumlah pinjaman aktif per cabang",
+      "Jumlah angsuran tertunggak",
+      "Kas petugas vs kas cabang",
+      "Kinerja petugas lapangan",
+      "Rasio koleksi"
+    ]
+  }
+}

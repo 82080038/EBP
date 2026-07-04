@@ -1,0 +1,71 @@
+name: Analisis Saham Harian
+
+on:
+  schedule:
+    # 14:30 WIB (07:30 UTC) - Jalankan prediksi
+    - cron: "30 7 * * 1-5"
+    # 22:30 WIB (15:30 UTC) - Verifikasi prediksi
+    - cron: "30 15 * * 1-5"
+  workflow_dispatch:
+
+jobs:
+  predict:
+    name: Prediksi & Verifikasi
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '30 7 * * 1-5' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Prediction
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m src.run_analysis --predict --notify
+
+      - name: Upload database
+        uses: actions/upload-artifact@v4
+        with:
+          name: saham-db
+          path: saham_prediksi.db
+
+  verify:
+    name: Verifikasi Prediksi
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '30 15 * * 1-5'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Download database
+        uses: actions/download-artifact@v4
+        with:
+          name: saham-db
+
+      - name: Run Verification
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python -m src.run_analysis --verify
+
+      - name: Upload updated database
+        uses: actions/upload-artifact@v4
+        with:
+          name: saham-db
+          path: saham_prediksi.db

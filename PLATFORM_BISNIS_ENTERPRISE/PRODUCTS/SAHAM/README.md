@@ -1,4 +1,4 @@
-# 📈 EBP Finance Platform - Saham (Proyeksi & Simulasi Trading Saham Global)
+# 📈 Aplikasi Proyeksi & Simulasi Trading Saham Global — Professional Edition
 
 Aplikasi analisis, prediksi, dan **simulasi trading** pasar saham komprehensif dengan fokus pada IHSG (Bursa Efek Indonesia) dan pasar global terkait. Aplikasi ini menggabungkan ML ensemble, analisis teknikal profesional, event-driven analysis, AI sentiment, multi-timeframe confluence, portfolio optimization, dan **broker simulator realistis dengan dukungan short selling**.
 

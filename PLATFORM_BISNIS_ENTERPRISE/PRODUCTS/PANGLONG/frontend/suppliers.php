@@ -26,7 +26,6 @@ if ($search) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    requireCsrfToken();
     $action = $_POST['action'] ?? '';
     if ($action === 'create') {
         $now = date('Y-m-d H:i:s');

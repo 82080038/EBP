@@ -7,7 +7,7 @@
     'use strict';
 
     // API Base URL
-    const API_BASE = '/api';
+    const API_BASE = '/kewer/api';
 
     // API Helper Class
     class KewerAPI {

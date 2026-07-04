@@ -1,27 +1,26 @@
 <?php
-require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/auth.php';
 
 requirePermission('manage_tenants');
 
-$d = db();
+$db = db();
 
 // Handle actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    requireCsrfToken();
     $action = $_POST['action'] ?? '';
     $tenant_id = $_POST['tenant_id'] ?? 0;
     
     if ($action === 'approve' && $tenant_id) {
-        $stmt = $d->prepare("UPDATE tenants SET status = 'active', updated_at = ? WHERE id = ?");
+        $stmt = $db->prepare("UPDATE tenants SET status = 'active', updated_at = ? WHERE id = ?");
         $stmt->execute([date('Y-m-d H:i:s'), $tenant_id]);
     } elseif ($action === 'reject' && $tenant_id) {
-        $stmt = $d->prepare("UPDATE tenants SET status = 'rejected', updated_at = ? WHERE id = ?");
+        $stmt = $db->prepare("UPDATE tenants SET status = 'rejected', updated_at = ? WHERE id = ?");
         $stmt->execute([date('Y-m-d H:i:s'), $tenant_id]);
     } elseif ($action === 'suspend' && $tenant_id) {
-        $stmt = $d->prepare("UPDATE tenants SET status = 'suspended', updated_at = ? WHERE id = ?");
+        $stmt = $db->prepare("UPDATE tenants SET status = 'suspended', updated_at = ? WHERE id = ?");
         $stmt->execute([date('Y-m-d H:i:s'), $tenant_id]);
     } elseif ($action === 'activate' && $tenant_id) {
-        $stmt = $d->prepare("UPDATE tenants SET status = 'active', updated_at = ? WHERE id = ?");
+        $stmt = $db->prepare("UPDATE tenants SET status = 'active', updated_at = ? WHERE id = ?");
         $stmt->execute([date('Y-m-d H:i:s'), $tenant_id]);
     }
     
@@ -30,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Get all tenants
-$tenants = $d->query("
+$tenants = $db->query("
     SELECT t.*, 
            (SELECT COUNT(*) FROM users WHERE tenant_id = t.id) as user_count,
            (SELECT COUNT(*) FROM products WHERE tenant_id = t.id) as product_count
@@ -38,8 +37,25 @@ $tenants = $d->query("
     ORDER BY t.created_at DESC
 ")->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<?php renderHead('Kelola Tenant - Panglong ERP'); ?>
-<?php renderNav('tenants'); ?>
+<?php
+$theme = $_SESSION['theme'] ?? 'light';
+?>
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="<?= htmlspecialchars($theme) ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Kelola Tenant - Panglong ERP</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.css">
+    <style>
+      body{background:#f8f9fa}
+      [data-bs-theme="dark"] body{background:#0d1117}
+      [data-bs-theme="eyecare"] body{background:#faf3e3}
+    </style>
+</head>
+<body>
+    <?php include __DIR__ . '/navbar.php'; ?>
     
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">

@@ -16,12 +16,8 @@ $stmt->execute($isSuperAdmin ? [$id] : [$id, $tenantId]);
 $customer = $stmt->fetch();
 if (!$customer) { header('Location: customers.php?msg=notfound'); exit; }
 
-$salesParams = [$id];
-$salesSql = "SELECT * FROM sales WHERE customer_id = ?";
-if (!$isSuperAdmin && $tenantId) {
-    $salesSql .= " AND tenant_id = ?";
-    $salesParams[] = $tenantId;
-}
+$salesParams = [$id, $tenantId];
+$salesSql = "SELECT * FROM sales WHERE customer_id = ? AND tenant_id = ?";
 if ($branchId) {
     $salesSql .= " AND branch_id = ?";
     $salesParams[] = $branchId;

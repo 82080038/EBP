@@ -8,22 +8,14 @@ $tenantId = $user['tenant_id'] ?? null;
 $isSuperAdmin = $user['role_slug'] === 'super_admin';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    requireCsrfToken();
     $action = $_POST['action'] ?? '';
     
     if ($action === 'adjustment') {
         $now = date('Y-m-d H:i:s');
-        $pid = (int)$_POST['product_id'];
-
-        $unitStmt = $d->prepare("SELECT id FROM product_units WHERE product_id = ? AND is_base_unit = 1 LIMIT 1");
-        $unitStmt->execute([$pid]);
-        $unitId = $unitStmt->fetchColumn() ?: 1;
-
-        $stmt = $d->prepare("INSERT INTO stock_movements (tenant_id, product_id, quantity, unit_id, movement_type, reference_type, reference_id, notes, created_by, created_at) VALUES (?,?,?,?,?,?,?,?,?,?)");
+        $stmt = $d->prepare("INSERT INTO stock_movements (product_id, quantity, movement_type, notes, created_at) VALUES (?,?,?,?,?)");
         $stmt->execute([
-            $tenantId, $pid, (float)$_POST['quantity'],
-            $unitId, $_POST['adjustment_type'], 'manual_adjustment', null,
-            $_POST['reason'], $user['id'], $now
+            (int)$_POST['product_id'], (float)$_POST['quantity'],
+            $_POST['adjustment_type'], $_POST['reason'], $now
         ]);
         header('Location: stock.php?msg=adjustment_created');
         exit;
@@ -37,7 +29,7 @@ $stockSql = "SELECT p.id, p.name as product_name, p.code as product_code, p.min_
     WHERE p.is_active = 1";
 $stockParams = [];
 if (!$isSuperAdmin && $tenantId) {
-    $stockSql .= " AND (p.tenant_id = ? OR p.tenant_id IS NULL)";
+    $stockSql .= " AND p.tenant_id = ?";
     $stockParams[] = $tenantId;
 }
 $stockSql .= " ORDER BY p.id DESC LIMIT 200";
@@ -48,7 +40,7 @@ $stockItems = $stockStmt->fetchAll();
 $adjParams = [];
 $adjSql = "SELECT * FROM adjustment_types WHERE is_active = 1";
 if (!$isSuperAdmin && $tenantId) {
-    $adjSql .= " AND (tenant_id = ? OR tenant_id IS NULL)";
+    $adjSql .= " AND tenant_id = ?";
     $adjParams[] = $tenantId;
 }
 $adjSql .= " ORDER BY name";
@@ -65,7 +57,7 @@ foreach ($stockItems as &$item) {
 $productSql = "SELECT id, name, code FROM products WHERE is_active = 1";
 $productParams = [];
 if (!$isSuperAdmin && $tenantId) {
-    $productSql .= " AND (tenant_id = ? OR tenant_id IS NULL)";
+    $productSql .= " AND tenant_id = ?";
     $productParams[] = $tenantId;
 }
 $productSql .= " ORDER BY name LIMIT 200";

@@ -30,11 +30,6 @@ test.describe('Real CRUD Simulation - 2 Year Business Operations', () => {
         console.log('Console Error:', msg.text());
       }
     });
-    // Auto-dismiss alert() dialogs so location.reload() can proceed
-    page.on('dialog', async dialog => {
-      console.log('Dialog:', dialog.type(), dialog.message());
-      await dialog.dismiss();
-    });
   });
 
   test('Step 1: Super Admin - Create New Tenant', async ({ page }) => {
@@ -109,16 +104,15 @@ test.describe('Real CRUD Simulation - 2 Year Business Operations', () => {
       // Fill user form
       const timestamp = Date.now();
       const username = `user${timestamp.toString().slice(-6)}`;
-      const modal = page.locator('#addUserModal');
 
-      await modal.locator('input[name="username"]').fill(username);
-      await modal.locator('input[name="full_name"]').fill(`Test User ${timestamp}`);
-      await modal.locator('input[name="email"]').fill(`${username}@test.com`);
-      await modal.locator('input[name="phone"]').fill('081234567892');
-      await modal.locator('input[name="password"]').fill('password123');
+      await page.fill('input[name="username"]', username);
+      await page.fill('input[name="full_name"]', `Test User ${timestamp}`);
+      await page.fill('input[name="email"]', `${username}@test.com`);
+      await page.fill('input[name="phone"]', '081234567892');
+      await page.fill('input[name="password"]', 'password123');
 
       // Select role - try index 1 (second option) instead of 0
-      const roleSelect = modal.locator('select[name="role_id"]');
+      const roleSelect = page.locator('select[name="role_id"]');
       if (await roleSelect.isVisible()) {
         const options = await roleSelect.locator('option').count();
         console.log(`Role options: ${options}`);
@@ -130,11 +124,11 @@ test.describe('Real CRUD Simulation - 2 Year Business Operations', () => {
         }
       }
 
-      // Submit form (scope to modal to avoid clicking wrong button)
-      await modal.locator('button[type="submit"]').click();
+      // Submit form
+      await page.click('button[type="submit"]');
 
       // Wait for redirect back to users.php
-      await page.waitForURL('**/users.php*', { timeout: 10000 });
+      await page.waitForURL('**/users.php', { timeout: 5000 });
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(1000);
 
@@ -339,28 +333,17 @@ test.describe('Real CRUD Simulation - 2 Year Business Operations', () => {
       if (productOptions > 1) {
         await productSelect.selectOption({ index: 1 });
       }
-      // Wait for price to populate from onProductChange
-      await page.waitForTimeout(500);
 
-      // Fill quantity (actual class is qtyInput)
-      await saleModal.locator('.item-row .qtyInput').first().fill('5');
-
-      // Ensure price is set (fallback if onProductChange didn't fire)
-      const priceInput = saleModal.locator('.item-row .priceInput').first();
-      const priceVal = await priceInput.inputValue();
-      if (!priceVal || priceVal === '0') {
-        await priceInput.fill('10000');
-      }
+      // Fill quantity
+      await saleModal.locator('.item-row .quantity, .item-row .qtyInput').first().fill('5');
 
       // Save sale (scope to sale modal to avoid quick-add buttons)
       await saleModal.locator('#submitSaleBtn').click();
-      // Wait for page reload after alert dismissal
-      await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => { });
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(2000);
 
-      // Check for success — after location.reload(), look for the sales table
-      const saleTable = page.locator('.card .table-responsive table').first();
-      if (await saleTable.isVisible({ timeout: 5000 }).catch(() => false)) {
+      // Check for success
+      const successAlert = page.locator('.alert-success');
+      if (await successAlert.isVisible()) {
         createdData.sale = { status: 'created' };
         console.log('✓ Sale transaction created');
       } else {
@@ -368,8 +351,6 @@ test.describe('Real CRUD Simulation - 2 Year Business Operations', () => {
         if (await errorAlert.isVisible()) {
           const errorText = await errorAlert.textContent();
           console.log(`⚠ Sale creation failed: ${errorText}`);
-        } else {
-          console.log('⚠ Sale creation may have failed');
         }
       }
     } else {
@@ -418,13 +399,11 @@ test.describe('Real CRUD Simulation - 2 Year Business Operations', () => {
 
       // Save PO
       await poModal.locator('button[onclick="submitPO()"]').click();
-      // Wait for page reload after alert dismissal
-      await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => { });
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(2000);
 
-      // Check for success — after location.reload(), look for the PO table
-      const poTable = page.locator('.card .table-responsive table').first();
-      if (await poTable.isVisible({ timeout: 5000 }).catch(() => false)) {
+      // Check for success
+      const successAlert = page.locator('.alert-success');
+      if (await successAlert.isVisible()) {
         createdData.purchaseOrder = { status: 'created' };
         console.log('✓ Purchase Order created');
       } else {
@@ -476,13 +455,11 @@ test.describe('Real CRUD Simulation - 2 Year Business Operations', () => {
 
       // Save quotation
       await quoteModal.locator('button[onclick="submitQuote()"]').click();
-      // Wait for page reload after alert dismissal
-      await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => { });
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(2000);
 
-      // Check for success — after location.reload(), look for the quotation table
-      const quoteTable = page.locator('.card .table-responsive table').first();
-      if (await quoteTable.isVisible({ timeout: 5000 }).catch(() => false)) {
+      // Check for success
+      const successAlert = page.locator('.alert-success');
+      if (await successAlert.isVisible()) {
         createdData.quotation = { status: 'created' };
         console.log('✓ Quotation created');
       } else {
@@ -510,36 +487,28 @@ test.describe('Real CRUD Simulation - 2 Year Business Operations', () => {
     await page.click('button:has-text("Penyesuaian Stok")');
     await page.waitForTimeout(500);
 
-    // Check if modal is visible (actual ID is #adjustModal)
-    const modalVisible = await page.locator('#adjustModal').isVisible();
+    // Check if modal is visible
+    const modalVisible = await page.locator('#adjustmentModal, #stockModal').isVisible();
     if (modalVisible) {
       // Select product
-      const productSelect = page.locator('#adjustModal select[name="product_id"]');
+      const productSelect = page.locator('select[name="product_id"]');
       const productOptions = await productSelect.locator('option').count();
       if (productOptions > 1) {
         await productSelect.selectOption({ index: 1 });
       }
 
       // Fill adjustment quantity
-      await page.locator('#adjustModal input[name="quantity"]').fill('5');
+      await page.fill('input[name="quantity"]', '5');
 
-      // Select adjustment type (actual name is adjustment_type)
-      const typeSelect = page.locator('#adjustModal select[name="adjustment_type"]');
+      // Select adjustment type
+      const typeSelect = page.locator('select[name="type"]');
       if (await typeSelect.isVisible()) {
-        const typeOptions = await typeSelect.locator('option').count();
-        if (typeOptions > 1) {
-          await typeSelect.selectOption({ index: 1 });
-        }
+        await typeSelect.selectOption('add');
       }
 
-      // Fill reason (required field)
-      await page.locator('#adjustModal textarea[name="reason"]').fill('Test adjustment');
-
-      // Save adjustment (scope to modal)
-      await page.locator('#adjustModal button[type="submit"]').click();
-      await page.waitForURL('**/stock.php*', { timeout: 5000 }).catch(() => { });
-      await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => { });
-      await page.waitForTimeout(1000);
+      // Save adjustment
+      await page.click('button:has-text("Simpan"), button:has-text("Save")');
+      await page.waitForTimeout(2000);
 
       // Check for success
       const successAlert = page.locator('.alert-success');
@@ -577,9 +546,7 @@ test.describe('Real CRUD Simulation - 2 Year Business Operations', () => {
 
     // Submit opname
     await page.click('button[type="submit"]:has-text("Buat Opname")');
-    await page.waitForURL('**/stock_opname.php*', { timeout: 5000 }).catch(() => { });
-    await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => { });
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
 
     // Check for success
     const successAlert = page.locator('.alert-success');
@@ -587,12 +554,7 @@ test.describe('Real CRUD Simulation - 2 Year Business Operations', () => {
       createdData.stockOpname = { status: 'created' };
       console.log('✓ Stock opname created');
     } else {
-      const errorAlert = page.locator('.alert-danger');
-      if (await errorAlert.isVisible()) {
-        console.log('⚠ Stock opname failed: ' + (await errorAlert.textContent()));
-      } else {
-        console.log('⚠ Stock opname may have failed');
-      }
+      console.log('⚠ Stock opname may have failed');
     }
   });
 

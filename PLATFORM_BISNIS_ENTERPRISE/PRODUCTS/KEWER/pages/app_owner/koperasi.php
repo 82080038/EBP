@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../config/path.php';
 require_once BASE_PATH . '/includes/functions.php';
 requireLogin();
+$user = getCurrentUser();
 $page_title = 'Koperasi';
 ?>
 <?php include __DIR__ . '/_header.php'; ?>
@@ -113,7 +114,7 @@ function loadKoperasiData() {
     $('#koperasi-content').hide();
     
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'GET',
         data: { action: 'koperasi_data' },
         success: function(response) {
@@ -211,7 +212,7 @@ function setupModals() {
         }
         
         $.ajax({
-            url: 'api/business.php',
+            url: '/kewer/api/business.php',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             data: JSON.stringify({
@@ -245,7 +246,7 @@ function setupModals() {
         }
         
         $.ajax({
-            url: 'api/business.php',
+            url: '/kewer/api/business.php',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             data: JSON.stringify({
@@ -314,7 +315,7 @@ function suspendKoperasi(userId) {
     selectedKoperasiId = userId;
     
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({
@@ -342,7 +343,7 @@ function activateKoperasi(userId) {
     selectedKoperasiId = userId;
     
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({

@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../config/path.php';
 require_once BASE_PATH . '/includes/functions.php';
 requireLogin();
+$user = getCurrentUser();
 $page_title = 'Billing';
 ?>
 <?php include __DIR__ . '/_header.php'; ?>
@@ -105,7 +106,7 @@ function loadBillingData() {
     $('#billing-content').hide();
     
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'GET',
         data: { action: 'billing_data', bulan: currentMonth, tahun: currentYear },
         success: function(response) {
@@ -245,7 +246,7 @@ function generateInvoices() {
     const tahun = parseInt($('#tahunInput').val());
     
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({
@@ -272,7 +273,7 @@ function markInvoicePaid(invoiceId) {
     if (!confirm('Tandai invoice ini sebagai dibayar?')) return;
     
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({

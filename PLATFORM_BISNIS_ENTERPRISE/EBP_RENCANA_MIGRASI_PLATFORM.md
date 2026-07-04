@@ -81,6 +81,14 @@ EBP/
 └── .devin/ (Workflows development)
     └── workflows/
 
+# Akses Localhost Sederhana via Apache Aliases
+# Konfigurasi: apache-aliases.conf di PRODUCTS/
+# http://localhost/kewer → KEWER/
+# http://localhost/mywisata → MY_WISATA/
+# http://localhost/panglong → PANGLONG/
+# http://localhost/saham → SAHAM/
+# http://localhost/restauran → RESTAURANT_ERP/
+
 ```
 
 
@@ -89,6 +97,8 @@ EBP/
 
 ### 1. RESTAURANT_ERP (Restaurant Management ERP)
 - **Status:** ✅ Terimplementasi
+- **Lokasi:** c:\xampp\htdocs\EBP\PLATFORM_BISNIS_ENTERPRISE\PRODUCTS\RESTAURANT_ERP\
+- **Akses:** http://localhost/restauran (via Apache alias)
 - **Struktur:** BACKEND/ + FRONTEND/ + DATABASE/ + DOCUMENTATION/
 - **Tech Stack:** PHP Native, MySQL, Playwright
 - **Workflows:** .devin/workflows/ (root-level)
@@ -96,6 +106,8 @@ EBP/
 
 ### 2. MY_WISATA (Travel Platform - Tour Guide Booking)
 - **Status:** ✅ Terimplementasi
+- **Lokasi:** c:\xampp\htdocs\EBP\PLATFORM_BISNIS_ENTERPRISE\PRODUCTS\MY_WISATA\
+- **Akses:** http://localhost/mywisata (via Apache alias)
 - **Struktur:** app/ + public/ + database/ + docs/ + tests/
 - **Tech Stack:** PHP MVC, MySQL, Bootstrap 5.3, Playwright
 - **Workflows:** .devin/workflows/ (product-level)
@@ -103,6 +115,8 @@ EBP/
 
 ### 3. PANGLONG (Construction ERP - Material Distribution)
 - **Status:** ✅ Terimplementasi
+- **Lokasi:** c:\xampp\htdocs\EBP\PLATFORM_BISNIS_ENTERPRISE\PRODUCTS\PANGLONG\
+- **Akses:** http://localhost/panglong (via Apache alias)
 - **Struktur:** frontend/ + database/ + docs/ + scripts/ + tests/
 - **Tech Stack:** PHP Native, SQLite, jQuery AJAX, Bootstrap 5.3, Playwright
 - **Workflows:** .devin/workflows/ (product-level)
@@ -110,6 +124,9 @@ EBP/
 
 ### 4. PELAJARAN (Education Platform - Kurikulum Merdeka SD)
 - **Status:** 📋 Blueprint (belum diimplementasi)
+- **Lokasi:** c:\xampp\htdocs\EBP\PLATFORM_BISNIS_ENTERPRISE\PRODUCTS\PELAJARAN\
+- **Repository:** https://github.com/82080038/permen.git
+- **Akses:** Belum tersedia (masih blueprint)
 - **Struktur:** README.md (blueprint untuk development)
 - **Tech Stack:** HTML5, CSS3, JavaScript, Bootstrap 5.3, PHP/Node.js, MySQL
 - **Workflows:** .devin/workflows/ (product-level - baru dibuat)
@@ -117,6 +134,8 @@ EBP/
 
 ### 5. SAHAM (Finance Platform - Stock Trading Simulation)
 - **Status:** ✅ Terimplementasi
+- **Lokasi:** c:\xampp\htdocs\EBP\PLATFORM_BISNIS_ENTERPRISE\PRODUCTS\SAHAM\
+- **Akses:** http://localhost:8501 (Streamlit) atau http://localhost/saham (landing page via Apache alias)
 - **Struktur:** src/ + frontend/ + docs/ + tests/ + docker-compose.yml
 - **Tech Stack:** Python, ML (RandomForest, XGBoost, LightGBM), Pytest, Docker
 - **Workflows:** .devin/workflows/ (product-level)
@@ -124,9 +143,11 @@ EBP/
 
 ### 6. KEWER (Microfinance Platform - Sistem Pinjaman Modal Pedagang)
 - **Status:** ✅ Terimplementasi
+- **Lokasi:** c:\xampp\htdocs\EBP\PLATFORM_BISNIS_ENTERPRISE\PRODUCTS\KEWER\
+- **Akses:** http://localhost/kewer (via Apache alias)
 - **Struktur:** api/ + config/ + controllers/ + models/ + pages/ + database/ + tests/
 - **Tech Stack:** PHP 8.2, MariaDB, Bootstrap 5.3, DataTable.js, SweetAlert2
-- **Workflows:** .devin/workflows/ (product-level - perlu dibuat)
+- **Workflows:** .devin/workflows/ (product-level)
 
 
 

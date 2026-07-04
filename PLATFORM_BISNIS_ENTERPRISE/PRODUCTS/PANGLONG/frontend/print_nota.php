@@ -14,14 +14,14 @@ $stmt->execute($isSuperAdmin ? [$id] : [$id, $tenantId, $branchId]);
 $sale = $stmt->fetch();
 
 if (!$sale) {
-    echo '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Nota Tidak Ditemukan</title></head><body><p style="text-align:center;padding:20px;">Sale not found</p></body></html>';
+    echo "Sale not found";
     exit;
 }
 
 $sale['customer'] = ['name' => $sale['customer_name'] ?? 'Walk-in'];
 
-$items = $d->prepare("SELECT si.*, p.name as product_name FROM sale_items si LEFT JOIN products p ON si.product_id = p.id WHERE si.sale_id = ?" . ($isSuperAdmin ? "" : " AND si.tenant_id = ?"));
-$items->execute($isSuperAdmin ? [$id] : [$id, $tenantId]);
+$items = $d->prepare("SELECT si.*, p.name as product_name FROM sale_items si LEFT JOIN products p ON si.product_id = p.id WHERE si.sale_id = ?");
+$items->execute([$id]);
 $sale['items'] = $items->fetchAll();
 ?>
 <!DOCTYPE html>

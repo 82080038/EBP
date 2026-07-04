@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test Client - Kewer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .test-result { margin-bottom: 20px; }
+        .test-passed { border-left: 4px solid #28a745; }
+        .test-failed { border-left: 4px solid #dc3545; }
+        .response-json { background: #f8f9fa; padding: 10px; border-radius: 5px; max-height: 300px; overflow-y: auto; }
+        .test-running { opacity: 0.6; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col-12">
+                <h1><i class="bi bi-bug"></i> API Test Client - Kewer</h1>
+                <p class="text-muted">Frontend-to-Backend Testing Interface</p>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="bi bi-gear"></i> Test Configuration</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">API Base URL</label>
+                            <input type="text" class="form-control" id="apiBaseUrl" value="http://localhost/kewer-app/api">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">API Token</label>
+                            <input type="text" class="form-control" id="apiToken" value="Bearer kewer-api-token-2024">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Cabang ID</label>
+                            <input type="number" class="form-control" id="cabangId" value="1">
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" onclick="runAllTests()">
+                                <i class="bi bi-play-circle"></i> Run All Tests
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="clearResults()">
+                                <i class="bi bi-trash"></i> Clear Results
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5><i class="bi bi-speedometer2"></i> Test Statistics</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <h4 id="totalTests">0</h4>
+                                <small class="text-muted">Total</small>
+                            </div>
+                            <div class="col-4">
+                                <h4 class="text-success" id="passedTests">0</h4>
+                                <small class="text-muted">Passed</small>
+                            </div>
+                            <div class="col-4">
+                                <h4 class="text-danger" id="failedTests">0</h4>
+                                <small class="text-muted">Failed</small>
+                            </div>
+                        </div>
+                        <div class="progress mt-3">
+                            <div class="progress-bar" id="progressBar" role="progressbar" style="width: 0%">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="bi bi-list-check"></i> Test Results</h5>
+                    </div>
+                    <div class="card-body" id="testResults" style="max-height: 600px; overflow-y: auto;">
+                        <p class="text-muted">Click "Run All Tests" to start testing...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let testResults = [];
+        let totalTests = 0;
+        let passedTests = 0;
+        let failedTests = 0;
+
+        // Make API request
+        async function makeRequest(endpoint, method = 'GET', data = null, params = {}) {
+            const baseUrl = document.getElementById('apiBaseUrl').value;
+            const token = document.getElementById('apiToken').value;
+            const cabangId = document.getElementById('cabangId').value;
+            
+            let url = `${baseUrl}/${endpoint}`;
+            if (params.cabang_id === undefined && cabangId) {
+                params.cabang_id = cabangId;
+            }
+            
+            if (Object.keys(params).length > 0) {
+                url += '?' + new URLSearchParams(params);
+            }
+            
+            const options = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                }
+            };
+            
+            if (data && ['POST', 'PUT'].includes(method)) {
+                options.body = JSON.stringify(data);
+            }
+            
+            try {
+                const response = await fetch(url, options);
+                const responseData = await response.json();
+                
+                return {
+                    status: response.status,
+                    data: responseData,
+                    ok: response.ok
+                };
+            } catch (error) {
+                return {
+                    status: 0,
+                    data: { error: error.message },
+                    ok: false
+                };
+            }
+        }
+
+        // Run single test
+        async function runTest(testName, endpoint, method = 'GET', data = null, params = {}, expectedStatus = 200, expectedKeys = []) {
+            const testElement = createTestElement(testName);
+            
+            try {
+                const result = await makeRequest(endpoint, method, data, params);
+                
+                let testPassed = true;
+                let errors = [];
+                
+                // Check status
+                if (result.status !== expectedStatus) {
+                    testPassed = false;
+                    errors.push(`Expected status ${expectedStatus}, got ${result.status}`);
+                }
+                
+                // Check response structure
+                if (expectedStatus === 200 && result.data) {
+                    expectedKeys.forEach(key => {
+                        if (!(key in result.data)) {
+                            testPassed = false;
+                            errors.push(`Missing key: ${key}`);
+                        }
+                    });
+                }
+                
+                // Check success flag
+                if (expectedStatus === 200 && result.data.success === false) {
+                    testPassed = false;
+                    errors.push(`API returned success=false: ${result.data.error || 'Unknown error'}`);
+                }
+                
+                updateTestElement(testElement, testPassed, result, errors);
+                
+                if (testPassed) {
+                    passedTests++;
+                } else {
+                    failedTests++;
+                }
+                
+                totalTests++;
+                updateStatistics();
+                
+                return result.data;
+            } catch (error) {
+                updateTestElement(testElement, false, { error: error.message }, ['Test execution failed']);
+                failedTests++;
+                totalTests++;
+                updateStatistics();
+            }
+        }
+
+        // Create test element
+        function createTestElement(testName) {
+            const container = document.getElementById('testResults');
+            const testDiv = document.createElement('div');
+            testDiv.className = 'test-result test-running';
+            testDiv.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6><i class="bi bi-hourglass-split"></i> ${testName}</h6>
+                    <span class="badge bg-secondary">Running...</span>
+                </div>
+                <div class="response-json mt-2">
+                    <small>Executing test...</small>
+                </div>
+            `;
+            container.appendChild(testDiv);
+            return testDiv;
+        }
+
+        // Update test element
+        function updateTestElement(element, passed, result, errors = []) {
+            element.classList.remove('test-running');
+            element.classList.add(passed ? 'test-passed' : 'test-failed');
+            
+            const badge = element.querySelector('.badge');
+            badge.className = `badge bg-${passed ? 'success' : 'danger'}`;
+            badge.textContent = passed ? 'PASSED' : 'FAILED';
+            
+            const icon = element.querySelector('i');
+            icon.className = `bi bi-${passed ? 'check-circle' : 'x-circle'}`;
+            
+            const responseDiv = element.querySelector('.response-json');
+            responseDiv.innerHTML = `
+                <div class="mb-2">
+                    <strong>Status:</strong> ${result.status}<br>
+                    <strong>Response:</strong>
+                </div>
+                <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                ${errors.length > 0 ? `<div class="text-danger mt-2"><strong>Errors:</strong><br>${errors.join('<br>')}</div>` : ''}
+            `;
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            document.getElementById('totalTests').textContent = totalTests;
+            document.getElementById('passedTests').textContent = passedTests;
+            document.getElementById('failedTests').textContent = failedTests;
+            
+            const percentage = totalTests > 0 ? Math.round((passedTests / totalTests) * 100) : 0;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '%';
+            progressBar.className = `progress-bar bg-${percentage === 100 ? 'success' : percentage >= 80 ? 'info' : percentage >= 60 ? 'warning' : 'danger'}`;
+        }
+
+        // Clear results
+        function clearResults() {
+            document.getElementById('testResults').innerHTML = '<p class="text-muted">Click "Run All Tests" to start testing...</p>';
+            totalTests = 0;
+            passedTests = 0;
+            failedTests = 0;
+            updateStatistics();
+        }
+
+        // Run all tests
+        async function runAllTests() {
+            clearResults();
+            
+            // Test 1: Dashboard API
+            await runTest('Dashboard Statistics', 'dashboard', 'GET', null, {}, 200, ['success', 'data']);
+            
+            // Test 2: Get Nasabah List
+            await runTest('Get Nasabah List', 'nasabah', 'GET', null, {}, 200, ['success', 'data']);
+            
+            // Test 3: Create Nasabah
+            const testNasabahData = {
+                nama: 'Test Nasabah F2E',
+                alamat: 'Alamat Test F2E',
+                ktp: '1234567890123456',
+                telp: '08123456789',
+                jenis_usaha: 'Test Usaha',
+                lokasi_pasar: 'Test Lokasi'
+            };
+            const nasabahResponse = await runTest('Create Nasabah', 'nasabah', 'POST', testNasabahData, {}, 200, ['success', 'data']);
+            
+            // Test 4: Get Pinjaman List
+            await runTest('Get Pinjaman List', 'pinjaman', 'GET', null, {}, 200, ['success', 'data']);
+            
+            // Test 5: Create Pinjaman
+            if (nasabahResponse && nasabahResponse.data && nasabahResponse.data.id) {
+                const testPinjamanData = {
+                    nasabah_id: nasabahResponse.data.id,
+                    plafon: 1000000,
+                    tenor: 6,
+                    bunga_per_bulan: 2.5,
+                    tanggal_akad: new Date().toISOString().split('T')[0],
+                    tujuan_pinjaman: 'Modal usaha test',
+                    jaminan: 'Test jaminan'
+                };
+                
+                const pinjamanResponse = await runTest('Create Pinjaman', 'pinjaman', 'POST', testPinjamanData, {}, 200, ['success', 'data']);
+                
+                // Test 6: Approve Pinjaman
+                if (pinjamanResponse && pinjamanResponse.data && pinjamanResponse.data.id) {
+                    await runTest('Approve Pinjaman', 'pinjaman', 'PUT', null, {
+                        id: pinjamanResponse.data.id,
+                        action: 'approve'
+                    }, 200, ['success']);
+                }
+            }
+            
+            // Test 7: Invalid API Token
+            const originalToken = document.getElementById('apiToken').value;
+            document.getElementById('apiToken').value = 'Bearer invalid-token';
+            const invalidTokenResult = await makeRequest('dashboard', 'GET', null, {});
+            document.getElementById('apiToken').value = originalToken;
+            
+            const testElement = createTestElement('Invalid API Token');
+            if (invalidTokenResult.status === 401) {
+                updateTestElement(testElement, true, invalidTokenResult, []);
+                passedTests++;
+            } else {
+                updateTestElement(testElement, false, invalidTokenResult, ['Should reject invalid token']);
+                failedTests++;
+            }
+            totalTests++;
+            updateStatistics();
+            
+            // Test 8: Missing cabang_id parameter
+            const missingParamResult = await makeRequest('dashboard', 'GET', null, {});
+            const missingParamElement = createTestElement('Missing cabang_id Parameter');
+            if (missingParamResult.status === 400) {
+                updateTestElement(missingParamElement, true, missingParamResult, []);
+                passedTests++;
+            } else {
+                updateTestElement(missingParamElement, false, missingParamResult, ['Should reject missing parameter']);
+                failedTests++;
+            }
+            totalTests++;
+            updateStatistics();
+            
+            // Test 9: Invalid endpoint
+            const invalidEndpointResult = await makeRequest('invalid_endpoint', 'GET', null, {});
+            const invalidEndpointElement = createTestElement('Invalid Endpoint');
+            if (invalidEndpointResult.status === 404) {
+                updateTestElement(invalidEndpointElement, true, invalidEndpointResult, []);
+                passedTests++;
+            } else {
+                updateTestElement(invalidEndpointElement, false, invalidEndpointResult, ['Should return 404']);
+                failedTests++;
+            }
+            totalTests++;
+            updateStatistics();
+            
+            // Show final summary
+            setTimeout(() => {
+                const summaryElement = createTestElement('Test Summary');
+                const successRate = totalTests > 0 ? Math.round((passedTests / totalTests) * 100) : 0;
+                const summaryPassed = successRate === 100;
+                
+                updateTestElement(summaryElement, summaryPassed, {
+                    summary: {
+                        total: totalTests,
+                        passed: passedTests,
+                        failed: failedTests,
+                        success_rate: successRate + '%'
+                    }
+                }, summaryPassed ? [] : [`Success rate: ${successRate}%`]);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

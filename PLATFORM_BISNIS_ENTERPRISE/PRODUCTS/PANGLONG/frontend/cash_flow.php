@@ -11,11 +11,11 @@ $startDate = $_GET['start_date'] ?? date('Y-m-01');
 $endDate = $_GET['end_date'] ?? date('Y-m-t');
 $branchId = $user['branch_id'] ?? null;
 
-function runCashFlowSum($d, $sql, $params, $whereAdded, $tenantId, $branchId, $isSuperAdmin, $filterByBranch = true) {
+function runCashFlowSum($d, $sql, $params, $whereAdded, $tenantId, $branchId, $isSuperAdmin) {
     if (!$isSuperAdmin && $tenantId) {
         $sql .= $whereAdded ? " AND tenant_id = ?" : " WHERE tenant_id = ?";
         $params[] = $tenantId;
-        if ($branchId && $filterByBranch) {
+        if ($branchId) {
             $sql .= " AND branch_id = ?";
             $params[] = $branchId;
         }
@@ -39,7 +39,7 @@ function runSimpleSum($d, $sql, $params, $whereAdded, $tenantId, $isSuperAdmin) 
 $operatingIn = runCashFlowSum($d, "SELECT COALESCE(SUM(amount),0) FROM cash_transactions WHERE type='in' AND account_type='cash' AND transaction_date BETWEEN ? AND ?", [$startDate, $endDate], true, $tenantId, $branchId, $isSuperAdmin);
 $operatingOut = runCashFlowSum($d, "SELECT COALESCE(SUM(amount),0) FROM cash_transactions WHERE type='out' AND account_type='cash' AND transaction_date BETWEEN ? AND ?", [$startDate, $endDate], true, $tenantId, $branchId, $isSuperAdmin);
 
-$salesCash = runSimpleSum($d, "SELECT COALESCE(SUM(amount),0) FROM sale_payments WHERE payment_date BETWEEN ? AND ?", [$startDate, $endDate], true, $tenantId, $isSuperAdmin);
+$salesCash = runSimpleSum($d, "SELECT COALESCE(SUM(amount),0) FROM payments WHERE payment_date BETWEEN ? AND ?", [$startDate, $endDate], true, $tenantId, $isSuperAdmin);
 $purchaseCash = runSimpleSum($d, "SELECT COALESCE(SUM(amount),0) FROM purchase_payments WHERE payment_date BETWEEN ? AND ?", [$startDate, $endDate], true, $tenantId, $isSuperAdmin);
 
 // Investing

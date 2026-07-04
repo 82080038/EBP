@@ -1,9 +1,10 @@
 <?php
-require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/auth.php';
 
 requirePermission('manage_users');
 
-$d = db();
+$db = new PDO('sqlite:' . __DIR__ . '/../database/database.sqlite');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $tenant_id = $_SESSION['user']['tenant_id'];
 $branch_id = $_SESSION['user']['branch_id'] ?? null;
@@ -11,13 +12,12 @@ $is_super_admin = $_SESSION['user']['role_slug'] === 'super_admin';
 
 // Super Admin bisa akses semua tenant, Owner hanya tenant sendiri
 if ($is_super_admin) {
-    $tenant_id = $_GET['tenant_id'] ?? $_SESSION['user']['tenant_id'] ?? null;
+    $tenant_id = $_GET['tenant_id'] ?? null;
     $branch_id = null;
 }
 
 // Handle actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    requireCsrfToken();
     $action = $_POST['action'] ?? '';
     
     if ($action === 'add_user') {
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Cek username availability (tenant scope)
             $checkParams = [$username, $tenant_id];
             $checkSql = "SELECT id FROM users WHERE username = ? AND tenant_id = ?";
-            $stmt = $d->prepare($checkSql);
+            $stmt = $db->prepare($checkSql);
             $stmt->execute($checkParams);
             if ($stmt->fetch()) {
                 $error = 'Username sudah digunakan';
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $password_hash = password_hash($password, PASSWORD_DEFAULT);
                 $now = date('Y-m-d H:i:s');
                 
-                $stmt = $d->prepare("
+                $stmt = $db->prepare("
                     INSERT INTO users (tenant_id, branch_id, username, password, full_name, email, phone, role_id, is_active, created_at, updated_at)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ");
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $delSql .= " AND branch_id = ?";
                 $delParams[] = $branch_id;
             }
-            $stmt = $d->prepare($delSql);
+            $stmt = $db->prepare($delSql);
             $stmt->execute($delParams);
             $success = 'User berhasil dihapus';
         }
@@ -82,28 +82,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $toggleSql .= " AND branch_id = ?";
                 $toggleParams[] = $branch_id;
             }
-            $stmt = $d->prepare($toggleSql);
+            $stmt = $db->prepare($toggleSql);
             $stmt->execute($toggleParams);
             $success = 'Status user berhasil diubah';
         }
     }
     
-    $redirectParams = [];
-    if ($is_super_admin && $tenant_id) {
-        $redirectParams['tenant_id'] = $tenant_id;
-    }
-    if (isset($success)) {
-        $redirectParams['msg'] = 'created';
-    } elseif (isset($error)) {
-        $redirectParams['err'] = urlencode($error);
-    }
-    $queryString = !empty($redirectParams) ? '?' . http_build_query($redirectParams) : '';
-    header('Location: users.php' . $queryString);
+    header('Location: users.php' . ($tenant_id ? "?tenant_id={$tenant_id}" : ''));
     exit;
 }
-
-$msg = $_GET['msg'] ?? '';
-$errMsg = $_GET['err'] ?? '';
 
 // Get users
 $userParams = [$tenant_id];
@@ -118,15 +105,32 @@ if ($branch_id) {
     $userParams[] = $branch_id;
 }
 $userSql .= " ORDER BY u.created_at DESC";
-$users = $d->prepare($userSql);
+$users = $db->prepare($userSql);
 $users->execute($userParams);
 $users = $users->fetchAll(PDO::FETCH_ASSOC);
 
 // Get roles
-$roles = $d->query("SELECT * FROM roles WHERE slug != 'super_admin' ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+$roles = $db->query("SELECT * FROM roles WHERE slug != 'super_admin' ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<?php renderHead('Kelola User - Panglong ERP'); ?>
-<?php renderNav('users'); ?>
+<?php
+$theme = $_SESSION['theme'] ?? 'light';
+?>
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="<?= htmlspecialchars($theme) ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Kelola User - Panglong ERP</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.css">
+    <style>
+      body{background:#f8f9fa}
+      [data-bs-theme="dark"] body{background:#0d1117}
+      [data-bs-theme="eyecare"] body{background:#faf3e3}
+    </style>
+</head>
+<body>
+    <?php include __DIR__ . '/navbar.php'; ?>
     
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -135,18 +139,6 @@ $roles = $d->query("SELECT * FROM roles WHERE slug != 'super_admin' ORDER BY nam
                 <i class="bi bi-plus"></i> Tambah User
             </button>
         </div>
-        
-        <?php if (!empty($errMsg)): ?>
-            <div class="alert alert-danger">
-                <i class="bi bi-exclamation-circle"></i> <?= htmlspecialchars($errMsg) ?>
-            </div>
-        <?php endif; ?>
-        
-        <?php if (!empty($msg) && $msg === 'created'): ?>
-            <div class="alert alert-success">
-                <i class="bi bi-check-circle"></i> User berhasil ditambahkan
-            </div>
-        <?php endif; ?>
         
         <?php if (isset($error)): ?>
             <div class="alert alert-danger">

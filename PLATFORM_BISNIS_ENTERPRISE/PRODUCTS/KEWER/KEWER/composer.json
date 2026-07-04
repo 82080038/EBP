@@ -1,0 +1,19 @@
+{
+    "name": "kewer/koperasi-digital",
+    "description": "Sistem pinjaman modal pedagang digital - Kewer",
+    "require": {
+        "php": ">=8.0",
+        "ext-mysqli": "*",
+        "ext-gd": "*",
+        "phpmailer/phpmailer": "^6.8",
+        "firebase/php-jwt": "^6.10",
+        "vlucas/phpdotenv": "^5.5",
+        "dompdf/dompdf": "^2.0",
+        "thiagoalessio/tesseract_ocr": "^2.13"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kewer\\": "src/"
+        }
+    }
+}

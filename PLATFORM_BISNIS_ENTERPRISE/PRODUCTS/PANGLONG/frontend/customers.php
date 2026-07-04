@@ -26,7 +26,6 @@ if ($search) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    requireCsrfToken();
     $action = $_POST['action'] ?? '';
     
     if ($action === 'create') {
@@ -334,7 +333,7 @@ function submitQuickAdd() {
         return;
     }
     
-    fetch(API_URL + '?endpoint=customer-groups', {
+    fetch('ajax.php?endpoint=customer-groups', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: value })

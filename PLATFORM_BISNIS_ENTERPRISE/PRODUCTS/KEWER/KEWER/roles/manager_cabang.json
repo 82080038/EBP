@@ -1,0 +1,234 @@
+{
+  "role": {
+    "name": "Manager Cabang",
+    "code": "manager_cabang",
+    "hierarchy_level": 3,
+    "description": "Manager cabang dengan kontrol operasional",
+    "status": "aktif"
+  },
+  "access_scope": {
+    "type": "single_office",
+    "branches": "single",
+    "data_visibility": "all"
+  },
+  "application_standards": {
+    "language": {
+      "ui_language": "Bahasa Indonesia",
+      "labels": "Indonesian",
+      "messages": "Indonesian",
+      "notifications": "Indonesian"
+    },
+    "formatting": {
+      "currency": {
+        "symbol": "Rp",
+        "format": "Rp1.000.000",
+        "thousands_separator": ".",
+        "decimal_separator": ",",
+        "php_function": "number_format($value, 0, ',', '.')"
+      },
+      "date": {
+        "display_format": "d F Y",
+        "example": "16 April 2026",
+        "database_format": "Y-m-d",
+        "example_db": "2026-04-16",
+        "library": "Flatpickr",
+        "altFormat": "d F Y"
+      },
+      "number": {
+        "thousands_separator": ".",
+        "decimal_separator": ",",
+        "example": "1.000,50"
+      }
+    }
+  },
+  "permissions": {
+    "automatic_grant": false,
+    "can_manage": [
+      "admin_cabang",
+      "petugas_cabang",
+      "karyawan"
+    ]
+  },
+  "modules": {
+    "dashboard": {
+      "access": true,
+      "permissions": ["dashboard.read"],
+      "features": [
+        "View statistics",
+        "View total nasabah count",
+        "View total pinjaman count",
+        "View outstanding balance",
+        "View recent activities"
+      ]
+    },
+    "nasabah": {
+      "access": true,
+      "permissions": ["nasabah.read", "manage_nasabah"],
+      "features": [
+        "View nasabah",
+        "Add new nasabah",
+        "Edit nasabah information",
+        "Delete nasabah",
+        "View nasabah details",
+        "View nasabah history"
+      ]
+    },
+    "pinjaman": {
+      "access": true,
+      "permissions": ["pinjaman.read", "manage_pinjaman", "pinjaman.approve"],
+      "features": [
+        "View pinjaman",
+        "Create new pinjaman applications",
+        "Approve pinjaman applications",
+        "Reject pinjaman applications",
+        "View pinjaman details",
+        "View pinjaman history"
+      ]
+    },
+    "angsuran": {
+      "access": true,
+      "permissions": ["angsuran.read", "manage_pembayaran"],
+      "features": [
+        "View angsuran",
+        "Record payments",
+        "View payment history",
+        "View outstanding angsuran",
+        "Generate payment receipts"
+      ]
+    },
+    "aktivitas_lapangan": {
+      "access": true,
+      "permissions": ["angsuran.read"],
+      "features": [
+        "View field activities",
+        "View activity reports",
+        "Filter by petugas",
+        "Filter by activity type",
+        "Filter by date range"
+      ]
+    },
+    "kas_petugas": {
+      "access": true,
+      "permissions": ["kas_petugas.read", "kas_petugas.update"],
+      "features": [
+        "View kas petugas",
+        "Approve setoran",
+        "Reject setoran",
+        "View setoran history",
+        "Filter by petugas"
+      ]
+    },
+    "rekonsiliasi_kas": {
+      "access": true,
+      "permissions": ["kas.read", "kas.update"],
+      "features": [
+        "View cash reconciliation",
+        "Approve reconciliation",
+        "Reject reconciliation",
+        "View reconciliation history"
+      ]
+    },
+    "users": {
+      "access": true,
+      "permissions": ["users.create", "users.read", "manage_users"],
+      "features": [
+        "View users",
+        "Create new users",
+        "Edit user information",
+        "Delete users",
+        "Reset passwords"
+      ]
+    },
+    "cabang": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "laporan": {
+      "access": true,
+      "permissions": ["view_laporan"],
+      "features": [
+        "View financial reports",
+        "View loan performance reports",
+        "View customer reports",
+        "Export reports",
+        "Filter by date range"
+      ]
+    },
+    "pengeluaran": {
+      "access": true,
+      "permissions": ["manage_pengeluaran", "view_pengeluaran"],
+      "features": [
+        "View pengeluaran",
+        "Add new pengeluaran",
+        "Edit pengeluaran",
+        "Delete pengeluaran",
+        "Approve pengeluaran"
+      ]
+    },
+    "kas_bon": {
+      "access": true,
+      "permissions": ["manage_kas_bon", "view_kas_bon"],
+      "features": [
+        "View kas bon",
+        "Add new kas bon",
+        "Edit kas bon",
+        "Delete kas bon",
+        "Approve kas bon"
+      ]
+    },
+    "setting_bunga": {
+      "access": true,
+      "permissions": ["manage_bunga", "view_settings"],
+      "features": [
+        "View bunga settings",
+        "Edit bunga settings",
+        "View bunga history",
+        "Apply bunga changes"
+      ]
+    },
+    "family_risk": {
+      "access": true,
+      "permissions": ["view_laporan"],
+      "features": [
+        "View family risk analysis",
+        "View risk scores",
+        "Filter by risk level"
+      ]
+    },
+    "petugas": {
+      "access": true,
+      "permissions": ["manage_petugas", "view_petugas"],
+      "features": [
+        "View petugas",
+        "Add new petugas",
+        "Edit petugas information",
+        "Delete petugas",
+        "Toggle status"
+      ]
+    },
+    "audit": {
+      "access": true,
+      "permissions": ["view_laporan"],
+      "features": [
+        "Lihat audit log",
+        "Filter berdasarkan user",
+        "Filter berdasarkan action",
+        "Filter berdasarkan tanggal",
+        "Export audit log"
+      ]
+    },
+    "permissions": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    }
+  },
+  "simulation_parameters": {
+    "login": {
+      "username": "mgr_balige",
+      "password": "Kewer2024!",
+      "test_login_url": "/login.php?test_login=true&username=mgr_balige&password=Kewer2024!"
+    }
+  }
+}

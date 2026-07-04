@@ -7,6 +7,16 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
+// Configure session cookie to work across the entire application
+session_set_cookie_params([
+    'lifetime' => SESSION_LIFETIME,
+    'path' => '/kewer/',
+    'domain' => '',
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+
 session_start();
 
 // Check if user is logged in

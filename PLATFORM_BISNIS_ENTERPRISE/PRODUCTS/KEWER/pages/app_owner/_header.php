@@ -32,6 +32,8 @@ $ao_nav = [
     <title><?php echo $page_title ?? 'App Owner'; ?> - <?php echo APP_NAME; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body { background: #f0f2f5; }
         .app-header { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; padding: 0.75rem 0; }

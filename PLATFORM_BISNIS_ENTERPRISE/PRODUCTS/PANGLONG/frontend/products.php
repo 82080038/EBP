@@ -23,7 +23,7 @@ $warehouseLocations = $whStmt->fetchAll();
 $brandSql = "SELECT DISTINCT brand FROM products WHERE brand IS NOT NULL AND brand != ''";
 $brandParams = [];
 if (!$isSuperAdmin && $tenantId) {
-    $brandSql .= " AND (tenant_id = ? OR tenant_id IS NULL)";
+    $brandSql .= " AND tenant_id = ?";
     $brandParams[] = $tenantId;
 }
 $brandSql .= " ORDER BY brand";
@@ -35,7 +35,7 @@ $brands = $brandStmt->fetchAll();
 $unitParams = [];
 $unitSql = "SELECT code, name FROM unit_measurements WHERE is_active = 1";
 if (!$isSuperAdmin && $tenantId) {
-    $unitSql .= " AND (tenant_id = ? OR tenant_id IS NULL)";
+    $unitSql .= " AND tenant_id = ?";
     $unitParams[] = $tenantId;
 }
 $unitSql .= " ORDER BY name";
@@ -46,24 +46,22 @@ $unitMeasurements = $unitStmt->fetchAll();
 $search = $_GET['search'] ?? '';
 $searchSql = '';
 $searchParams = [];
-if (!$isSuperAdmin && $tenantId) {
-    $searchSql = "WHERE (p.tenant_id = ? OR p.tenant_id IS NULL)";
-    $searchParams = [$tenantId];
-    if ($search) {
-        $searchSql .= " AND (p.name LIKE ? OR p.code LIKE ? OR p.brand LIKE ?)";
-        $q = '%' . $search . '%';
-        $searchParams[] = $q;
-        $searchParams[] = $q;
-        $searchParams[] = $q;
-    }
-} elseif ($search) {
+if ($search) {
     $searchSql = "WHERE (p.name LIKE ? OR p.code LIKE ? OR p.brand LIKE ?)";
     $q = '%' . $search . '%';
     $searchParams = [$q, $q, $q];
+    if (!$isSuperAdmin && $tenantId) {
+        $searchSql .= " AND p.tenant_id = ?";
+        $searchParams[] = $tenantId;
+    }
+} else {
+    if (!$isSuperAdmin && $tenantId) {
+        $searchSql = "WHERE p.tenant_id = ?";
+        $searchParams[] = $tenantId;
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    requireCsrfToken();
     $action = $_POST['action'] ?? '';
     
     if ($action === 'create') {
@@ -202,7 +200,7 @@ $products = $stmt->fetchAll();
 $catParams = [];
 $catSql = "SELECT id, name FROM categories";
 if (!$isSuperAdmin && $tenantId) {
-    $catSql .= " WHERE tenant_id = ? OR tenant_id IS NULL";
+    $catSql .= " WHERE tenant_id = ?";
     $catParams[] = $tenantId;
 }
 $catSql .= " ORDER BY name";
@@ -223,16 +221,9 @@ $purchasesCount = $_GET['purchases'] ?? 0;
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Produk</h1>
-        <div class="d-flex gap-2">
-            <?php if (!$isSuperAdmin && $tenantId): ?>
-            <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#masterCatalogModal">
-                <i class="bi bi-cloud-download"></i> Import dari Master Catalog
-            </button>
-            <?php endif; ?>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-                <i class="bi bi-plus"></i> Tambah Produk
-            </button>
-        </div>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+            <i class="bi bi-plus"></i> Tambah Produk
+        </button>
     </div>
 
     <?php if ($msg === 'created'): ?>
@@ -641,7 +632,7 @@ $(document).ready(function() {
         clearTimeout(checkTimeout);
         checkTimeout = setTimeout(function() {
             if (code.length >= 2 || name.length >= 2) {
-                fetch(API_URL + '?endpoint=products&search=' + encodeURIComponent(code || name))
+                fetch('ajax.php?endpoint=products&search=' + encodeURIComponent(code || name))
                     .then(r => r.json())
                     .then(res => {
                         if (res.success && res.data.length > 0) {
@@ -738,7 +729,7 @@ function submitQuickAdd() {
         };
     }
     
-    fetch(API_URL + '?endpoint=' + endpoint, {
+    fetch('ajax.php?endpoint=' + endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -831,121 +822,5 @@ if (editModal) {
         document.getElementById('editCode').focus();
     });
 }
-
-// Master Catalog search and import
-var masterModal = document.getElementById('masterCatalogModal');
-if (masterModal) {
-    masterModal.addEventListener('shown.bs.modal', function() {
-        loadMasterProducts();
-    });
-}
-
-function loadMasterProducts(page) {
-    page = page || 1;
-    var search = document.getElementById('masterSearch').value || '';
-    var categoryId = document.getElementById('masterCategoryFilter').value || '';
-    var url = API_URL + '?endpoint=master-products&search=' + encodeURIComponent(search) + '&page=' + page + '&per_page=20';
-    if (categoryId) url += '&category_id=' + categoryId;
-
-    fetch(url)
-        .then(r => r.json())
-        .then(res => {
-            var tbody = document.getElementById('masterProductsBody');
-            tbody.innerHTML = '';
-            if (res.data && res.data.length > 0) {
-                res.data.forEach(function(p) {
-                    var tr = document.createElement('tr');
-                    var catName = (p.category && p.category.name) ? p.category.name : '-';
-                    tr.innerHTML = '<td>' + (p.code || '-') + '</td>' +
-                        '<td>' + (p.name || '-') + '</td>' +
-                        '<td>' + (p.brand || '-') + '</td>' +
-                        '<td>' + catName + '</td>' +
-                        '<td><button class="btn btn-sm btn-success" onclick="importMasterProduct(' + p.id + ', \'' + (p.name || '').replace(/'/g, "\\'") + '\')"><i class="bi bi-plus-circle"></i> Import</button></td>';
-                    tbody.appendChild(tr);
-                });
-            } else {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Tidak ada produk di master catalog</td></tr>';
-            }
-
-            // Pagination
-            var pagDiv = document.getElementById('masterPagination');
-            if (res.meta) {
-                pagDiv.innerHTML = '';
-                for (var i = 1; i <= res.meta.last_page; i++) {
-                    var btn = document.createElement('button');
-                    btn.className = 'btn btn-sm ' + (i === res.meta.current_page ? 'btn-primary' : 'btn-outline-primary');
-                    btn.textContent = i;
-                    btn.onclick = function(pg) { return function() { loadMasterProducts(pg); }; }(i);
-                    pagDiv.appendChild(btn);
-                }
-            }
-        })
-        .catch(err => alert('Error: ' + err));
-}
-
-function importMasterProduct(id, name) {
-    if (!confirm('Import "' + name + '" ke katalog produk Anda?')) return;
-    fetch(API_URL + '?endpoint=master-products', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({master_product_id: id})
-    })
-    .then(r => r.json())
-    .then(res => {
-        if (res.success) {
-            alert('Produk "' + name + '" berhasil diimport!');
-            location.reload();
-        } else {
-            alert('Gagal: ' + (res.message || 'Unknown error'));
-        }
-    })
-    .catch(err => alert('Error: ' + err));
-}
 </script>
-
-<!-- Master Catalog Modal -->
-<div class="modal fade" id="masterCatalogModal" tabindex="-1">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="bi bi-cloud-download"></i> Master Catalog Panglong</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row mb-3 g-2">
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="masterSearch" placeholder="Cari produk..." onkeyup="if(event.key==='Enter')loadMasterProducts(1)">
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-select" id="masterCategoryFilter" onchange="loadMasterProducts(1)">
-                            <option value="">Semua Kategori</option>
-                            <?php foreach ($categories as $c): ?>
-                                <option value="<?= $c['id'] ?>"><?= htmlspecialchars($c['name']) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-outline-primary w-100" onclick="loadMasterProducts(1)"><i class="bi bi-search"></i> Cari</button>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Kode</th>
-                                <th>Nama Produk</th>
-                                <th>Merek</th>
-                                <th>Kategori</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="masterProductsBody"></tbody>
-                    </table>
-                </div>
-                <div id="masterPagination" class="d-flex gap-1"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <?php renderFoot(); ?>

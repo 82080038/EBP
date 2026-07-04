@@ -1,4 +1,4 @@
-# EBP Microfinance Platform - Kewer (Sistem Pinjaman Modal Pedagang)
+# Kewer — Sistem Pinjaman Modal Pedagang
 
 Aplikasi web berbasis PHP untuk mengelola pinjaman modal pedagang koperasi pasar / bank keliling, dengan fitur manajemen nasabah, pinjaman, angsuran harian/mingguan/bulanan, dan pembayaran.
 

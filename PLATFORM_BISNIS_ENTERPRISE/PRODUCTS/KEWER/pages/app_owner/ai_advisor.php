@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../config/path.php';
 require_once BASE_PATH . '/includes/functions.php';
 requireLogin();
+$user = getCurrentUser();
 $page_title = 'AI Advisor';
 ?>
 <?php include __DIR__ . '/_header.php'; ?>
@@ -92,7 +93,7 @@ function loadAdvisorData() {
     $('#advisor-content').hide();
     
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'GET',
         data: { action: 'ai_advisor_data', kategori: currentFilterKategori, bos: currentFilterBos },
         success: function(response) {
@@ -201,7 +202,7 @@ function generateAdvice() {
     const targetBos = $('#targetBosSelect').val();
     
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({
@@ -225,7 +226,7 @@ function generateAdvice() {
 
 function markAsRead(adviceId) {
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({

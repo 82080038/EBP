@@ -1,0 +1,181 @@
+{
+  "role": {
+    "name": "Petugas Pusat",
+    "code": "petugas_pusat",
+    "hierarchy_level": 6,
+    "description": "Petugas lapangan pusat dengan aktivitas lapangan dan pembayaran",
+    "status": "aktif"
+  },
+  "access_scope": {
+    "type": "single_office",
+    "branches": "single",
+    "data_visibility": "all"
+  },
+  "application_standards": {
+    "language": {
+      "ui_language": "Bahasa Indonesia",
+      "labels": "Indonesian",
+      "messages": "Indonesian",
+      "notifications": "Indonesian"
+    },
+    "formatting": {
+      "currency": {
+        "symbol": "Rp",
+        "format": "Rp1.000.000",
+        "thousands_separator": ".",
+        "decimal_separator": ",",
+        "php_function": "number_format($value, 0, ',', '.')"
+      },
+      "date": {
+        "display_format": "d F Y",
+        "example": "16 April 2026",
+        "database_format": "Y-m-d",
+        "example_db": "2026-04-16",
+        "library": "Flatpickr",
+        "altFormat": "d F Y"
+      },
+      "number": {
+        "thousands_separator": ".",
+        "decimal_separator": ",",
+        "example": "1.000,50"
+      }
+    }
+  },
+  "permissions": {
+    "automatic_grant": false,
+    "can_manage": []
+  },
+  "modules": {
+    "dashboard": {
+      "access": true,
+      "permissions": ["dashboard.read"],
+      "features": [
+        "Lihat statistik konsolidasi",
+        "Lihat total nasabah",
+        "Lihat total pinjaman",
+        "Lihat saldo outstanding",
+        "Lihat aktivitas terbaru"
+      ]
+    },
+    "nasabah": {
+      "access": true,
+      "permissions": ["nasabah.read"],
+      "features": [
+        "Lihat nasabah",
+        "Lihat detail nasabah",
+        "Lihat informasi kontak nasabah"
+      ]
+    },
+    "pinjaman": {
+      "access": true,
+      "permissions": ["pinjaman.read"],
+      "features": [
+        "Lihat pinjaman",
+        "Lihat detail pinjaman",
+        "Lihat jadwal pinjaman (harian/mingguan/bulanan)",
+        "Cetak kartu angsuran",
+        "Cetak kwitansi pembayaran"
+      ]
+    },
+    "angsuran": {
+      "access": true,
+      "permissions": ["angsuran.read", "manage_pembayaran"],
+      "features": [
+        "Lihat angsuran",
+        "Catat pembayaran",
+        "Lihat riwayat pembayaran",
+        "Lihat pembayaran terlambat",
+        "Lihat denda otomatis",
+        "Cetak kwitansi pembayaran"
+      ]
+    },
+    "aktivitas_lapangan": {
+      "access": true,
+      "permissions": ["angsuran.read"],
+      "features": [
+        "Catat aktivitas lapangan",
+        "Lihat laporan aktivitas",
+        "Pelacakan GPS",
+        "Dokumentasi foto"
+      ]
+    },
+    "kas_petugas": {
+      "access": true,
+      "permissions": ["kas_petugas.read", "kas_petugas.update"],
+      "features": [
+        "Lihat saldo kas petugas",
+        "Tambah kas petugas",
+        "Lihat riwayat kas petugas",
+        "Setoran kas petugas",
+        "Lihat riwayat setoran"
+      ]
+    },
+    "rekonsiliasi_kas": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "auto_confirm": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "users": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "cabang": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "laporan": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "pengeluaran": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "kas_bon": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "setting_bunga": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "family_risk": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "petugas": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "audit": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    },
+    "permissions": {
+      "access": false,
+      "permissions": [],
+      "features": []
+    }
+  },
+  "simulation_parameters": {
+    "login": {
+      "username": "ptr_pngr1",
+      "password": "Kewer2024!",
+      "test_login_url": "/login.php?test_login=true&username=ptr_pngr1&password=Kewer2024!"
+    }
+  }
+}

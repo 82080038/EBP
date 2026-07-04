@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../config/path.php';
 require_once BASE_PATH . '/includes/functions.php';
 requireLogin();
+$user = getCurrentUser();
 $page_title = 'Dashboard';
 ?>
 <?php include __DIR__ . '/_header.php'; ?>
@@ -113,7 +114,7 @@ $(document).ready(function() {
 
 function loadDashboard() {
     $.ajax({
-        url: 'api/business.php',
+        url: '/kewer/api/business.php',
         method: 'GET',
         data: { action: 'app_owner_dashboard' },
         success: function(response) {

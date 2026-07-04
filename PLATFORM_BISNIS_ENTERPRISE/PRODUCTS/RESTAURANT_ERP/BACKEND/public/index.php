@@ -35,6 +35,16 @@ if (!$basePath) {
     }
 }
 
+// Special handling for API routes - ensure base path is stripped correctly
+if (strpos($requestUri, '/api') !== false && !$basePath) {
+    // If we have /api in the URI but no base path was detected,
+    // it might be that the pattern matching failed. Try again.
+    $pos = strpos($requestUri, '/api');
+    if ($pos > 0) {
+        $basePath = substr($requestUri, 0, $pos);
+    }
+}
+
 // Strip base path from request URI
 if ($basePath && strpos($requestUri, $basePath) === 0) {
     $requestUri = substr($requestUri, strlen($basePath));

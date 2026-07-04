@@ -31,7 +31,12 @@ if (isset($_GET['test_login']) && $_GET['test_login'] === 'true' && APP_ENV === 
                     $_SESSION['username'] = $user[0]['username'];
                     $_SESSION['role'] = $user[0]['role'];
                     session_write_close();
-                    header('Location: /kewer/dashboard.php');
+                    // Redirect to appropriate dashboard based on role
+                    if ($user[0]['role'] === 'appOwner') {
+                        header('Location: /kewer/pages/app_owner/dashboard.php');
+                    } else {
+                        header('Location: /kewer/dashboard.php');
+                    }
                     exit();
                 }
             } else {
@@ -39,7 +44,12 @@ if (isset($_GET['test_login']) && $_GET['test_login'] === 'true' && APP_ENV === 
                 $_SESSION['username'] = $user[0]['username'];
                 $_SESSION['role'] = $user[0]['role'];
                 session_write_close();
-                header('Location: /kewer/dashboard.php');
+                // Redirect to appropriate dashboard based on role
+                if ($user[0]['role'] === 'appOwner') {
+                    header('Location: /kewer/pages/app_owner/dashboard.php');
+                } else {
+                    header('Location: /kewer/dashboard.php');
+                }
                 exit();
             }
         }
@@ -72,7 +82,12 @@ if ($_POST) {
             $_SESSION['username'] = $user[0]['username'];
             $_SESSION['role'] = $user[0]['role'];
             session_write_close();
-            header('Location: /kewer/dashboard.php');
+            // Redirect to appropriate dashboard based on role
+            if ($user[0]['role'] === 'appOwner') {
+                header('Location: /kewer/pages/app_owner/dashboard.php');
+            } else {
+                header('Location: /kewer/dashboard.php');
+            }
             exit();
         }
     } else {

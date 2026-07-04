@@ -17,7 +17,6 @@ foreach ($rows as $row) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    requireCsrfToken();
     $now = date('Y-m-d H:i:s');
     $newSettings = [
         'tax_rate' => $_POST['tax_rate'] ?? '0.11',

@@ -1,0 +1,63 @@
+{
+  "summary": [
+    {
+      "role": "bos",
+      "status": "PASSED",
+      "operations": 1
+    },
+    {
+      "role": "manager_pusat",
+      "status": "PASSED",
+      "operations": 1
+    },
+    {
+      "role": "manager_cabang",
+      "status": "PASSED",
+      "operations": 1
+    },
+    {
+      "role": "admin_pusat",
+      "status": "PASSED",
+      "operations": 2
+    },
+    {
+      "role": "admin_cabang",
+      "status": "PASSED",
+      "operations": 3
+    },
+    {
+      "role": "petugas_pusat",
+      "status": "PASSED",
+      "operations": 3
+    },
+    {
+      "role": "petugas_cabang",
+      "status": "FAILED",
+      "reason": "Login failed"
+    },
+    {
+      "role": "karyawan",
+      "status": "PASSED",
+      "operations": 3
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "operations": [
+    {
+      "type": "CREATE_NASABAH",
+      "status": "FAILED",
+      "data": "Simulasi Nasabah 2026-05-09"
+    },
+    {
+      "type": "CREATE_NASABAH",
+      "status": "FAILED",
+      "data": "Simulasi Nasabah 2026-05-09"
+    },
+    {
+      "type": "CREATE_NASABAH",
+      "status": "FAILED",
+      "data": "Simulasi Nasabah 2026-05-09"
+    }
+  ]
+}

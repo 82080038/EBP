@@ -5,7 +5,6 @@ requirePermission('manage_sales');
 $d = db();
 $user = currentUser();
 $tenantId = $user['tenant_id'] ?? null;
-$branchId = $user['branch_id'] ?? null;
 $isSuperAdmin = $user['role_slug'] === 'super_admin';
 
 $customerSql = "SELECT id, name, group_id FROM customers";
@@ -22,7 +21,7 @@ $customers = $stmt->fetchAll();
 $productSql = "SELECT id, code, name, sell_price FROM products WHERE is_active = 1";
 $productParams = [];
 if (!$isSuperAdmin && $tenantId) {
-    $productSql .= " AND (tenant_id = ? OR tenant_id IS NULL)";
+    $productSql .= " AND tenant_id = ?";
     $productParams[] = $tenantId;
 }
 $productSql .= " ORDER BY name LIMIT 200";
@@ -682,9 +681,9 @@ function submitVoid() {
     if (!reason) { alert('Reason required'); return; }
     fetch(`${API_URL}?endpoint=sales&id=${id}`, {
         method: 'DELETE', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ void_reason: reason })
+        body: JSON.stringify({ reason })
     }).then(r => r.json()).then(res => {
-        if (res.success) { alert(res.message || 'Sale voided'); location.reload(); }
+        if (res.success) { alert('Sale voided'); location.reload(); }
         else { alert('Kesalahan: ' + res.message); }
     });
 }
