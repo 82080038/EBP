@@ -1,10 +1,10 @@
 ---
-description: Run EBP Restaurant backend tests using Playwright
+description: Run RESTAURANT_ERP backend tests using Playwright
 ---
 
-# Run Tests Workflow
+# Run Tests Workflow - RESTAURANT_ERP
 
-This workflow runs the Playwright tests for the EBP Restaurant backend.
+This workflow runs the Playwright tests for the RESTAURANT_ERP backend.
 
 ## Prerequisites
 

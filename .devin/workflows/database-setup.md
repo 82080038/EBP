@@ -1,10 +1,10 @@
 ---
-description: Setup and configure the EBP Restaurant database
+description: Setup and configure the RESTAURANT_ERP database
 ---
 
-# Database Setup Workflow
+# Database Setup Workflow - RESTAURANT_ERP
 
-This workflow helps you set up and configure the EBP Restaurant database.
+This workflow helps you set up and configure the RESTAURANT_ERP database.
 
 ## Prerequisites
 

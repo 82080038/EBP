@@ -1,10 +1,10 @@
 ---
-description: Start the EBP Restaurant development server
+description: Start the RESTAURANT_ERP development server
 ---
 
-# Development Server Workflow
+# Development Server Workflow - RESTAURANT_ERP
 
-This workflow starts the PHP development server for the EBP Restaurant backend.
+This workflow starts the PHP development server for the RESTAURANT_ERP backend.
 
 ## Steps
 

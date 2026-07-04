@@ -297,35 +297,69 @@ EBP_PLATFORM/
 
     │
     │
-    ├── RESTAURANT_ERP/
+    ├── RESTAURANT_ERP/ (Restaurant Management ERP)
     │
-    │   ├── DOCUMENTATION/
+    │   ├── BACKEND/
+    │   │   ├── public/
+    │   │   ├── core/
+    │   │   ├── modules/
+    │   │   ├── routes/
+    │   │   └── database/
     │   │
-    │   │   ├── EBP_PRODUCT_RESTAURANT_CAFE_ERP.md
-    │   │   ├── EBP_RESTAURANT_CAFE_BUSINESS_PROCESS.md
-    │   │   ├── EBP_RESTAURANT_CAFE_MODULE_SPECIFICATION.md
-    │   │   ├── EBP_RESTAURANT_CAFE_DATABASE_DESIGN.md
-    │   │   ├── EBP_RESTAURANT_CAFE_ERD.md
-    │   │   ├── EBP_RESTAURANT_CAFE_API_SPECIFICATION.md
-    │   │   ├── EBP_RESTAURANT_CAFE_BACKEND_ARCHITECTURE.md
-    │   │   └── EBP_RESTAURANT_CAFE_FRONTEND_ARCHITECTURE.md
+    │   ├── FRONTEND/
+    │   │   ├── mobile/
+    │   │   ├── kiosk/
+    │   │   ├── css/
+    │   │   └── js/
     │   │
     │   ├── DATABASE/
+    │   │   ├── EBP_DESAIN_DATABASE_RESTAURANT_CAFE.md
+    │   │   ├── EBP_ERD_RESTAURANT_CAFE.md
+    │   │   └── EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql
     │   │
-    │   │   ├── ebp_restaurant_schema.sql
-    │   │   │
-    │   │   │   ├── customers
-    │   │   │   ├── menu_categories
-    │   │   │   ├── menus
-    │   │   │   ├── recipes
-    │   │   │   ├── restaurant_tables
-    │   │   │   ├── orders
-    │   │   │   ├── order_details
-    │   │   │   ├── kitchen_orders
-    │   │   │   ├── stock_balances
-    │   │   │   └── other restaurant tables
-    │   │   │
-    │   │   └── README.md
+    │   └── DOCUMENTATION/
+    │       ├── ARSITEKTUR_APLIKASI/
+    │       ├── BLUEPRINT_PRODUK/
+    │       └── DESAIN_API/
+    │
+    │
+    ├── MY_WISATA/ (Travel Platform - Tour Guide Booking)
+    │
+    │   ├── app/ (PHP MVC Application)
+    │   ├── public/
+    │   ├── database/
+    │   ├── docs/
+    │   ├── tests/ (Playwright E2E tests)
+    │   └── .devin/ (Product-specific workflows)
+    │
+    │
+    ├── PANGLONG/ (Construction ERP - Material Distribution)
+    │
+    │   ├── frontend/ (PHP Application)
+    │   ├── database/
+    │   ├── docs/
+    │   ├── scripts/
+    │   ├── tests/ (Playwright E2E tests)
+    │   └── .devin/ (Product-specific workflows)
+    │
+    │
+    ├── PELAJARAN/ (Education Platform - Kurikulum Merdeka SD)
+    │
+    │   ├── README.md (Blueprint for development)
+    │   ├── config/
+    │   ├── api/
+    │   ├── assets/
+    │   └── views/
+    │
+    │
+    └── SAHAM/ (Finance Platform - Stock Trading Simulation)
+    │
+    │   ├── src/ (Python ML Application)
+    │   ├── frontend/
+    │   ├── docs/
+    │   ├── tests/ (Pytest tests)
+    │   ├── docker-compose.yml
+    │   └── .devin/ (Product-specific workflows)
     │   │
     │   ├── BACKEND/
     │   │

@@ -187,15 +187,15 @@ Contoh:
 
 
 ```
-Restaurant ERP
+RESTAURANT_ERP (Restaurant Management ERP)
 
-Hotel ERP
+MY_WISATA (Travel Platform - Tour Guide Booking)
 
-Agriculture ERP
+PANGLONG (Construction ERP - Material Distribution)
 
-Legal ERP
+PELAJARAN (Education Platform - Kurikulum Merdeka SD)
 
-Parking ERP
+SAHAM (Finance Platform - Stock Trading Simulation)
 ```
 
 
