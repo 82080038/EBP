@@ -1,59 +1,59 @@
-# Enterprise Business Platform (EBP)
+# Platform Bisnis Enterprise (EBP)
 
-# Platform Directory Structure Document
+# Dokumen Struktur Direktori Platform
 
 
-**Document ID:** EBP-PLATFORM-DIRECTORY-001
+**ID Dokumen:** EBP-PLATFORM-DIRECTORY-001
 
-**Version:** 1.0
+**Versi:** 1.0
 
-**Purpose:** Define the organizational structure of EBP as a software company platform
+**Tujuan:** Mendefinisikan struktur organisasi EBP sebagai platform perusahaan software
 
 
 
 ---
 
-# 1. Platform Philosophy
+# 1. Filosofi Platform
 
 
-EBP is not a single application. EBP is a **software company platform**.
+EBP bukan aplikasi tunggal. EBP adalah **platform perusahaan software**.
 
 
-Core principle:
+Prinsip inti:
 
 
 ```
 
-ONE PLATFORM
+SATU PLATFORM
 
 +
 
-MANY PRODUCTS
+BANYAK PRODUK
 
 ```
 
 
-Analogy:
+Analogi:
 
 
-- Microsoft has .NET Platform → Many Products
-- Google has Cloud Platform → Many Services
-- Salesforce has Platform → Many CRM Solutions
-- Oracle has Fusion Platform → Many Enterprise Applications
+- Microsoft memiliki Platform .NET → Banyak Produk
+- Google memiliki Platform Cloud → Banyak Layanan
+- Salesforce memiliki Platform → Banyak Solusi CRM
+- Oracle memiliki Platform Fusion → Banyak Aplikasi Enterprise
 
 
-EBP follows the same pattern.
+EBP mengikuti pola yang sama.
 
 
 ---
 
-# 2. Why Platform Approach?
+# 2. Mengapa Pendekatan Platform?
 
 
-## Problem with Copy-Paste Approach
+## Masalah dengan Pendekatan Copy-Paste
 
 
-If we copy EBP documents to every project:
+Jika kita menyalin dokumen EBP ke setiap proyek:
 
 
 ```
@@ -68,22 +68,22 @@ Parking_Project/
 ```
 
 
-Result:
+Hasil:
 
 
-- Multiple versions of core documents
-- Inconsistent standards
-- No shared improvements
-- Maintenance nightmare
-- No asset reuse
+- Beberapa versi dokumen inti
+- Standar tidak konsisten
+- Tidak ada perbaikan bersama
+- Mimpi buruk pemeliharaan
+- Tidak ada penggunaan kembali aset
 
 
-## Platform Approach Benefits
+## Manfaat Pendekatan Platform
 
 
 ```
 EBP_PLATFORM/
-    ├── CORE/ (Shared)
+    ├── CORE/ (Bersama)
     └── PRODUCTS/
         ├── Restaurant ERP
         ├── Hotel ERP
@@ -92,19 +92,19 @@ EBP_PLATFORM/
 ```
 
 
-Benefits:
+Manfaat:
 
 
-- Single source of truth
-- Shared improvements benefit all products
-- Consistent standards
-- Asset reuse
-- Scalable organization
+- Sumber kebenaran tunggal
+- Perbaikan bersama menguntungkan semua produk
+- Standar konsisten
+- Penggunaan kembali aset
+- Organisasi yang dapat diskalakan
 
 
 ---
 
-# 3. Platform Directory Structure
+# 3. Struktur Direktori Platform
 
 
 ```
@@ -436,25 +436,25 @@ EBP_PLATFORM/
 
 ---
 
-# 4. Core vs Product Classification
+# 4. Klasifikasi Inti vs Produk
 
 
-## Core Platform (Shared)
+## Platform Inti (Bersama)
 
 
-Located in: `EBP_PLATFORM/00-07/`
+Lokasi: `EBP_PLATFORM/00-07/`
 
 
-Documents and code that are:
+Dokumen dan kode yang:
 
 
-- Generic
-- Reusable
-- Not industry-specific
-- Foundation for all products
+- Generik
+- Dapat digunakan kembali
+- Tidak spesifik industri
+- Fondasi untuk semua produk
 
 
-Examples:
+Contoh:
 
 
 ```
@@ -462,15 +462,15 @@ EBP_CORE_PRINCIPLES.md
 EBP_SECURITY_ARCHITECTURE.md
 EBP_DATABASE_STANDARD.md
 EBP_ENGINE_ARCHITECTURE.md
-Authentication Module
-Permission Module
-Audit Module
-Inventory Engine
-Accounting Engine
+Modul Autentikasi
+Modul Izin
+Modul Audit
+Mesin Inventaris
+Mesin Akuntansi
 ```
 
 
-Used by:
+Digunakan oleh:
 
 
 - Restaurant ERP
@@ -478,57 +478,57 @@ Used by:
 - Parking System
 - Farming ERP
 - Legal System
-- All future products
+- Semua produk masa depan
 
 
 ---
 
-## Product Specific
+## Spesifik Produk
 
 
-Located in: `EBP_PLATFORM/PRODUCTS/{PRODUCT_NAME}/`
+Lokasi: `EBP_PLATFORM/PRODUCTS/{PRODUCT_NAME}/`
 
 
-Documents and code that are:
+Dokumen dan kode yang:
 
 
-- Industry-specific
-- Business process-specific
-- Module-specific
-- UI-specific
+- Spesifik industri
+- Spesifik proses bisnis
+- Spesifik modul
+- Spesifik UI
 
 
-Examples:
+Contoh:
 
 
 ```
 EBP_RESTAURANT_CAFE_BUSINESS_PROCESS.md
 EBP_RESTAURANT_CAFE_MODULE_SPECIFICATION.md
-Restaurant POS Interface
-Kitchen Display System
-Menu Management
+Antarmuka POS Restaurant
+Sistem Tampilan Dapur
+Manajemen Menu
 ```
 
 
-Used by:
+Digunakan oleh:
 
 
-- Only Restaurant ERP
+- Hanya Restaurant ERP
 
 
 ---
 
-# 5. Git Repository Strategy
+# 5. Strategi Repositori Git
 
 
-## Git Organization
+## Organisasi Git
 
 
 ```
-EBP-PLATFORM (Organization)
+EBP-PLATFORM (Organisasi)
 
 
-Repositories:
+Repositori:
 
 
 1. ebp-constitution
@@ -547,10 +547,10 @@ Repositories:
 ```
 
 
-## Repository Structure
+## Struktur Repositori
 
 
-### Core Repositories (Shared)
+### Repositori Inti (Bersama)
 
 
 ```
@@ -595,7 +595,7 @@ ebp-shared-engines/
 ```
 
 
-### Product Repositories (Independent)
+### Repositori Produk (Independen)
 
 
 ```
@@ -620,13 +620,13 @@ ebp-hotel-erp/
 
 ---
 
-# 6. Dependency Management
+# 6. Manajemen Dependensi
 
 
-## Product Depends On Core
+## Produk Bergantung pada Inti
 
 
-Each product repository has:
+Setiap repositori produk memiliki:
 
 
 ```
@@ -636,7 +636,7 @@ requirements.txt (Python)
 ```
 
 
-Core dependencies:
+Dependensi inti:
 
 
 ```json
@@ -654,21 +654,21 @@ Core dependencies:
 
 ---
 
-# 7. Versioning Strategy
+# 7. Strategi Versi
 
 
-## Semantic Versioning
+## Versi Semantik
 
 
 Format: `MAJOR.MINOR.PATCH`
 
 
-- **MAJOR**: Breaking changes
-- **MINOR**: New features, backward compatible
-- **PATCH**: Bug fixes
+- **MAJOR**: Perubahan yang merusak
+- **MINOR**: Fitur baru, kompatibel mundur
+- **PATCH**: Perbaikan bug
 
 
-## Core Platform Versioning
+## Versi Platform Inti
 
 
 ```
@@ -678,7 +678,7 @@ ebp-inventory-engine: 2.1.0
 ```
 
 
-## Product Versioning
+## Versi Produk
 
 
 ```
@@ -687,132 +687,132 @@ ebp-hotel-erp: 1.0.0
 ```
 
 
-## Compatibility Matrix
+## Matriks Kompatibilitas
 
 
-Document which core version works with which product version.
-
-
----
-
-# 8. Developer Contribution Rules
-
-
-## Core Platform Changes
-
-
-Who can change:
-
-
-- Core Team Only
-- Requires Architecture Review
-- Requires Impact Analysis
-- Requires Testing across all products
-
-
-Process:
-
-
-```
-
-Proposal
-
-↓
-
-Architecture Review
-
-↓
-
-Impact Analysis
-
-↓
-
-Implementation
-
-↓
-
-Cross-Product Testing
-
-↓
-
-Release
-
-```
+Dokumentasikan versi inti mana yang bekerja dengan versi produk mana.
 
 
 ---
 
-## Product Changes
+# 8. Aturan Kontribusi Pengembang
 
 
-Who can change:
+## Perubahan Platform Inti
 
 
-- Product Team
-- Follows Core Standards
-- No impact on other products
+Siapa yang dapat mengubah:
 
 
-Process:
+- Hanya Tim Inti
+- Memerlukan Tinjauan Arsitektur
+- Memerlukan Analisis Dampak
+- Memerlukan Pengujian lintas produk
+
+
+Proses:
 
 
 ```
 
-Feature Request
+Usulan
 
 ↓
 
-Product Review
+Tinjauan Arsitektur
 
 ↓
 
-Implementation
+Analisis Dampak
 
 ↓
 
-Product Testing
+Implementasi
 
 ↓
 
-Release
+Pengujian Lintas Produk
+
+↓
+
+Rilis
 
 ```
 
 
 ---
 
-# 9. Release Management
+## Perubahan Produk
 
 
-## Core Platform Release
+Siapa yang dapat mengubah:
 
 
-Frequency:
+- Tim Produk
+- Mengikuti Standar Inti
+- Tidak ada dampak pada produk lain
 
 
-- Quarterly (Major)
-- Monthly (Minor)
-- Weekly (Patch)
-
-
-Process:
+Proses:
 
 
 ```
 
-Develop
+Permintaan Fitur
 
 ↓
 
-Test
+Tinjauan Produk
 
 ↓
 
-Document
+Implementasi
 
 ↓
 
-Release Notes
+Pengujian Produk
+
+↓
+
+Rilis
+
+```
+
+
+---
+
+# 9. Manajemen Rilis
+
+
+## Rilis Platform Inti
+
+
+Frekuensi:
+
+
+- Kuartalan (Major)
+- Bulanan (Minor)
+- Mingguan (Patch)
+
+
+Proses:
+
+
+```
+
+Kembangkan
+
+↓
+
+Uji
+
+↓
+
+Dokumentasikan
+
+↓
+
+Catatan Rilis
 
 ↓
 
@@ -820,42 +820,42 @@ Deploy
 
 ↓
 
-Notify Product Teams
+Beritahu Tim Produk
 
 ```
 
 
 ---
 
-## Product Release
+## Rilis Produk
 
 
-Frequency:
+Frekuensi:
 
 
-- As needed (Major)
-- Monthly (Minor)
-- Weekly (Patch)
+- Sesuai kebutuhan (Major)
+- Bulanan (Minor)
+- Mingguan (Patch)
 
 
-Process:
+Proses:
 
 
 ```
 
-Develop
+Kembangkan
 
 ↓
 
-Test
+Uji
 
 ↓
 
-Document
+Dokumentasikan
 
 ↓
 
-Release Notes
+Catatan Rilis
 
 ↓
 
@@ -866,87 +866,87 @@ Deploy
 
 ---
 
-# 10. Documentation Standards
+# 10. Standar Dokumentasi
 
 
-## Core Documentation
+## Dokumentasi Inti
 
 
-Location: `EBP_PLATFORM/00-07/`
+Lokasi: `EBP_PLATFORM/00-07/`
 
 
-Standards:
+Standar:
 
 
-- Must be generic
-- Must be reusable
-- Must not reference specific industry
-- Must use EBP terminology
-
-
----
-
-## Product Documentation
-
-
-Location: `EBP_PLATFORM/PRODUCTS/{PRODUCT_NAME}/DOCUMENTATION/`
-
-
-Standards:
-
-
-- Must reference core standards
-- Must be industry-specific
-- Must follow documentation templates
-- Must include business process
+- Harus generik
+- Harus dapat digunakan kembali
+- Tidak boleh merujuk industri spesifik
+- Harus menggunakan terminologi EBP
 
 
 ---
 
-# 11. Code Sharing Rules
+## Dokumentasi Produk
 
 
-## Core Code
+Lokasi: `EBP_PLATFORM/PRODUCTS/{PRODUCT_NAME}/DOCUMENTATION/`
 
 
-Located in: `EBP_PLATFORM/06_CORE_CODE/` and `EBP_PLATFORM/07_SHARED_ENGINES/`
+Standar:
 
 
-Rules:
-
-
-- Must be framework-agnostic
-- Must be tested independently
-- Must have comprehensive documentation
-- Must follow coding standards
+- Harus merujuk standar inti
+- Harus spesifik industri
+- Harus mengikuti template dokumentasi
+- Harus menyertakan proses bisnis
 
 
 ---
 
-## Product Code
+# 11. Aturan Berbagi Kode
 
 
-Located in: `EBP_PLATFORM/PRODUCTS/{PRODUCT_NAME}/BACKEND/`
+## Kode Inti
 
 
-Rules:
+Lokasi: `EBP_PLATFORM/06_CORE_CODE/` dan `EBP_PLATFORM/07_SHARED_ENGINES/`
 
 
-- Can use core code
-- Can extend core code
-- Cannot modify core code directly
-- Must follow core standards
+Aturan:
+
+
+- Harus agnostik framework
+- Harus diuji secara independen
+- Harus memiliki dokumentasi komprehensif
+- Harus mengikuti standar coding
 
 
 ---
 
-# 12. Migration Strategy
+## Kode Produk
 
 
-## Existing Structure
+Lokasi: `EBP_PLATFORM/PRODUCTS/{PRODUCT_NAME}/BACKEND/`
 
 
-Current:
+Aturan:
+
+
+- Dapat menggunakan kode inti
+- Dapat memperluas kode inti
+- Tidak dapat memodifikasi kode inti secara langsung
+- Harus mengikuti standar inti
+
+
+---
+
+# 12. Strategi Migrasi
+
+
+## Struktur yang Ada
+
+
+Saat ini:
 
 
 ```
@@ -966,10 +966,10 @@ Current:
 ```
 
 
-## Migration Plan
+## Rencana Migrasi
 
 
-Phase 1: Reorganize Core
+Fase 1: Reorganisasi Inti
 
 
 ```
@@ -984,7 +984,7 @@ Phase 1: Reorganize Core
 ```
 
 
-Phase 2: Move Product Documentation
+Fase 2: Pindahkan Dokumentasi Produk
 
 
 ```
@@ -995,7 +995,7 @@ Phase 2: Move Product Documentation
 ```
 
 
-Phase 3: Create Product Folders
+Fase 3: Buat Folder Produk
 
 
 ```
@@ -1009,224 +1009,224 @@ PRODUCTS/
 
 ---
 
-# 13. Asset Classification
+# 13. Klasifikasi Aset
 
 
-## Core Assets (Company IP)
+## Aset Inti (IP Perusahaan)
 
 
-- EBP Constitution
-- EBP Architecture
-- EBP Standards
-- EBP Engines
-- Core Code
+- Konstitusi EBP
+- Arsitektur EBP
+- Standar EBP
+- Mesin EBP
+- Kode Inti
 
 
-Value:
+Nilai:
 
 
-- Long-term
-- Reusable
-- Competitive advantage
-
-
----
-
-## Product Assets (Product IP)
-
-
-- Business Process
-- Industry Modules
-- Product UI
-- Product Database
-
-
-Value:
-
-
-- Medium-term
-- Industry-specific
-- Revenue generator
+- Jangka panjang
+- Dapat digunakan kembali
+- Keunggulan kompetitif
 
 
 ---
 
-# 14. Team Structure
+## Aset Produk (IP Produk)
 
 
-## Core Team
+- Proses Bisnis
+- Modul Industri
+- UI Produk
+- Database Produk
 
 
-Responsibility:
+Nilai:
 
 
-- Maintain core platform
-- Develop shared engines
-- Set standards
-- Review architecture
-
-
----
-
-## Product Teams
-
-
-Responsibility:
-
-
-- Develop products
-- Implement business processes
-- Build industry features
-- Customer support
+- Jangka menengah
+- Spesifik industri
+- Generator pendapatan
 
 
 ---
 
-# 15. Knowledge Management
+# 14. Struktur Tim
 
 
-## Core Knowledge
+## Tim Inti
 
 
-Location: `EBP_PLATFORM/00-07/`
+Tanggung jawab:
 
 
-Access:
-
-
-- All teams
-- Read-only for product teams
-- Write-only for core team
-
-
----
-
-## Product Knowledge
-
-
-Location: `EBP_PLATFORM/PRODUCTS/{PRODUCT_NAME}/DOCUMENTATION/`
-
-
-Access:
-
-
-- Product team
-- Core team (read-only)
+- Memelihara platform inti
+- Mengembangkan mesin bersama
+- Menetapkan standar
+- Meninjau arsitektur
 
 
 ---
 
-# 16. Quality Assurance
+## Tim Produk
 
 
-## Core Testing
+Tanggung jawab:
 
 
-- Unit tests
-- Integration tests
-- Cross-product compatibility tests
-- Performance tests
-
-
----
-
-## Product Testing
-
-
-- Unit tests
-- Integration tests
-- Business process tests
-- User acceptance tests
+- Mengembangkan produk
+- Mengimplementasikan proses bisnis
+- Membangun fitur industri
+- Dukungan pelanggan
 
 
 ---
 
-# 17. Deployment Strategy
+# 15. Manajemen Pengetahuan
 
 
-## Core Deployment
+## Pengetahuan Inti
 
 
-- Shared infrastructure
-- Versioned releases
-- Rollback capability
+Lokasi: `EBP_PLATFORM/00-07/`
+
+
+Akses:
+
+
+- Semua tim
+- Hanya baca untuk tim produk
+- Hanya tulis untuk tim inti
+
+
+---
+
+## Pengetahuan Produk
+
+
+Lokasi: `EBP_PLATFORM/PRODUCTS/{PRODUCT_NAME}/DOCUMENTATION/`
+
+
+Akses:
+
+
+- Tim produk
+- Tim inti (hanya baca)
+
+
+---
+
+# 16. Jaminan Kualitas
+
+
+## Pengujian Inti
+
+
+- Unit test
+- Integration test
+- Uji kompatibilitas lintas produk
+- Uji performa
+
+
+---
+
+## Pengujian Produk
+
+
+- Unit test
+- Integration test
+- Uji proses bisnis
+- Uji penerimaan pengguna
+
+
+---
+
+# 17. Strategi Deployment
+
+
+## Deployment Inti
+
+
+- Infrastruktur bersama
+- Rilis berversi
+- Kemampuan rollback
 - Monitoring
 
 
 ---
 
-## Product Deployment
+## Deployment Produk
 
 
-- Independent deployment
-- Product-specific infrastructure
-- Versioned releases
-- Rollback capability
-
-
----
-
-# 18. Security
-
-
-## Core Security
-
-
-- Authentication
-- Authorization
-- Encryption
-- Audit logging
-- Security patches
+- Deployment independen
+- Infrastruktur spesifik produk
+- Rilis berversi
+- Kemampuan rollback
 
 
 ---
 
-## Product Security
+# 18. Keamanan
 
 
-- Business rule validation
-- Input validation
-- Permission checks
-- Product-specific security
+## Keamanan Inti
 
 
----
-
-# 19. Support and Maintenance
-
-
-## Core Support
-
-
-- Core team responsibility
-- SLA defined
-- Priority based on impact
+- Autentikasi
+- Otorisasi
+- Enkripsi
+- Logging audit
+- Patch keamanan
 
 
 ---
 
-## Product Support
+## Keamanan Produk
 
 
-- Product team responsibility
-- SLA defined
-- Customer-facing
+- Validasi aturan bisnis
+- Validasi input
+- Pemeriksaan izin
+- Keamanan spesifik produk
 
 
 ---
 
-# 20. Growth Strategy
+# 19. Dukungan dan Pemeliharaan
 
 
-## Platform Growth
+## Dukungan Inti
 
 
-Add new core capabilities:
+- Tanggung jawab tim inti
+- SLA didefinisikan
+- Prioritas berdasarkan dampak
+
+
+---
+
+## Dukungan Produk
+
+
+- Tanggung jawab tim produk
+- SLA didefinisikan
+- Berhadapan dengan pelanggan
+
+
+---
+
+# 20. Strategi Pertumbuhan
+
+
+## Pertumbuhan Platform
+
+
+Tambahkan kemampuan inti baru:
 
 
 ```
 06_CORE_CODE/
-    ├── AI Integration/
+    ├── Integrasi AI/
     ├── Blockchain/
     └── IoT/
 ```
@@ -1234,10 +1234,10 @@ Add new core capabilities:
 
 ---
 
-## Product Growth
+## Pertumbuhan Produk
 
 
-Add new products:
+Tambahkan produk baru:
 
 
 ```
@@ -1254,48 +1254,49 @@ PRODUCTS/
 
 ---
 
-# 21. Conclusion
+# 21. Kesimpulan
 
 
-EBP Platform Directory Structure defines:
+Struktur Direktori Platform EBP mendefinisikan:
 
 
 ```
 
-ONE PLATFORM
+SATU PLATFORM
 
 +
 
-MANY PRODUCTS
+BANYAK PRODUK
 
 ```
 
 
-This structure enables:
+Struktur ini memungkinkan:
 
 
-- Asset reuse
-- Consistent standards
-- Scalable organization
-- Efficient development
-- Long-term sustainability
+- Penggunaan kembali aset
+- Standar konsisten
+- Organisasi yang dapat diskalakan
+- Pengembangan efisien
+- Keberlanjutan jangka panjang
 
 
-EBP is not just building applications.
+EBP tidak hanya membangun aplikasi.
 
-EBP is building a software company platform.
+
+EBP membangun platform perusahaan software.
 
 
 ---
 
-# Document End
+# Akhir Dokumen
 
 
-Document ID:
+ID Dokumen:
 
 EBP-PLATFORM-DIRECTORY-001
 
 
-Version:
+Versi:
 
 1.0

@@ -1,40 +1,40 @@
-# EBP Core Code
+# Kode Inti EBP
 
-**Version:** 1.0.0
+**Versi:** 1.0.0
 
-**Status:** Initial Implementation
-
----
-
-# Overview
-
-This directory contains the core components of the Enterprise Business Platform (EBP). These components are designed to be reused across all EBP products and provide the foundational functionality for authentication, database connectivity, API handling, and more.
+**Status:** Implementasi Awal
 
 ---
 
-# Core Components
+# Ikhtisar
 
-## Authentication
+Direktori ini berisi komponen inti dari Platform Bisnis Enterprise (EBP). Komponen-komponen ini dirancang untuk digunakan kembali di seluruh produk EBP dan menyediakan fungsionalitas dasar untuk autentikasi, konektivitas database, penanganan API, dan lainnya.
 
-**Location:** `Authentication/`
+---
 
-**Components:**
-- `JWT.php` - JSON Web Token implementation for authentication
-- `AuthMiddleware.php` - Authentication middleware for API requests
+# Komponen Inti
 
-**Features:**
-- JWT token encoding and decoding
-- Token validation with expiration checking
-- Role-based authentication
-- Tenant and branch context management
-- Secure secret key management
+## Autentikasi
 
-**Usage:**
+**Lokasi:** `Authentication/`
+
+**Komponen:**
+- `JWT.php` - Implementasi JSON Web Token untuk autentikasi
+- `AuthMiddleware.php` - Middleware autentikasi untuk permintaan API
+
+**Fitur:**
+- Enkoding dan dekoding token JWT
+- Validasi token dengan pemeriksaan kedaluwarsa
+- Autentikasi berbasis peran
+- Manajemen konteks tenant dan cabang
+- Manajemen kunci rahasia yang aman
+
+**Penggunaan:**
 ```php
 use EBP\Core\Authentication\JWT;
 use EBP\Core\Authentication\AuthMiddleware;
 
-// Create JWT token
+// Buat token JWT
 $jwt = new JWT();
 $token = $jwt->encode([
     'user_id' => 1,
@@ -45,73 +45,73 @@ $token = $jwt->encode([
     'exp' => time() + (60 * 60 * 8)
 ]);
 
-// Authenticate request
+// Autentikasi permintaan
 $middleware = new AuthMiddleware();
 $payload = $middleware->authenticate();
 ```
 
 ---
 
-## Permission
+## Izin (Permission)
 
-**Location:** `Permission/`
+**Lokasi:** `Permission/`
 
-**Status:** To be implemented
+**Status:** Akan diimplementasikan
 
-**Planned Components:**
-- `PermissionMiddleware.php` - Permission checking middleware
-- `PermissionService.php` - Permission management service
+**Komponen yang Direncanakan:**
+- `PermissionMiddleware.php` - Middleware pemeriksaan izin
+- `PermissionService.php` - Layanan manajemen izin
 
 ---
 
 ## Tenant
 
-**Location:** `Tenant/`
+**Lokasi:** `Tenant/`
 
-**Status:** To be implemented
+**Status:** Akan diimplementasikan
 
-**Planned Components:**
-- `TenantMiddleware.php` - Tenant context middleware
-- `TenantService.php` - Tenant management service
+**Komponen yang Direncanakan:**
+- `TenantMiddleware.php` - Middleware konteks tenant
+- `TenantService.php` - Layanan manajemen tenant
 
 ---
 
 ## Audit
 
-**Location:** `Audit/`
+**Lokasi:** `Audit/`
 
-**Status:** To be implemented
+**Status:** Akan diimplementasikan
 
-**Planned Components:**
-- `Audit.php` - Audit logging utility
-- `AuditService.php` - Audit management service
+**Komponen yang Direncanakan:**
+- `Audit.php` - Utilitas logging audit
+- `AuditService.php` - Layanan manajemen audit
 
 ---
 
 ## Database
 
-**Location:** `Database/`
+**Lokasi:** `Database/`
 
-**Components:**
-- `Database.php` - Database connection manager
+**Komponen:**
+- `Database.php` - Manajer koneksi database
 
-**Features:**
-- Singleton pattern for connection management
-- Socket and host connection fallback
-- PDO with proper error handling
-- Connection testing
-- Database information retrieval
-- Environment variable support
+**Fitur:**
+- Pola singleton untuk manajemen koneksi
+- Fallback koneksi socket dan host
+- PDO dengan penanganan error yang tepat
+- Pengujian koneksi
+- Pengambilan informasi database
+- Dukungan variabel lingkungan
 
-**Usage:**
+**Penggunaan:**
 ```php
 use EBP\Core\Database\Database;
 
-// Get database instance
+// Dapatkan instance database
 $db = Database::getInstance();
 $pdo = $db->connect();
 
-// Or with custom config
+// Atau dengan konfigurasi kustom
 $db = new Database([
     'host' => 'localhost',
     'dbname' => 'my_database',
@@ -120,12 +120,12 @@ $db = new Database([
 ]);
 $pdo = $db->connect();
 
-// Test connection
+// Uji koneksi
 if ($db->testConnection()) {
-    echo "Connection successful";
+    echo "Koneksi berhasil";
 }
 
-// Get database info
+// Dapatkan info database
 $info = $db->getDatabaseInfo();
 ```
 
@@ -133,45 +133,45 @@ $info = $db->getDatabaseInfo();
 
 ## API
 
-**Location:** `API/`
+**Lokasi:** `API/`
 
-**Components:**
-- `Response.php` - Standardized API response handler
+**Komponen:**
+- `Response.php` - Penangan respons API yang distandarisasi
 
-**Features:**
-- JSON response formatting
-- Success and error responses
-- HTTP status code management
-- Validation error handling
-- Pagination support
-- Standard response format
+**Fitur:**
+- Format respons JSON
+- Respons sukses dan error
+- Manajemen kode status HTTP
+- Penanganan error validasi
+- Dukungan paginasi
+- Format respons standar
 
-**Usage:**
+**Penggunaan:**
 ```php
 use EBP\Core\API\Response;
 
-// Success response
-Response::success($data, 'Operation successful');
+// Respons sukses
+Response::success($data, 'Operasi berhasil');
 
-// Error response
-Response::error('Invalid input', 400, $errors);
+// Respons error
+Response::error('Input tidak valid', 400, $errors);
 
-// Validation error
+// Error validasi
 Response::validationError($errors);
 
-// Not found
-Response::notFound('Resource not found');
+// Tidak ditemukan
+Response::notFound('Sumber daya tidak ditemukan');
 
-// Unauthorized
-Response::unauthorized('Invalid credentials');
+// Tidak terautentikasi
+Response::unauthorized('Kredensial tidak valid');
 
-// Forbidden
-Response::forbidden('Access denied');
+// Dilarang
+Response::forbidden('Akses ditolak');
 
-// Server error
-Response::serverError('Internal error');
+// Error server
+Response::serverError('Error internal');
 
-// Paginated response
+// Respons terpaginasi
 Response::paginated($data, $total, $page, $limit);
 ```
 
@@ -179,39 +179,39 @@ Response::paginated($data, $total, $page, $limit);
 
 ## Logging
 
-**Location:** `Logging/`
+**Lokasi:** `Logging/`
 
-**Status:** To be implemented
+**Status:** Akan diimplementasikan
 
-**Planned Components:**
-- `Logger.php` - Logging utility
-- `LogService.php` - Log management service
+**Komponen yang Direncanakan:**
+- `Logger.php` - Utilitas logging
+- `LogService.php` - Layanan manajemen log
 
 ---
 
 ## File
 
-**Location:** `File/`
+**Lokasi:** `File/`
 
-**Status:** To be implemented
+**Status:** Akan diimplementasikan
 
-**Planned Components:**
-- `FileManager.php` - File management utility
-- `StorageService.php` - Storage management service
+**Komponen yang Direncanakan:**
+- `FileManager.php` - Utilitas manajemen file
+- `StorageService.php` - Layanan manajemen penyimpanan
 
 ---
 
-# Configuration
+# Konfigurasi
 
-## Environment Variables
+## Variabel Lingkungan
 
-The core components support the following environment variables:
+Komponen inti mendukung variabel lingkungan berikut:
 
 ```bash
-# JWT Configuration
-JWT_SECRET=your_secret_key_here
+# Konfigurasi JWT
+JWT_SECRET=kunci_rahasia_anda_di_sini
 
-# Database Configuration
+# Konfigurasi Database
 DB_HOST=localhost
 DB_SOCKET=/opt/lampp/var/mysql/mysql.sock
 DB_NAME=ebp_platform_db
@@ -221,67 +221,67 @@ DB_PASSWORD=ebp_secure_password_2026
 
 ---
 
-# Integration Guide
+# Panduan Integrasi
 
-## Using EBP Core in Products
+## Menggunakan Inti EBP dalam Produk
 
-1. **Include EBP Core in your product:**
+1. **Sertakan Inti EBP dalam produk Anda:**
    ```php
    require_once '/path/to/EBP/06_CORE_CODE/Authentication/JWT.php';
    require_once '/path/to/EBP/06_CORE_CODE/Database/Database.php';
    ```
 
-2. **Use namespace-based imports:**
+2. **Gunakan impor berbasis namespace:**
    ```php
    use EBP\Core\Authentication\JWT;
    use EBP\Core\Database\Database;
    ```
 
-3. **Configure environment variables:**
+3. **Konfigurasikan variabel lingkungan:**
    ```bash
-   export JWT_SECRET=your_secret
-   export DB_NAME=your_database
+   export JWT_SECRET=kunci_rahasia_anda
+   export DB_NAME=database_anda
    ```
 
 ---
 
-# Development Status
+# Status Pengembangan
 
-| Component | Status | Priority |
+| Komponen | Status | Prioritas |
 |-----------|--------|----------|
-| Authentication | ✅ Complete | High |
-| Permission | ⏳ Pending | High |
-| Tenant | ⏳ Pending | High |
-| Audit | ⏳ Pending | Medium |
-| Database | ✅ Complete | High |
-| API | ✅ Complete | High |
-| Logging | ⏳ Pending | Medium |
-| File | ⏳ Pending | Low |
+| Autentikasi | ✅ Selesai | Tinggi |
+| Izin | ⏳ Tertunda | Tinggi |
+| Tenant | ⏳ Tertunda | Tinggi |
+| Audit | ⏳ Tertunda | Sedang |
+| Database | ✅ Selesai | Tinggi |
+| API | ✅ Selesai | Tinggi |
+| Logging | ⏳ Tertunda | Sedang |
+| File | ⏳ Tertunda | Rendah |
 
 ---
 
-# Next Steps
+# Langkah Selanjutnya
 
-1. **Complete remaining core components**
-   - Implement Permission middleware
-   - Implement Tenant service
-   - Implement Audit logging
+1. **Selesaikan komponen inti yang tersisa**
+   - Implementasikan middleware Izin
+   - Implementasikan layanan Tenant
+   - Implementasikan logging Audit
 
-2. **Add unit tests**
-   - Test JWT encoding/decoding
-   - Test database connections
-   - Test API responses
+2. **Tambahkan unit test**
+   - Uji enkoding/dekoding JWT
+   - Uji koneksi database
+   - Uji respons API
 
-3. **Add documentation**
-   - API documentation
-   - Usage examples
-   - Integration guides
+3. **Tambahkan dokumentasi**
+   - Dokumentasi API
+   - Contoh penggunaan
+   - Panduan integrasi
 
-4. **Create shared engines**
-   - Pricing Engine
-   - Inventory Engine
-   - Accounting Engine
+4. **Buat mesin bersama**
+   - Mesin Harga
+   - Mesin Inventaris
+   - Mesin Akuntansi
 
 ---
 
-**End of Document**
+**Akhir Dokumen**

@@ -10,8 +10,6 @@
  * @version 1.0.0
  */
 
-namespace EBP\Core\Authentication;
-
 class JWT
 {
     private $secret;

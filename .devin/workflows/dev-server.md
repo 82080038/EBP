@@ -8,6 +8,24 @@ This workflow starts the PHP development server for the EBP Restaurant backend.
 
 ## Steps
 
+### Windows (XAMPP)
+
+1. **Start XAMPP services**
+   - Open XAMPP Control Panel
+   - Start Apache and MySQL services
+
+2. **Navigate to backend directory**
+   ```bash
+   cd C:\xampp\htdocs\EBP\PLATFORM_BISNIS_ENTERPRISE\PRODUCTS\RESTAURANT_ERP\BACKEND
+   ```
+
+3. **Start PHP development server**
+   ```bash
+   php -S localhost:8000 -t public
+   ```
+
+### Linux (XAMPP/LAMP)
+
 1. **Start XAMPP services** (if not already running)
    ```bash
    echo "8208" | sudo -S /opt/lampp/lampp start
@@ -15,7 +33,7 @@ This workflow starts the PHP development server for the EBP Restaurant backend.
 
 2. **Navigate to backend directory**
    ```bash
-   cd /opt/lampp/htdocs/EBP/ebp-restaurant-backend
+   cd /opt/lampp/htdocs/EBP/PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/BACKEND
    ```
 
 3. **Start PHP development server**

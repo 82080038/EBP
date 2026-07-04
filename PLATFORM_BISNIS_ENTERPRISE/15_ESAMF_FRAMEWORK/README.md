@@ -1,71 +1,71 @@
-# Enterprise Software Asset Management Framework (ESAMF)
+# Framework Manajemen Aset Software Enterprise (ESAMF)
 
-**Document ID:** ESAMF-README-001
+**ID Dokumen:** ESAMF-README-001
 
-**Version:** 1.0
+**Versi:** 1.0
 
-**Purpose:** Overview of the Enterprise Software Asset Management Framework
-
----
-
-# 1. What is ESAMF?
-
-**Enterprise Software Asset Management Framework (ESAMF)** is the official methodology of Petrick Software for managing software assets across their entire lifecycle—from discovery through migration, maintenance, and retirement.
-
-ESAMF transforms legacy codebases from "old projects" into **Software Assets** that can be:
-
-- **Audited** systematically
-- **Classified** by reusability
-- **Extracted** into reusable components
-- **Managed** throughout their lifecycle
-- **Platformized** for future products
+**Tujuan:** Ikhtisar Framework Manajemen Aset Software Enterprise
 
 ---
 
-# 2. Why ESAMF Matters
+# 1. Apa itu ESAMF?
 
-## Problem: Code as Liability vs Code as Asset
+**Framework Manajemen Aset Software Enterprise (ESAMF)** adalah metodologi resmi Petrick Software untuk mengelola aset software selama seluruh siklus hidupnya—dari penemuan melalui migrasi, pemeliharaan, dan pensiun.
 
-**Without ESAMF:**
-- Old projects are abandoned
-- Code is rewritten repeatedly
-- Knowledge is lost
-- No asset inventory
-- No systematic reuse
+ESAMF mengubah basis kode warisan dari "proyek lama" menjadi **Aset Software** yang dapat:
 
-**With ESAMF:**
-- Old projects become assets
-- Code is reused systematically
-- Knowledge is preserved
-- Complete asset inventory
-- Strategic reuse platform
-
-## Industry Best Practices
-
-Companies like Microsoft, SAP, Oracle, JetBrains, Atlassian, and Google:
-
-- Never discard mature code
-- Maintain Software Asset Inventory
-- Practice Code Reuse
-- Perform Refactoring
-- Implement Componentization
-- Build Platformization
-
-ESAMF brings these practices to Petrick Software.
+- **Diaudit** secara sistematis
+- **Diklasifikasikan** berdasarkan penggunaan kembali
+- **Diekstrak** menjadi komponen yang dapat digunakan kembali
+- **Dikelola** selama siklus hidupnya
+- **Diplatformkan** untuk produk masa depan
 
 ---
 
-# 3. ESAMF Philosophy
+# 2. Mengapa ESAMF Penting
+
+## Masalah: Kode sebagai Kewajiban vs Kode sebagai Aset
+
+**Tanpa ESAMF:**
+- Proyek lama ditinggalkan
+- Kode ditulis ulang berulang kali
+- Pengetahuan hilang
+- Tidak ada inventaris aset
+- Tidak ada penggunaan kembali yang sistematis
+
+**Dengan ESAMF:**
+- Proyek lama menjadi aset
+- Kode digunakan kembali secara sistematis
+- Pengetahuan dilestarikan
+- Inventaris aset lengkap
+- Platform penggunaan kembali strategis
+
+## Praktik Terbaik Industri
+
+Perusahaan seperti Microsoft, SAP, Oracle, JetBrains, Atlassian, dan Google:
+
+- Tidak pernah membuang kode yang matang
+- Memelihara Inventaris Aset Software
+- Melakukan Penggunaan Kembali Kode
+- Melakukan Refactoring
+- Mengimplementasikan Komponenisasi
+- Membangun Platformisasi
+
+ESAMF membawa praktik-praktik ini ke Petrick Software.
+
+---
+
+# 3. Filosofi ESAMF
 
 ```
-OLD REPOSITORY → AUDIT → CLASSIFY → EXTRACT → MANAGE → PLATFORMIZE → EBP ASSET
+REPOSITORI LAMA → AUDIT → KLASIFIKASI → EKSTRAKSI → MANAJEMEN → PLATFORMISASI → ASET EBP
 ```
 
-Every line of code ever written is a **company asset**, not a project artifact.
+Setiap baris kode yang pernah ditulis adalah **aset perusahaan**, bukan artefak proyek.
 
 ---
 
-# 4. ESAMF Structure
+# 4. Struktur ESAMF
 
 ```
 11_ENTERPRISE_SOFTWARE_ASSET_MANAGEMENT_FRAMEWORK/
@@ -139,9 +139,9 @@ Every line of code ever written is a **company asset**, not a project artifact.
 
 ---
 
-# 5. Repository Management Structure
+# 5. Struktur Manajemen Repositori
 
-Each repository has 10 management documents:
+Setiap repositori memiliki 10 dokumen manajemen:
 
 ```
 {REPOSITORY}/
@@ -160,67 +160,67 @@ Each repository has 10 management documents:
 
 ---
 
-# 6. ESAMF Workflow
+# 6. Alur Kerja ESAMF
 
-## Phase 1: Repository Audit
-- Analyze current state
-- Identify modules
-- Document database structure
-- Assess code quality
+## Fase 1: Audit Repositori
+- Analisis kondisi saat ini
+- Identifikasi modul
+- Dokumentasikan struktur database
+- Evaluasi kualitas kode
 
-## Phase 2: Asset Classification
-- Rate components by reusability (1-5 stars)
-- Classify as Core, Shared, or Product-specific
-- Create Software Asset Inventory
+## Fase 2: Klasifikasi Aset
+- Beri peringkat komponen berdasarkan penggunaan kembali (1-5 bintang)
+- Klasifikasikan sebagai Inti, Bersama, atau Khusus Produk
+- Buat Inventaris Aset Software
 
-## Phase 3: Component Extraction
-- Extract reusable components
-- Refactor for platform compatibility
-- Document extraction process
+## Fase 3: Ekstraksi Komponen
+- Ekstrak komponen yang dapat digunakan kembali
+- Refactor untuk kompatibilitas platform
+- Dokumentasikan proses ekstraksi
 
-## Phase 4: Management
-- Manage assets throughout lifecycle
-- Update database standards
-- Integrate with EBP architecture
+## Fase 4: Manajemen
+- Kelola aset selama siklus hidup
+- Perbarui standar database
+- Integrasikan dengan arsitektur EBP
 
-## Phase 5: Platformization
-- Build as EBP product
-- Enable cross-product reuse
-- Document in Enterprise Knowledge Graph
+## Fase 5: Platformisasi
+- Bangun sebagai produk EBP
+- Aktifkan penggunaan kembali lintas produk
+- Dokumentasikan dalam Graf Pengetahuan Enterprise
 
 ---
 
-# 7. Asset Classification Matrix
+# 7. Matriks Klasifikasi Aset
 
-| Classification | Destination | Examples |
+| Klasifikasi | Tujuan | Contoh |
 |---------------|-------------|----------|
-| **Core Asset** | EBP Core (06_CORE_CODE) | Authentication, RBAC, Audit Trail, Configuration |
-| **Shared Engine** | EBP Shared Engines (07_SHARED_ENGINES) | Notification, Reporting, Queue, Scheduler, AI Engine |
-| **Product Asset** | Product Specific | POS, Kitchen, Recipe, Food Cost, Table, Reservation |
+| **Aset Inti** | Inti EBP (06_CORE_CODE) | Autentikasi, RBAC, Jejak Audit, Konfigurasi |
+| **Mesin Bersama** | Mesin Bersama EBP (07_SHARED_ENGINES) | Notifikasi, Laporan, Antrean, Penjadwal, Mesin AI |
+| **Aset Produk** | Khusus Produk | POS, Dapur, Resep, Biaya Makanan, Meja, Reservasi |
 
 ---
 
-# 8. Software Asset Inventory
+# 8. Inventaris Aset Software
 
-ESAMF maintains a complete inventory of all software assets:
+ESAMF memelihara inventaris lengkap dari semua aset software:
 
-| Asset | Used By | Classification | Status |
+| Aset | Digunakan Oleh | Klasifikasi | Status |
 |-------|---------|----------------|--------|
-| Authentication | All products | Core | Migrated |
-| RBAC | All products | Core | Migrated |
-| Audit Trail | All products | Core | In Progress |
-| Configuration | All products | Core | Planned |
-| Notification | All products | Shared Engine | Planned |
-| Reporting | All products | Shared Engine | Planned |
-| Queue | All products | Shared Engine | Planned |
-| Scheduler | All products | Shared Engine | Planned |
-| AI Engine | All products | Shared Engine | Planned |
+| Autentikasi | Semua produk | Inti | Dimigrasi |
+| RBAC | Semua produk | Inti | Dimigrasi |
+| Jejak Audit | Semua produk | Inti | Sedang Berjalan |
+| Konfigurasi | Semua produk | Inti | Direncanakan |
+| Notifikasi | Semua produk | Mesin Bersama | Direncanakan |
+| Laporan | Semua produk | Mesin Bersama | Direncanakan |
+| Antrean | Semua produk | Mesin Bersama | Direncanakan |
+| Penjadwal | Semua produk | Mesin Bersama | Direncanakan |
+| Mesin AI | Semua produk | Mesin Bersama | Direncanakan |
 
 ---
 
-# 9. Enterprise Knowledge Graph
+# 9. Graf Pengetahuan Enterprise
 
-ESAMF builds a knowledge graph connecting all assets:
+ESAMF membangun graf pengetahuan yang menghubungkan semua aset:
 
 ```
 Repository
@@ -253,13 +253,13 @@ ReportingEngine
 AIEngine
 ```
 
-All assets are traceable and interconnected.
+Semua aset dapat dilacak dan saling terhubung.
 
 ---
 
-# 10. Target Ecosystem
+# 10. Ekosistem Target
 
-After ESAMF completion, Petrick Software Ecosystem will contain:
+Setelah penyelesaian ESAMF, Ekosistem Petrick Software akan berisi:
 
 ```
 EBP Core
@@ -287,139 +287,139 @@ Visitor Management
 Future Products
 ```
 
-All from **one platform**, one constitution, one architecture, one standard.
+Semua dari **satu platform**, satu konstitusi, satu arsitektur, satu standar.
 
 ---
 
-# 11. ESAMF Benefits
+# 11. Manfaat ESAMF
 
-## For the Company
-- **Asset Preservation**: No code is ever lost
-- **Knowledge Retention**: All expertise documented
-- **Faster Development**: Reuse existing assets
-- **Consistent Quality**: Platform-wide standards
-- **Scalable Growth**: Easy to add new products
+## Untuk Perusahaan
+- **Pelestarian Aset**: Tidak ada kode yang pernah hilang
+- **Retensi Pengetahuan**: Semua keahlian didokumentasikan
+- **Pengembangan Lebih Cepat**: Gunakan kembali aset yang ada
+- **Kualitas Konsisten**: Standar seluruh platform
+- **Pertumbuhan yang Dapat Diskalakan**: Mudah menambahkan produk baru
 
-## For Developers
-- **Clear Guidelines**: Systematic management process
-- **Reduced Duplication**: Don't rewrite what exists
-- **Better Understanding**: Complete asset inventory
-- **Easier Onboarding**: Documented architecture
-- **Career Growth**: Build platform skills
+## Untuk Pengembang
+- **Panduan yang Jelas**: Proses manajemen sistematis
+- **Pengurangan Duplikasi**: Jangan tulis ulang yang sudah ada
+- **Pemahaman yang Lebih Baik**: Inventaris aset lengkap
+- **Onboarding Lebih Mudah**: Arsitektur yang didokumentasikan
+- **Pertumbuhan Karir**: Bangun keterampilan platform
 
-## For Customers
-- **Faster Delivery**: Reuse accelerates development
-- **Higher Quality**: Proven, tested components
-- **Consistent UX**: Platform-wide standards
-- **Future-Proof**: Easy upgrades and enhancements
-
----
-
-# 12. ESAMF Documents
-
-### Constitution Documents (00_CONSTITUTION)
-- **ESAMF_VISION.md**: Vision statement
-- **ESAMF_MISSION.md**: Mission statement
-- **ESAMF_PHILOSOPHY.md**: Core philosophy
-- **ESAMF_CORE_PRINCIPLES.md**: Core principles
-- **ESAMF_GLOSSARY.md**: Glossary of terms
-
-### Analysis Documents (01_ANALYSIS)
-- **ESAMF_REPOSITORY_ANALYSIS_STANDARD.md**: Repository analysis methodology
-- **ESAMF_DATABASE_ANALYSIS_STANDARD.md**: Database analysis methodology
-- **ESAMF_SOURCE_CODE_ANALYSIS_STANDARD.md**: Source code analysis methodology
-- **ESAMF_MODULE_ANALYSIS_STANDARD.md**: Module analysis methodology
-- **ESAMF_DEPENDENCY_ANALYSIS.md**: Dependency analysis
-- **ESAMF_SOFTWARE_ASSET_INVENTORY.md**: Master asset registry
-
-### Classification Documents (02_CLASSIFICATION)
-- **ESAMF_COMPONENT_CLASSIFICATION.md**: Component classification criteria
-- **ESAMF_BUSINESS_DOMAIN_CLASSIFICATION.md**: Business domain classification
-- **ESAMF_REUSABILITY_MATRIX.md**: Reusability assessment matrix
-
-### Extraction Documents (03_EXTRACTION)
-- **ESAMF_CORE_EXTRACTION_GUIDE.md**: Core asset extraction guide
-- **ESAMF_SHARED_ENGINE_EXTRACTION.md**: Shared engine extraction
-- **ESAMF_PRODUCT_EXTRACTION.md**: Product extraction
-
-### Refactoring Documents (04_REFACTORING)
-- **ESAMF_REFACTORING_STANDARD.md**: Refactoring standards
-- **ESAMF_DATABASE_REFACTORING.md**: Database refactoring
-- **ESAMF_API_REFACTORING.md**: API refactoring
-- **ESAMF_UI_REFACTORING.md**: UI refactoring
-
-### Platformization Documents (05_PLATFORMIZATION)
-- **ESAMF_PLATFORM_MAPPING.md**: Platform mapping methodology
-- **ESAMF_EBP_INTEGRATION_GUIDE.md**: EBP integration guide
-- **ESAMF_PRODUCT_CONVERSION.md**: Product conversion guide
-
-### Validation Documents (06_VALIDATION)
-- **ESAMF_VALIDATION_CHECKLIST.md**: Validation checklist
-- **ESAMF_TESTING_GUIDE.md**: Testing methodology
-- **ESAMF_QUALITY_GATE.md**: Quality gate criteria
-
-### Report Documents (08_REPORT)
-- **ESAMF_SOFTWARE_ASSET_INVENTORY.md**: Asset inventory report
-- **ESAMF_REUSABILITY_REPORT.md**: Reusability analysis
-- **ESAMF_PLATFORM_READINESS.md**: Platform readiness assessment
-- **ESAMF_PRODUCT_MATURITY.md**: Product maturity assessment
-
-### Template Documents (09_TEMPLATES)
-- **REPOSITORY_AUDIT_TEMPLATE.md**: Repository audit template
-- **MODULE_AUDIT_TEMPLATE.md**: Module audit template
-- **DATABASE_AUDIT_TEMPLATE.md**: Database audit template
-- **MIGRATION_CHECKLIST.md**: Migration checklist
-- **REFACTORING_CHECKLIST.md**: Refactoring checklist
-
-### Case Study Documents (10_CASE_STUDIES)
-- **RESTAURANT_MIGRATION.md**: Restaurant migration case study
-
-### Repository-Specific Documents (07_MANAGEMENT)
-- **01_CURRENT_ANALYSIS.md**: Current state analysis
-- **02_DATABASE_ANALYSIS.md**: Database structure analysis
-- **03_SOURCE_CODE_ANALYSIS.md**: Source code analysis
-- **04_MODULE_ANALYSIS.md**: Module breakdown
-- **05_REUSABLE_COMPONENTS.md**: Reusable components identification
-- **06_CORE_EXTRACTION_PLAN.md**: Core extraction plan
-- **07_DATABASE_MIGRATION_PLAN.md**: Database migration plan
-- **08_EBP_PRODUCT_MAPPING.md**: Mapping to EBP products
-- **09_REFACTORING_PLAN.md**: Refactoring strategy
-- **10_IMPLEMENTATION_PROGRESS.md**: Implementation tracking
+## Untuk Pelanggan
+- **Pengiriman Lebih Cepat**: Penggunaan kembali mempercepat pengembangan
+- **Kualitas Lebih Tinggi**: Komponen yang teruji dan terbukti
+- **UX Konsisten**: Standar seluruh platform
+- **Masa Depan yang Tahan**: Peningkatan dan peningkatan mudah
 
 ---
 
-# 13. Getting Started
+# 12. Dokumen ESAMF
 
-1. Read **ESAMF_VISION.md** for the vision
-2. Review **ESAMF_MISSION.md** for the mission
-3. Study **ESAMF_CORE_PRINCIPLES.md** for core principles
-4. Use **ESAMF_SOFTWARE_ASSET_INVENTORY.md** to view the master registry
-5. Follow **ESAMF_REPOSITORY_ANALYSIS_STANDARD.md** to analyze a repository
+### Dokumen Konstitusi (00_CONSTITUTION)
+- **ESAMF_VISION.md**: Pernyataan visi
+- **ESAMF_MISSION.md**: Pernyataan misi
+- **ESAMF_PHILOSOPHY.md**: Filosofi inti
+- **ESAMF_CORE_PRINCIPLES.md**: Prinsip inti
+- **ESAMF_GLOSSARY.md**: Glosarium istilah
+
+### Dokumen Analisis (01_ANALYSIS)
+- **ESAMF_REPOSITORY_ANALYSIS_STANDARD.md**: Metodologi analisis repositori
+- **ESAMF_DATABASE_ANALYSIS_STANDARD.md**: Metodologi analisis database
+- **ESAMF_SOURCE_CODE_ANALYSIS_STANDARD.md**: Metodologi analisis kode sumber
+- **ESAMF_MODULE_ANALYSIS_STANDARD.md**: Metodologi analisis modul
+- **ESAMF_DEPENDENCY_ANALYSIS.md**: Analisis dependensi
+- **ESAMF_SOFTWARE_ASSET_INVENTORY.md**: Registri aset master
+
+### Dokumen Klasifikasi (02_CLASSIFICATION)
+- **ESAMF_COMPONENT_CLASSIFICATION.md**: Kriteria klasifikasi komponen
+- **ESAMF_BUSINESS_DOMAIN_CLASSIFICATION.md**: Klasifikasi domain bisnis
+- **ESAMF_REUSABILITY_MATRIX.md**: Matriks penilaian penggunaan kembali
+
+### Dokumen Ekstraksi (03_EXTRACTION)
+- **ESAMF_CORE_EXTRACTION_GUIDE.md**: Panduan ekstraksi aset inti
+- **ESAMF_SHARED_ENGINE_EXTRACTION.md**: Ekstraksi mesin bersama
+- **ESAMF_PRODUCT_EXTRACTION.md**: Ekstraksi produk
+
+### Dokumen Refactoring (04_REFACTORING)
+- **ESAMF_REFACTORING_STANDARD.md**: Standar refactoring
+- **ESAMF_DATABASE_REFACTORING.md**: Refactoring database
+- **ESAMF_API_REFACTORING.md**: Refactoring API
+- **ESAMF_UI_REFACTORING.md**: Refactoring UI
+
+### Dokumen Platformisasi (05_PLATFORMIZATION)
+- **ESAMF_PLATFORM_MAPPING.md**: Metodologi pemetaan platform
+- **ESAMF_EBP_INTEGRATION_GUIDE.md**: Panduan integrasi EBP
+- **ESAMF_PRODUCT_CONVERSION.md**: Panduan konversi produk
+
+### Dokumen Validasi (06_VALIDATION)
+- **ESAMF_VALIDATION_CHECKLIST.md**: Daftar periksa validasi
+- **ESAMF_TESTING_GUIDE.md**: Metodologi pengujian
+- **ESAMF_QUALITY_GATE.md**: Kriteria kualitas
+
+### Dokumen Laporan (08_REPORT)
+- **ESAMF_SOFTWARE_ASSET_INVENTORY.md**: Laporan inventaris aset
+- **ESAMF_REUSABILITY_REPORT.md**: Analisis penggunaan kembali
+- **ESAMF_PLATFORM_READINESS.md**: Penilaian kesiapan platform
+- **ESAMF_PRODUCT_MATURITY.md**: Penilaian kematangan produk
+
+### Dokumen Template (09_TEMPLATES)
+- **REPOSITORY_AUDIT_TEMPLATE.md**: Template audit repositori
+- **MODULE_AUDIT_TEMPLATE.md**: Template audit modul
+- **DATABASE_AUDIT_TEMPLATE.md**: Template audit database
+- **MIGRATION_CHECKLIST.md**: Daftar periksa migrasi
+- **REFACTORING_CHECKLIST.md**: Daftar periksa refactoring
+
+### Dokumen Studi Kasus (10_CASE_STUDIES)
+- **RESTAURANT_MIGRATION.md**: Studi kasus migrasi restoran
+
+### Dokumen Spesifik Repositori (07_MANAGEMENT)
+- **01_CURRENT_ANALYSIS.md**: Analisis kondisi saat ini
+- **02_DATABASE_ANALYSIS.md**: Analisis struktur database
+- **03_SOURCE_CODE_ANALYSIS.md**: Analisis kode sumber
+- **04_MODULE_ANALYSIS.md**: Pemecahan modul
+- **05_REUSABLE_COMPONENTS.md**: Identifikasi komponen yang dapat digunakan kembali
+- **06_CORE_EXTRACTION_PLAN.md**: Rencana ekstraksi inti
+- **07_DATABASE_MIGRATION_PLAN.md**: Rencana migrasi database
+- **08_EBP_PRODUCT_MAPPING.md**: Pemetaan ke produk EBP
+- **09_REFACTORING_PLAN.md**: Strategi refactoring
+- **10_IMPLEMENTATION_PROGRESS.md**: Pelacakan implementasi
 
 ---
 
-# 14. ESAMF Vision
+# 13. Memulai
 
-ESAMF transforms Petrick Software from a project-based company to a **platform-based software company**.
-
-**Before ESAMF:**
-- Multiple isolated projects
-- Code duplication
-- No systematic reuse
-- Knowledge silos
-
-**After ESAMF:**
-- Unified platform ecosystem
-- Systematic code reuse
-- Complete asset inventory
-- Shared knowledge base
-
-ESAMF is the foundation for building **Petrick Software Ecosystem**.
+1. Baca **ESAMF_VISION.md** untuk visi
+2. Tinjau **ESAMF_MISSION.md** untuk misi
+3. Pelajari **ESAMF_CORE_PRINCIPLES.md** untuk prinsip inti
+4. Gunakan **ESAMF_SOFTWARE_ASSET_INVENTORY.md** untuk melihat registri master
+5. Ikuti **ESAMF_REPOSITORY_ANALYSIS_STANDARD.md** untuk menganalisis repositori
 
 ---
 
-# Document End
+# 14. Visi ESAMF
 
-**Document ID:** ESAMF-README-001
+ESAMF mengubah Petrick Software dari perusahaan berbasis proyek menjadi **perusahaan software berbasis platform**.
 
-**Version:** 1.0
+**Sebelum ESAMF:**
+- Beberapa proyek terisolasi
+- Duplikasi kode
+- Tidak ada penggunaan kembali sistematis
+- Silo pengetahuan
+
+**Setelah ESAMF:**
+- Ekosistem platform terpadu
+- Penggunaan kembali kode sistematis
+- Inventaris aset lengkap
+- Basis pengetahuan bersama
+
+ESAMF adalah fondasi untuk membangun **Ekosistem Petrick Software**.
+
+---
+
+# Akhir Dokumen
+
+**ID Dokumen:** ESAMF-README-001
+
+**Versi:** 1.0
