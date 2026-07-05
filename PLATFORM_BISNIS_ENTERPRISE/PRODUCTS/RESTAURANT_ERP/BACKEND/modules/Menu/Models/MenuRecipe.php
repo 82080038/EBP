@@ -15,7 +15,13 @@ class MenuRecipe extends BaseModel
         'recipe_description',
         'yield_quantity',
         'yield_unit_id',
-        'is_active'
+        'sourcing_type',
+        'is_active',
+        'halal_certified',
+        'halal_certification_id',
+        'production_cost_labor',
+        'production_cost_equipment',
+        'production_cost_overhead'
     ];
 
     /**
@@ -84,6 +90,65 @@ class MenuRecipe extends BaseModel
     {
         $sql = "SELECT SUM(total_cost) as total_cost FROM recipe_ingredients WHERE recipe_id = ?";
         $result = $this->db->query($sql, [$recipeId])->fetch();
-        return $result['total_cost'] ?? 0;
+        $ingredientCost = $result['total_cost'] ?? 0;
+
+        // Get production costs
+        $recipe = $this->findById($recipeId);
+        $productionCost = ($recipe['production_cost_labor'] ?? 0) +
+                         ($recipe['production_cost_equipment'] ?? 0) +
+                         ($recipe['production_cost_overhead'] ?? 0);
+
+        return $ingredientCost + $productionCost;
+    }
+
+    /**
+     * Get recipes by sourcing type
+     */
+    public function getBySourcingType($restaurantId, $sourcingType)
+    {
+        $sql = "SELECT * FROM {$this->table} 
+                WHERE restaurant_id = ? AND sourcing_type = ? AND is_active = TRUE
+                ORDER BY recipe_name ASC";
+        return $this->db->query($sql, [$restaurantId, $sourcingType])->fetchAll();
+    }
+
+    /**
+     * Get halal certified recipes
+     */
+    public function getHalalCertified($restaurantId)
+    {
+        $sql = "SELECT * FROM {$this->table} 
+                WHERE restaurant_id = ? AND halal_certified = TRUE AND is_active = TRUE
+                ORDER BY recipe_name ASC";
+        return $this->db->query($sql, [$restaurantId])->fetchAll();
+    }
+
+    /**
+     * Update sourcing type
+     */
+    public function updateSourcingType($recipeId, $sourcingType)
+    {
+        $sql = "UPDATE {$this->table} SET sourcing_type = ? WHERE id = ?";
+        return $this->db->query($sql, [$sourcingType, $recipeId]);
+    }
+
+    /**
+     * Update halal certification
+     */
+    public function updateHalalCertification($recipeId, $halalCertified, $certificationId = null)
+    {
+        $sql = "UPDATE {$this->table} SET halal_certified = ?, halal_certification_id = ? WHERE id = ?";
+        return $this->db->query($sql, [$halalCertified, $certificationId, $recipeId]);
+    }
+
+    /**
+     * Update production costs
+     */
+    public function updateProductionCosts($recipeId, $labor, $equipment, $overhead)
+    {
+        $sql = "UPDATE {$this->table} 
+                SET production_cost_labor = ?, production_cost_equipment = ?, production_cost_overhead = ? 
+                WHERE id = ?";
+        return $this->db->query($sql, [$labor, $equipment, $overhead, $recipeId]);
     }
 }
