@@ -2,7 +2,7 @@
 
 ## Project Structure
 
-**Note:** Frontend files have been moved to `../FRONTEND/` directory for better separation of concerns.
+**Note:** Frontend files are located in `../FRONTEND/frontend/` directory for better separation of concerns.
 
 ```
 PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/
@@ -11,7 +11,14 @@ PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/
 │   ├── core/
 │   ├── modules/
 │   └── routes/
-├── FRONTEND/         (Frontend assets - mobile, kiosk, css, js)
+├── FRONTEND/         (Frontend assets - mobile, kiosk, consumer, dashboard, css, js)
+│   └── frontend/
+│       ├── consumer/
+│       ├── kiosk/
+│       ├── mobile/
+│       ├── dashboard/
+│       ├── css/
+│       └── js/
 ├── DATABASE/         (Database schema & migrations)
 └── DOCUMENTATION/    (Documentation)
 ```

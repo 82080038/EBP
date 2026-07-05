@@ -23,6 +23,51 @@ if (!class_exists('SimpleTableController')) {
     require_once __DIR__ . '/../modules/Table/Controllers/SimpleTableController.php';
 }
 
+// Simple Order Module (for testing without complex middleware)
+if (!class_exists('SimpleOrderController')) {
+    require_once __DIR__ . '/../modules/Sales/Controllers/SimpleOrderController.php';
+}
+
+// Simple User Module (for testing without complex middleware)
+if (!class_exists('SimpleUserController')) {
+    require_once __DIR__ . '/../modules/User/Controllers/SimpleUserController.php';
+}
+
+// Simple Inventory Module (for testing without complex middleware)
+if (!class_exists('SimpleInventoryController')) {
+    require_once __DIR__ . '/../modules/Inventory/Controllers/SimpleInventoryController.php';
+}
+
+// Simple Kitchen Module (for testing without complex middleware)
+if (!class_exists('SimpleKitchenController')) {
+    require_once __DIR__ . '/../modules/Kitchen/Controllers/SimpleKitchenController.php';
+}
+
+// Simple Reservation Module (for testing without complex middleware)
+if (!class_exists('SimpleReservationController')) {
+    require_once __DIR__ . '/../modules/Reservation/Controllers/SimpleReservationController.php';
+}
+
+// Simple Customer Module (for testing without complex middleware)
+if (!class_exists('SimpleCustomerController')) {
+    require_once __DIR__ . '/../modules/CRM/Controllers/SimpleCustomerController.php';
+}
+
+// Simple Employee Module (for testing without complex middleware)
+if (!class_exists('SimpleEmployeeController')) {
+    require_once __DIR__ . '/../modules/HR/Controllers/SimpleEmployeeController.php';
+}
+
+// Simple Delivery Module (for testing without complex middleware)
+if (!class_exists('SimpleDeliveryController')) {
+    require_once __DIR__ . '/../modules/Delivery/Controllers/SimpleDeliveryController.php';
+}
+
+// Simple Supplier Module (for testing without complex middleware)
+if (!class_exists('SimpleSupplierController')) {
+    require_once __DIR__ . '/../modules/SupplyChain/Controllers/SimpleSupplierController.php';
+}
+
 // Sales Module
 if (!class_exists('OrderController')) {
     require_once __DIR__ . '/../modules/Sales/Controllers/OrderController.php';
@@ -229,6 +274,11 @@ if (!class_exists('MobileOrderController')) {
     require_once __DIR__ . '/../modules/Mobile/Controllers/MobileOrderController.php';
 }
 
+// Consumer Module
+if (!class_exists('ConsumerController')) {
+    require_once __DIR__ . '/../modules/Consumer/Controllers/ConsumerController.php';
+}
+
 // WhatsApp Ordering Module
 if (!class_exists('WhatsAppOrderingController')) {
     require_once __DIR__ . '/../modules/WhatsApp/Controllers/WhatsAppOrderingController.php';
@@ -302,8 +352,60 @@ if (!class_exists('LoyaltyController')) {
 // Initialize dependencies
 $db = new Database();
 $router = new Router();
+$permissionMiddleware = new PermissionMiddleware();
+$authMiddleware = new AuthMiddleware();
+
+// Helper function to apply auth and permission middleware
+function withAuthAndPermission($handler, $permission, $permissionMiddleware, $authMiddleware) {
+    return function($request) use ($handler, $permission, $permissionMiddleware, $authMiddleware) {
+        try {
+            // Apply auth middleware
+            $request = $authMiddleware->handle($request);
+
+            // Apply permission middleware
+            $userId = $request['user_id'] ?? null;
+            $isPlatformOwner = $request['is_platform_owner'] ?? false;
+            $isTenantOwner = $request['is_tenant_owner'] ?? false;
+
+            if ($userId && !$permissionMiddleware->check($userId, $permission, $isPlatformOwner, $isTenantOwner)) {
+                return Response::error("You don't have permission to access this resource", 403);
+            }
+
+            // Call the actual handler
+            return $handler($request);
+        } catch (\Exception $e) {
+            return Response::error($e->getMessage(), $e->getCode() ?: 401);
+        }
+    };
+}
+
+// Helper function to apply auth middleware only
+function withAuth($handler, $authMiddleware) {
+    return function($request) use ($handler, $authMiddleware) {
+        try {
+            // Apply auth middleware
+            $request = $authMiddleware->handle($request);
+            
+            // Call the actual handler
+            return $handler($request);
+        } catch (\Exception $e) {
+            return Response::error($e->getMessage(), $e->getCode() ?: 401);
+        }
+    };
+}
 
 // Initialize controllers
+$simpleMenuController = new SimpleMenuController();
+$simpleOrderController = new SimpleOrderController();
+$simpleUserController = new SimpleUserController();
+$simpleTableController = new SimpleTableController();
+$simpleInventoryController = new SimpleInventoryController();
+$simpleKitchenController = new SimpleKitchenController();
+$simpleReservationController = new SimpleReservationController();
+$simpleCustomerController = new SimpleCustomerController();
+$simpleEmployeeController = new SimpleEmployeeController();
+$simpleDeliveryController = new SimpleDeliveryController();
+$simpleSupplierController = new SimpleSupplierController();
 $authController = new AuthController();
 $orderController = new OrderController();
 $paymentManagementController = new PaymentManagementController();
@@ -361,6 +463,7 @@ $equipmentHistoryController = new EquipmentHistoryController();
 $offlineStatusController = new OfflineStatusController();
 $kioskController = new KioskController();
 $mobileOrderController = new MobileOrderController();
+$consumerController = new ConsumerController();
 $whatsAppOrderingController = new WhatsAppOrderingController();
 $qualityComplianceController = new QualityComplianceController();
 $userController = new UserController();
@@ -375,6 +478,67 @@ $router->addRoute('POST', '/api/v1/auth/login', function($request) use ($authCon
     return $authController->login($request);
 });
 
+// Public Menu Routes (without authentication)
+$router->addRoute('GET', '/api/v1/public/menu/categories', function($request) use ($simpleMenuController) {
+    return $simpleMenuController->getCategories($request);
+});
+$router->addRoute('GET', '/api/v1/public/menu/products', function($request) use ($simpleMenuController) {
+    return $simpleMenuController->getProducts($request);
+});
+
+// Simple Orders Route (without middleware for testing)
+$router->addRoute('GET', '/api/v1/public/orders', function($request) use ($simpleOrderController) {
+    return $simpleOrderController->getAll($request);
+});
+
+// Simple Users Route (without middleware for testing)
+$router->addRoute('GET', '/api/v1/public/users', function($request) use ($simpleUserController) {
+    return $simpleUserController->getUsers($request);
+});
+
+// Simple Tables Route (without middleware for testing)
+$router->addRoute('GET', '/api/v1/public/tables', function($request) use ($simpleTableController) {
+    return $simpleTableController->getTables($request);
+});
+
+// Simple Inventory Routes (without middleware for testing)
+$router->addRoute('GET', '/api/v1/public/inventory', function($request) use ($simpleInventoryController) {
+    return $simpleInventoryController->getInventory($request);
+});
+$router->addRoute('GET', '/api/v1/public/inventory/low-stock', function($request) use ($simpleInventoryController) {
+    return $simpleInventoryController->getLowStock($request);
+});
+
+// Simple Kitchen Routes (without middleware for testing)
+$router->addRoute('GET', '/api/v1/public/kitchen/orders', function($request) use ($simpleKitchenController) {
+    return $simpleKitchenController->getKitchenOrders($request);
+});
+
+// Simple Reservation Routes (without middleware for testing)
+$router->addRoute('GET', '/api/v1/public/reservations', function($request) use ($simpleReservationController) {
+    return $simpleReservationController->getReservations($request);
+});
+
+// Simple Customer Routes (without middleware for testing)
+$router->addRoute('GET', '/api/v1/public/customers', function($request) use ($simpleCustomerController) {
+    return $simpleCustomerController->getCustomers($request);
+});
+
+// Simple Employee Routes (without middleware for testing)
+$router->addRoute('GET', '/api/v1/public/employees', function($request) use ($simpleEmployeeController) {
+    return $simpleEmployeeController->getEmployees($request);
+});
+
+// Simple Delivery Routes (without middleware for testing)
+$router->addRoute('GET', '/api/v1/public/deliveries', function($request) use ($simpleDeliveryController) {
+    return $simpleDeliveryController->getDeliveries($request);
+});
+
+// Simple Supplier Routes (without middleware for testing)
+$router->addRoute('GET', '/api/v1/public/suppliers', function($request) use ($simpleSupplierController) {
+    return $simpleSupplierController->getSuppliers($request);
+});
+
 // Upload Routes
 $router->addRoute('POST', '/api/v1/upload/image', function($request) use ($uploadController) {
     return $uploadController->uploadImage($request);
@@ -383,18 +547,33 @@ $router->addRoute('DELETE', '/api/v1/upload/image', function($request) use ($upl
     return $uploadController->deleteImage($request);
 });
 
-// Menu Routes (with authentication)
-$router->addRoute('GET', '/api/v1/menu/categories', function($request) use ($menuController) {
-    return $menuController->getCategories($request);
-});
-$router->addRoute('GET', '/api/v1/menu/products', function($request) use ($menuController) {
-    return $menuController->getProducts($request);
-});
+// Menu Routes (with authentication and permission check)
+$router->addRoute('GET', '/api/v1/menu/categories', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->getCategories($request);
+    },
+    'MENU_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/menu/products', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->getProducts($request);
+    },
+    'MENU_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
-// Table Routes (with authentication)
-$router->addRoute('GET', '/api/v1/tables', function($request) use ($tableController) {
-    return $tableController->getTables($request);
-});
+// Table Routes (with authentication and permission check)
+$router->addRoute('GET', '/api/v1/tables', withAuthAndPermission(
+    function($request) use ($tableController) {
+        return $tableController->getTables($request);
+    },
+    'TABLE_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // Tenant Routes
 $router->addRoute('POST', '/api/v1/tenant/register', function($request) use ($tenantController) {
@@ -415,19 +594,54 @@ $router->addRoute('POST', '/api/v1/sales/orders', function($request) use ($order
     return $orderController->create($request);
 });
 
-// Orders Routes (alias for frontend compatibility)
-$router->addRoute('GET', '/api/v1/orders', function($request) use ($orderController) {
-    return $orderController->getAll($request);
-});
-$router->addRoute('GET', '/api/v1/orders/{id}', function($request) use ($orderController) {
-    return $orderController->get($request);
-});
-$router->addRoute('POST', '/api/v1/orders', function($request) use ($orderController) {
-    return $orderController->create($request);
-});
-$router->addRoute('PUT', '/api/v1/orders/{id}', function($request) use ($orderController) {
-    return $orderController->update($request);
-});
+// Orders Routes (alias for frontend compatibility with permission check)
+$router->addRoute('GET', '/api/v1/orders', withAuthAndPermission(
+    function($request) use ($orderController) {
+        return $orderController->getAll($request);
+    },
+    'ORDER_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/orders/recent', withAuthAndPermission(
+    function($request) use ($orderController) {
+        // Support limit and sort parameters
+        $limit = $request['limit'] ?? 5;
+        $sort = $request['sort'] ?? 'created_at';
+        $order = $request['order'] ?? 'DESC';
+        $request['limit'] = $limit;
+        $request['sort'] = $sort;
+        $request['order'] = $order;
+        return $orderController->getAll($request);
+    },
+    'ORDER_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/orders/{id}', withAuthAndPermission(
+    function($request) use ($orderController) {
+        return $orderController->get($request);
+    },
+    'ORDER_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/orders', withAuthAndPermission(
+    function($request) use ($orderController) {
+        return $orderController->create($request);
+    },
+    'ORDER_CREATE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PUT', '/api/v1/orders/{id}', withAuthAndPermission(
+    function($request) use ($orderController) {
+        return $orderController->update($request);
+    },
+    'ORDER_EDIT',
+    $permissionMiddleware,
+    $authMiddleware
+));
 $router->addRoute('PUT', '/api/v1/sales/orders/{id}', function($request) use ($orderController) {
     return $orderController->update($request);
 });
@@ -467,39 +681,89 @@ $router->addRoute('POST', '/api/v1/sales/cash-drawers/{id}/close', function($req
     return $paymentManagementController->closeCashDrawer($request);
 });
 
-// Menu Routes - Categories
-$router->addRoute('GET', '/api/v1/menu/categories', function($request) use ($menuController) {
-    return $menuController->getCategories($request);
-});
-$router->addRoute('GET', '/api/v1/menu/categories/{id}', function($request) use ($menuController) {
-    return $menuController->getCategory($request);
-});
-$router->addRoute('POST', '/api/v1/menu/categories', function($request) use ($menuController) {
-    return $menuController->createCategory($request);
-});
-$router->addRoute('PUT', '/api/v1/menu/categories/{id}', function($request) use ($menuController) {
-    return $menuController->updateCategory($request);
-});
-$router->addRoute('DELETE', '/api/v1/menu/categories/{id}', function($request) use ($menuController) {
-    return $menuController->deleteCategory($request);
-});
+// Menu Routes - Categories (with permission check)
+$router->addRoute('GET', '/api/v1/menu/categories', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->getCategories($request);
+    },
+    'MENU_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/menu/categories/{id}', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->getCategory($request);
+    },
+    'MENU_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/menu/categories', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->createCategory($request);
+    },
+    'MENU_CREATE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PUT', '/api/v1/menu/categories/{id}', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->updateCategory($request);
+    },
+    'MENU_EDIT',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('DELETE', '/api/v1/menu/categories/{id}', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->deleteCategory($request);
+    },
+    'MENU_DELETE',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
-// Menu Routes - Products
-$router->addRoute('GET', '/api/v1/menu/products', function($request) use ($menuController) {
-    return $menuController->getProducts($request);
-});
-$router->addRoute('GET', '/api/v1/menu/products/{id}', function($request) use ($menuController) {
-    return $menuController->getProduct($request);
-});
-$router->addRoute('POST', '/api/v1/menu/products', function($request) use ($menuController) {
-    return $menuController->createProduct($request);
-});
-$router->addRoute('PUT', '/api/v1/menu/products/{id}', function($request) use ($menuController) {
-    return $menuController->updateProduct($request);
-});
-$router->addRoute('DELETE', '/api/v1/menu/products/{id}', function($request) use ($menuController) {
-    return $menuController->deleteProduct($request);
-});
+// Menu Routes - Products (with permission check)
+$router->addRoute('GET', '/api/v1/menu/products', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->getProducts($request);
+    },
+    'MENU_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/menu/products/{id}', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->getProduct($request);
+    },
+    'MENU_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/menu/products', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->createProduct($request);
+    },
+    'MENU_CREATE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PUT', '/api/v1/menu/products/{id}', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->updateProduct($request);
+    },
+    'MENU_EDIT',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('DELETE', '/api/v1/menu/products/{id}', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->deleteProduct($request);
+    },
+    'MENU_DELETE',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // Menu Routes - Product Variants
 $router->addRoute('POST', '/api/v1/menu/products/{id}/variants', function($request) use ($productVariantController) {
@@ -547,70 +811,170 @@ $router->addRoute('POST', '/api/v1/menu/combos/{id}/calculate-price', function($
 });
 
 // Menu Routes - Recipes
-$router->addRoute('GET', '/api/v1/menu/recipes', function($request) use ($menuController) {
-    return $menuController->getRecipes($request);
-});
-$router->addRoute('GET', '/api/v1/menu/recipes/{id}', function($request) use ($menuController) {
-    return $menuController->getRecipe($request);
-});
-$router->addRoute('POST', '/api/v1/menu/recipes', function($request) use ($menuController) {
-    return $menuController->createRecipe($request);
-});
-$router->addRoute('PUT', '/api/v1/menu/recipes/{id}', function($request) use ($menuController) {
-    return $menuController->updateRecipe($request);
-});
-$router->addRoute('DELETE', '/api/v1/menu/recipes/{id}', function($request) use ($menuController) {
-    return $menuController->deleteRecipe($request);
-});
+$router->addRoute('GET', '/api/v1/menu/recipes', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->getRecipes($request);
+    },
+    'MENU_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/menu/recipes/{id}', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->getRecipe($request);
+    },
+    'MENU_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/menu/recipes', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->createRecipe($request);
+    },
+    'MENU_CREATE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PUT', '/api/v1/menu/recipes/{id}', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->updateRecipe($request);
+    },
+    'MENU_EDIT',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('DELETE', '/api/v1/menu/recipes/{id}', withAuthAndPermission(
+    function($request) use ($menuController) {
+        return $menuController->deleteRecipe($request);
+    },
+    'MENU_DELETE',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // Table Routes
-$router->addRoute('GET', '/api/v1/tables', function($request) use ($tableController) {
-    return $tableController->getTables($request);
-});
-$router->addRoute('GET', '/api/v1/tables/available', function($request) use ($tableController) {
-    return $tableController->getAvailableTables($request);
-});
-$router->addRoute('GET', '/api/v1/tables/{id}', function($request) use ($tableController) {
-    return $tableController->getTable($request);
-});
-$router->addRoute('POST', '/api/v1/tables', function($request) use ($tableController) {
-    return $tableController->createTable($request);
-});
-$router->addRoute('PUT', '/api/v1/tables/{id}', function($request) use ($tableController) {
-    return $tableController->updateTable($request);
-});
-$router->addRoute('PATCH', '/api/v1/tables/{id}/status', function($request) use ($tableController) {
-    return $tableController->updateTableStatus($request);
-});
-$router->addRoute('DELETE', '/api/v1/tables/{id}', function($request) use ($tableController) {
-    return $tableController->deleteTable($request);
-});
+$router->addRoute('GET', '/api/v1/tables', withAuthAndPermission(
+    function($request) use ($tableController) {
+        return $tableController->getTables($request);
+    },
+    'TABLE_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/tables/available', withAuthAndPermission(
+    function($request) use ($tableController) {
+        return $tableController->getAvailableTables($request);
+    },
+    'TABLE_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/tables/{id}', withAuthAndPermission(
+    function($request) use ($tableController) {
+        return $tableController->getTable($request);
+    },
+    'TABLE_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/tables', withAuthAndPermission(
+    function($request) use ($tableController) {
+        return $tableController->createTable($request);
+    },
+    'TABLE_CREATE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PUT', '/api/v1/tables/{id}', withAuthAndPermission(
+    function($request) use ($tableController) {
+        return $tableController->updateTable($request);
+    },
+    'TABLE_EDIT',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PATCH', '/api/v1/tables/{id}/status', withAuthAndPermission(
+    function($request) use ($tableController) {
+        return $tableController->updateTableStatus($request);
+    },
+    'TABLE_EDIT',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('DELETE', '/api/v1/tables/{id}', withAuthAndPermission(
+    function($request) use ($tableController) {
+        return $tableController->deleteTable($request);
+    },
+    'TABLE_DELETE',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // Reservation Routes
-$router->addRoute('GET', '/api/v1/reservations', function($request) use ($reservationController) {
-    return $reservationController->getReservations($request);
-});
-$router->addRoute('GET', '/api/v1/reservations/date/{date}', function($request) use ($reservationController) {
-    return $reservationController->getReservationsByDate($request);
-});
-$router->addRoute('GET', '/api/v1/reservations/{id}', function($request) use ($reservationController) {
-    return $reservationController->getReservation($request);
-});
-$router->addRoute('GET', '/api/v1/reservations/check-availability', function($request) use ($reservationController) {
-    return $reservationController->checkAvailability($request);
-});
-$router->addRoute('POST', '/api/v1/reservations', function($request) use ($reservationController) {
-    return $reservationController->createReservation($request);
-});
-$router->addRoute('PUT', '/api/v1/reservations/{id}', function($request) use ($reservationController) {
-    return $reservationController->updateReservation($request);
-});
-$router->addRoute('PATCH', '/api/v1/reservations/{id}/status', function($request) use ($reservationController) {
-    return $reservationController->updateReservationStatus($request);
-});
-$router->addRoute('DELETE', '/api/v1/reservations/{id}', function($request) use ($reservationController) {
-    return $reservationController->deleteReservation($request);
-});
+$router->addRoute('GET', '/api/v1/reservations', withAuthAndPermission(
+    function($request) use ($reservationController) {
+        return $reservationController->getReservations($request);
+    },
+    'RESERVATION_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reservations/date/{date}', withAuthAndPermission(
+    function($request) use ($reservationController) {
+        return $reservationController->getReservationsByDate($request);
+    },
+    'RESERVATION_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reservations/{id}', withAuthAndPermission(
+    function($request) use ($reservationController) {
+        return $reservationController->getReservation($request);
+    },
+    'RESERVATION_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reservations/check-availability', withAuthAndPermission(
+    function($request) use ($reservationController) {
+        return $reservationController->checkAvailability($request);
+    },
+    'RESERVATION_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/reservations', withAuthAndPermission(
+    function($request) use ($reservationController) {
+        return $reservationController->createReservation($request);
+    },
+    'RESERVATION_CREATE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PUT', '/api/v1/reservations/{id}', withAuthAndPermission(
+    function($request) use ($reservationController) {
+        return $reservationController->updateReservation($request);
+    },
+    'RESERVATION_EDIT',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PATCH', '/api/v1/reservations/{id}/status', withAuthAndPermission(
+    function($request) use ($reservationController) {
+        return $reservationController->updateReservationStatus($request);
+    },
+    'RESERVATION_EDIT',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('DELETE', '/api/v1/reservations/{id}', withAuthAndPermission(
+    function($request) use ($reservationController) {
+        return $reservationController->deleteReservation($request);
+    },
+    'RESERVATION_DELETE',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // Location Routes
 $router->addRoute('POST', '/api/v1/location/nearby-branches', function($request) use ($locationController) {
@@ -630,30 +994,70 @@ $router->addRoute('PUT', '/api/v1/location/branches/{id}', function($request) us
 });
 
 // Inventory Routes
-$router->addRoute('GET', '/api/v1/inventory', function($request) use ($inventoryController) {
-    return $inventoryController->getInventory($request);
-});
-$router->addRoute('GET', '/api/v1/inventory/low-stock', function($request) use ($inventoryController) {
-    return $inventoryController->getLowStock($request);
-});
-$router->addRoute('GET', '/api/v1/inventory/{id}', function($request) use ($inventoryController) {
-    return $inventoryController->getInventoryItem($request);
-});
-$router->addRoute('POST', '/api/v1/inventory', function($request) use ($inventoryController) {
-    return $inventoryController->createInventory($request);
-});
-$router->addRoute('PUT', '/api/v1/inventory/{id}', function($request) use ($inventoryController) {
-    return $inventoryController->updateInventory($request);
-});
-$router->addRoute('POST', '/api/v1/inventory/adjust', function($request) use ($inventoryController) {
-    return $inventoryController->adjustStock($request);
-});
-$router->addRoute('DELETE', '/api/v1/inventory/{id}', function($request) use ($inventoryController) {
-    return $inventoryController->deleteInventory($request);
-});
-$router->addRoute('GET', '/api/v1/inventory/transactions', function($request) use ($inventoryController) {
-    return $inventoryController->getTransactions($request);
-});
+$router->addRoute('GET', '/api/v1/inventory', withAuthAndPermission(
+    function($request) use ($inventoryController) {
+        return $inventoryController->getInventory($request);
+    },
+    'INVENTORY_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/inventory/low-stock', withAuthAndPermission(
+    function($request) use ($inventoryController) {
+        return $inventoryController->getLowStock($request);
+    },
+    'INVENTORY_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/inventory/{id}', withAuthAndPermission(
+    function($request) use ($inventoryController) {
+        return $inventoryController->getInventoryItem($request);
+    },
+    'INVENTORY_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/inventory', withAuthAndPermission(
+    function($request) use ($inventoryController) {
+        return $inventoryController->createInventory($request);
+    },
+    'INVENTORY_CREATE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PUT', '/api/v1/inventory/{id}', withAuthAndPermission(
+    function($request) use ($inventoryController) {
+        return $inventoryController->updateInventory($request);
+    },
+    'INVENTORY_EDIT',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/inventory/adjust', withAuthAndPermission(
+    function($request) use ($inventoryController) {
+        return $inventoryController->adjustStock($request);
+    },
+    'INVENTORY_EDIT',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('DELETE', '/api/v1/inventory/{id}', withAuthAndPermission(
+    function($request) use ($inventoryController) {
+        return $inventoryController->deleteInventory($request);
+    },
+    'INVENTORY_DELETE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/inventory/transactions', withAuthAndPermission(
+    function($request) use ($inventoryController) {
+        return $inventoryController->getTransactions($request);
+    },
+    'INVENTORY_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // Supplier Routes
 $router->addRoute('POST', '/api/v1/inventory/suppliers', function($request) use ($supplierController) {
@@ -734,135 +1138,348 @@ $router->addRoute('POST', '/api/v1/crm/customers/{id}/visit', function($request)
 });
 
 // Kitchen Routes
-$router->addRoute('GET', '/api/v1/kitchen/orders', function($request) use ($kitchenController) {
-    return $kitchenController->getKitchenOrders($request);
-});
-$router->addRoute('GET', '/api/v1/kitchen/orders/pending', function($request) use ($kitchenController) {
-    return $kitchenController->getPendingOrders($request);
-});
-$router->addRoute('GET', '/api/v1/kitchen/orders/in-progress', function($request) use ($kitchenController) {
-    return $kitchenController->getInProgressOrders($request);
-});
-$router->addRoute('GET', '/api/v1/kitchen/orders/ready', function($request) use ($kitchenController) {
-    return $kitchenController->getReadyOrders($request);
-});
-$router->addRoute('GET', '/api/v1/kitchen/orders/{id}', function($request) use ($kitchenController) {
-    return $kitchenController->getKitchenOrder($request);
-});
-$router->addRoute('POST', '/api/v1/kitchen/orders', function($request) use ($kitchenController) {
-    return $kitchenController->createKitchenOrder($request);
-});
-$router->addRoute('PATCH', '/api/v1/kitchen/orders/{id}/status', function($request) use ($kitchenController) {
-    return $kitchenController->updateKitchenOrderStatus($request);
-});
-$router->addRoute('PATCH', '/api/v1/kitchen/orders/{id}/priority', function($request) use ($kitchenController) {
-    return $kitchenController->updateKitchenOrderPriority($request);
-});
-$router->addRoute('PATCH', '/api/v1/kitchen/items/{id}/status', function($request) use ($kitchenController) {
-    return $kitchenController->updateKitchenItemStatus($request);
-});
+$router->addRoute('GET', '/api/v1/kitchen/orders', withAuthAndPermission(
+    function($request) use ($kitchenController) {
+        return $kitchenController->getKitchenOrders($request);
+    },
+    'KITCHEN_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/kitchen/orders/pending', withAuthAndPermission(
+    function($request) use ($kitchenController) {
+        return $kitchenController->getPendingOrders($request);
+    },
+    'KITCHEN_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/kitchen/orders/in-progress', withAuthAndPermission(
+    function($request) use ($kitchenController) {
+        return $kitchenController->getInProgressOrders($request);
+    },
+    'KITCHEN_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/kitchen/orders/ready', withAuthAndPermission(
+    function($request) use ($kitchenController) {
+        return $kitchenController->getReadyOrders($request);
+    },
+    'KITCHEN_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/kitchen/orders/{id}', withAuthAndPermission(
+    function($request) use ($kitchenController) {
+        return $kitchenController->getKitchenOrder($request);
+    },
+    'KITCHEN_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/kitchen/orders', withAuthAndPermission(
+    function($request) use ($kitchenController) {
+        return $kitchenController->createKitchenOrder($request);
+    },
+    'KITCHEN_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PATCH', '/api/v1/kitchen/orders/{id}/status', withAuthAndPermission(
+    function($request) use ($kitchenController) {
+        return $kitchenController->updateKitchenOrderStatus($request);
+    },
+    'KITCHEN_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PATCH', '/api/v1/kitchen/orders/{id}/priority', withAuthAndPermission(
+    function($request) use ($kitchenController) {
+        return $kitchenController->updateKitchenOrderPriority($request);
+    },
+    'KITCHEN_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PATCH', '/api/v1/kitchen/items/{id}/status', withAuthAndPermission(
+    function($request) use ($kitchenController) {
+        return $kitchenController->updateKitchenItemStatus($request);
+    },
+    'KITCHEN_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // User Routes
-$router->addRoute('GET', '/api/v1/users', function($request) use ($userController) {
-    return $userController->getUsers($request);
-});
-$router->addRoute('GET', '/api/v1/users/{id}', function($request) use ($userController) {
-    return $userController->getUser($request);
-});
-$router->addRoute('POST', '/api/v1/users', function($request) use ($userController) {
-    return $userController->createUser($request);
-});
-$router->addRoute('PUT', '/api/v1/users/{id}', function($request) use ($userController) {
-    return $userController->updateUser($request);
-});
-$router->addRoute('POST', '/api/v1/users/{id}/change-password', function($request) use ($userController) {
-    return $userController->changePassword($request);
-});
-$router->addRoute('DELETE', '/api/v1/users/{id}', function($request) use ($userController) {
-    return $userController->deleteUser($request);
-});
-$router->addRoute('POST', '/api/v1/users/with-role', function($request) use ($userController) {
-    return $userController->createUserWithRole($request);
-});
-$router->addRoute('GET', '/api/v1/users/roles', function($request) use ($userController) {
-    return $userController->getAvailableRoles($request);
-});
+$router->addRoute('GET', '/api/v1/users', withAuthAndPermission(
+    function($request) use ($userController) {
+        return $userController->getUsers($request);
+    },
+    'USER_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/users/{id}', withAuthAndPermission(
+    function($request) use ($userController) {
+        return $userController->getUser($request);
+    },
+    'USER_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/users', withAuthAndPermission(
+    function($request) use ($userController) {
+        return $userController->createUser($request);
+    },
+    'USER_CREATE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PUT', '/api/v1/users/{id}', withAuthAndPermission(
+    function($request) use ($userController) {
+        return $userController->updateUser($request);
+    },
+    'USER_EDIT',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/users/{id}/change-password', withAuthAndPermission(
+    function($request) use ($userController) {
+        return $userController->changePassword($request);
+    },
+    'USER_EDIT',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('DELETE', '/api/v1/users/{id}', withAuthAndPermission(
+    function($request) use ($userController) {
+        return $userController->deleteUser($request);
+    },
+    'USER_DELETE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/users/with-role', withAuthAndPermission(
+    function($request) use ($userController) {
+        return $userController->createUserWithRole($request);
+    },
+    'USER_CREATE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/users/roles', withAuthAndPermission(
+    function($request) use ($userController) {
+        return $userController->getAvailableRoles($request);
+    },
+    'USER_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/users/{id}/permissions', withAuthAndPermission(
+    function($request) use ($userController) {
+        return $userController->getUserPermissions($request);
+    },
+    'USER_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // Settings Routes
-$router->addRoute('GET', '/api/v1/settings', function($request) use ($settingController) {
-    return $settingController->getSettings($request);
-});
-$router->addRoute('GET', '/api/v1/settings/{key}', function($request) use ($settingController) {
-    return $settingController->getSetting($request);
-});
-$router->addRoute('GET', '/api/v1/settings/group/{prefix}', function($request) use ($settingController) {
-    return $settingController->getSettingGroup($request);
-});
-$router->addRoute('POST', '/api/v1/settings', function($request) use ($settingController) {
-    return $settingController->createSetting($request);
-});
-$router->addRoute('PUT', '/api/v1/settings/{id}', function($request) use ($settingController) {
-    return $settingController->updateSetting($request);
-});
-$router->addRoute('POST', '/api/v1/settings/upsert', function($request) use ($settingController) {
-    return $settingController->upsertSetting($request);
-});
-$router->addRoute('DELETE', '/api/v1/settings/{id}', function($request) use ($settingController) {
-    return $settingController->deleteSetting($request);
-});
-$router->addRoute('POST', '/api/v1/settings/initialize', function($request) use ($settingController) {
-    return $settingController->initializeSettings($request);
-});
+$router->addRoute('GET', '/api/v1/settings', withAuthAndPermission(
+    function($request) use ($settingController) {
+        return $settingController->getSettings($request);
+    },
+    'SETTINGS_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/settings/{key}', withAuthAndPermission(
+    function($request) use ($settingController) {
+        return $settingController->getSetting($request);
+    },
+    'SETTINGS_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/settings/group/{prefix}', withAuthAndPermission(
+    function($request) use ($settingController) {
+        return $settingController->getSettingGroup($request);
+    },
+    'SETTINGS_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/settings', withAuthAndPermission(
+    function($request) use ($settingController) {
+        return $settingController->createSetting($request);
+    },
+    'SETTINGS_MANAGE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PUT', '/api/v1/settings/{id}', withAuthAndPermission(
+    function($request) use ($settingController) {
+        return $settingController->updateSetting($request);
+    },
+    'SETTINGS_MANAGE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/settings/upsert', withAuthAndPermission(
+    function($request) use ($settingController) {
+        return $settingController->upsertSetting($request);
+    },
+    'SETTINGS_MANAGE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('DELETE', '/api/v1/settings/{id}', withAuthAndPermission(
+    function($request) use ($settingController) {
+        return $settingController->deleteSetting($request);
+    },
+    'SETTINGS_MANAGE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/settings/initialize', withAuthAndPermission(
+    function($request) use ($settingController) {
+        return $settingController->initializeSettings($request);
+    },
+    'SETTINGS_MANAGE',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // Report Routes
-$router->addRoute('GET', '/api/v1/reports/sales', function($request) use ($reportController) {
-    return $reportController->getSalesReport($request);
-});
-$router->addRoute('GET', '/api/v1/reports/top-products', function($request) use ($reportController) {
-    return $reportController->getTopSellingProducts($request);
-});
-$router->addRoute('GET', '/api/v1/reports/inventory', function($request) use ($reportController) {
-    return $reportController->getInventoryReport($request);
-});
-$router->addRoute('GET', '/api/v1/reports/stock-movement', function($request) use ($reportController) {
-    return $reportController->getStockMovementReport($request);
-});
-$router->addRoute('GET', '/api/v1/reports/kitchen-performance', function($request) use ($reportController) {
-    return $reportController->getKitchenPerformanceReport($request);
-});
-$router->addRoute('GET', '/api/v1/reports/reservations', function($request) use ($reportController) {
-    return $reportController->getReservationReport($request);
-});
-$router->addRoute('GET', '/api/v1/reports/financial', function($request) use ($reportController) {
-    return $reportController->getFinancialReport($request);
-});
-$router->addRoute('GET', '/api/v1/reports/dashboard', function($request) use ($reportController) {
-    return $reportController->getDashboardSummary($request);
-});
-$router->addRoute('GET', '/api/v1/reports/profit-loss', function($request) use ($reportController) {
-    return $reportController->getProfitLossReport($request);
-});
-$router->addRoute('GET', '/api/v1/reports/cost-analysis', function($request) use ($reportController) {
-    return $reportController->getCostAnalysisReport($request);
-});
-$router->addRoute('GET', '/api/v1/reports/food-cost', function($request) use ($reportController) {
-    return $reportController->getFoodCostPercentage($request);
-});
-$router->addRoute('GET', '/api/v1/reports/sales-by-hour', function($request) use ($reportController) {
-    return $reportController->getSalesByHour($request);
-});
-$router->addRoute('GET', '/api/v1/reports/payment-breakdown', function($request) use ($reportController) {
-    return $reportController->getPaymentMethodBreakdown($request);
-});
-$router->addRoute('GET', '/api/v1/reports/inventory-usage', function($request) use ($reportController) {
-    return $reportController->getInventoryUsageReport($request);
-});
-$router->addRoute('GET', '/api/v1/reports/labor-cost', function($request) use ($reportController) {
-    return $reportController->getLaborCostAnalysis($request);
-});
-$router->addRoute('GET', '/api/v1/reports/tax', function($request) use ($reportController) {
-    return $reportController->getTaxReport($request);
-});
+$router->addRoute('GET', '/api/v1/reports/sales', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getSalesReport($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/top-products', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getTopSellingProducts($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/inventory', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getInventoryReport($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/stock-movement', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getStockMovementReport($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/kitchen-performance', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getKitchenPerformanceReport($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/reservations', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getReservationReport($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/financial', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getFinancialReport($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/dashboard', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getDashboardSummary($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/profit-loss', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getProfitLossReport($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/cost-analysis', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getCostAnalysisReport($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/food-cost', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getFoodCostPercentage($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/sales-by-hour', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getSalesByHour($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/payment-breakdown', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getPaymentMethodBreakdown($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/inventory-usage', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getInventoryUsageReport($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/labor-cost', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getLaborCostAnalysis($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/reports/tax', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->getTaxReport($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // AI Routes
 $router->addRoute('POST', '/api/v1/ai/sales-forecast', function($request) use ($aiController) {
@@ -1130,9 +1747,14 @@ $router->addRoute('GET', '/api/v1/hr/commissions/pending', function($request) us
 });
 
 // Report Export Routes
-$router->addRoute('GET', '/api/v1/reports/export/{type}/{format}', function($request) use ($reportController) {
-    return $reportController->exportReport($request);
-});
+$router->addRoute('GET', '/api/v1/reports/export/{type}/{format}', withAuthAndPermission(
+    function($request) use ($reportController) {
+        return $reportController->exportReport($request);
+    },
+    'REPORT_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // Inventory Advanced Routes
 $router->addRoute('POST', '/api/v1/inventory/repurpose', function($request) use ($inventoryAdvancedController) {
@@ -1363,6 +1985,74 @@ $router->addRoute('GET', '/api/v1/mobile/quick-order/{id}', function($request) u
     return $mobileOrderController->getQuickOrder($request);
 });
 
+// Consumer Routes (Public - No Auth Required)
+$router->addRoute('GET', '/api/v1/consumer/restaurants/featured', function($request) use ($consumerController) {
+    return $consumerController->getFeaturedRestaurants($request);
+});
+$router->addRoute('GET', '/api/v1/consumer/restaurants/nearby', function($request) use ($consumerController) {
+    return $consumerController->getNearbyRestaurants($request);
+});
+$router->addRoute('GET', '/api/v1/consumer/restaurants', function($request) use ($consumerController) {
+    return $consumerController->getRestaurants($request);
+});
+$router->addRoute('GET', '/api/v1/consumer/restaurants/{id}', function($request) use ($consumerController) {
+    return $consumerController->getRestaurantDetails($request);
+});
+$router->addRoute('GET', '/api/v1/consumer/cuisines', function($request) use ($consumerController) {
+    return $consumerController->getCuisines($request);
+});
+$router->addRoute('GET', '/api/v1/consumer/menu/{restaurant_id}', function($request) use ($consumerController) {
+    return $consumerController->getRestaurantMenu($request);
+});
+$router->addRoute('GET', '/api/v1/consumer/faq', function($request) use ($consumerController) {
+    return $consumerController->getFaq($request);
+});
+
+// Consumer Auth Routes
+$router->addRoute('POST', '/api/v1/consumer/auth/login', function($request) use ($consumerController) {
+    return $consumerController->login($request);
+});
+$router->addRoute('POST', '/api/v1/consumer/auth/send-otp', function($request) use ($consumerController) {
+    return $consumerController->sendOtp($request);
+});
+$router->addRoute('POST', '/api/v1/consumer/auth/verify-otp', function($request) use ($consumerController) {
+    return $consumerController->verifyOtp($request);
+});
+
+// Consumer Order Routes (Testing - No Auth Required)
+$router->addRoute('POST', '/api/v1/consumer/orders', function($request) use ($consumerController) {
+    return $consumerController->placeOrder($request);
+});
+$router->addRoute('GET', '/api/v1/consumer/orders', function($request) use ($consumerController) {
+    return $consumerController->getOrders($request);
+});
+
+// Consumer Reservation Routes (Testing - No Auth Required)
+$router->addRoute('POST', '/api/v1/consumer/reservations', function($request) use ($consumerController) {
+    return $consumerController->makeReservation($request);
+});
+$router->addRoute('GET', '/api/v1/consumer/reservations', function($request) use ($consumerController) {
+    return $consumerController->getReservations($request);
+});
+
+// Consumer Loyalty Routes (Testing - No Auth Required)
+$router->addRoute('GET', '/api/v1/consumer/loyalty', function($request) use ($consumerController) {
+    return $consumerController->getLoyaltyPoints($request);
+});
+$router->addRoute('POST', '/api/v1/consumer/loyalty/redeem', function($request) use ($consumerController) {
+    return $consumerController->redeemReward($request);
+});
+
+// Consumer Review Routes (Testing - No Auth Required)
+$router->addRoute('POST', '/api/v1/consumer/reviews', function($request) use ($consumerController) {
+    return $consumerController->submitReview($request);
+});
+
+// Consumer Favorites Routes (Testing - No Auth Required)
+$router->addRoute('GET', '/api/v1/consumer/favorites', function($request) use ($consumerController) {
+    return $consumerController->getFavorites($request);
+});
+
 // WhatsApp Ordering Routes
 $router->addRoute('POST', '/api/v1/whatsapp/orders', function($request) use ($whatsAppOrderingController) {
     return $whatsAppOrderingController->processOrder($request);
@@ -1383,66 +2073,136 @@ $router->addRoute('GET', '/api/v1/quality/food-safety-protocols', function($requ
 });
 
 // Loyalty Routes - Points
-$router->addRoute('GET', '/api/v1/loyalty/points', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->getPoints($request);
-});
-$router->addRoute('POST', '/api/v1/loyalty/points/award', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->awardPoints($request);
-});
-$router->addRoute('POST', '/api/v1/loyalty/points/redeem', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->redeemPoints($request);
-});
+$router->addRoute('GET', '/api/v1/loyalty/points', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->getPoints($request);
+    },
+    'LOYALTY_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/loyalty/points/award', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->awardPoints($request);
+    },
+    'LOYALTY_MANAGE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/loyalty/points/redeem', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->redeemPoints($request);
+    },
+    'LOYALTY_MANAGE',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // Loyalty Routes - Rewards
-$router->addRoute('GET', '/api/v1/loyalty/rewards', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->getRewards($request);
-});
-$router->addRoute('GET', '/api/v1/loyalty/rewards/{id}', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->getReward($request);
-});
-$router->addRoute('POST', '/api/v1/loyalty/rewards', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->createReward($request);
-});
-$router->addRoute('PUT', '/api/v1/loyalty/rewards/{id}', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->updateReward($request);
-});
-$router->addRoute('DELETE', '/api/v1/loyalty/rewards/{id}', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->deleteReward($request);
-});
-$router->addRoute('POST', '/api/v1/loyalty/rewards/{id}/redeem', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->redeemReward($request);
-});
+$router->addRoute('GET', '/api/v1/loyalty/rewards', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->getRewards($request);
+    },
+    'LOYALTY_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/loyalty/rewards/{id}', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->getReward($request);
+    },
+    'LOYALTY_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/loyalty/rewards', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->createReward($request);
+    },
+    'LOYALTY_MANAGE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('PUT', '/api/v1/loyalty/rewards/{id}', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->updateReward($request);
+    },
+    'LOYALTY_MANAGE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('DELETE', '/api/v1/loyalty/rewards/{id}', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->deleteReward($request);
+    },
+    'LOYALTY_MANAGE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/loyalty/rewards/{id}/redeem', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->redeemReward($request);
+    },
+    'LOYALTY_MANAGE',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // Loyalty Routes - Customer Loyalty
-$router->addRoute('GET', '/api/v1/loyalty/customers', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->getCustomerLoyalty($request);
-});
-$router->addRoute('GET', '/api/v1/loyalty/customers/{id}', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->getCustomerLoyaltyByCustomer($request);
-});
-$router->addRoute('POST', '/api/v1/loyalty/customers/enroll', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->enrollCustomer($request);
-});
-$router->addRoute('GET', '/api/v1/loyalty/customers/top', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->getTopCustomers($request);
-});
-$router->addRoute('GET', '/api/v1/loyalty/customers/tier/{tier}', function($request) {
-    $loyaltyController = new LoyaltyController();
-    return $loyaltyController->getCustomersByTier($request);
-});
+$router->addRoute('GET', '/api/v1/loyalty/customers', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->getCustomerLoyalty($request);
+    },
+    'LOYALTY_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/loyalty/customers/{id}', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->getCustomerLoyaltyByCustomer($request);
+    },
+    'LOYALTY_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/loyalty/customers/enroll', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->enrollCustomer($request);
+    },
+    'LOYALTY_MANAGE',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/loyalty/customers/top', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->getTopCustomers($request);
+    },
+    'LOYALTY_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/loyalty/customers/tier/{tier}', withAuthAndPermission(
+    function($request) {
+        $loyaltyController = new LoyaltyController();
+        return $loyaltyController->getCustomersByTier($request);
+    },
+    'LOYALTY_VIEW',
+    $permissionMiddleware,
+    $authMiddleware
+));
 
 // Dispatch the request
 $router->dispatch();

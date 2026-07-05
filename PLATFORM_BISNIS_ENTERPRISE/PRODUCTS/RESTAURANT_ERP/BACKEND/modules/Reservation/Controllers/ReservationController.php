@@ -20,9 +20,7 @@ class ReservationController
 
     public function getReservations(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'RESERVATION_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $reservations = $this->reservationService->getAllReservations($tenantId, $branchId);
@@ -32,9 +30,7 @@ class ReservationController
 
     public function getReservationsByDate(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'RESERVATION_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? 1;
         $date = $request['date'] ?? date('Y-m-d');
@@ -46,9 +42,7 @@ class ReservationController
 
     public function getReservation(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'RESERVATION_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $reservationId = $request['reservation_id'] ?? 0;
 
@@ -63,9 +57,7 @@ class ReservationController
 
     public function checkAvailability(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'RESERVATION_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? 1;
         $date = $request['date'] ?? '';
@@ -90,9 +82,7 @@ class ReservationController
 
     public function createReservation(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'RESERVATION_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $data = $request['body'] ?? [];
 
@@ -124,9 +114,7 @@ class ReservationController
 
     public function updateReservation(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'RESERVATION_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $reservationId = $request['reservation_id'] ?? 0;
         $data = $request['body'] ?? [];
@@ -150,9 +138,7 @@ class ReservationController
 
     public function updateReservationStatus(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'RESERVATION_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $reservationId = $request['reservation_id'] ?? 0;
         $status = $request['body']['status'] ?? '';
@@ -181,9 +167,7 @@ class ReservationController
 
     public function deleteReservation(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'RESERVATION_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $reservationId = $request['reservation_id'] ?? 0;
 

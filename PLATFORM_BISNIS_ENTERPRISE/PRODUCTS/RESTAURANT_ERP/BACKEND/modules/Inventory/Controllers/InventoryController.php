@@ -20,9 +20,7 @@ class InventoryController
 
     public function getInventory(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'INVENTORY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $inventory = $this->inventoryService->getAllInventory($tenantId, $branchId);
@@ -32,9 +30,7 @@ class InventoryController
 
     public function getLowStock(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'INVENTORY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $inventory = $this->inventoryService->getLowStock($tenantId, $branchId);
@@ -44,9 +40,7 @@ class InventoryController
 
     public function getInventoryItem(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'INVENTORY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $inventoryId = $request['inventory_id'] ?? 0;
 
@@ -61,9 +55,7 @@ class InventoryController
 
     public function createInventory(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'INVENTORY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $data = $request['body'] ?? [];
 
@@ -86,9 +78,7 @@ class InventoryController
 
     public function updateInventory(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'INVENTORY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $inventoryId = $request['inventory_id'] ?? 0;
         $data = $request['body'] ?? [];
@@ -109,9 +99,7 @@ class InventoryController
 
     public function adjustStock(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'INVENTORY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $data = $request['body'] ?? [];
 
@@ -158,9 +146,7 @@ class InventoryController
 
     public function deleteInventory(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'INVENTORY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $inventoryId = $request['inventory_id'] ?? 0;
 
@@ -180,9 +166,7 @@ class InventoryController
 
     public function getTransactions(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'INVENTORY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $productId = $request['product_id'] ?? null;

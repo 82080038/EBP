@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * EBP Core - Database Connection Manager
  * 
@@ -12,15 +14,15 @@
 
 class Database
 {
-    private $host;
-    private $socket;
-    private $dbname;
-    private $username;
-    private $password;
-    private $charset;
-    private static $instance = null;
+    private string $host;
+    private string $socket;
+    private string $dbname;
+    private string $username;
+    private string $password;
+    private string $charset;
+    private static ?Database $instance = null;
 
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $this->host = $config['host'] ?? getenv('DB_HOST') ?? 'localhost';
         $this->socket = $config['socket'] ?? getenv('DB_SOCKET') ?? '/opt/lampp/var/mysql/mysql.sock';
@@ -36,7 +38,7 @@ class Database
      * @param array $config Database configuration
      * @return Database
      */
-    public static function getInstance($config = [])
+    public static function getInstance(array $config = []): Database
     {
         if (self::$instance === null) {
             self::$instance = new self($config);
@@ -50,7 +52,7 @@ class Database
      * @return PDO PDO instance
      * @throws PDOException If connection fails
      */
-    public function connect()
+    public function connect(): PDO
     {
         try {
             // Try socket connection first
@@ -92,7 +94,7 @@ class Database
      * 
      * @return bool True if connection successful
      */
-    public function testConnection()
+    public function testConnection(): bool
     {
         try {
             $pdo = $this->connect();
@@ -107,7 +109,7 @@ class Database
      * 
      * @return array Database metadata
      */
-    public function getDatabaseInfo()
+    public function getDatabaseInfo(): array
     {
         try {
             $pdo = $this->connect();

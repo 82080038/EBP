@@ -20,9 +20,7 @@ class SettingController
 
     public function getSettings(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'SETTINGS_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $settings = $this->settingService->getAllSettings($tenantId);
 
@@ -31,9 +29,7 @@ class SettingController
 
     public function getSetting(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'SETTINGS_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $key = $request['key'] ?? '';
 
@@ -52,9 +48,7 @@ class SettingController
 
     public function getSettingGroup(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'SETTINGS_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $prefix = $request['prefix'] ?? '';
 
@@ -69,9 +63,7 @@ class SettingController
 
     public function createSetting(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'SETTINGS_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $data = $request['body'] ?? [];
 
@@ -94,9 +86,7 @@ class SettingController
 
     public function updateSetting(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'SETTINGS_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $settingId = $request['setting_id'] ?? 0;
         $data = $request['body'] ?? [];
@@ -123,9 +113,7 @@ class SettingController
 
     public function upsertSetting(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'SETTINGS_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $data = $request['body'] ?? [];
 
@@ -154,9 +142,7 @@ class SettingController
 
     public function deleteSetting(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'SETTINGS_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $settingId = $request['setting_id'] ?? 0;
 
@@ -176,9 +162,7 @@ class SettingController
 
     public function initializeSettings(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'SETTINGS_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
 
         $result = $this->settingService->initializeDefaultSettings($tenantId);

@@ -20,9 +20,7 @@ class KitchenController
 
     public function getKitchenOrders(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'KITCHEN_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $kitchenOrders = $this->kitchenService->getAllKitchenOrders($tenantId, $branchId);
@@ -32,9 +30,7 @@ class KitchenController
 
     public function getPendingOrders(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'KITCHEN_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $kitchenOrders = $this->kitchenService->getKitchenOrdersByStatus($tenantId, $branchId, 'PENDING');
@@ -44,9 +40,7 @@ class KitchenController
 
     public function getInProgressOrders(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'KITCHEN_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $kitchenOrders = $this->kitchenService->getKitchenOrdersByStatus($tenantId, $branchId, 'IN_PROGRESS');
@@ -56,9 +50,7 @@ class KitchenController
 
     public function getReadyOrders(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'KITCHEN_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $kitchenOrders = $this->kitchenService->getKitchenOrdersByStatus($tenantId, $branchId, 'READY');
@@ -68,9 +60,7 @@ class KitchenController
 
     public function getKitchenOrder(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'KITCHEN_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $kitchenOrderId = $request['kitchen_order_id'] ?? 0;
 
@@ -85,9 +75,7 @@ class KitchenController
 
     public function createKitchenOrder(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'KITCHEN_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $data = $request['body'] ?? [];
 
@@ -110,9 +98,7 @@ class KitchenController
 
     public function updateKitchenOrderStatus(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'KITCHEN_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $kitchenOrderId = $request['kitchen_order_id'] ?? 0;
         $status = $request['body']['status'] ?? '';
@@ -141,9 +127,7 @@ class KitchenController
 
     public function updateKitchenOrderPriority(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'KITCHEN_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $kitchenOrderId = $request['kitchen_order_id'] ?? 0;
         $priority = $request['body']['priority'] ?? '';
@@ -172,9 +156,7 @@ class KitchenController
 
     public function updateKitchenItemStatus(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'KITCHEN_VIEW');
-
+        // Permission checking is now handled in routes
         $kitchenOrderItemId = $request['kitchen_order_item_id'] ?? 0;
         $status = $request['body']['status'] ?? '';
 

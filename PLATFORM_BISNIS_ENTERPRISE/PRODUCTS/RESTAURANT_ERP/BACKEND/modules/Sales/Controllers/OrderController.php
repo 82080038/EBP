@@ -57,20 +57,17 @@ class OrderController
 
     public function getAll($request)
     {
-        $authMiddleware = new AuthMiddleware();
-        $user = $authMiddleware->authenticate();
-
-        $permissionMiddleware = new PermissionMiddleware();
-        $hasPermission = $permissionMiddleware->check($user['user_id'], 'ORDER_VIEW');
-        
-        if (!$hasPermission) {
-            Response::error("Permission denied: ORDER_VIEW", 403);
-        }
-
+        // Permission checking is now handled in routes
         $params = $request['query'] ?? [];
+        $limit = $params['limit'] ?? 50;
+        $sort = $params['sort'] ?? 'created_at';
+        $order = $params['order'] ?? 'DESC';
         $status = $params['status'] ?? null;
 
-        $result = $this->service->getOrders($user['tenant_id'], $user['branch_id'], $status);
+        $tenantId = $request['tenant_id'] ?? 1;
+        $branchId = $request['branch_id'] ?? null;
+
+        $result = $this->service->getOrders($tenantId, $branchId, $status, $limit, $sort, $order);
 
         if ($result['success']) {
             Response::success($result['data'], Messages::SUCCESS_RETRIEVED);

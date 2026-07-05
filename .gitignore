@@ -17,3 +17,9 @@ Thumbs.db
 # Temporary files
 *.log
 *.tmp
+
+# Configuration Files
+# NOTE: .env and config files are NOT ignored during development
+# For production, use .env.production and ignore it below
+# .env.production
+# .env.staging

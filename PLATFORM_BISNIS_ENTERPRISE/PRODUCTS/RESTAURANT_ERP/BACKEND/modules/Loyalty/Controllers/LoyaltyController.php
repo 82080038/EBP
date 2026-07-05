@@ -20,9 +20,7 @@ class LoyaltyController
 
     public function getPoints(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $customerId = $request['customer_id'] ?? null;
         $points = $this->loyaltyService->getAllPoints($tenantId, $customerId);
@@ -32,9 +30,7 @@ class LoyaltyController
 
     public function awardPoints(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $createdBy = $request['user_id'] ?? null;
         $data = $request['body'] ?? [];
@@ -67,9 +63,7 @@ class LoyaltyController
 
     public function redeemPoints(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $createdBy = $request['user_id'] ?? null;
         $data = $request['body'] ?? [];
@@ -103,9 +97,7 @@ class LoyaltyController
 
     public function getRewards(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'LOYALTY_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $status = $request['status'] ?? null;
         $rewards = $this->loyaltyService->getAllRewards($tenantId, $status);
@@ -115,9 +107,7 @@ class LoyaltyController
 
     public function getReward(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'LOYALTY_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $rewardId = $request['reward_id'] ?? 0;
 
@@ -132,9 +122,7 @@ class LoyaltyController
 
     public function createReward(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $createdBy = $request['user_id'] ?? null;
         $data = $request['body'] ?? [];
@@ -164,9 +152,7 @@ class LoyaltyController
 
     public function updateReward(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $rewardId = $request['reward_id'] ?? 0;
         $userId = $request['user_id'] ?? null;
@@ -194,9 +180,7 @@ class LoyaltyController
 
     public function deleteReward(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $rewardId = $request['reward_id'] ?? 0;
         $userId = $request['user_id'] ?? null;
@@ -217,9 +201,7 @@ class LoyaltyController
 
     public function redeemReward(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $createdBy = $request['user_id'] ?? null;
         $data = $request['body'] ?? [];
@@ -245,9 +227,7 @@ class LoyaltyController
 
     public function getCustomerLoyalty(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'LOYALTY_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $loyalty = $this->loyaltyService->getAllCustomerLoyalty($tenantId);
 
@@ -256,9 +236,7 @@ class LoyaltyController
 
     public function getCustomerLoyaltyByCustomer(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'LOYALTY_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $userId = $request['user_id'] ?? 0;
 
@@ -273,9 +251,7 @@ class LoyaltyController
 
     public function enrollCustomer(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $createdBy = $request['user_id'] ?? null;
         $data = $request['body'] ?? [];
@@ -296,9 +272,7 @@ class LoyaltyController
 
     public function getTopCustomers(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        // PermissionMiddleware::handle($request, 'LOYALTY_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $limit = $request['limit'] ?? 10;
         $customers = $this->loyaltyService->getTopCustomers($tenantId, $limit);
@@ -308,9 +282,7 @@ class LoyaltyController
 
     public function getCustomersByTier(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        // PermissionMiddleware::handle($request, 'LOYALTY_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $tier = $request['tier'] ?? 'BRONZE';
         $customers = $this->loyaltyService->getCustomersByTier($tenantId, $tier);

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/12.5/phpunit.xsd"
+         bootstrap="bootstrap.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         executionOrder="depends,defects"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="true"
+         failOnWarning="true">
+    <testsuites>
+        <testsuite name="Core Components">
+            <directory>tests/unit/core</directory>
+        </testsuite>
+        <testsuite name="Business Engines">
+            <directory>tests/unit/engines</directory>
+        </testsuite>
+        <testsuite name="Middleware">
+            <directory>tests/unit/middleware</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">core</directory>
+            <directory suffix=".php">modules</directory>
+        </include>
+    </source>
+    <php>
+        <env name="DB_HOST" value="localhost"/>
+        <env name="DB_SOCKET" value="/opt/lampp/var/mysql/mysql.sock"/>
+        <env name="DB_NAME" value="ebp_restaurant_db"/>
+        <env name="DB_USER" value="ebp_app"/>
+        <env name="DB_PASSWORD" value="ebp_secure_password_2026"/>
+        <env name="JWT_SECRET" value="test_secret_key"/>
+    </php>
+</phpunit>

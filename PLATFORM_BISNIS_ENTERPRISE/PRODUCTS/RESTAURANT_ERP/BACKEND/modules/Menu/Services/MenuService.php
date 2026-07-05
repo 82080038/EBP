@@ -9,6 +9,12 @@ if (!class_exists('ProductRepository')) {
 if (!class_exists('RecipeRepository')) {
     require_once __DIR__ . '/../Repositories/RecipeRepository.php';
 }
+if (!class_exists('Product')) {
+    require_once __DIR__ . '/../Models/Product.php';
+}
+if (!class_exists('Category')) {
+    require_once __DIR__ . '/../Models/Category.php';
+}
 
 
 class MenuService

@@ -21,17 +21,8 @@ class MenuController
     // Category Endpoints
     public function getCategories(array $request)
     {
-        $authMiddleware = new AuthMiddleware();
-        $user = $authMiddleware->authenticate();
-
-        $permissionMiddleware = new PermissionMiddleware();
-        $hasPermission = $permissionMiddleware->check($user['user_id'], 'CATEGORY_VIEW');
-        
-        if (!$hasPermission) {
-            Response::error("Permission denied: CATEGORY_VIEW", 403);
-        }
-
-        $tenantId = $user['tenant_id'] ?? 1;
+        // Permission checking is now handled in routes
+        $tenantId = $request['tenant_id'] ?? 1;
         $categories = $this->menuService->getAllCategories($tenantId);
 
         Response::success($categories);
@@ -39,9 +30,7 @@ class MenuController
 
     public function getCategory(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $categoryId = $request['category_id'] ?? 0;
 
@@ -56,9 +45,7 @@ class MenuController
 
     public function createCategory(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $data = $request['body'] ?? [];
 
@@ -81,9 +68,7 @@ class MenuController
 
     public function updateCategory(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $categoryId = $request['category_id'] ?? 0;
         $data = $request['body'] ?? [];
@@ -107,9 +92,7 @@ class MenuController
 
     public function deleteCategory(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $categoryId = $request['category_id'] ?? 0;
 
@@ -130,9 +113,7 @@ class MenuController
     // Product Endpoints
     public function getProducts(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'PRODUCT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $categoryId = $request['category_id'] ?? null;
         $products = $this->menuService->getAllProducts($tenantId, $categoryId);
@@ -142,9 +123,7 @@ class MenuController
 
     public function getProduct(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $productId = $request['product_id'] ?? 0;
 
@@ -159,9 +138,7 @@ class MenuController
 
     public function createProduct(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $data = $request['body'] ?? [];
 
@@ -187,9 +164,7 @@ class MenuController
 
     public function updateProduct(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $productId = $request['product_id'] ?? 0;
         $data = $request['body'] ?? [];
@@ -216,9 +191,7 @@ class MenuController
 
     public function deleteProduct(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $productId = $request['product_id'] ?? 0;
 
@@ -239,9 +212,7 @@ class MenuController
     // Recipe Endpoints
     public function getRecipes(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $recipes = $this->menuService->getAllRecipes($tenantId);
 
@@ -250,9 +221,7 @@ class MenuController
 
     public function getRecipe(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $recipeId = $request['recipe_id'] ?? 0;
 
@@ -267,9 +236,7 @@ class MenuController
 
     public function createRecipe(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $data = $request['body'] ?? [];
 
@@ -295,9 +262,7 @@ class MenuController
 
     public function updateRecipe(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $recipeId = $request['recipe_id'] ?? 0;
         $data = $request['body'] ?? [];
@@ -321,9 +286,7 @@ class MenuController
 
     public function deleteRecipe(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'MENU_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $recipeId = $request['recipe_id'] ?? 0;
 

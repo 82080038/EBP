@@ -315,4 +315,56 @@ class UserService
             throw $e;
         }
     }
+
+    public function getUserPermissions(int $tenantId, int $userId): array
+    {
+        $db = new \Database();
+        $pdo = $db->connect();
+
+        // Get user roles
+        $stmt = $pdo->prepare("
+            SELECT r.role_code, r.role_name 
+            FROM roles r
+            JOIN user_roles ur ON r.role_id = ur.role_id
+            WHERE ur.user_id = ? AND r.tenant_id = ? AND r.status = 'ACTIVE'
+        ");
+        $stmt->execute([$userId, $tenantId]);
+        $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($roles)) {
+            return [];
+        }
+
+        // Get permissions for all user roles
+        $roleCodes = array_column($roles, 'role_code');
+        $placeholders = str_repeat('?,', count($roleCodes) - 1) . '?';
+
+        $stmt = $pdo->prepare("
+            SELECT DISTINCT p.permission_name, p.description
+            FROM permissions p
+            JOIN role_permissions rp ON p.permission_id = rp.permission_id
+            JOIN roles r ON rp.role_id = r.role_id
+            WHERE r.role_code IN ($placeholders) AND r.tenant_id = ? AND r.status = 'ACTIVE'
+            ORDER BY p.permission_name
+        ");
+        $stmt->execute([...$roleCodes, $tenantId]);
+        $permissions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Convert BE underscore format to FE dot format
+        $convertedPermissions = [];
+        foreach ($permissions as $permission) {
+            $beFormat = $permission['permission_name'];
+            $feFormat = strtolower(str_replace('_', '.', $beFormat));
+            $convertedPermissions[] = [
+                'be_format' => $beFormat,
+                'fe_format' => $feFormat,
+                'description' => $permission['description']
+            ];
+        }
+
+        return [
+            'roles' => $roles,
+            'permissions' => $convertedPermissions
+        ];
+    }
 }

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>EBP Restaurant - Consumer App</title>
     <link rel="stylesheet" href="../css/consumer.css">
 </head>
+
 <body>
     <div class="consumer-app">
         <!-- Header -->
@@ -36,29 +38,29 @@
             </div>
             <ul class="sidebar-menu">
                 <li><a href="#" class="menu-item active" data-page="home">
-                    <span class="icon">🏠</span> <span data-i18n="nav.home">Home</span>
-                </a></li>
+                        <span class="icon">🏠</span> <span data-i18n="nav.home">Home</span>
+                    </a></li>
                 <li><a href="#" class="menu-item" data-page="search">
-                    <span class="icon">🔍</span> <span data-i18n="nav.search">Search</span>
-                </a></li>
+                        <span class="icon">🔍</span> <span data-i18n="nav.search">Search</span>
+                    </a></li>
                 <li><a href="#" class="menu-item" data-page="reservations">
-                    <span class="icon">📅</span> <span data-i18n="nav.reservations">Reservations</span>
-                </a></li>
+                        <span class="icon">📅</span> <span data-i18n="nav.reservations">Reservations</span>
+                    </a></li>
                 <li><a href="#" class="menu-item" data-page="orders">
-                    <span class="icon">📦</span> <span data-i18n="nav.orders">Orders</span>
-                </a></li>
+                        <span class="icon">📦</span> <span data-i18n="nav.orders">Orders</span>
+                    </a></li>
                 <li><a href="#" class="menu-item" data-page="favorites">
-                    <span class="icon">❤️</span> <span data-i18n="nav.favorites">Favorites</span>
-                </a></li>
+                        <span class="icon">❤️</span> <span data-i18n="nav.favorites">Favorites</span>
+                    </a></li>
                 <li><a href="#" class="menu-item" data-page="loyalty">
-                    <span class="icon">⭐</span> <span data-i18n="nav.loyalty">Loyalty</span>
-                </a></li>
+                        <span class="icon">⭐</span> <span data-i18n="nav.loyalty">Loyalty</span>
+                    </a></li>
                 <li><a href="#" class="menu-item" data-page="settings">
-                    <span class="icon">⚙️</span> <span data-i18n="nav.settings">Settings</span>
-                </a></li>
+                        <span class="icon">⚙️</span> <span data-i18n="nav.settings">Settings</span>
+                    </a></li>
                 <li><a href="#" class="menu-item" data-page="help">
-                    <span class="icon">❓</span> <span data-i18n="nav.help">Help</span>
-                </a></li>
+                        <span class="icon">❓</span> <span data-i18n="nav.help">Help</span>
+                    </a></li>
             </ul>
         </nav>
 
@@ -73,10 +75,11 @@
                     <h2 data-i18n="home.discover">Discover Restaurants</h2>
                     <p class="location-text" id="locationText">📍 Jakarta, Indonesia</p>
                 </div>
-                
+
                 <!-- Search Bar -->
                 <div class="search-section">
-                    <input type="search" class="search-input" id="homeSearch" placeholder="Search restaurants, cuisines..." data-i18n-placeholder="search.placeholder">
+                    <input type="search" class="search-input" id="homeSearch"
+                        placeholder="Search restaurants, cuisines..." data-i18n-placeholder="search.placeholder">
                     <button class="filter-btn" id="filterBtn">🔽</button>
                 </div>
 
@@ -120,9 +123,11 @@
                     <h2 data-i18n="search.title">Search</h2>
                 </div>
                 <div class="search-section">
-                    <input type="search" class="search-input" id="searchInput" placeholder="Search restaurants, cuisines, dishes..." data-i18n-placeholder="search.placeholder">
+                    <input type="search" class="search-input" id="searchInput"
+                        placeholder="Search restaurants, cuisines, dishes..."
+                        data-i18n-placeholder="search.placeholder">
                 </div>
-                
+
                 <!-- Advanced Filters -->
                 <div class="filters-panel" id="filtersPanel">
                     <div class="filter-group">
@@ -136,24 +141,32 @@
                         <div class="filter-options">
                             <label><input type="checkbox" value="$"> <span data-i18n="price.cheap">$</span></label>
                             <label><input type="checkbox" value="$$"> <span data-i18n="price.moderate">$$</span></label>
-                            <label><input type="checkbox" value="$$$"> <span data-i18n="price.expensive">$$$</span></label>
-                            <label><input type="checkbox" value="$$$$"> <span data-i18n="price.luxury">$$$$</span></label>
+                            <label><input type="checkbox" value="$$$"> <span
+                                    data-i18n="price.expensive">$$$</span></label>
+                            <label><input type="checkbox" value="$$$$"> <span
+                                    data-i18n="price.luxury">$$$$</span></label>
                         </div>
                     </div>
                     <div class="filter-group">
                         <h4 data-i18n="filter.rating">Rating</h4>
                         <div class="filter-options">
-                            <label><input type="radio" name="rating" value="4"> <span data-i18n="rating.4_plus">4+ Stars</span></label>
-                            <label><input type="radio" name="rating" value="3"> <span data-i18n="rating.3_plus">3+ Stars</span></label>
+                            <label><input type="radio" name="rating" value="4"> <span data-i18n="rating.4_plus">4+
+                                    Stars</span></label>
+                            <label><input type="radio" name="rating" value="3"> <span data-i18n="rating.3_plus">3+
+                                    Stars</span></label>
                         </div>
                     </div>
                     <div class="filter-group">
                         <h4 data-i18n="filter.features">Features</h4>
                         <div class="filter-options">
-                            <label><input type="checkbox" value="halal"> <span data-i18n="feature.halal">Halal</span></label>
-                            <label><input type="checkbox" value="delivery"> <span data-i18n="feature.delivery">Delivery</span></label>
-                            <label><input type="checkbox" value="pickup"> <span data-i18n="feature.pickup">Pickup</span></label>
-                            <label><input type="checkbox" value="reservation"> <span data-i18n="feature.reservation">Reservation</span></label>
+                            <label><input type="checkbox" value="halal"> <span
+                                    data-i18n="feature.halal">Halal</span></label>
+                            <label><input type="checkbox" value="delivery"> <span
+                                    data-i18n="feature.delivery">Delivery</span></label>
+                            <label><input type="checkbox" value="pickup"> <span
+                                    data-i18n="feature.pickup">Pickup</span></label>
+                            <label><input type="checkbox" value="reservation"> <span
+                                    data-i18n="feature.reservation">Reservation</span></label>
                         </div>
                     </div>
                     <button class="apply-filters-btn" id="applyFilters" data-i18n="filter.apply">Apply Filters</button>
@@ -170,7 +183,7 @@
                 <div class="restaurant-header" id="restaurantHeader">
                     <!-- Restaurant header will be loaded dynamically -->
                 </div>
-                
+
                 <div class="restaurant-content">
                     <!-- Restaurant Info -->
                     <div class="restaurant-info" id="restaurantInfo">
@@ -201,7 +214,8 @@
             <div class="page" id="reservationsPage">
                 <div class="page-header">
                     <h2 data-i18n="reservations.title">My Reservations</h2>
-                    <button class="new-reservation-btn" id="newReservationBtn" data-i18n="reservations.new">+ New</button>
+                    <button class="new-reservation-btn" id="newReservationBtn" data-i18n="reservations.new">+
+                        New</button>
                 </div>
                 <div class="reservations-list" id="reservationsList">
                     <!-- Reservations will be loaded dynamically -->
@@ -358,12 +372,15 @@
                     </div>
                     <div class="order-totals">
                         <p><span data-i18n="order.subtotal">Subtotal</span>: <span id="orderSubtotal">Rp 0</span></p>
-                        <p><span data-i18n="order.delivery_fee">Delivery Fee</span>: <span id="deliveryFee">Rp 0</span></p>
+                        <p><span data-i18n="order.delivery_fee">Delivery Fee</span>: <span id="deliveryFee">Rp 0</span>
+                        </p>
                         <p><span data-i18n="order.total">Total</span>: <span id="orderTotal">Rp 0</span></p>
                     </div>
                     <div class="order-type">
-                        <label><input type="radio" name="orderType" value="delivery" checked> <span data-i18n="order.delivery">Delivery</span></label>
-                        <label><input type="radio" name="orderType" value="pickup"> <span data-i18n="order.pickup">Pickup</span></label>
+                        <label><input type="radio" name="orderType" value="delivery" checked> <span
+                                data-i18n="order.delivery">Delivery</span></label>
+                        <label><input type="radio" name="orderType" value="pickup"> <span
+                                data-i18n="order.pickup">Pickup</span></label>
                     </div>
                     <div class="delivery-address" id="deliveryAddressSection">
                         <label data-i18n="order.address">Delivery Address</label>
@@ -411,6 +428,21 @@
                 <button class="close-modal" id="closeLogin">&times;</button>
                 <div class="login-form">
                     <h2 data-i18n="login.title">Login</h2>
+
+                    <!-- Quick Login Options -->
+                    <div class="quick-login-options">
+                        <button class="quick-login-btn google-btn" id="googleLoginBtn">
+                            <span class="icon">G</span> <span data-i18n="login.google">Continue with Google</span>
+                        </button>
+                        <button class="quick-login-btn phone-btn" id="phoneLoginBtn">
+                            <span class="icon">📱</span> <span data-i18n="login.phone">Continue with Phone</span>
+                        </button>
+                    </div>
+
+                    <div class="divider">
+                        <span data-i18n="login.or">or</span>
+                    </div>
+
                     <form id="loginForm">
                         <div class="form-group">
                             <label data-i18n="login.email">Email</label>
@@ -429,10 +461,63 @@
                 </div>
             </div>
         </div>
+
+        <!-- Phone/OTP Login Modal -->
+        <div class="modal" id="phoneLoginModal">
+            <div class="modal-content">
+                <button class="close-modal" id="closePhoneLogin">&times;</button>
+                <div class="phone-login-form">
+                    <h2 data-i18n="phone_login.title">Login with Phone</h2>
+                    <form id="phoneLoginForm">
+                        <div class="form-group">
+                            <label data-i18n="phone_login.phone">Phone Number</label>
+                            <div class="phone-input-group">
+                                <select id="countryCode" class="country-code">
+                                    <option value="+62">+62 (Indonesia)</option>
+                                    <option value="+1">+1 (USA)</option>
+                                    <option value="+44">+44 (UK)</option>
+                                    <option value="+65">+65 (Singapore)</option>
+                                    <option value="+60">+60 (Malaysia)</option>
+                                </select>
+                                <input type="tel" id="phoneNumber" placeholder="81234567890" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn" data-i18n="phone_login.send_otp">Send OTP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- OTP Verification Modal -->
+        <div class="modal" id="otpModal">
+            <div class="modal-content">
+                <button class="close-modal" id="closeOtp">&times;</button>
+                <div class="otp-form">
+                    <h2 data-i18n="otp.title">Enter OTP</h2>
+                    <p class="otp-message" data-i18n="otp.message">Enter the 6-digit code sent to your phone</p>
+                    <form id="otpForm">
+                        <div class="otp-inputs">
+                            <input type="text" class="otp-input" maxlength="1" required>
+                            <input type="text" class="otp-input" maxlength="1" required>
+                            <input type="text" class="otp-input" maxlength="1" required>
+                            <input type="text" class="otp-input" maxlength="1" required>
+                            <input type="text" class="otp-input" maxlength="1" required>
+                            <input type="text" class="otp-input" maxlength="1" required>
+                        </div>
+                        <button type="submit" class="submit-btn" data-i18n="otp.verify">Verify</button>
+                        <p class="resend-otp">
+                            <span data-i18n="otp.no_code">Didn't receive code?</span>
+                            <a href="#" id="resendOtp" data-i18n="otp.resend">Resend</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="../js/i18n.js"></script>
     <script src="../js/api-client.js"></script>
     <script src="../js/consumer.js"></script>
 </body>
+
 </html>

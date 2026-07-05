@@ -61,6 +61,9 @@ class AuthMiddleware
         $request['branch_id'] = $payload['branch_id'] ?? null;
         $request['username'] = $payload['username'] ?? null;
         $request['role'] = $payload['role'] ?? null;
+        $request['level'] = $payload['level'] ?? null;
+        $request['is_platform_owner'] = $payload['is_platform_owner'] ?? false;
+        $request['is_tenant_owner'] = ($payload['level'] ?? '') === 'TENANT_OWNER';
         
         return $request;
     }

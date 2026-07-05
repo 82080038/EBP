@@ -171,6 +171,21 @@
             box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
         }
 
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 4px;
+            margin: 2px;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+        }
+
         .login-section {
             padding: 40px;
             max-width: 400px;
@@ -743,9 +758,46 @@
                 </div>
                 <button type="submit" class="btn">Login</button>
                 <button type="button" class="btn btn-secondary" id="backToLanding">Kembali</button>
-                <button type="button" class="btn btn-quick-login" id="quickLoginBtn" style="margin-top: 10px; background-color: #28a745;">⚡ Quick Login (Admin)</button>
+
+                <div class="form-group" style="margin-top: 15px;">
+                    <label for="quickLoginSelect">⚡ Quick Login by Level & Role</label>
+                    <select id="quickLoginSelect" class="form-control">
+                        <option value="">-- Select User --</option>
+                        <optgroup label="Level 1: Platform Owner">
+                            <option
+                                value='{"username":"platform","password":"password","level":"PLATFORM_OWNER","role":"Administrator"}'>
+                                platform — Platform Owner</option>
+                        </optgroup>
+                        <optgroup label="Level 2: Tenant Owner">
+                            <option
+                                value='{"username":"admin","password":"admin123","level":"TENANT_OWNER","role":"Administrator"}'>
+                                admin — Tenant Owner (Administrator)</option>
+                        </optgroup>
+                        <optgroup label="Level 3: Tenant Member">
+                            <option
+                                value='{"username":"manager","password":"password","level":"TENANT_MEMBER","role":"Restaurant Manager"}'>
+                                manager — Restaurant Manager</option>
+                            <option
+                                value='{"username":"waiter","password":"password","level":"TENANT_MEMBER","role":"Waiter"}'>
+                                waiter — Waiter</option>
+                            <option
+                                value='{"username":"kitchen","password":"password","level":"TENANT_MEMBER","role":"Kitchen Staff"}'>
+                                kitchen — Kitchen Staff</option>
+                            <option
+                                value='{"username":"cashier","password":"password","level":"TENANT_MEMBER","role":"Cashier"}'>
+                                cashier — Cashier</option>
+                            <option
+                                value='{"username":"inventory","password":"password","level":"TENANT_MEMBER","role":"Inventory Manager"}'>
+                                inventory — Inventory Manager</option>
+                            <option
+                                value='{"username":"host","password":"password","level":"TENANT_MEMBER","role":"Host/Hostess"}'>
+                                host — Host/Hostess</option>
+                        </optgroup>
+                    </select>
+                </div>
             </form>
-            <div style="margin-top: 15px; padding: 10px; background-color: #f8f9fa; border-radius: 4px; font-size: 12px; color: #666;">
+            <div
+                style="margin-top: 15px; padding: 10px; background-color: #f8f9fa; border-radius: 4px; font-size: 12px; color: #666;">
                 <strong>Default Credentials:</strong><br>
                 Username: <code>admin</code><br>
                 Password: <code>admin123</code>
@@ -795,17 +847,22 @@
                         <label for="logoUpload">Logo Perusahaan</label>
                         <input type="file" id="logoUpload" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp">
                         <div id="logoPreview" style="margin-top: 10px; display: none;">
-                            <img id="logoPreviewImg" style="max-width: 150px; max-height: 150px; border: 1px solid #ccc; border-radius: 4px;">
-                            <button type="button" id="removeLogoBtn" style="margin-left: 10px; padding: 5px 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Hapus</button>
+                            <img id="logoPreviewImg"
+                                style="max-width: 150px; max-height: 150px; border: 1px solid #ccc; border-radius: 4px;">
+                            <button type="button" id="removeLogoBtn"
+                                style="margin-left: 10px; padding: 5px 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Hapus</button>
                         </div>
                         <input type="hidden" id="logoUrl">
                     </div>
                     <div class="form-group">
                         <label for="branchImageUpload">Foto Cabang/Restoran</label>
-                        <input type="file" id="branchImageUpload" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp">
+                        <input type="file" id="branchImageUpload"
+                            accept="image/jpeg,image/png,image/jpg,image/gif,image/webp">
                         <div id="branchImagePreview" style="margin-top: 10px; display: none;">
-                            <img id="branchImagePreviewImg" style="max-width: 150px; max-height: 150px; border: 1px solid #ccc; border-radius: 4px;">
-                            <button type="button" id="removeBranchImageBtn" style="margin-left: 10px; padding: 5px 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Hapus</button>
+                            <img id="branchImagePreviewImg"
+                                style="max-width: 150px; max-height: 150px; border: 1px solid #ccc; border-radius: 4px;">
+                            <button type="button" id="removeBranchImageBtn"
+                                style="margin-left: 10px; padding: 5px 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Hapus</button>
                         </div>
                         <input type="hidden" id="branchImageUrl">
                     </div>
@@ -835,7 +892,8 @@
                     </div>
                     <div class="form-group">
                         <label>Lokasi di Peta (Klik untuk menentukan lokasi)</label>
-                        <div id="map" style="height: 300px; width: 100%; border: 1px solid #ccc; border-radius: 4px;"></div>
+                        <div id="map" style="height: 300px; width: 100%; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
                         <small style="color: #666; display: block; margin-top: 5px;">
                             Klik pada peta untuk menentukan lokasi restoran. Koordinat akan terisi otomatis.
                         </small>
@@ -856,11 +914,13 @@
                     </div>
                     <div class="form-group">
                         <label for="taxRate">Pajak (%)</label>
-                        <input type="number" id="taxRate" min="0" max="100" value="0" step="0.1" placeholder="Contoh: 10">
+                        <input type="number" id="taxRate" min="0" max="100" value="0" step="0.1"
+                            placeholder="Contoh: 10">
                     </div>
                     <div class="form-group">
                         <label for="serviceCharge">Service Charge (%)</label>
-                        <input type="number" id="serviceCharge" min="0" max="100" value="0" step="0.1" placeholder="Contoh: 5">
+                        <input type="number" id="serviceCharge" min="0" max="100" value="0" step="0.1"
+                            placeholder="Contoh: 5">
                     </div>
                     <div class="form-group">
                         <label for="tipConfig">Konfigurasi Tip</label>
@@ -876,11 +936,13 @@
                     </div>
                     <div class="form-group">
                         <label for="minimumOrderAmount">Minimum Order untuk Delivery</label>
-                        <input type="number" id="minimumOrderAmount" min="0" value="0" step="1000" placeholder="Contoh: 20000">
+                        <input type="number" id="minimumOrderAmount" min="0" value="0" step="1000"
+                            placeholder="Contoh: 20000">
                     </div>
                     <div class="form-group">
                         <label for="freeDeliveryThreshold">Gratis Delivery di atas (Rp)</label>
-                        <input type="number" id="freeDeliveryThreshold" min="0" value="0" step="10000" placeholder="Contoh: 100000">
+                        <input type="number" id="freeDeliveryThreshold" min="0" value="0" step="10000"
+                            placeholder="Contoh: 100000">
                     </div>
                     <div class="form-group">
                         <label>Jam Operasional</label>
@@ -1007,22 +1069,28 @@
                     <div class="form-group">
                         <label>Metode Pembayaran yang Diterima *</label>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                            <label style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                            <label
+                                style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
                                 <input type="checkbox" id="paymentCash" checked> 💵 Tunai
                             </label>
-                            <label style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                            <label
+                                style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
                                 <input type="checkbox" id="paymentCard"> 💳 Kartu Kredit/Debit
                             </label>
-                            <label style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                            <label
+                                style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
                                 <input type="checkbox" id="paymentQRIS"> 📱 QRIS
                             </label>
-                            <label style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                            <label
+                                style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
                                 <input type="checkbox" id="paymentEwallet"> 🔋 E-Wallet (GoPay, OVO, dll)
                             </label>
-                            <label style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                            <label
+                                style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
                                 <input type="checkbox" id="paymentTransfer"> 🏦 Transfer Bank
                             </label>
-                            <label style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                            <label
+                                style="display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
                                 <input type="checkbox" id="paymentVoucher"> 🎫 Voucher/Gift Card
                             </label>
                         </div>
@@ -1046,7 +1114,8 @@
                     </div>
                     <div class="form-group">
                         <label for="managerOverridePassword">Password Manager Override</label>
-                        <input type="password" id="managerOverridePassword" placeholder="Password untuk override diskon/void">
+                        <input type="password" id="managerOverridePassword"
+                            placeholder="Password untuk override diskon/void">
                     </div>
                     <div class="form-group">
                         <label for="allowVoid">Izinkan Void Order?</label>
@@ -1070,11 +1139,13 @@
                 <form id="postStep3Form">
                     <div class="form-group">
                         <label for="receiptHeader">Header Receipt</label>
-                        <textarea id="receiptHeader" rows="3" placeholder="Terima kasih telah berkunjung ke restoran kami"></textarea>
+                        <textarea id="receiptHeader" rows="3"
+                            placeholder="Terima kasih telah berkunjung ke restoran kami"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="receiptFooter">Footer Receipt</label>
-                        <textarea id="receiptFooter" rows="3" placeholder="Barang yang sudah dibeli tidak dapat ditukar/dikembalikan"></textarea>
+                        <textarea id="receiptFooter" rows="3"
+                            placeholder="Barang yang sudah dibeli tidak dapat ditukar/dikembalikan"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="showCustomerInfo">Tampilkan Info Customer di Receipt?</label>
@@ -1116,6 +1187,23 @@
                 <button class="nav-tab" data-tab="inventory">Inventory</button>
                 <button class="nav-tab" data-tab="kitchen">Kitchen</button>
                 <button class="nav-tab" data-tab="users">Users</button>
+                <button class="nav-tab" data-tab="settings">Settings</button>
+                <button class="nav-tab" data-tab="accounting">Accounting</button>
+                <button class="nav-tab" data-tab="reservation">Reservation</button>
+                <button class="nav-tab" data-tab="crm">CRM</button>
+                <button class="nav-tab" data-tab="reports">Reports</button>
+                <button class="nav-tab" data-tab="hr">HR</button>
+                <button class="nav-tab" data-tab="delivery">Delivery</button>
+                <button class="nav-tab" data-tab="ai">AI</button>
+                <button class="nav-tab" data-tab="integration">Integration</button>
+                <button class="nav-tab" data-tab="quality">Quality</button>
+                <button class="nav-tab" data-tab="supplychain">SupplyChain</button>
+                <button class="nav-tab" data-tab="sustainability">Sustainability</button>
+                <button class="nav-tab" data-tab="location">Location</button>
+                <button class="nav-tab" data-tab="maintenance">Maintenance</button>
+                <button class="nav-tab" data-tab="enterprise">Enterprise</button>
+                <button class="nav-tab" data-tab="tenant">Tenant</button>
+                <button class="nav-tab" data-tab="whatsapp">WhatsApp</button>
             </div>
 
             <div id="dashboardMessage" class="message"></div>
@@ -1154,7 +1242,7 @@
                     <h3>Menu Categories</h3>
                     <div id="menuMessage" class="message"></div>
                     <div class="form-group">
-                        <button class="btn" id="showCreateCategoryForm">Add Category</button>
+                        <button class="btn role-admin-only" id="showCreateCategoryForm">Add Category</button>
                     </div>
                     <div id="createCategoryForm" style="display: none;" class="form-group">
                         <input type="text" id="categoryCode" placeholder="Category Code">
@@ -1175,7 +1263,7 @@
                     <h3>Menu Products</h3>
                     <div id="productMessage" class="message"></div>
                     <div class="form-group">
-                        <button class="btn" id="showCreateProductForm">Add Product</button>
+                        <button class="btn role-admin-only" id="showCreateProductForm">Add Product</button>
                     </div>
                     <div id="createProductForm" style="display: none;" class="form-group">
                         <input type="text" id="productCode" placeholder="Product Code">
@@ -1203,7 +1291,7 @@
                     <h3>All Tables</h3>
                     <div id="tableMessage" class="message"></div>
                     <div class="form-group">
-                        <button class="btn" id="showCreateTableForm">Add Table</button>
+                        <button class="btn role-admin-only" id="showCreateTableForm">Add Table</button>
                     </div>
                     <div id="createTableForm" style="display: none;" class="form-group">
                         <input type="number" id="tableNumber" placeholder="Table Number" min="1">
@@ -1258,6 +1346,19 @@
             <div id="inventoryTab" class="tab-content">
                 <div class="card">
                     <h3>Inventory</h3>
+                    <div id="inventoryMessage" class="message"></div>
+                    <div class="form-group">
+                        <button class="btn role-manager-above" id="showInventoryItemForm">Add Inventory Item</button>
+                    </div>
+                    <div id="inventoryItemForm" style="display: none; margin-top: 20px;" class="form-group">
+                        <input type="text" id="inventoryItemName" placeholder="Item Name">
+                        <input type="text" id="inventoryItemUnit" placeholder="Unit (kg, pcs, etc)">
+                        <input type="number" id="inventoryItemQuantity" placeholder="Quantity" min="0" step="0.01">
+                        <input type="number" id="inventoryItemMinStock" placeholder="Min Stock Level" min="0"
+                            step="0.01">
+                        <button class="btn" id="addInventoryItemBtn">Add Item</button>
+                        <button type="button" class="btn btn-secondary" id="cancelInventoryItemBtn">Cancel</button>
+                    </div>
                     <div id="inventoryList" class="loading">
                         <div class="spinner"></div>
                         <p>Loading...</p>
@@ -1286,9 +1387,9 @@
                 <div class="card">
                     <h3>User Management</h3>
                     <div id="usersMessage" class="message"></div>
-                    
+
                     <div class="form-group">
-                        <button class="btn" id="showCreateUserForm">Create New User</button>
+                        <button class="btn role-admin-only" id="showCreateUserForm">Create New User</button>
                     </div>
 
                     <div id="createUserForm" style="display: none; margin-top: 20px;">
@@ -1333,13 +1434,589 @@
                 </div>
             </div>
 
+            <!-- Settings Tab -->
+            <div id="settingsTab" class="tab-content">
+                <div class="card">
+                    <h3>Settings</h3>
+                    <div id="settingsMessage" class="message"></div>
+
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label for="restaurantName">Restaurant Name</label>
+                            <input type="text" id="restaurantName" value="My Restaurant">
+                        </div>
+                        <div class="form-group">
+                            <label for="taxRate">Tax Rate (%)</label>
+                            <input type="number" id="taxRate" value="10" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="currency">Currency</label>
+                            <select id="currency">
+                                <option value="IDR">IDR (Indonesian Rupiah)</option>
+                                <option value="USD">USD (US Dollar)</option>
+                                <option value="EUR">EUR (Euro)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="receiptHeader">Receipt Header</label>
+                            <textarea id="receiptHeader" rows="3">Thank you for dining with us!</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="receiptFooter">Receipt Footer</label>
+                            <textarea id="receiptFooter" rows="3">Please come again!</textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn" id="settingsFormSubmit">Save Settings</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Accounting Tab -->
+            <div id="accountingTab" class="tab-content">
+                <div class="card">
+                    <h3>Accounting</h3>
+                    <div id="accountingMessage" class="message"></div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4 id="totalRevenue">Rp 0</h4>
+                            <p>Total Revenue</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4 id="totalExpenses">Rp 0</h4>
+                            <p>Total Expenses</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4 id="netProfit">Rp 0</h4>
+                            <p>Net Profit</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <h4>Recent Transactions</h4>
+                        <div id="transactionsList" class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reservation Tab -->
+            <div id="reservationTab" class="tab-content">
+                <div class="card">
+                    <h3>Reservations</h3>
+                    <div id="reservationMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <button class="btn" id="showCreateReservationForm">New Reservation</button>
+                    </div>
+
+                    <div id="createReservationForm" style="display: none; margin-top: 20px;">
+                        <h4>Create Reservation</h4>
+                        <form id="newReservationForm">
+                            <div class="form-group">
+                                <label for="reservationCustomer">Customer Name *</label>
+                                <input type="text" id="reservationCustomer" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reservationPhone">Phone *</label>
+                                <input type="tel" id="reservationPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reservationDate">Date *</label>
+                                <input type="date" id="reservationDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reservationTime">Time *</label>
+                                <input type="time" id="reservationTime" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reservationGuests">Number of Guests *</label>
+                                <input type="number" id="reservationGuests" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reservationTable">Table</label>
+                                <select id="reservationTable">
+                                    <option value="">-- Select Table --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="reservationNotes">Notes</label>
+                                <textarea id="reservationNotes" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn">Create Reservation</button>
+                                <button type="button" class="btn" id="cancelCreateReservation">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="reservationsList" style="margin-top: 20px;">
+                        <h4>Upcoming Reservations</h4>
+                        <div id="reservationsTable" class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CRM Tab -->
+            <div id="crmTab" class="tab-content">
+                <div class="card">
+                    <h3>Customer Relationship Management</h3>
+                    <div id="crmMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <button class="btn role-manager-above" id="showCreateCustomerForm">Add Customer</button>
+                    </div>
+
+                    <div id="createCustomerForm" style="display: none; margin-top: 20px;">
+                        <h4>Add Customer</h4>
+                        <form id="newCustomerForm">
+                            <div class="form-group">
+                                <label for="customerName">Name *</label>
+                                <input type="text" id="customerName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerEmail">Email</label>
+                                <input type="email" id="customerEmail">
+                            </div>
+                            <div class="form-group">
+                                <label for="customerPhone">Phone *</label>
+                                <input type="tel" id="customerPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerAddress">Address</label>
+                                <textarea id="customerAddress" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerLoyaltyPoints">Loyalty Points</label>
+                                <input type="number" id="customerLoyaltyPoints" value="0" min="0">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn">Add Customer</button>
+                                <button type="button" class="btn" id="cancelCreateCustomer">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="customersList" style="margin-top: 20px;">
+                        <h4>Customers</h4>
+                        <div id="customersTable" class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="reportsTab" class="tab-content">
+                <div class="card">
+                    <h3>Reports</h3>
+                    <div id="reportsMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <label for="reportType">Report Type</label>
+                        <select id="reportType">
+                            <option value="sales">Sales Report</option>
+                            <option value="inventory">Inventory Report</option>
+                            <option value="staff">Staff Performance</option>
+                            <option value="financial">Financial Report</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reportStartDate">Start Date</label>
+                        <input type="date" id="reportStartDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="reportEndDate">End Date</label>
+                        <input type="date" id="reportEndDate">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn" id="generateReport">Generate Report</button>
+                        <button class="btn role-manager-above" id="exportReport">Export</button>
+                    </div>
+
+                    <div id="reportResults" style="margin-top: 20px; display: none;">
+                        <h4>Report Results</h4>
+                        <div id="reportContent"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HR Tab -->
+            <div id="hrTab" class="tab-content">
+                <div class="card">
+                    <h3>Human Resources</h3>
+                    <div id="hrMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <button class="btn role-admin-only" id="showCreateEmployeeForm">Add Employee</button>
+                    </div>
+
+                    <div id="createEmployeeForm" style="display: none; margin-top: 20px;">
+                        <h4>Add Employee</h4>
+                        <form id="newEmployeeForm">
+                            <div class="form-group">
+                                <label for="employeeName">Name *</label>
+                                <input type="text" id="employeeName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="employeePosition">Position *</label>
+                                <input type="text" id="employeePosition" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="employeePhone">Phone</label>
+                                <input type="tel" id="employeePhone">
+                            </div>
+                            <div class="form-group">
+                                <label for="employeeEmail">Email</label>
+                                <input type="email" id="employeeEmail">
+                            </div>
+                            <div class="form-group">
+                                <label for="employeeSalary">Salary</label>
+                                <input type="number" id="employeeSalary" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="employeeStartDate">Start Date</label>
+                                <input type="date" id="employeeStartDate">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn">Add Employee</button>
+                                <button type="button" class="btn" id="cancelCreateEmployee">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="employeesList" style="margin-top: 20px;">
+                        <h4>Employees</h4>
+                        <div id="employeesTable" class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Tab -->
+            <div id="deliveryTab" class="tab-content">
+                <div class="card">
+                    <h3>Delivery Management</h3>
+                    <div id="deliveryMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <button class="btn role-manager-above" id="showCreateDeliveryForm">New Delivery Order</button>
+                    </div>
+
+                    <div id="createDeliveryForm" style="display: none; margin-top: 20px;">
+                        <h4>Create Delivery Order</h4>
+                        <form id="newDeliveryForm">
+                            <div class="form-group">
+                                <label for="deliveryCustomer">Customer Name *</label>
+                                <input type="text" id="deliveryCustomer" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryAddress">Delivery Address *</label>
+                                <textarea id="deliveryAddress" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryPhone">Phone *</label>
+                                <input type="tel" id="deliveryPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryTime">Delivery Time</label>
+                                <input type="datetime-local" id="deliveryTime">
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryFee">Delivery Fee</label>
+                                <input type="number" id="deliveryFee" value="0" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryDriver">Assign Driver</label>
+                                <select id="deliveryDriver">
+                                    <option value="">-- Select Driver --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn">Create Delivery</button>
+                                <button type="button" class="btn" id="cancelCreateDelivery">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="deliveriesList" style="margin-top: 20px;">
+                        <h4>Active Deliveries</h4>
+                        <div id="deliveriesTable" class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Tab -->
+            <div id="aiTab" class="tab-content">
+                <div class="card">
+                    <h3>AI Features</h3>
+                    <div id="aiMessage" class="message"></div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Recommendations</h4>
+                            <p>AI-powered menu suggestions</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Predictions</h4>
+                            <p>Demand forecasting</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Analytics</h4>
+                            <p>Customer behavior analysis</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <h4>AI Insights</h4>
+                        <div id="aiInsights">
+                            <p>AI insights will be displayed here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integration Tab -->
+            <div id="integrationTab" class="tab-content">
+                <div class="card">
+                    <h3>Integrations</h3>
+                    <div id="integrationMessage" class="message"></div>
+
+                    <div style="margin-top: 20px;">
+                        <h4>Available Integrations</h4>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="paymentGateway"> Payment Gateway
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="posSystem"> POS System
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="accountingSoftware"> Accounting Software
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="socialMedia"> Social Media
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn role-admin-only" id="saveIntegrations">Save Integrations</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quality Tab -->
+            <div id="qualityTab" class="tab-content">
+                <div class="card">
+                    <h3>Quality Control</h3>
+                    <div id="qualityMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <button class="btn role-manager-above" id="showQualityCheckForm">New Quality Check</button>
+                    </div>
+
+                    <div id="qualityChecksList" style="margin-top: 20px;">
+                        <h4>Quality Checks</h4>
+                        <div id="qualityChecksTable" class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SupplyChain Tab -->
+            <div id="supplychainTab" class="tab-content">
+                <div class="card">
+                    <h3>Supply Chain Management</h3>
+                    <div id="supplychainMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <button class="btn role-manager-above" id="showSupplierForm">Add Supplier</button>
+                    </div>
+
+                    <div id="suppliersList" style="margin-top: 20px;">
+                        <h4>Suppliers</h4>
+                        <div id="suppliersTable" class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sustainability Tab -->
+            <div id="sustainabilityTab" class="tab-content">
+                <div class="card">
+                    <h3>Sustainability</h3>
+                    <div id="sustainabilityMessage" class="message"></div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4 id="wasteReduction">0%</h4>
+                            <p>Waste Reduction</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4 id="energyEfficiency">0%</h4>
+                            <p>Energy Efficiency</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4 id="sustainabilityScore">0</h4>
+                            <p>Sustainability Score</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location Tab -->
+            <div id="locationTab" class="tab-content">
+                <div class="card">
+                    <h3>Location Management</h3>
+                    <div id="locationMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <button class="btn role-admin-only" id="showLocationForm">Add Location</button>
+                    </div>
+
+                    <div id="locationsList" style="margin-top: 20px;">
+                        <h4>Locations</h4>
+                        <div id="locationsTable" class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maintenance Tab -->
+            <div id="maintenanceTab" class="tab-content">
+                <div class="card">
+                    <h3>Maintenance</h3>
+                    <div id="maintenanceMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <button class="btn role-admin-only" id="showMaintenanceForm">Schedule Maintenance</button>
+                    </div>
+
+                    <div id="maintenanceList" style="margin-top: 20px;">
+                        <h4>Maintenance Schedule</h4>
+                        <div id="maintenanceTable" class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enterprise Tab -->
+            <div id="enterpriseTab" class="tab-content">
+                <div class="card">
+                    <h3>Enterprise Features</h3>
+                    <div id="enterpriseMessage" class="message"></div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4 id="totalLocations">0</h4>
+                            <p>Total Locations</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4 id="totalEmployees">0</h4>
+                            <p>Total Employees</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4 id="totalRevenue">Rp 0</h4>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tenant Tab -->
+            <div id="tenantTab" class="tab-content">
+                <div class="card">
+                    <h3>Tenant Management</h3>
+                    <div id="tenantMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <button class="btn role-owner-only" id="showTenantForm">Add Tenant</button>
+                    </div>
+
+                    <div id="tenantsList" style="margin-top: 20px;">
+                        <h4>Tenants</h4>
+                        <div id="tenantsTable" class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WhatsApp Tab -->
+            <div id="whatsappTab" class="tab-content">
+                <div class="card">
+                    <h3>WhatsApp Integration</h3>
+                    <div id="whatsappMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <label for="whatsappNumber">WhatsApp Business Number</label>
+                        <input type="tel" id="whatsappNumber" placeholder="+6281234567890">
+                    </div>
+                    <div class="form-group">
+                        <label for="whatsappApiKey">API Key</label>
+                        <input type="text" id="whatsappApiKey">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="whatsappAutoReply"> Enable Auto Reply
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="whatsappOrderNotification"> Send Order Notifications
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn role-admin-only" id="saveWhatsAppSettings">Save Settings</button>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <h4>WhatsApp Orders</h4>
+                        <div id="whatsappOrdersTable" class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <button class="btn logout-btn" id="logoutBtn">Logout</button>
         </div>
     </div>
 
     <script>
-        const API_BASE = '/restauran/api/v1';
+        const API_BASE = '/api/v1';
         let authToken = null;
+        let currentUser = null;
+        let currentUserLevel = null;
+        let currentUserRole = null;
         let currentStep = 1;
         let setupData = {};
 
@@ -1355,11 +2032,15 @@
             document.getElementById('landingPage').style.display = 'block';
         });
 
-        // Quick login functionality
-        document.getElementById('quickLoginBtn').addEventListener('click', () => {
-            document.getElementById('username').value = 'admin';
-            document.getElementById('password').value = 'admin123';
-            document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+        // Quick login dropdown functionality
+        document.getElementById('quickLoginSelect').addEventListener('change', (e) => {
+            const selectedValue = e.target.value;
+            if (selectedValue) {
+                const userData = JSON.parse(selectedValue);
+                document.getElementById('username').value = userData.username;
+                document.getElementById('password').value = userData.password;
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
         });
 
         // Login functionality
@@ -1379,12 +2060,14 @@
 
                 if (data.success) {
                     authToken = data.data.access_token;
+                    currentUser = data.data.user;
+                    currentUserLevel = currentUser.level || 'TENANT_MEMBER';
+                    currentUserRole = currentUser.role || 'Waiter';
                     document.getElementById('loginSection').classList.remove('active');
-                    // Check if post-onboarding is needed (simplified: always show for now)
-                    // In production, check settings table for completion flag
-                    document.getElementById('postOnboardingWizard').style.display = 'block';
-                    postCurrentStep = 1;
-                    updatePostWizardUI();
+                    // Show dashboard directly (skip post-onboarding for testing)
+                    document.getElementById('dashboard').classList.add('active');
+                    setupMenuByRole();
+                    loadDashboardData();
                 } else {
                     // Check if user doesn't exist - show setup wizard
                     if (data.message && data.message.includes('not found')) {
@@ -1827,7 +2510,44 @@
                     loadKitchen();
                 } else if (tabName === 'users') {
                     loadUsers();
+                } else if (tabName === 'settings') {
+                    loadSettings();
+                } else if (tabName === 'accounting') {
+                    loadAccounting();
+                } else if (tabName === 'reservation') {
+                    loadReservations();
+                } else if (tabName === 'crm') {
+                    loadCustomers();
+                } else if (tabName === 'reports') {
+                    // Reports loaded on demand
+                } else if (tabName === 'hr') {
+                    loadEmployees();
+                } else if (tabName === 'delivery') {
+                    loadDeliveries();
+                } else if (tabName === 'ai') {
+                    loadAI();
+                } else if (tabName === 'integration') {
+                    loadIntegrations();
+                } else if (tabName === 'quality') {
+                    loadQuality();
+                } else if (tabName === 'supplychain') {
+                    loadSuppliers();
+                } else if (tabName === 'sustainability') {
+                    loadSustainability();
+                } else if (tabName === 'location') {
+                    loadLocations();
+                } else if (tabName === 'maintenance') {
+                    loadMaintenance();
+                } else if (tabName === 'enterprise') {
+                    loadEnterprise();
+                } else if (tabName === 'tenant') {
+                    loadTenants();
+                } else if (tabName === 'whatsapp') {
+                    loadWhatsApp();
                 }
+
+                // Apply role-based content controls after tab loads
+                setTimeout(applyRoleBasedContent, 100);
             });
         });
 
@@ -1838,8 +2558,11 @@
                 ...options.headers
             };
 
-            // Only add auth token for protected endpoints
-            if (authToken && !endpoint.includes('/menu/') && !endpoint.includes('/tables')) {
+            // Add auth token for all protected endpoints (except public endpoints)
+            const publicEndpoints = ['/auth/login', '/public/menu/categories', '/public/menu/products', '/public/tables', '/public/orders', '/public/users', '/public/inventory', '/public/kitchen', '/public/reservations', '/public/customers', '/public/employees', '/public/deliveries', '/public/suppliers'];
+            const isPublicEndpoint = publicEndpoints.some(publicPath => endpoint.includes(publicPath));
+
+            if (authToken && !isPublicEndpoint) {
                 headers['Authorization'] = `Bearer ${authToken}`;
             }
 
@@ -1860,10 +2583,75 @@
         // Load overview data
         async function loadOverview() {
             try {
-                document.getElementById('totalOrders').textContent = '156';
-                document.getElementById('totalRevenue').textContent = 'Rp 12.5M';
-                document.getElementById('activeTables').textContent = '8';
-                document.getElementById('pendingOrders').textContent = '12';
+                // Platform Owner overview stats first
+                if (currentUserLevel === 'PLATFORM_OWNER') {
+                    document.getElementById('totalOrders').textContent = '12';
+                    document.getElementById('totalOrders').parentElement.querySelector('p').textContent = 'Total Tenants';
+                    document.getElementById('activeTables').textContent = '48';
+                    document.getElementById('activeTables').parentElement.querySelector('p').textContent = 'Platform Users';
+                    document.getElementById('pendingOrders').textContent = 'Rp 45M';
+                    document.getElementById('pendingOrders').parentElement.querySelector('p').textContent = 'Monthly Revenue';
+                    document.getElementById('totalRevenue').textContent = '99.9%';
+                    document.getElementById('totalRevenue').parentElement.querySelector('p').textContent = 'System Uptime';
+                    document.getElementById('totalRevenue').parentElement.style.display = '';
+                } else {
+                    document.getElementById('totalOrders').textContent = '156';
+                    document.getElementById('activeTables').textContent = '8';
+                    document.getElementById('pendingOrders').textContent = '12';
+
+                    // Revenue only visible to admin, owner, manager, cashier
+                    const revenueCard = document.getElementById('totalRevenue').parentElement;
+                    revenueCard.style.display = hasRole(['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager', 'Cashier']) ? '' : 'none';
+                    document.getElementById('totalRevenue').textContent = 'Rp 12.5M';
+                }
+
+                // Recent activity tailored by role
+                let activities = [];
+                if (currentUserLevel === 'PLATFORM_OWNER') {
+                    activities = [
+                        { time: '10:30 AM', activity: 'New tenant registered: Restaurant ABC', status: 'Active' },
+                        { time: '10:15 AM', activity: 'Platform user added: admin_xyz', status: 'Completed' },
+                        { time: '10:00 AM', activity: 'System health check: All services OK', status: 'Completed' }
+                    ];
+                } else if (currentUserRole === 'Kitchen Staff') {
+                    activities = [
+                        { time: '10:30 AM', activity: 'New order #1234 - 3 items', status: 'Pending' },
+                        { time: '10:15 AM', activity: 'Order #1230 - Ready to serve', status: 'Ready' },
+                        { time: '10:00 AM', activity: 'Order #1225 - In progress', status: 'Cooking' }
+                    ];
+                } else if (currentUserRole === 'Cashier') {
+                    activities = [
+                        { time: '10:30 AM', activity: 'Order #1234 paid - Rp 150K', status: 'Completed' },
+                        { time: '10:15 AM', activity: 'Order #1232 pending payment', status: 'Unpaid' },
+                        { time: '10:00 AM', activity: 'Bill split for Table 5', status: 'Active' }
+                    ];
+                } else if (currentUserRole === 'Inventory Manager') {
+                    activities = [
+                        { time: '10:30 AM', activity: 'Stock alert: Rice (5kg remaining)', status: 'Warning' },
+                        { time: '10:15 AM', activity: 'Order #1234 used 2kg flour', status: 'Deducted' },
+                        { time: '10:00 AM', activity: 'Supplier delivery received', status: 'Completed' }
+                    ];
+                } else if (currentUserRole === 'Host/Hostess' || currentUserRole === 'Waiter') {
+                    activities = [
+                        { time: '10:30 AM', activity: 'Table 3 - Order #1234', status: 'Active' },
+                        { time: '10:15 AM', activity: 'Reservation for John - 4 pax', status: 'Confirmed' },
+                        { time: '10:00 AM', activity: 'Table 5 seated', status: 'Active' }
+                    ];
+                } else {
+                    activities = [
+                        { time: '10:30 AM', activity: 'New order #1234', status: 'Completed' },
+                        { time: '10:15 AM', activity: 'Table 5 seated', status: 'Active' },
+                        { time: '10:00 AM', activity: 'Inventory alert: Rice', status: 'Warning' }
+                    ];
+                }
+
+                const rows = activities.map(a => `
+                    <tr>
+                        <td>${a.time}</td>
+                        <td>${a.activity}</td>
+                        <td><span style="color: ${a.status === 'Warning' ? 'orange' : a.status === 'Completed' ? 'green' : 'blue'}">${a.status}</span></td>
+                    </tr>
+                `).join('');
 
                 document.getElementById('recentActivity').innerHTML = `
                     <table class="table">
@@ -1875,24 +2663,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>10:30 AM</td>
-                                <td>New order #1234</td>
-                                <td><span style="color: green">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>10:15 AM</td>
-                                <td>Table 5 seated</td>
-                                <td><span style="color: blue">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td>10:00 AM</td>
-                                <td>Inventory alert: Rice</td>
-                                <td><span style="color: orange">Warning</span></td>
-                            </tr>
+                            ${rows}
                         </tbody>
                     </table>
                 `;
+
             } catch (error) {
                 console.error('Error loading overview:', error);
             }
@@ -1901,13 +2676,56 @@
         // Load users data
         async function loadUsers() {
             try {
-                const response = await fetch(`${API_BASE}/users`, {
-                    headers: { 'Authorization': `Bearer ${authToken}` }
-                });
+                // Role-based controls
+                hideElementByRole('showCreateUserForm', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator']);
+                hideElementByRole('usersList', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager']);
+
+                // Platform Owner sees platform-level users
+                if (currentUserLevel === 'PLATFORM_OWNER') {
+                    document.getElementById('usersTable').innerHTML = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Level</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>platform</td>
+                                    <td>platform@ebp.com</td>
+                                    <td>Administrator</td>
+                                    <td>Platform Owner</td>
+                                    <td>ACTIVE</td>
+                                </tr>
+                                <tr>
+                                    <td>admin</td>
+                                    <td>admin@restaurant.com</td>
+                                    <td>Administrator</td>
+                                    <td>Tenant Owner</td>
+                                    <td>ACTIVE</td>
+                                </tr>
+                                <tr>
+                                    <td>manager</td>
+                                    <td>manager@restaurant.com</td>
+                                    <td>Restaurant Manager</td>
+                                    <td>Tenant Member</td>
+                                    <td>ACTIVE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                    return;
+                }
+
+                const response = await fetch(`${API_BASE}/public/users`);
                 const data = await response.json();
 
                 if (data.success) {
-                    const users = data.message;
+                    const users = data.data || data.message;
                     let tableHtml = `
                         <table class="table">
                             <thead>
@@ -1961,7 +2779,7 @@
                     const roles = data.message;
                     const select = document.getElementById('newRole');
                     select.innerHTML = '<option value="">-- Select Role --</option>';
-                    
+
                     roles.forEach(role => {
                         select.innerHTML += `<option value="${role.role_code}">${role.role_name} - ${role.description}</option>`;
                     });
@@ -1986,7 +2804,7 @@
         // Create new user
         document.getElementById('newUserForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const userData = {
                 username: document.getElementById('newUsername').value,
                 email: document.getElementById('newEmail').value,
@@ -2025,8 +2843,13 @@
         async function loadMenu() {
             try {
                 console.log('Loading menu data...');
-                const categories = await apiCall('/menu/categories');
-                const products = await apiCall('/menu/products');
+
+                // Role-based controls
+                hideElementByRole('showCreateCategoryForm', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager']);
+                hideElementByRole('showCreateProductForm', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager']);
+
+                const categories = await apiCall('/public/menu/categories');
+                const products = await apiCall('/public/menu/products');
 
                 console.log('Categories response:', categories);
                 console.log('Products response:', products);
@@ -2056,7 +2879,7 @@
                     });
                     categoriesHtml += '</tbody></table>';
                     document.getElementById('menuCategories').innerHTML = categoriesHtml;
-                    
+
                     // Populate category dropdown for products
                     const categorySelect = document.getElementById('productCategory');
                     categorySelect.innerHTML = '<option value="">Select Category</option>';
@@ -2209,9 +3032,15 @@
         // Load tables data
         async function loadTables() {
             try {
-                const tables = await apiCall('/tables');
+                // Role-based controls
+                hideElementByRole('showCreateTableForm', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager']);
+
+                const tables = await apiCall('/public/tables');
 
                 if (tables.success && tables.data) {
+                    const canUpdateTable = hasRole(['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager', 'Waiter', 'Host/Hostess']);
+                    const actionHeader = canUpdateTable ? '<th>Actions</th>' : '';
+
                     let tablesHtml = `
                         <table class="table">
                             <thead>
@@ -2221,11 +3050,13 @@
                                     <th>Name</th>
                                     <th>Capacity</th>
                                     <th>Status</th>
+                                    ${actionHeader}
                                 </tr>
                             </thead>
                             <tbody>
                     `;
                     tables.data.forEach(table => {
+                        const actionCell = canUpdateTable ? `<td><button class="btn btn-small">Update Status</button></td>` : '';
                         tablesHtml += `
                             <tr>
                                 <td>${table.table_id}</td>
@@ -2233,6 +3064,7 @@
                                 <td>${table.table_name || '-'}</td>
                                 <td>${table.capacity}</td>
                                 <td>${table.status}</td>
+                                ${actionCell}
                             </tr>
                         `;
                     });
@@ -2325,9 +3157,14 @@
         // Load orders data
         async function loadOrders() {
             try {
-                const orders = await apiCall('/orders');
-                const tables = await apiCall('/tables');
-                const products = await apiCall('/menu/products');
+                // Role-based controls
+                const canCreateOrder = hasRole(['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager', 'Waiter', 'Host/Hostess']);
+                const canProcessPayment = hasRole(['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager', 'Cashier']);
+                document.getElementById('showCreateOrderForm').style.display = canCreateOrder ? '' : 'none';
+
+                const orders = await apiCall('/public/orders');
+                const tables = await apiCall('/public/tables');
+                const products = await apiCall('/public/menu/products');
 
                 // Populate dropdowns
                 if (tables.success && tables.data) {
@@ -2347,6 +3184,13 @@
                 }
 
                 if (orders.success && orders.data) {
+                    const canPayOrder = hasRole(['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager', 'Cashier']);
+                    const canServeOrder = hasRole(['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager', 'Waiter', 'Host/Hostess']);
+                    const canKitchenOrder = hasRole(['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager', 'Kitchen Staff']);
+                    const canCancelOrder = isAdminOrOwner() || currentUserRole === 'Restaurant Manager';
+
+                    const actionHeader = (canPayOrder || canServeOrder || canKitchenOrder || canCancelOrder) ? '<th>Actions</th>' : '';
+
                     let ordersHtml = `
                         <table class="table">
                             <thead>
@@ -2356,11 +3200,31 @@
                                     <th>Status</th>
                                     <th>Total</th>
                                     <th>Created At</th>
+                                    ${actionHeader}
                                 </tr>
                             </thead>
                             <tbody>
                     `;
                     orders.data.forEach(order => {
+                        let actionButtons = '';
+                        if (order.status === 'PENDING' && canKitchenOrder) {
+                            actionButtons += '<button class="btn btn-small">Start</button> ';
+                        }
+                        if (order.status === 'PREPARING' && canKitchenOrder) {
+                            actionButtons += '<button class="btn btn-small">Ready</button> ';
+                        }
+                        if (order.status === 'READY' && canServeOrder) {
+                            actionButtons += '<button class="btn btn-small">Serve</button> ';
+                        }
+                        if ((order.status === 'SERVED' || order.status === 'PENDING') && canPayOrder) {
+                            actionButtons += '<button class="btn btn-small">Pay</button> ';
+                        }
+                        if (canCancelOrder) {
+                            actionButtons += '<button class="btn btn-small btn-danger">Cancel</button>';
+                        }
+
+                        const actionCell = actionButtons ? `<td>${actionButtons}</td>` : '';
+
                         ordersHtml += `
                             <tr>
                                 <td>${order.order_id}</td>
@@ -2368,6 +3232,7 @@
                                 <td>${order.status}</td>
                                 <td>Rp ${(order.total_amount || 0).toLocaleString()}</td>
                                 <td>${new Date(order.created_at).toLocaleString()}</td>
+                                ${actionCell}
                             </tr>
                         `;
                     });
@@ -2435,8 +3300,21 @@
         // Load inventory data
         async function loadInventory() {
             try {
-                const inventory = await apiCall('/inventory');
-                const lowStock = await apiCall('/inventory/low-stock');
+                // Role-based message
+                if (currentUserRole === 'Kitchen Staff') {
+                    document.getElementById('inventoryMessage').textContent = 'Inventory view is read-only for kitchen staff.';
+                    document.getElementById('inventoryMessage').className = 'message info';
+                    document.getElementById('inventoryMessage').style.display = 'block';
+                } else if (currentUserRole === 'Inventory Manager' || isAdminOrOwner()) {
+                    document.getElementById('inventoryMessage').style.display = 'none';
+                }
+
+                const inventory = await apiCall('/public/inventory');
+                const lowStock = await apiCall('/public/inventory/low-stock');
+
+                const canEditInventory = isManagerOrAbove() || currentUserRole === 'Inventory Manager';
+                const actionHeader = canEditInventory ? '<th>Actions</th>' : '';
+                const actionButtons = canEditInventory ? '<td><button class="btn btn-small">Edit</button> <button class="btn btn-small btn-danger">Delete</button></td>' : '';
 
                 document.getElementById('inventoryList').innerHTML = `
                     <table class="table">
@@ -2446,6 +3324,7 @@
                                 <th>Quantity</th>
                                 <th>Unit</th>
                                 <th>Status</th>
+                                ${actionHeader}
                             </tr>
                         </thead>
                         <tbody>
@@ -2454,18 +3333,21 @@
                                 <td>50 kg</td>
                                 <td>kg</td>
                                 <td><span style="color: green">OK</span></td>
+                                ${actionButtons}
                             </tr>
                             <tr>
                                 <td>Chicken</td>
                                 <td>20 kg</td>
                                 <td>kg</td>
                                 <td><span style="color: green">OK</span></td>
+                                ${actionButtons}
                             </tr>
                             <tr>
                                 <td>Vegetables</td>
                                 <td>15 kg</td>
                                 <td>kg</td>
                                 <td><span style="color: green">OK</span></td>
+                                ${actionButtons}
                             </tr>
                         </tbody>
                     </table>
@@ -2497,7 +3379,19 @@
         // Load kitchen data
         async function loadKitchen() {
             try {
-                const kitchenOrders = await apiCall('/kitchen/orders');
+                // Role-based message
+                if (currentUserRole === 'Waiter' || currentUserRole === 'Host/Hostess') {
+                    document.getElementById('kitchenMessage').textContent = 'Kitchen view is read-only for front-of-house staff.';
+                    document.getElementById('kitchenMessage').className = 'message info';
+                    document.getElementById('kitchenMessage').style.display = 'block';
+                } else {
+                    document.getElementById('kitchenMessage').style.display = 'none';
+                }
+
+                const kitchenOrders = await apiCall('/public/kitchen/orders');
+
+                const canUpdateKitchen = hasRole(['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager', 'Kitchen Staff']);
+                const actionHeader = canUpdateKitchen ? '<th>Actions</th>' : '';
 
                 document.getElementById('kitchenOrders').innerHTML = `
                     <table class="table">
@@ -2507,6 +3401,7 @@
                                 <th>Table</th>
                                 <th>Items</th>
                                 <th>Status</th>
+                                ${actionHeader}
                             </tr>
                         </thead>
                         <tbody>
@@ -2515,18 +3410,21 @@
                                 <td>Table 2</td>
                                 <td>Nasi Goreng x2, Ayam Bakar x1</td>
                                 <td><span style="color: orange">Preparing</span></td>
+                                ${canUpdateKitchen ? '<td><button class="btn btn-small">Ready</button> <button class="btn btn-small btn-secondary">Complete</button></td>' : ''}
                             </tr>
                             <tr>
                                 <td>#1235</td>
                                 <td>Table 5</td>
                                 <td>Es Teh Manis x4</td>
                                 <td><span style="color: green">Ready</span></td>
+                                ${canUpdateKitchen ? '<td><button class="btn btn-small">Serve</button> <button class="btn btn-small btn-secondary">Complete</button></td>' : ''}
                             </tr>
                             <tr>
                                 <td>#1236</td>
                                 <td>Table 1</td>
                                 <td>Sate Ayam x3</td>
                                 <td><span style="color: red">Pending</span></td>
+                                ${canUpdateKitchen ? '<td><button class="btn btn-small">Start</button> <button class="btn btn-small btn-secondary">Cancel</button></td>' : ''}
                             </tr>
                         </tbody>
                     </table>
@@ -2562,7 +3460,7 @@
             }).addTo(map);
 
             // Add click event to map
-            map.on('click', function(e) {
+            map.on('click', function (e) {
                 const lat = e.latlng.lat.toFixed(8);
                 const lng = e.latlng.lng.toFixed(8);
 
@@ -2584,11 +3482,11 @@
             // Try to get user's current location
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    function(position) {
+                    function (position) {
                         const lat = position.coords.latitude;
                         const lng = position.coords.longitude;
                         map.setView([lat, lng], 15);
-                        
+
                         // Update input fields
                         document.getElementById('latitude').value = lat.toFixed(8);
                         document.getElementById('longitude').value = lng.toFixed(8);
@@ -2598,7 +3496,7 @@
                             .bindPopup('Lokasi Anda')
                             .openPopup();
                     },
-                    function(error) {
+                    function (error) {
                         console.log('Geolocation error:', error);
                         // Keep default Jakarta view
                     }
@@ -2628,6 +3526,645 @@
                 showSetupSummary();
             }
         }
+
+        // Load Settings
+        async function loadSettings() {
+            try {
+                // Platform Owner settings
+                if (currentUserLevel === 'PLATFORM_OWNER') {
+                    document.getElementById('settingsMessage').textContent = 'Platform Owner settings';
+                    document.getElementById('settingsMessage').className = 'message info';
+                    document.getElementById('settingsMessage').style.display = 'block';
+                    document.getElementById('restaurantName').value = 'EBP Platform';
+                    document.getElementById('taxRate').value = '0';
+                    document.getElementById('currency').value = 'IDR';
+                    document.getElementById('receiptHeader').value = 'EBP Platform';
+                    document.getElementById('receiptFooter').value = 'Enterprise Business Platform';
+                } else {
+                    document.getElementById('restaurantName').value = 'My Restaurant';
+                    document.getElementById('taxRate').value = '10';
+                    document.getElementById('currency').value = 'IDR';
+                    document.getElementById('receiptHeader').value = 'Thank you for dining with us!';
+                    document.getElementById('receiptFooter').value = 'Please come again!';
+                }
+
+                // Role-based controls
+                const canEditSettings = isAdminOrOwner();
+                setReadOnlyByRole('restaurantName', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator']);
+                setReadOnlyByRole('taxRate', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator']);
+                setReadOnlyByRole('currency', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator']);
+                setReadOnlyByRole('receiptHeader', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator']);
+                setReadOnlyByRole('receiptFooter', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator']);
+                hideElementByRole('settingsFormSubmit', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator']);
+
+                // For non-admin, show message that settings are read-only
+                if (!canEditSettings) {
+                    document.getElementById('settingsMessage').textContent = 'Settings are read-only for your role.';
+                    document.getElementById('settingsMessage').className = 'message info';
+                    document.getElementById('settingsMessage').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error loading settings:', error);
+            }
+        }
+
+        // Load Accounting
+        async function loadAccounting() {
+            try {
+                document.getElementById('totalRevenue').textContent = 'Rp 12.5M';
+                document.getElementById('totalExpenses').textContent = 'Rp 8.2M';
+                document.getElementById('netProfit').textContent = 'Rp 4.3M';
+                document.getElementById('transactionsList').innerHTML = '<p>No recent transactions</p>';
+
+                // Role-based message
+                if (currentUserRole === 'Cashier') {
+                    document.getElementById('accountingMessage').textContent = 'Cashier view: transactions are read-only.';
+                    document.getElementById('accountingMessage').className = 'message info';
+                    document.getElementById('accountingMessage').style.display = 'block';
+                } else if (!isAdminOrOwner() && currentUserRole !== 'Restaurant Manager') {
+                    document.getElementById('accountingMessage').textContent = 'Accounting data is view-only for your role.';
+                    document.getElementById('accountingMessage').className = 'message info';
+                    document.getElementById('accountingMessage').style.display = 'block';
+                } else {
+                    document.getElementById('accountingMessage').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error loading accounting:', error);
+            }
+        }
+
+        // Load Reservations
+        async function loadReservations() {
+            try {
+                // Role-based controls
+                const canManageReservation = hasRole(['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager', 'Waiter', 'Host/Hostess']);
+                document.getElementById('showCreateReservationForm').style.display = canManageReservation ? '' : 'none';
+
+                const reservations = await apiCall('/public/reservations');
+                if (reservations.success && reservations.data) {
+                    let tableHtml = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Phone</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Guests</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    reservations.data.forEach(res => {
+                        tableHtml += `
+                            <tr>
+                                <td>${res.customer_name}</td>
+                                <td>${res.phone}</td>
+                                <td>${res.reservation_date}</td>
+                                <td>${res.reservation_time}</td>
+                                <td>${res.number_of_guests}</td>
+                                <td>${res.status}</td>
+                            </tr>
+                        `;
+                    });
+                    tableHtml += '</tbody></table>';
+                    document.getElementById('reservationsTable').innerHTML = tableHtml;
+                } else {
+                    document.getElementById('reservationsTable').innerHTML = '<p>No upcoming reservations</p>';
+                }
+            } catch (error) {
+                console.error('Error loading reservations:', error);
+                document.getElementById('reservationsTable').innerHTML = '<p>Error loading reservations</p>';
+            }
+        }
+
+        // Load Customers (CRM)
+        async function loadCustomers() {
+            try {
+                // Role-based controls
+                const canManageCustomer = hasRole(['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager', 'Waiter', 'Host/Hostess']);
+                document.getElementById('showCreateCustomerForm').style.display = canManageCustomer ? '' : 'none';
+
+                const customers = await apiCall('/public/customers');
+                if (customers.success && customers.data) {
+                    let tableHtml = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Loyalty Points</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    customers.data.forEach(cust => {
+                        tableHtml += `
+                            <tr>
+                                <td>${cust.customer_name}</td>
+                                <td>${cust.email || '-'}</td>
+                                <td>${cust.phone}</td>
+                                <td>${cust.loyalty_points || 0}</td>
+                                <td>${cust.status}</td>
+                            </tr>
+                        `;
+                    });
+                    tableHtml += '</tbody></table>';
+                    document.getElementById('customersTable').innerHTML = tableHtml;
+                } else {
+                    document.getElementById('customersTable').innerHTML = '<p>No customers found</p>';
+                }
+            } catch (error) {
+                console.error('Error loading customers:', error);
+                document.getElementById('customersTable').innerHTML = '<p>Error loading customers</p>';
+            }
+        }
+
+        // Load Employees (HR)
+        async function loadEmployees() {
+            try {
+                // Role-based controls
+                if (!isAdminOrOwner() && currentUserRole !== 'Restaurant Manager') {
+                    document.getElementById('hrMessage').textContent = 'HR data is view-only for your role.';
+                    document.getElementById('hrMessage').className = 'message info';
+                    document.getElementById('hrMessage').style.display = 'block';
+                } else {
+                    document.getElementById('hrMessage').style.display = 'none';
+                }
+
+                const employees = await apiCall('/public/employees');
+                if (employees.success && employees.data) {
+                    let tableHtml = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Salary</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    employees.data.forEach(emp => {
+                        tableHtml += `
+                            <tr>
+                                <td>${emp.employee_name}</td>
+                                <td>${emp.position}</td>
+                                <td>${emp.phone || '-'}</td>
+                                <td>${emp.email || '-'}</td>
+                                <td>${emp.salary || '-'}</td>
+                                <td>${emp.status}</td>
+                            </tr>
+                        `;
+                    });
+                    tableHtml += '</tbody></table>';
+                    document.getElementById('employeesTable').innerHTML = tableHtml;
+                } else {
+                    document.getElementById('employeesTable').innerHTML = '<p>No employees found</p>';
+                }
+            } catch (error) {
+                console.error('Error loading employees:', error);
+                document.getElementById('employeesTable').innerHTML = '<p>Error loading employees</p>';
+            }
+        }
+
+        // Load Deliveries
+        async function loadDeliveries() {
+            try {
+                // Role-based controls
+                if (!isManagerOrAbove()) {
+                    document.getElementById('deliveryMessage').textContent = 'Delivery data is view-only for your role.';
+                    document.getElementById('deliveryMessage').className = 'message info';
+                    document.getElementById('deliveryMessage').style.display = 'block';
+                } else {
+                    document.getElementById('deliveryMessage').style.display = 'none';
+                }
+
+                const deliveries = await apiCall('/public/deliveries');
+                if (deliveries.success && deliveries.data) {
+                    let tableHtml = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Address</th>
+                                    <th>Phone</th>
+                                    <th>Delivery Time</th>
+                                    <th>Fee</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    deliveries.data.forEach(del => {
+                        tableHtml += `
+                            <tr>
+                                <td>${del.customer_name}</td>
+                                <td>${del.delivery_address}</td>
+                                <td>${del.phone}</td>
+                                <td>${del.delivery_time || '-'}</td>
+                                <td>${del.delivery_fee || 0}</td>
+                                <td>${del.status}</td>
+                            </tr>
+                        `;
+                    });
+                    tableHtml += '</tbody></table>';
+                    document.getElementById('deliveriesTable').innerHTML = tableHtml;
+                } else {
+                    document.getElementById('deliveriesTable').innerHTML = '<p>No active deliveries</p>';
+                }
+            } catch (error) {
+                console.error('Error loading deliveries:', error);
+                document.getElementById('deliveriesTable').innerHTML = '<p>Error loading deliveries</p>';
+            }
+        }
+
+        // Load AI
+        async function loadAI() {
+            try {
+                if (!isManagerOrAbove()) {
+                    document.getElementById('aiMessage').textContent = 'AI insights are view-only for your role.';
+                    document.getElementById('aiMessage').className = 'message info';
+                    document.getElementById('aiMessage').style.display = 'block';
+                } else {
+                    document.getElementById('aiMessage').style.display = 'none';
+                }
+                document.getElementById('aiInsights').innerHTML = '<p>AI insights will be displayed here.</p>';
+            } catch (error) {
+                console.error('Error loading AI:', error);
+            }
+        }
+
+        // Load Integrations
+        async function loadIntegrations() {
+            try {
+                if (!isAdminOrOwner()) {
+                    document.getElementById('integrationMessage').textContent = 'Integration settings are read-only for your role.';
+                    document.getElementById('integrationMessage').className = 'message info';
+                    document.getElementById('integrationMessage').style.display = 'block';
+                    document.querySelectorAll('#integrationTab input').forEach(el => el.disabled = true);
+                } else {
+                    document.getElementById('integrationMessage').style.display = 'none';
+                    document.querySelectorAll('#integrationTab input').forEach(el => el.disabled = false);
+                }
+            } catch (error) {
+                console.error('Error loading integrations:', error);
+            }
+        }
+
+        // Load Quality
+        async function loadQuality() {
+            try {
+                if (!isManagerOrAbove()) {
+                    document.getElementById('qualityMessage').textContent = 'Quality data is view-only for your role.';
+                    document.getElementById('qualityMessage').className = 'message info';
+                    document.getElementById('qualityMessage').style.display = 'block';
+                } else {
+                    document.getElementById('qualityMessage').style.display = 'none';
+                }
+                document.getElementById('qualityChecksTable').innerHTML = '<p>No quality checks found</p>';
+            } catch (error) {
+                console.error('Error loading quality:', error);
+            }
+        }
+
+        // Load Suppliers (SupplyChain)
+        async function loadSuppliers() {
+            try {
+                if (!isManagerOrAbove()) {
+                    document.getElementById('supplychainMessage').textContent = 'Supplier data is view-only for your role.';
+                    document.getElementById('supplychainMessage').className = 'message info';
+                    document.getElementById('supplychainMessage').style.display = 'block';
+                } else {
+                    document.getElementById('supplychainMessage').style.display = 'none';
+                }
+                const suppliers = await apiCall('/public/suppliers');
+                if (suppliers.success && suppliers.data) {
+                    let tableHtml = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Contact Person</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    suppliers.data.forEach(sup => {
+                        tableHtml += `
+                            <tr>
+                                <td>${sup.supplier_name}</td>
+                                <td>${sup.contact_person || '-'}</td>
+                                <td>${sup.phone || '-'}</td>
+                                <td>${sup.email || '-'}</td>
+                                <td>${sup.status}</td>
+                            </tr>
+                        `;
+                    });
+                    tableHtml += '</tbody></table>';
+                    document.getElementById('suppliersTable').innerHTML = tableHtml;
+                } else {
+                    document.getElementById('suppliersTable').innerHTML = '<p>No suppliers found</p>';
+                }
+            } catch (error) {
+                console.error('Error loading suppliers:', error);
+                document.getElementById('suppliersTable').innerHTML = '<p>Error loading suppliers</p>';
+            }
+        }
+
+        // Load Sustainability
+        async function loadSustainability() {
+            try {
+                if (!isManagerOrAbove()) {
+                    document.getElementById('sustainabilityMessage').textContent = 'Sustainability metrics are view-only for your role.';
+                    document.getElementById('sustainabilityMessage').className = 'message info';
+                    document.getElementById('sustainabilityMessage').style.display = 'block';
+                } else {
+                    document.getElementById('sustainabilityMessage').style.display = 'none';
+                }
+                document.getElementById('wasteReduction').textContent = '15%';
+                document.getElementById('energyEfficiency').textContent = '20%';
+                document.getElementById('sustainabilityScore').textContent = '75';
+            } catch (error) {
+                console.error('Error loading sustainability:', error);
+            }
+        }
+
+        // Load Locations
+        async function loadLocations() {
+            try {
+                if (!isAdminOrOwner()) {
+                    document.getElementById('locationMessage').textContent = 'Location data is view-only for your role.';
+                    document.getElementById('locationMessage').className = 'message info';
+                    document.getElementById('locationMessage').style.display = 'block';
+                } else {
+                    document.getElementById('locationMessage').style.display = 'none';
+                }
+                document.getElementById('locationsTable').innerHTML = '<p>No locations found</p>';
+            } catch (error) {
+                console.error('Error loading locations:', error);
+            }
+        }
+
+        // Load Maintenance
+        async function loadMaintenance() {
+            try {
+                if (!isAdminOrOwner()) {
+                    document.getElementById('maintenanceMessage').textContent = 'Maintenance data is view-only for your role.';
+                    document.getElementById('maintenanceMessage').className = 'message info';
+                    document.getElementById('maintenanceMessage').style.display = 'block';
+                } else {
+                    document.getElementById('maintenanceMessage').style.display = 'none';
+                }
+                document.getElementById('maintenanceTable').innerHTML = '<p>No scheduled maintenance</p>';
+            } catch (error) {
+                console.error('Error loading maintenance:', error);
+            }
+        }
+
+        // Load Enterprise
+        async function loadEnterprise() {
+            try {
+                if (currentUserLevel !== 'PLATFORM_OWNER') {
+                    document.getElementById('enterpriseMessage').textContent = 'Enterprise data is only available to Platform Owner.';
+                    document.getElementById('enterpriseMessage').className = 'message info';
+                    document.getElementById('enterpriseMessage').style.display = 'block';
+                } else {
+                    document.getElementById('enterpriseMessage').style.display = 'none';
+                }
+                document.getElementById('totalLocations').textContent = '1';
+                document.getElementById('totalEmployees').textContent = '7';
+                document.getElementById('totalRevenue').textContent = 'Rp 12.5M';
+            } catch (error) {
+                console.error('Error loading enterprise:', error);
+            }
+        }
+
+        // Load Tenants
+        async function loadTenants() {
+            try {
+                if (currentUserLevel !== 'PLATFORM_OWNER') {
+                    document.getElementById('tenantMessage').textContent = 'Tenant management is only available to Platform Owner.';
+                    document.getElementById('tenantMessage').className = 'message info';
+                    document.getElementById('tenantMessage').style.display = 'block';
+                } else {
+                    document.getElementById('tenantMessage').style.display = 'none';
+                }
+                document.getElementById('tenantsTable').innerHTML = '<p>No tenants found</p>';
+            } catch (error) {
+                console.error('Error loading tenants:', error);
+            }
+        }
+
+        // Load WhatsApp
+        async function loadWhatsApp() {
+            try {
+                if (!isAdminOrOwner()) {
+                    document.getElementById('whatsappMessage').textContent = 'WhatsApp settings are read-only for your role.';
+                    document.getElementById('whatsappMessage').className = 'message info';
+                    document.getElementById('whatsappMessage').style.display = 'block';
+                } else {
+                    document.getElementById('whatsappMessage').style.display = 'none';
+                }
+                document.getElementById('whatsappOrdersTable').innerHTML = '<p>No WhatsApp orders</p>';
+            } catch (error) {
+                console.error('Error loading WhatsApp:', error);
+            }
+        }
+
+        // Role-based content helpers
+        function hasRole(allowedRoles) {
+            if (!Array.isArray(allowedRoles)) allowedRoles = [allowedRoles];
+            return allowedRoles.includes(currentUserRole) || allowedRoles.includes(currentUserLevel);
+        }
+
+        function isAdminOrOwner() {
+            return currentUserLevel === 'PLATFORM_OWNER' ||
+                currentUserLevel === 'TENANT_OWNER' ||
+                currentUserRole === 'Administrator';
+        }
+
+        function isManagerOrAbove() {
+            return isAdminOrOwner() || currentUserRole === 'Restaurant Manager';
+        }
+
+        function hideElementByRole(elementId, allowedRoles) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.style.display = hasRole(allowedRoles) ? '' : 'none';
+            }
+        }
+
+        function hideElementsByRole(selector, allowedRoles) {
+            document.querySelectorAll(selector).forEach(el => {
+                el.style.display = hasRole(allowedRoles) ? '' : 'none';
+            });
+        }
+
+        function setReadOnlyByRole(elementId, allowedRoles) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.disabled = !hasRole(allowedRoles);
+            }
+        }
+
+        function applyRoleBasedContent() {
+            // Hide elements with role-admin-only class
+            hideElementsByRole('.role-admin-only', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator']);
+            // Hide elements with role-manager-above class
+            hideElementsByRole('.role-manager-above', ['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager']);
+            // Hide elements with role-owner-only class
+            hideElementsByRole('.role-owner-only', ['PLATFORM_OWNER', 'TENANT_OWNER']);
+            // Disable elements with role-readonly class
+            document.querySelectorAll('.role-readonly').forEach(el => {
+                el.disabled = !isAdminOrOwner();
+            });
+        }
+
+        // Role-based menu configuration
+        const MENU_ACCESS = {
+            PLATFORM_OWNER: {
+                label: 'Platform Owner',
+                tabs: [
+                    'overview', 'enterprise', 'tenant', 'users', 'settings',
+                    'reports', 'ai', 'integration'
+                ]
+            },
+            TENANT_OWNER: {
+                label: 'Tenant Owner',
+                tabs: [
+                    'overview', 'menu', 'tables', 'orders', 'inventory', 'kitchen',
+                    'users', 'settings', 'accounting', 'reservation', 'crm', 'reports',
+                    'hr', 'delivery', 'ai', 'integration', 'quality', 'supplychain',
+                    'sustainability', 'location', 'maintenance', 'whatsapp'
+                ]
+            },
+            TENANT_MEMBER: {
+                Administrator: [
+                    'overview', 'menu', 'tables', 'orders', 'inventory', 'kitchen',
+                    'users', 'settings', 'accounting', 'reservation', 'crm', 'reports',
+                    'hr', 'delivery', 'ai', 'integration', 'quality', 'supplychain',
+                    'sustainability', 'location', 'maintenance', 'whatsapp'
+                ],
+                'Restaurant Manager': [
+                    'overview', 'menu', 'tables', 'orders', 'inventory', 'kitchen',
+                    'reservation', 'reports', 'hr', 'crm', 'delivery', 'supplychain',
+                    'quality', 'accounting'
+                ],
+                Waiter: [
+                    'overview', 'tables', 'orders', 'reservation', 'menu'
+                ],
+                'Kitchen Staff': [
+                    'overview', 'kitchen', 'orders', 'inventory', 'menu'
+                ],
+                Cashier: [
+                    'overview', 'orders', 'accounting', 'reports', 'tables', 'menu'
+                ],
+                'Inventory Manager': [
+                    'overview', 'inventory', 'supplychain', 'quality', 'orders', 'reports', 'menu'
+                ],
+                'Host/Hostess': [
+                    'overview', 'tables', 'reservation', 'orders', 'menu'
+                ]
+            }
+        };
+
+        function setupMenuByRole() {
+            const level = currentUserLevel || 'TENANT_MEMBER';
+            const role = currentUserRole || 'Waiter';
+            let allowedTabs = [];
+
+            if (level === 'PLATFORM_OWNER') {
+                allowedTabs = MENU_ACCESS.PLATFORM_OWNER.tabs;
+            } else if (level === 'TENANT_OWNER') {
+                allowedTabs = MENU_ACCESS.TENANT_OWNER.tabs;
+            } else {
+                allowedTabs = MENU_ACCESS.TENANT_MEMBER[role] || MENU_ACCESS.TENANT_MEMBER.Waiter;
+            }
+
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                const tabName = tab.dataset.tab;
+                if (allowedTabs.includes(tabName)) {
+                    tab.style.display = '';
+                } else {
+                    tab.style.display = 'none';
+                }
+            });
+
+            const roleIndicator = document.getElementById('roleIndicator') || createRoleIndicator();
+            const levelLabel = MENU_ACCESS[level]?.label || level;
+            roleIndicator.textContent = `${levelLabel} - ${role}`;
+        }
+
+        function createRoleIndicator() {
+            const indicator = document.createElement('div');
+            indicator.id = 'roleIndicator';
+            indicator.style.cssText = 'position: fixed; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; z-index: 1000;';
+            document.body.appendChild(indicator);
+            return indicator;
+        }
+
+        // Inventory form handlers
+        document.getElementById('showInventoryItemForm')?.addEventListener('click', () => {
+            document.getElementById('inventoryItemForm').style.display = 'block';
+        });
+
+        document.getElementById('cancelInventoryItemBtn')?.addEventListener('click', () => {
+            document.getElementById('inventoryItemForm').style.display = 'none';
+        });
+
+        document.getElementById('addInventoryItemBtn')?.addEventListener('click', () => {
+            showMessage('inventoryMessage', 'Inventory item added (demo)', 'success');
+            document.getElementById('inventoryItemForm').style.display = 'none';
+        });
+
+        // Reports button handlers
+        document.getElementById('generateReport')?.addEventListener('click', () => {
+            const reportType = document.getElementById('reportType').value;
+            let allowed = true;
+            if (reportType === 'inventory' && !hasRole(['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager', 'Inventory Manager'])) {
+                allowed = false;
+            } else if (reportType === 'staff' && !hasRole(['PLATFORM_OWNER', 'TENANT_OWNER', 'Administrator', 'Restaurant Manager'])) {
+                allowed = false;
+            } else if (!isManagerOrAbove() && currentUserRole !== 'Cashier') {
+                allowed = false;
+            }
+
+            if (!allowed) {
+                showMessage('reportsMessage', 'You do not have permission to generate this report type.', 'error');
+                return;
+            }
+
+            document.getElementById('reportResults').style.display = 'block';
+            document.getElementById('reportContent').innerHTML = `<p>Generated ${reportType} report successfully.</p>`;
+        });
+
+        document.getElementById('exportReport')?.addEventListener('click', () => {
+            if (!isManagerOrAbove()) {
+                showMessage('reportsMessage', 'Export is only available for managers and above.', 'error');
+                return;
+            }
+            showMessage('reportsMessage', 'Report exported successfully!', 'success');
+        });
+
+        // Settings form handler
+        document.getElementById('settingsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                showMessage('settingsMessage', 'Settings saved successfully!', 'success');
+            } catch (error) {
+                showMessage('settingsMessage', 'Error saving settings', 'error');
+            }
+        });
     </script>
     <!-- Leaflet JS for map -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

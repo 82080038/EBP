@@ -20,9 +20,7 @@ class TableController
 
     public function getTables(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'TABLE_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $tables = $this->tableService->getAllTables($tenantId, $branchId);
@@ -32,9 +30,7 @@ class TableController
 
     public function getAvailableTables(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'TABLE_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $tables = $this->tableService->getAvailableTables($tenantId, $branchId);
@@ -44,9 +40,7 @@ class TableController
 
     public function getTable(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'TABLE_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $tableId = $request['table_id'] ?? 0;
 
@@ -61,9 +55,7 @@ class TableController
 
     public function createTable(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'TABLE_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $data = $request['body'] ?? [];
 
@@ -86,9 +78,7 @@ class TableController
 
     public function updateTable(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'TABLE_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $tableId = $request['table_id'] ?? 0;
         $data = $request['body'] ?? [];
@@ -109,9 +99,7 @@ class TableController
 
     public function updateTableStatus(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'TABLE_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $tableId = $request['table_id'] ?? 0;
         $status = $request['body']['status'] ?? '';
@@ -140,9 +128,7 @@ class TableController
 
     public function deleteTable(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'TABLE_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $tableId = $request['table_id'] ?? 0;
 

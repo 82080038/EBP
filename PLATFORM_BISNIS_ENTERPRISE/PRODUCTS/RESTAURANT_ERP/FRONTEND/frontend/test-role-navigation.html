@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role-Based Navigation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .role-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .role-btn {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .role-btn:hover {
+            background: #0056b3;
+        }
+        .role-btn.active {
+            background: #28a745;
+        }
+        .current-role {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .accessible-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 8px 15px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 3px;
+        }
+        .tab.hidden {
+            opacity: 0.3;
+            text-decoration: line-through;
+        }
+        .tab.visible {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Role-Based Navigation Test</h1>
+    
+    <div class="test-section">
+        <h2>Select Role to Test</h2>
+        <div class="role-buttons">
+            <button class="role-btn" data-role="admin">Admin (Administrator)</button>
+            <button class="role-btn" data-role="manager">Manager (Restaurant Manager)</button>
+            <button class="role-btn" data-role="waiter">Waiter</button>
+            <button class="role-btn" data-role="kitchen">Kitchen Staff</button>
+            <button class="role-btn" data-role="cashier">Cashier</button>
+            <button class="role-btn" data-role="inventory">Inventory Manager</button>
+            <button class="role-btn" data-role="host">Host/Hostess</button>
+            <button class="role-btn" data-role="bartender">Bartender</button>
+            <button class="role-btn" data-role="barista">Barista</button>
+            <button class="role-btn" data-role="sommelier">Sommelier</button>
+        </div>
+        
+        <div class="current-role">
+            Current Role: <span id="currentRole">None selected</span>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Accessible Tabs</h2>
+        <div class="accessible-tabs" id="tabsContainer">
+            <div class="tab" data-tab="overview">Overview</div>
+            <div class="tab" data-tab="orders">Orders</div>
+            <div class="tab" data-tab="menu">Menu</div>
+            <div class="tab" data-tab="tables">Tables</div>
+            <div class="tab" data-tab="inventory">Inventory</div>
+            <div class="tab" data-tab="kitchen">Kitchen</div>
+            <div class="tab" data-tab="reservations">Reservations</div>
+            <div class="tab" data-tab="customers">Customers</div>
+            <div class="tab" data-tab="reports">Reports</div>
+            <div class="tab" data-tab="settings">Settings</div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>User Object</h2>
+        <pre id="userObject">No user selected</pre>
+    </div>
+    
+    <div class="test-section">
+        <h2>Accessible Tabs Array</h2>
+        <pre id="accessibleTabsArray">No tabs</pre>
+    </div>
+
+    <script src="js/menu-access.js"></script>
+    <script>
+        const roleConfigs = {
+            admin: {
+                role_name: 'Administrator',
+                is_platform_owner: false,
+                is_tenant_owner: false
+            },
+            manager: {
+                role_name: 'Restaurant Manager',
+                is_platform_owner: false,
+                is_tenant_owner: false
+            },
+            waiter: {
+                role_name: 'Waiter',
+                is_platform_owner: false,
+                is_tenant_owner: false
+            },
+            kitchen: {
+                role_name: 'Kitchen Staff',
+                is_platform_owner: false,
+                is_tenant_owner: false
+            },
+            cashier: {
+                role_name: 'Cashier',
+                is_platform_owner: false,
+                is_tenant_owner: false
+            },
+            inventory: {
+                role_name: 'Inventory Manager',
+                is_platform_owner: false,
+                is_tenant_owner: false
+            },
+            host: {
+                role_name: 'Host/Hostess',
+                is_platform_owner: false,
+                is_tenant_owner: false
+            },
+            bartender: {
+                role_name: 'Bartender',
+                is_platform_owner: false,
+                is_tenant_owner: false
+            },
+            barista: {
+                role_name: 'Barista',
+                is_platform_owner: false,
+                is_tenant_owner: false
+            },
+            sommelier: {
+                role_name: 'Sommelier',
+                is_platform_owner: false,
+                is_tenant_owner: false
+            }
+        };
+
+        const allTabs = ['overview', 'orders', 'menu', 'tables', 'inventory', 'kitchen', 'reservations', 'customers', 'reports', 'settings'];
+
+        document.querySelectorAll('.role-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const role = btn.dataset.role;
+                const user = roleConfigs[role];
+                
+                // Update UI
+                document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                document.getElementById('currentRole').textContent = user.role_name;
+                document.getElementById('userObject').textContent = JSON.stringify(user, null, 2);
+                
+                // Get accessible tabs
+                const accessibleTabs = getMenuForUser(user);
+                document.getElementById('accessibleTabsArray').textContent = JSON.stringify(accessibleTabs, null, 2);
+                
+                // Update tab visibility
+                document.querySelectorAll('.tab').forEach(tab => {
+                    const tabName = tab.dataset.tab;
+                    if (accessibleTabs.includes(tabName)) {
+                        tab.classList.add('visible');
+                        tab.classList.remove('hidden');
+                    } else {
+                        tab.classList.add('hidden');
+                        tab.classList.remove('visible');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

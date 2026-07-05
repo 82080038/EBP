@@ -31,7 +31,7 @@ public function __construct()
 
 }
 
-public function getOrders($tenantId, $branchId, $status = null)
+public function getOrders($tenantId, $branchId, $status = null, $limit = 50, $sort = 'created_at', $order = 'DESC')
 {
     try {
         $query = "SELECT * FROM orders WHERE tenant_id = :tenant_id AND branch_id = :branch_id";
@@ -45,7 +45,22 @@ public function getOrders($tenantId, $branchId, $status = null)
             $params[':status'] = $status;
         }
 
-        $query .= " ORDER BY created_at DESC";
+        // Validate sort field to prevent SQL injection
+        $allowedSortFields = ['created_at', 'updated_at', 'total_amount', 'order_number'];
+        if (!in_array($sort, $allowedSortFields)) {
+            $sort = 'created_at';
+        }
+
+        // Validate order direction
+        $order = strtoupper($order) === 'ASC' ? 'ASC' : 'DESC';
+
+        $query .= " ORDER BY {$sort} {$order}";
+
+        // Add limit
+        $limit = (int)$limit;
+        if ($limit > 0 && $limit <= 1000) {
+            $query .= " LIMIT {$limit}";
+        }
 
         $stmt = $this->db->prepare($query);
         foreach ($params as $key => $value) {

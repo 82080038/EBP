@@ -20,9 +20,7 @@ class ReportController
 
     public function getSalesReport(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $dateFrom = $request['date_from'] ?? date('Y-m-01');
@@ -35,9 +33,7 @@ class ReportController
 
     public function getTopSellingProducts(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $dateFrom = $request['date_from'] ?? date('Y-m-01');
@@ -51,9 +47,7 @@ class ReportController
 
     public function getInventoryReport(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
 
@@ -64,9 +58,7 @@ class ReportController
 
     public function getStockMovementReport(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $dateFrom = $request['date_from'] ?? date('Y-m-01');
@@ -79,9 +71,7 @@ class ReportController
 
     public function getKitchenPerformanceReport(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $dateFrom = $request['date_from'] ?? date('Y-m-01');
@@ -94,9 +84,7 @@ class ReportController
 
     public function getReservationReport(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $dateFrom = $request['date_from'] ?? date('Y-m-01');
@@ -109,9 +97,7 @@ class ReportController
 
     public function getFinancialReport(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $dateFrom = $request['date_from'] ?? date('Y-m-01');
@@ -124,9 +110,7 @@ class ReportController
 
     public function getDashboardSummary(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
 
@@ -137,9 +121,7 @@ class ReportController
 
     public function getSalesByHour(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $dateFrom = $request['date_from'] ?? date('Y-m-01');
@@ -152,9 +134,7 @@ class ReportController
 
     public function getPaymentMethodBreakdown(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $dateFrom = $request['date_from'] ?? date('Y-m-01');
@@ -167,9 +147,7 @@ class ReportController
 
     public function getInventoryUsageReport(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $dateFrom = $request['date_from'] ?? date('Y-m-01');
@@ -182,9 +160,7 @@ class ReportController
 
     public function getLaborCostAnalysis(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $dateFrom = $request['date_from'] ?? date('Y-m-01');
@@ -197,9 +173,7 @@ class ReportController
 
     public function getTaxReport(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $dateFrom = $request['date_from'] ?? date('Y-m-01');
@@ -212,9 +186,7 @@ class ReportController
 
     public function exportReport(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'REPORT_VIEW');
-
+        // Permission checking is now handled in routes
         $reportType = $request['params']['type'] ?? null;
         $format = $request['params']['format'] ?? 'csv';
         $tenantId = $request['tenant_id'] ?? 1;

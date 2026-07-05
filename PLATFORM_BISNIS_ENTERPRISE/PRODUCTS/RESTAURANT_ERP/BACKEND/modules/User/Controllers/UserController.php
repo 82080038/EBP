@@ -20,9 +20,7 @@ class UserController
 
     public function getUsers(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'USER_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
         $users = $this->userService->getAllUsers($tenantId, $branchId);
@@ -32,9 +30,7 @@ class UserController
 
     public function getUser(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'USER_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $userId = $request['user_id'] ?? 0;
 
@@ -49,9 +45,7 @@ class UserController
 
     public function createUser(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'USER_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $data = $request['body'] ?? [];
 
@@ -80,9 +74,7 @@ class UserController
 
     public function updateUser(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'USER_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $userId = $request['user_id'] ?? 0;
         $data = $request['body'] ?? [];
@@ -112,9 +104,7 @@ class UserController
 
     public function changePassword(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'USER_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $userId = $request['user_id'] ?? 0;
         $data = $request['body'] ?? [];
@@ -141,9 +131,7 @@ class UserController
 
     public function deleteUser(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'USER_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $userId = $request['user_id'] ?? 0;
 
@@ -163,9 +151,7 @@ class UserController
 
     public function createUserWithRole(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'USER_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? 1;
         $data = $request['body'] ?? [];
@@ -198,12 +184,21 @@ class UserController
 
     public function getAvailableRoles(array $request)
     {
-        $request = AuthMiddleware::handle($request);
-        PermissionMiddleware::handle($request, 'USER_MANAGE');
-
+        // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $roles = $this->userService->getAvailableRoles($tenantId);
 
         return Response::success($roles, 'Roles retrieved successfully');
+    }
+
+    public function getUserPermissions(array $request)
+    {
+        // Permission checking is now handled in routes
+        $tenantId = $request['tenant_id'] ?? 1;
+        $userId = $request['user_id'] ?? 0;
+
+        $permissions = $this->userService->getUserPermissions($tenantId, $userId);
+
+        return Response::success($permissions, 'Permissions retrieved successfully');
     }
 }

@@ -8,10 +8,15 @@ class PermissionMiddleware
     private static $permissionCache = [];
     private static $cacheTTL = 300; // 5 minutes cache TTL
 
-    public function check($userId, $permission, $isPlatformOwner = false)
+    public function check($userId, $permission, $isPlatformOwner = false, $isTenantOwner = false)
     {
         // Platform owners have all permissions by default
         if ($isPlatformOwner) {
+            return true;
+        }
+
+        // Tenant owners have all permissions by default
+        if ($isTenantOwner) {
             return true;
         }
 
@@ -88,5 +93,128 @@ class PermissionMiddleware
     public static function clearAllCache()
     {
         self::$permissionCache = [];
+    }
+
+    /**
+     * Check if user has permission for a specific action on a module
+     * 
+     * @param int $userId User ID
+     * @param string $module Module name (e.g., 'menu', 'order', 'table')
+     * @param string $action Action name (e.g., 'create', 'edit', 'delete', 'view')
+     * @param bool $isPlatformOwner Whether user is platform owner
+     * @return bool
+     */
+    public function checkAction($userId, $module, $action, $isPlatformOwner = false)
+    {
+        $permissionCode = strtoupper($module . '_' . $action);
+        return $this->check($userId, $permissionCode, $isPlatformOwner);
+    }
+
+    /**
+     * Get all permissions for a user
+     * 
+     * @param int $userId User ID
+     * @param bool $isPlatformOwner Whether user is platform owner
+     * @return array Array of permission codes
+     */
+    public function getUserPermissions($userId, $isPlatformOwner = false)
+    {
+        // Platform owners have all permissions
+        if ($isPlatformOwner) {
+            $database = new Database();
+            $db = $database->connect();
+            $stmt = $db->query("SELECT permission_code FROM permissions");
+            return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        }
+
+        $database = new Database();
+        $db = $database->connect();
+
+        $sql = "
+            SELECT DISTINCT p.permission_code
+            FROM user_roles ur
+            INNER JOIN role_permissions rp ON ur.role_id = rp.role_id
+            INNER JOIN permissions p ON rp.permission_id = p.permission_id
+            WHERE ur.user_id = ?
+        ";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    /**
+     * Get user's role names
+     * 
+     * @param int $userId User ID
+     * @return array Array of role names
+     */
+    public function getUserRoles($userId)
+    {
+        $database = new Database();
+        $db = $database->connect();
+
+        $sql = "
+            SELECT r.role_name, r.role_code
+            FROM user_roles ur
+            INNER JOIN roles r ON ur.role_id = r.role_id
+            WHERE ur.user_id = ?
+        ";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Check if user can create items in a module
+     * 
+     * @param int $userId User ID
+     * @param string $module Module name
+     * @param bool $isPlatformOwner Whether user is platform owner
+     * @return bool
+     */
+    public function canCreate($userId, $module, $isPlatformOwner = false)
+    {
+        return $this->checkAction($userId, $module, 'create', $isPlatformOwner);
+    }
+
+    /**
+     * Check if user can edit items in a module
+     * 
+     * @param int $userId User ID
+     * @param string $module Module name
+     * @param bool $isPlatformOwner Whether user is platform owner
+     * @return bool
+     */
+    public function canEdit($userId, $module, $isPlatformOwner = false)
+    {
+        return $this->checkAction($userId, $module, 'edit', $isPlatformOwner);
+    }
+
+    /**
+     * Check if user can delete items in a module
+     * 
+     * @param int $userId User ID
+     * @param string $module Module name
+     * @param bool $isPlatformOwner Whether user is platform owner
+     * @return bool
+     */
+    public function canDelete($userId, $module, $isPlatformOwner = false)
+    {
+        return $this->checkAction($userId, $module, 'delete', $isPlatformOwner);
+    }
+
+    /**
+     * Check if user can view items in a module
+     * 
+     * @param int $userId User ID
+     * @param string $module Module name
+     * @param bool $isPlatformOwner Whether user is platform owner
+     * @return bool
+     */
+    public function canView($userId, $module, $isPlatformOwner = false)
+    {
+        return $this->checkAction($userId, $module, 'view', $isPlatformOwner);
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-
-
+if (!class_exists('User')) {
+    require_once __DIR__ . '/../Models/User.php';
+}
 
 class UserRepository
 {

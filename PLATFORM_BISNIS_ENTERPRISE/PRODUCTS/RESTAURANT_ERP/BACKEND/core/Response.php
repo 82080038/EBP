@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * EBP Core - API Response Handler
  * 
@@ -17,9 +19,9 @@ class Response
      * 
      * @param mixed $data Response data
      * @param int $statusCode HTTP status code
-     * @return void
+     * @return never
      */
-    public static function json($data, $statusCode = 200)
+    public static function json(mixed $data, int $statusCode = 200): never
     {
         // Ensure status code is valid
         $statusCode = (int)$statusCode;
@@ -38,9 +40,9 @@ class Response
      * 
      * @param array $data Response data
      * @param string $message Success message
-     * @return void
+     * @return never
      */
-    public static function success($data = [], $message = 'Success')
+    public static function success(array $data = [], string $message = 'Success'): never
     {
         self::json([
             "success" => true,
@@ -55,9 +57,9 @@ class Response
      * @param string $message Error message
      * @param int $statusCode HTTP status code
      * @param array $errors Additional error details
-     * @return void
+     * @return never
      */
-    public static function error($message, $statusCode = 400, $errors = [])
+    public static function error(string $message, int $statusCode = 400, array $errors = []): never
     {
         self::json([
             "success" => false,
@@ -70,9 +72,9 @@ class Response
      * Send validation error response
      * 
      * @param array $errors Validation errors
-     * @return void
+     * @return never
      */
-    public static function validationError($errors)
+    public static function validationError(array $errors): never
     {
         self::error("Validation failed", 422, $errors);
     }
@@ -81,9 +83,9 @@ class Response
      * Send not found response
      * 
      * @param string $message Not found message
-     * @return void
+     * @return never
      */
-    public static function notFound($message = 'Resource not found')
+    public static function notFound(string $message = 'Resource not found'): never
     {
         self::error($message, 404);
     }
@@ -92,9 +94,9 @@ class Response
      * Send unauthorized response
      * 
      * @param string $message Unauthorized message
-     * @return void
+     * @return never
      */
-    public static function unauthorized($message = 'Unauthorized')
+    public static function unauthorized(string $message = 'Unauthorized'): never
     {
         self::error($message, 401);
     }
@@ -103,9 +105,9 @@ class Response
      * Send forbidden response
      * 
      * @param string $message Forbidden message
-     * @return void
+     * @return never
      */
-    public static function forbidden($message = 'Forbidden')
+    public static function forbidden(string $message = 'Forbidden'): never
     {
         self::error($message, 403);
     }
@@ -114,9 +116,9 @@ class Response
      * Send server error response
      * 
      * @param string $message Server error message
-     * @return void
+     * @return never
      */
-    public static function serverError($message = 'Internal server error')
+    public static function serverError(string $message = 'Internal server error'): never
     {
         self::error($message, 500);
     }
@@ -128,11 +130,11 @@ class Response
      * @param int $total Total records
      * @param int $page Current page
      * @param int $limit Records per page
-     * @return void
+     * @return never
      */
-    public static function paginated($data, $total, $page, $limit)
+    public static function paginated(array $data, int $total, int $page, int $limit): never
     {
-        $totalPages = ceil($total / $limit);
+        $totalPages = (int)ceil($total / $limit);
         
         header("X-Total-Count: $total");
         header("X-Page-Count: $totalPages");

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * EBP Core - JWT (JSON Web Token) Implementation
  * 
@@ -12,10 +14,10 @@
 
 class JWT
 {
-    private $secret;
-    private $algorithm;
+    private string $secret;
+    private string $algorithm;
 
-    public function __construct($secret = null, $algorithm = 'HS256')
+    public function __construct(?string $secret = null, string $algorithm = 'HS256')
     {
         $this->secret = $secret ?? getenv('JWT_SECRET') ?? 'ebp_secret_key_change_in_production';
         $this->algorithm = $algorithm;
@@ -27,7 +29,7 @@ class JWT
      * @param array $payload Data to encode
      * @return string JWT token
      */
-    public function encode($payload)
+    public function encode(array $payload): string
     {
         $header = json_encode([
             'typ' => 'JWT',
@@ -56,7 +58,7 @@ class JWT
      * @param string $token JWT token to decode
      * @return array|false Decoded payload or false on failure
      */
-    public function decode($token)
+    public function decode(string $token): array|false
     {
         $tokenParts = explode('.', $token);
 
@@ -96,7 +98,7 @@ class JWT
      * @param string $token JWT token to validate
      * @return bool True if valid, false otherwise
      */
-    public function validate($token)
+    public function validate(string $token): bool
     {
         return $this->decode($token) !== false;
     }
@@ -107,7 +109,7 @@ class JWT
      * @param string $data Data to encode
      * @return string Encoded data
      */
-    private function base64UrlEncode($data)
+    private function base64UrlEncode(string $data): string
     {
         return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
     }
@@ -118,7 +120,7 @@ class JWT
      * @param string $data Data to decode
      * @return string Decoded data
      */
-    private function base64UrlDecode($data)
+    private function base64UrlDecode(string $data): string
     {
         return base64_decode(strtr($data, '-_', '+/'));
     }

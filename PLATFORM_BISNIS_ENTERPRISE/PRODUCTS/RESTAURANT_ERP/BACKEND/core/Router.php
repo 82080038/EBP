@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 class Router
 {
 
-    private $routes = [];
+    /** @var array<array{method: string, path: string, handler: callable}> */
+    private array $routes = [];
 
-    public function addRoute($method, $path, $handler)
+    public function addRoute(string $method, string $path, callable $handler): void
     {
         $this->routes[] = [
             'method' => $method,
@@ -14,12 +17,12 @@ class Router
         ];
     }
 
-    public function add($method, $path, $handler)
+    public function add(string $method, string $path, callable $handler): void
     {
         $this->addRoute($method, $path, $handler);
     }
 
-    public function dispatch()
+    public function dispatch(): void
     {
         $method = $_SERVER['REQUEST_METHOD'];
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
