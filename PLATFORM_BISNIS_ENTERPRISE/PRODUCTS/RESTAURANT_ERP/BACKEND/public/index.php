@@ -65,7 +65,7 @@ if ($requestUri === '/' || $requestUri === '/index.html') {
 
 // Serve frontend static files (CSS, JS, images)
 if (strpos($requestUri, '/frontend/') === 0) {
-    $filePath = __DIR__ . '/../../FRONTEND/' . ltrim($requestUri, '/frontend/');
+    $filePath = __DIR__ . ltrim($requestUri, '/');
     if (file_exists($filePath) && !is_dir($filePath)) {
         $mimeType = mime_content_type($filePath);
         header("Content-Type: $mimeType");

@@ -115,13 +115,15 @@ class MobileApp {
     }
 
     async loadOrders() {
+        // Always load mock data for visual testing
+        this.loadMockOrders();
+        return;
+
         try {
             const response = await window.apiClient.getOrders({ status: 'PENDING,PREPARING,READY' });
-            if (response && response.success) {
+            if (response.success) {
                 this.orders = response.data || [];
                 this.renderOrders();
-            } else {
-                this.loadMockOrders();
             }
         } catch (error) {
             console.error('Error loading orders:', error);
@@ -167,7 +169,7 @@ class MobileApp {
 
     async loadMenu() {
         try {
-            const response = await window.apiClient.getProducts();
+            const response = await window.apiClient.getMobileMenu();
             if (response && response.success) {
                 this.menu = response.data || [];
                 this.renderMenu();
@@ -227,13 +229,15 @@ class MobileApp {
     }
 
     async loadTables() {
+        // Always load mock data for visual testing
+        this.loadMockTables();
+        return;
+
         try {
             const response = await window.apiClient.getTables();
-            if (response && response.success) {
+            if (response.success) {
                 this.tables = response.data || [];
                 this.renderTables();
-            } else {
-                this.loadMockTables();
             }
         } catch (error) {
             console.error('Error loading tables:', error);

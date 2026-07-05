@@ -1,288 +1,320 @@
 <?php
 
-namespace App\Modules\Loyalty\Controllers;
+if (!class_exists('LoyaltyService')) {
+    require_once __DIR__ . '/../Services/LoyaltyService.php';
+}
 
-use App\Core\BaseController;
-use App\Modules\Loyalty\Models\LoyaltyProgram;
-use App\Modules\Loyalty\Models\LoyaltyTier;
-use App\Modules\Loyalty\Models\CustomerLoyalty;
-use App\Modules\Loyalty\Models\PointsTransaction;
-use App\Modules\Loyalty\Models\Reward;
-use App\Modules\Loyalty\Models\RewardRedemption;
-use App\Modules\Loyalty\Services\LoyaltyService;
-use App\Core\Auth;
+// Load EBP Core and Backend Components
+require_once __DIR__ . '/../../../bootstrap.php';
 
-class LoyaltyController extends BaseController
+class LoyaltyController
 {
     private $loyaltyService;
 
     public function __construct()
     {
-        parent::__construct();
         $this->loyaltyService = new LoyaltyService();
-        
-        if (!Auth::check()) {
-            $this->jsonResponse(['error' => 'Unauthorized'], 401);
-            exit;
+    }
+
+    // ==================== Loyalty Points Endpoints ====================
+
+    public function getPoints(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $customerId = $request['customer_id'] ?? null;
+        $points = $this->loyaltyService->getAllPoints($tenantId, $customerId);
+
+        return Response::success($points);
+    }
+
+    public function awardPoints(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $createdBy = $request['user_id'] ?? null;
+        $data = $request['body'] ?? [];
+
+        // Validation
+        if (empty($data['user_id'])) {
+            return Response::error('User ID is required', 400);
         }
-    }
-
-    /**
-     * Get loyalty programs
-     * GET /api/loyalty/programs
-     */
-    public function getPrograms()
-    {
-        $restaurantId = Auth::user()->restaurant_id;
-        
-        $programs = $this->loyaltyService->getPrograms($restaurantId);
-        
-        $this->jsonResponse($programs);
-    }
-
-    /**
-     * Create loyalty program
-     * POST /api/loyalty/programs
-     */
-    public function createProgram()
-    {
-        $this->requirePermission('can_manage_loyalty');
-        
-        $restaurantId = Auth::user()->restaurant_id;
-        
-        $data = $this->request->getJSON();
-        
-        $result = $this->loyaltyService->createProgram($restaurantId, $data);
-        
-        if (!$result['success']) {
-            $this->jsonResponse(['error' => $result['message']], 400);
-            return;
+        if (empty($data['points']) || $data['points'] <= 0) {
+            return Response::error('Points must be greater than 0', 400);
         }
-        
-        $this->jsonResponse($result, 201);
-    }
 
-    /**
-     * Get loyalty tiers
-     * GET /api/loyalty/tiers
-     */
-    public function getTiers()
-    {
-        $restaurantId = Auth::user()->restaurant_id;
-        $programId = $this->request->get('program_id', null);
-        
-        $tiers = $this->loyaltyService->getTiers($restaurantId, $programId);
-        
-        $this->jsonResponse($tiers);
-    }
+        $result = $this->loyaltyService->awardPoints(
+            $tenantId,
+            $data['user_id'],
+            $data['points'],
+            $data['transaction_type'] ?? 'EARNED',
+            $data['reference_id'] ?? null,
+            $data['reference_type'] ?? null,
+            $data['notes'] ?? null,
+            $createdBy
+        );
 
-    /**
-     * Create loyalty tier
-     * POST /api/loyalty/tiers
-     */
-    public function createTier()
-    {
-        $this->requirePermission('can_manage_loyalty');
-        
-        $restaurantId = Auth::user()->restaurant_id;
-        
-        $data = $this->request->getJSON();
-        
-        $result = $this->loyaltyService->createTier($restaurantId, $data);
-        
-        if (!$result['success']) {
-            $this->jsonResponse(['error' => $result['message']], 400);
-            return;
+        if ($result['success']) {
+            return Response::success($result['data'], $result['message']);
         }
-        
-        $this->jsonResponse($result, 201);
+
+        return Response::error($result['message'], 400, $result['errors'] ?? []);
     }
 
-    /**
-     * Get customer loyalty
-     * GET /api/loyalty/customers/{id}
-     */
-    public function getCustomerLoyalty($id)
+    public function redeemPoints(array $request)
     {
-        $restaurantId = Auth::user()->restaurant_id;
-        
-        $loyalty = $this->loyaltyService->getCustomerLoyalty($id, $restaurantId);
-        
+        $request = AuthMiddleware::handle($request);
+        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $createdBy = $request['user_id'] ?? null;
+        $data = $request['body'] ?? [];
+
+        // Validation
+        if (empty($data['user_id'])) {
+            return Response::error('User ID is required', 400);
+        }
+        if (empty($data['points']) || $data['points'] <= 0) {
+            return Response::error('Points must be greater than 0', 400);
+        }
+
+        $result = $this->loyaltyService->redeemPoints(
+            $tenantId,
+            $data['user_id'],
+            $data['points'],
+            $data['reference_id'] ?? null,
+            $data['reference_type'] ?? null,
+            $data['notes'] ?? null,
+            $createdBy
+        );
+
+        if ($result['success']) {
+            return Response::success($result['data'], $result['message']);
+        }
+
+        return Response::error($result['message'], 400);
+    }
+
+    // ==================== Loyalty Rewards Endpoints ====================
+
+    public function getRewards(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        PermissionMiddleware::handle($request, 'LOYALTY_VIEW');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $status = $request['status'] ?? null;
+        $rewards = $this->loyaltyService->getAllRewards($tenantId, $status);
+
+        return Response::success($rewards);
+    }
+
+    public function getReward(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        PermissionMiddleware::handle($request, 'LOYALTY_VIEW');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $rewardId = $request['reward_id'] ?? 0;
+
+        $reward = $this->loyaltyService->getRewardById($rewardId, $tenantId);
+
+        if (!$reward) {
+            return Response::error('Reward not found', 404);
+        }
+
+        return Response::success($reward);
+    }
+
+    public function createReward(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $createdBy = $request['user_id'] ?? null;
+        $data = $request['body'] ?? [];
+
+        // Validation
+        if (empty($data['reward_code'])) {
+            return Response::error('Reward code is required', 400);
+        }
+        if (empty($data['reward_name'])) {
+            return Response::error('Reward name is required', 400);
+        }
+        if (empty($data['points_required']) || $data['points_required'] <= 0) {
+            return Response::error('Points required must be greater than 0', 400);
+        }
+        if (empty($data['reward_type'])) {
+            return Response::error('Reward type is required', 400);
+        }
+
+        $result = $this->loyaltyService->createReward($tenantId, $data, $userId);
+
+        if ($result['success']) {
+            return Response::success($result['data'], $result['message']);
+        }
+
+        return Response::error($result['message'], 400, $result['errors'] ?? []);
+    }
+
+    public function updateReward(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $rewardId = $request['reward_id'] ?? 0;
+        $userId = $request['user_id'] ?? null;
+        $data = $request['body'] ?? [];
+
+        // Validation
+        if (empty($rewardId)) {
+            return Response::error('Reward ID is required', 400);
+        }
+        if (empty($data['reward_name'])) {
+            return Response::error('Reward name is required', 400);
+        }
+        if (empty($data['points_required']) || $data['points_required'] <= 0) {
+            return Response::error('Points required must be greater than 0', 400);
+        }
+
+        $result = $this->loyaltyService->updateReward($rewardId, $tenantId, $data, $userId);
+
+        if ($result['success']) {
+            return Response::success([], $result['message']);
+        }
+
+        return Response::error($result['message'], 400);
+    }
+
+    public function deleteReward(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $rewardId = $request['reward_id'] ?? 0;
+        $userId = $request['user_id'] ?? null;
+
+        // Validation
+        if (empty($rewardId)) {
+            return Response::error('Reward ID is required', 400);
+        }
+
+        $result = $this->loyaltyService->deleteReward($rewardId, $tenantId, $userId);
+
+        if ($result['success']) {
+            return Response::success([], $result['message']);
+        }
+
+        return Response::error($result['message']);
+    }
+
+    public function redeemReward(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $createdBy = $request['user_id'] ?? null;
+        $data = $request['body'] ?? [];
+
+        // Validation
+        if (empty($data['user_id'])) {
+            return Response::error('User ID is required', 400);
+        }
+        if (empty($data['reward_id'])) {
+            return Response::error('Reward ID is required', 400);
+        }
+
+        $result = $this->loyaltyService->redeemReward($tenantId, $data['user_id'], $data['reward_id'], $createdBy);
+
+        if ($result['success']) {
+            return Response::success($result['data'], $result['message']);
+        }
+
+        return Response::error($result['message'], 400);
+    }
+
+    // ==================== Customer Loyalty Endpoints ====================
+
+    public function getCustomerLoyalty(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        PermissionMiddleware::handle($request, 'LOYALTY_VIEW');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $loyalty = $this->loyaltyService->getAllCustomerLoyalty($tenantId);
+
+        return Response::success($loyalty);
+    }
+
+    public function getCustomerLoyaltyByCustomer(array $request)
+    {
+        $request = AuthMiddleware::handle($request);
+        PermissionMiddleware::handle($request, 'LOYALTY_VIEW');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $userId = $request['user_id'] ?? 0;
+
+        $loyalty = $this->loyaltyService->getCustomerLoyaltyByUser($userId, $tenantId);
+
         if (!$loyalty) {
-            $this->jsonResponse(['error' => 'Customer loyalty not found'], 404);
-            return;
+            return Response::error('Customer loyalty not found', 404);
         }
-        
-        $this->jsonResponse($loyalty);
+
+        return Response::success($loyalty);
     }
 
-    /**
-     * Enroll customer in loyalty program
-     * POST /api/loyalty/customers/{id}/enroll
-     */
-    public function enrollCustomer($id)
+    public function enrollCustomer(array $request)
     {
-        $this->requirePermission('can_manage_loyalty');
-        
-        $restaurantId = Auth::user()->restaurant_id;
-        
-        $data = $this->request->getJSON();
-        
-        $result = $this->loyaltyService->enrollCustomer($id, $restaurantId, $data);
-        
-        if (!$result['success']) {
-            $this->jsonResponse(['error' => $result['message']], 400);
-            return;
+        $request = AuthMiddleware::handle($request);
+        // PermissionMiddleware::handle($request, 'LOYALTY_MANAGE');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $createdBy = $request['user_id'] ?? null;
+        $data = $request['body'] ?? [];
+
+        // Validation
+        if (empty($data['user_id'])) {
+            return Response::error('User ID is required', 400);
         }
-        
-        $this->jsonResponse($result, 201);
-    }
 
-    /**
-     * Award points to customer
-     * POST /api/loyalty/customers/{id}/award-points
-     */
-    public function awardPoints($id)
-    {
-        $this->requirePermission('can_manage_loyalty');
-        
-        $restaurantId = Auth::user()->restaurant_id;
-        $userId = Auth::user()->id;
-        
-        $data = $this->request->getJSON();
-        
-        $result = $this->loyaltyService->awardPoints($id, $restaurantId, $userId, $data);
-        
-        if (!$result['success']) {
-            $this->jsonResponse(['error' => $result['message']], 400);
-            return;
+        $result = $this->loyaltyService->enrollCustomer($tenantId, $data['user_id'], $createdBy);
+
+        if ($result['success']) {
+            return Response::success($result['data'], $result['message']);
         }
-        
-        $this->jsonResponse($result);
+
+        return Response::error($result['message'], 400);
     }
 
-    /**
-     * Get points transactions
-     * GET /api/loyalty/transactions
-     */
-    public function getTransactions()
+    public function getTopCustomers(array $request)
     {
-        $restaurantId = Auth::user()->restaurant_id;
-        $customerId = $this->request->get('customer_id', null);
-        $transactionType = $this->request->get('type', null);
-        $page = $this->request->get('page', 1);
-        $limit = $this->request->get('limit', 20);
-        
-        $result = $this->loyaltyService->getTransactions($restaurantId, $customerId, $transactionType, $page, $limit);
-        
-        $this->jsonResponse($result);
+        $request = AuthMiddleware::handle($request);
+        // PermissionMiddleware::handle($request, 'LOYALTY_VIEW');
+
+        $tenantId = $request['tenant_id'] ?? 1;
+        $limit = $request['limit'] ?? 10;
+        $customers = $this->loyaltyService->getTopCustomers($tenantId, $limit);
+
+        return Response::success($customers);
     }
 
-    /**
-     * Get rewards
-     * GET /api/loyalty/rewards
-     */
-    public function getRewards()
+    public function getCustomersByTier(array $request)
     {
-        $restaurantId = Auth::user()->restaurant_id;
-        $programId = $this->request->get('program_id', null);
-        
-        $rewards = $this->loyaltyService->getRewards($restaurantId, $programId);
-        
-        $this->jsonResponse($rewards);
-    }
+        $request = AuthMiddleware::handle($request);
+        // PermissionMiddleware::handle($request, 'LOYALTY_VIEW');
 
-    /**
-     * Create reward
-     * POST /api/loyalty/rewards
-     */
-    public function createReward()
-    {
-        $this->requirePermission('can_manage_loyalty');
-        
-        $restaurantId = Auth::user()->restaurant_id;
-        
-        $data = $this->request->getJSON();
-        
-        $result = $this->loyaltyService->createReward($restaurantId, $data);
-        
-        if (!$result['success']) {
-            $this->jsonResponse(['error' => $result['message']], 400);
-            return;
-        }
-        
-        $this->jsonResponse($result, 201);
-    }
+        $tenantId = $request['tenant_id'] ?? 1;
+        $tier = $request['tier'] ?? 'BRONZE';
+        $customers = $this->loyaltyService->getCustomersByTier($tenantId, $tier);
 
-    /**
-     * Redeem reward
-     * POST /api/loyalty/rewards/{id}/redeem
-     */
-    public function redeemReward($id)
-    {
-        $restaurantId = Auth::user()->restaurant_id;
-        $userId = Auth::user()->id;
-        
-        $data = $this->request->getJSON();
-        
-        $result = $this->loyaltyService->redeemReward($id, $restaurantId, $userId, $data);
-        
-        if (!$result['success']) {
-            $this->jsonResponse(['error' => $result['message']], 400);
-            return;
-        }
-        
-        $this->jsonResponse($result, 201);
-    }
-
-    /**
-     * Get reward redemptions
-     * GET /api/loyalty/redemptions
-     */
-    public function getRedemptions()
-    {
-        $restaurantId = Auth::user()->restaurant_id;
-        $customerId = $this->request->get('customer_id', null);
-        $status = $this->request->get('status', null);
-        $page = $this->request->get('page', 1);
-        $limit = $this->request->get('limit', 20);
-        
-        $result = $this->loyaltyService->getRedemptions($restaurantId, $customerId, $status, $page, $limit);
-        
-        $this->jsonResponse($result);
-    }
-
-    /**
-     * Apply reward redemption
-     * POST /api/loyalty/redemptions/{id}/apply
-     */
-    public function applyRedemption($id)
-    {
-        $this->requirePermission('can_manage_loyalty');
-        
-        $restaurantId = Auth::user()->restaurant_id;
-        $userId = Auth::user()->id;
-        
-        $result = $this->loyaltyService->applyRedemption($id, $restaurantId, $userId);
-        
-        if (!$result['success']) {
-            $this->jsonResponse(['error' => $result['message']], 400);
-            return;
-        }
-        
-        $this->jsonResponse($result);
-    }
-
-    /**
-     * Get loyalty statistics
-     * GET /api/loyalty/statistics
-     */
-    public function getStatistics()
-    {
-        $restaurantId = Auth::user()->restaurant_id;
-        
-        $stats = $this->loyaltyService->getStatistics($restaurantId);
-        
-        $this->jsonResponse($stats);
+        return Response::success($customers);
     }
 }

@@ -28,7 +28,7 @@ class AuthController
 
 
         $sql = "
-            SELECT u.user_id, u.username, u.password, u.tenant_id, u.branch_id, u.is_platform_owner, r.role_name
+            SELECT u.user_id, u.username, u.password, u.tenant_id, u.branch_id, r.role_name
             FROM users u
             INNER JOIN user_roles ur ON u.user_id = ur.user_id
             INNER JOIN roles r ON ur.role_id = r.role_id
@@ -69,8 +69,6 @@ class AuthController
 
             'branch_id' => $user['branch_id'],
 
-            'is_platform_owner' => $user['is_platform_owner'],
-
             'role' => $user['role_name'],
 
             'exp' => time() + (60 * 60 * 8)
@@ -90,7 +88,6 @@ class AuthController
                 'username' => $user['username'],
                 'tenant_id' => $user['tenant_id'],
                 'branch_id' => $user['branch_id'],
-                'is_platform_owner' => $user['is_platform_owner'],
                 'role' => $user['role_name']
             ]
         ], 'Login successful');

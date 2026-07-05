@@ -21,6 +21,12 @@ class Response
      */
     public static function json($data, $statusCode = 200)
     {
+        // Ensure status code is valid
+        $statusCode = (int)$statusCode;
+        if ($statusCode < 100 || $statusCode > 599) {
+            $statusCode = 500;
+        }
+        
         http_response_code($statusCode);
         header("Content-Type: application/json");
         echo json_encode($data);
@@ -40,7 +46,7 @@ class Response
             "success" => true,
             "message" => $message,
             "data" => $data
-        ]);
+        ], 200);
     }
 
     /**

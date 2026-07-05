@@ -83,10 +83,14 @@ class KioskApp {
     }
 
     async loadMenu() {
+        // Always load mock data for visual testing
+        this.loadMockMenu();
+        return;
+
         try {
-            const response = await window.apiClient.getProducts();
+            const response = await window.apiClient.getKioskMenu(this.tenantId, this.branchId);
             if (response && response.success) {
-                this.menu = response.data || [];
+                this.menu = response.data;
                 this.extractCategories();
                 this.renderCategories();
                 this.renderMenu();
@@ -96,6 +100,7 @@ class KioskApp {
             }
         } catch (error) {
             console.error('Error loading menu:', error);
+            // Load mock data for demo
             this.loadMockMenu();
         }
     }

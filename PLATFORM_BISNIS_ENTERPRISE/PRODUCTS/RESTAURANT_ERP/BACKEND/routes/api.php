@@ -294,6 +294,11 @@ if (!class_exists('CommissionController')) {
     require_once __DIR__ . '/../modules/HR/Controllers/CommissionController.php';
 }
 
+// Loyalty Module
+if (!class_exists('LoyaltyController')) {
+    require_once __DIR__ . '/../modules/Loyalty/Controllers/LoyaltyController.php';
+}
+
 // Initialize dependencies
 $db = new Database();
 $router = new Router();
@@ -363,9 +368,7 @@ $settingController = new SettingController();
 $reportController = new ReportController();
 $tenantController = new TenantController();
 
-// Simple controllers for testing
-$simpleMenuController = new SimpleMenuController();
-$simpleTableController = new SimpleTableController();
+// Loyalty controller instantiated per route to avoid dependency issues
 
 // Auth Routes
 $router->addRoute('POST', '/api/v1/auth/login', function($request) use ($authController) {
@@ -380,17 +383,17 @@ $router->addRoute('DELETE', '/api/v1/upload/image', function($request) use ($upl
     return $uploadController->deleteImage($request);
 });
 
-// Simple Menu Routes (for testing without complex middleware)
-$router->addRoute('GET', '/api/v1/menu/categories', function($request) use ($simpleMenuController) {
-    return $simpleMenuController->getCategories($request);
+// Menu Routes (with authentication)
+$router->addRoute('GET', '/api/v1/menu/categories', function($request) use ($menuController) {
+    return $menuController->getCategories($request);
 });
-$router->addRoute('GET', '/api/v1/menu/products', function($request) use ($simpleMenuController) {
-    return $simpleMenuController->getProducts($request);
+$router->addRoute('GET', '/api/v1/menu/products', function($request) use ($menuController) {
+    return $menuController->getProducts($request);
 });
 
-// Simple Table Routes (for testing without complex middleware)
-$router->addRoute('GET', '/api/v1/tables', function($request) use ($simpleTableController) {
-    return $simpleTableController->getTables($request);
+// Table Routes (with authentication)
+$router->addRoute('GET', '/api/v1/tables', function($request) use ($tableController) {
+    return $tableController->getTables($request);
 });
 
 // Tenant Routes
@@ -1377,6 +1380,68 @@ $router->addRoute('POST', '/api/v1/quality/food-safety-protocols', function($req
 });
 $router->addRoute('GET', '/api/v1/quality/food-safety-protocols', function($request) use ($qualityComplianceController) {
     return $qualityComplianceController->getFoodSafetyProtocols($request);
+});
+
+// Loyalty Routes - Points
+$router->addRoute('GET', '/api/v1/loyalty/points', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->getPoints($request);
+});
+$router->addRoute('POST', '/api/v1/loyalty/points/award', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->awardPoints($request);
+});
+$router->addRoute('POST', '/api/v1/loyalty/points/redeem', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->redeemPoints($request);
+});
+
+// Loyalty Routes - Rewards
+$router->addRoute('GET', '/api/v1/loyalty/rewards', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->getRewards($request);
+});
+$router->addRoute('GET', '/api/v1/loyalty/rewards/{id}', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->getReward($request);
+});
+$router->addRoute('POST', '/api/v1/loyalty/rewards', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->createReward($request);
+});
+$router->addRoute('PUT', '/api/v1/loyalty/rewards/{id}', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->updateReward($request);
+});
+$router->addRoute('DELETE', '/api/v1/loyalty/rewards/{id}', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->deleteReward($request);
+});
+$router->addRoute('POST', '/api/v1/loyalty/rewards/{id}/redeem', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->redeemReward($request);
+});
+
+// Loyalty Routes - Customer Loyalty
+$router->addRoute('GET', '/api/v1/loyalty/customers', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->getCustomerLoyalty($request);
+});
+$router->addRoute('GET', '/api/v1/loyalty/customers/{id}', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->getCustomerLoyaltyByCustomer($request);
+});
+$router->addRoute('POST', '/api/v1/loyalty/customers/enroll', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->enrollCustomer($request);
+});
+$router->addRoute('GET', '/api/v1/loyalty/customers/top', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->getTopCustomers($request);
+});
+$router->addRoute('GET', '/api/v1/loyalty/customers/tier/{tier}', function($request) {
+    $loyaltyController = new LoyaltyController();
+    return $loyaltyController->getCustomersByTier($request);
 });
 
 // Dispatch the request
