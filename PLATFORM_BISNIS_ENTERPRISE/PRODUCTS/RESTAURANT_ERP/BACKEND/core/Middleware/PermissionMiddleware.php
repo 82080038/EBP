@@ -5,6 +5,8 @@ require_once __DIR__ . '/../../bootstrap.php';
 
 class PermissionMiddleware
 {
+    private static $permissionCache = [];
+    private static $cacheTTL = 300; // 5 minutes cache TTL
 
     public function check($userId, $permission, $isPlatformOwner = false)
     {
@@ -13,11 +15,20 @@ class PermissionMiddleware
             return true;
         }
 
+        // Check cache first
+        $cacheKey = "{$userId}_{$permission}";
+        if (isset(self::$permissionCache[$cacheKey])) {
+            $cached = self::$permissionCache[$cacheKey];
+            // Check if cache is still valid
+            if (time() - $cached['timestamp'] < self::$cacheTTL) {
+                return $cached['hasPermission'];
+            }
+            // Cache expired, remove it
+            unset(self::$permissionCache[$cacheKey]);
+        }
+
         $database = new Database();
-
         $db = $database->connect();
-
-
 
         $sql = "
             SELECT COUNT(*) as count
@@ -27,28 +38,19 @@ class PermissionMiddleware
             WHERE ur.user_id = ? AND p.permission_code = ?
         ";
 
-
-
         $stmt = $db->prepare($sql);
-
         $stmt->execute([$userId, $permission]);
-
-
-
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        $hasPermission = $result['count'] > 0;
 
+        // Cache the result
+        self::$permissionCache[$cacheKey] = [
+            'hasPermission' => $hasPermission,
+            'timestamp' => time()
+        ];
 
-        if ($result['count'] == 0) {
-
-            return false;
-
-        }
-
-
-
-        return true;
-
+        return $hasPermission;
     }
 
     public static function handle($request, $permission)
@@ -63,4 +65,28 @@ class PermissionMiddleware
         return $middleware->check($userId, $permission, $isPlatformOwner);
     }
 
+    /**
+     * Clear permission cache for a specific user
+     * 
+     * @param int $userId User ID
+     * @return void
+     */
+    public static function clearUserCache($userId)
+    {
+        foreach (self::$permissionCache as $key => $value) {
+            if (strpos($key, "{$userId}_") === 0) {
+                unset(self::$permissionCache[$key]);
+            }
+        }
+    }
+
+    /**
+     * Clear all permission cache
+     * 
+     * @return void
+     */
+    public static function clearAllCache()
+    {
+        self::$permissionCache = [];
+    }
 }

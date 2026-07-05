@@ -12,7 +12,7 @@ class SimpleMenuController
         $db = $database->connect();
 
         $sql = "SELECT category_id, category_code, category_name, description, status
-                FROM menu_categories
+                FROM categories
                 ORDER BY category_name";
 
         $stmt = $db->prepare($sql);
@@ -33,8 +33,8 @@ class SimpleMenuController
         if ($categoryId) {
             $sql = "SELECT p.product_id, p.product_code, p.product_name, p.description, p.price, p.cost, p.status,
                     c.category_name
-                    FROM menu_products p
-                    LEFT JOIN menu_categories c ON p.category_id = c.category_id
+                    FROM products p
+                    LEFT JOIN categories c ON p.category_id = c.category_id
                     WHERE p.category_id = ?
                     ORDER BY p.product_name";
             $stmt = $db->prepare($sql);
@@ -42,8 +42,8 @@ class SimpleMenuController
         } else {
             $sql = "SELECT p.product_id, p.product_code, p.product_name, p.description, p.price, p.cost, p.status,
                     c.category_name
-                    FROM menu_products p
-                    LEFT JOIN menu_categories c ON p.category_id = c.category_id
+                    FROM products p
+                    LEFT JOIN categories c ON p.category_id = c.category_id
                     ORDER BY p.product_name";
             $stmt = $db->prepare($sql);
             $stmt->execute();

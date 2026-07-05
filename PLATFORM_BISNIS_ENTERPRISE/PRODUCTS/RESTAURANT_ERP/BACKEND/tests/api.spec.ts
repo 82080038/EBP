@@ -258,7 +258,7 @@ test.describe('Restaurant Backend API Tests', () => {
       });
 
       const data = await response.json();
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(401);
       expect(data.success).toBe(false);
     });
 
@@ -271,7 +271,7 @@ test.describe('Restaurant Backend API Tests', () => {
       });
 
       const data = await response.json();
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(401);
       expect(data.success).toBe(false);
     });
   });

@@ -12,7 +12,7 @@ class SimpleTableController
         $db = $database->connect();
 
         $sql = "SELECT table_id, table_number, table_name, capacity, status
-                FROM restaurant_tables
+                FROM tables
                 ORDER BY table_number";
 
         $stmt = $db->prepare($sql);

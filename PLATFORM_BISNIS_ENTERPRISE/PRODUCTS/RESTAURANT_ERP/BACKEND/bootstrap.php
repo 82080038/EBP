@@ -7,18 +7,18 @@
  * Include this file at the beginning of your application
  */
 
-// Load EBP Core Components
-require_once __DIR__ . '/../../../12_IMPLEMENTASI_KODE/API/Response.php';
-require_once __DIR__ . '/../../../12_IMPLEMENTASI_KODE/Autentikasi/JWT.php';
-require_once __DIR__ . '/../../../12_IMPLEMENTASI_KODE/Autentikasi/AuthMiddleware.php';
-require_once __DIR__ . '/../../../12_IMPLEMENTASI_KODE/Database/Database.php';
+// Load EBP Core Components (local to BACKEND/core)
+require_once __DIR__ . '/core/Response.php';
+require_once __DIR__ . '/core/JWT.php';
+require_once __DIR__ . '/core/Database.php';
+require_once __DIR__ . '/core/Middleware/AuthMiddleware.php';
 
 // Set environment variables for Database configuration
 putenv('DB_HOST=localhost');
-putenv('DB_SOCKET=null');
-putenv('DB_NAME=ebp_restaurant_erp');
-putenv('DB_USER=root');
-putenv('DB_PASSWORD=root');
+putenv('DB_SOCKET=/opt/lampp/var/mysql/mysql.sock');
+putenv('DB_NAME=ebp_restaurant_db');
+putenv('DB_USER=ebp_app');
+putenv('DB_PASSWORD=ebp_secure_password_2026');
 
 // Load Backend-specific Components
 require_once __DIR__ . '/core/Router.php';
@@ -28,6 +28,8 @@ require_once __DIR__ . '/core/Messages.php';
 require_once __DIR__ . '/core/Middleware/PermissionMiddleware.php';
 require_once __DIR__ . '/core/Middleware/TenantMiddleware.php';
 require_once __DIR__ . '/core/Middleware/ErrorHandler.php';
+require_once __DIR__ . '/core/Middleware/ValidationMiddleware.php';
+require_once __DIR__ . '/core/Middleware/RateLimitMiddleware.php';
 require_once __DIR__ . '/core/Engines/StockEngine.php';
 require_once __DIR__ . '/core/Engines/KitchenEngine.php';
 require_once __DIR__ . '/core/Engines/AccountingEngine.php';

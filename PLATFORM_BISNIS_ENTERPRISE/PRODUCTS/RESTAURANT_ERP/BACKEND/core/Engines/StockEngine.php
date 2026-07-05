@@ -40,36 +40,59 @@ class StockEngine
             WHERE od.order_id = ? AND r.status = 'ACTIVE'
         ";
 
-
-
         $stmt = $this->db->prepare($sql);
-
         $stmt->execute([$orderId]);
-
         $recipeItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-
+        // Validate stock availability before deduction
         foreach ($recipeItems as $item) {
+            $requiredQty = $item['quantity'] * $item['recipe_qty'];
+            $currentStock = $this->getCurrentStock($tenantId, $branchId, $item['ingredient_id']);
+            
+            if ($currentStock < $requiredQty) {
+                // Insufficient stock - throw exception or return error
+                throw new Exception("Insufficient stock for ingredient ID {$item['ingredient_id']}. Required: {$requiredQty}, Available: {$currentStock}");
+            }
+        }
 
+        // Proceed with stock deduction
+        foreach ($recipeItems as $item) {
             $requiredQty = $item['quantity'] * $item['recipe_qty'];
 
-
-
             $this->updateStock(
-
                 $tenantId,
                 $branchId,
                 $item['ingredient_id'],
                 -$requiredQty,
                 'SALE_USAGE',
                 $orderId
-
             );
-
         }
         
         return true;
+    }
+
+    /**
+     * Get current stock balance for an ingredient
+     * 
+     * @param int $tenantId Tenant ID
+     * @param int $branchId Branch ID
+     * @param int $inventoryId Inventory/Ingredient ID
+     * @return float Current stock quantity
+     */
+    private function getCurrentStock($tenantId, $branchId, $inventoryId)
+    {
+        $sql = "
+            SELECT COALESCE(quantity, 0) as quantity
+            FROM stock_balances
+            WHERE tenant_id = ? AND branch_id = ? AND inventory_id = ?
+        ";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$tenantId, $branchId, $inventoryId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $result ? (float)$result['quantity'] : 0;
     }
 
 

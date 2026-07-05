@@ -1,7 +1,5 @@
 <?php
 
-namespace Modules\Upload\Controllers;
-
 use Core\Response;
 
 class UploadController

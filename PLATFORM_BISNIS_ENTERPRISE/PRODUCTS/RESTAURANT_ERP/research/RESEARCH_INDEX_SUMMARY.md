@@ -4,12 +4,11 @@
 
 This research compilation provides comprehensive information about the Food & Beverage industry, curated from internet sources to inform the development of the RESTAURANT_ERP application. The research covers real-world operations, challenges, solutions, technology trends, consumer behavior, competitor analysis, and regulatory requirements across all aspects of restaurant management.
 
-**Total Research Files: 39**
+**Total Research Files: 36**
 - **Producer Perspective (Operations)**: 9 files
-- **Consumer Perspective**: 7 files
+- **Consumer Perspective**: 6 files
 - **Competitor Analysis**: 2 files
-- **Additional Research Areas**: 7 files
-- **Extended Research Areas**: 6 files
+- **Extended Research Areas**: 13 files
 - **Strategic Implementation**: 8 files
 
 ## Research Files
@@ -198,7 +197,7 @@ This research compilation provides comprehensive information about the Food & Be
 - Technology enhances but doesn't replace human connection
 - Systematic measurement and continuous improvement are essential
 
-### Part 2: Consumer Perspective (7 Files)
+### Part 2: Consumer Perspective (6 Files)
 
 ### 10. Consumer Pain Points & Challenges
 **File**: `research/RESEARCH_10_CONSUMER_PAIN_POINTS.md`
@@ -313,27 +312,6 @@ This research compilation provides comprehensive information about the Food & Be
 - Reviews affect local search rankings and visibility
 - 30-40% of negative reviews focus on service issues
 - Response speed and quality heavily scrutinized
-
-### 16. Consumer Research Index
-**File**: `research/RESEARCH_16_CONSUMER_INDEX_SUMMARY.md`
-
-**Contents**:
-- Research overview
-- Research files summary
-- Application to RESTAURANT_ERP development
-- Consumer-centric module priorities
-- Key consumer-centric features to implement
-- Technical architecture considerations
-- Implementation strategy
-- Success metrics
-- Consumer insights summary
-- Next steps
-
-**Key Insights**:
-- Comprehensive consumer research provides crucial insights for development
-- Key trends: return to dine-in, experience focus, personalization, technology balance
-- Critical needs: recognition, consistency, value, convenience, authenticity, respect
-- Generational differences significant in technology expectations
 
 ### Part 3: Competitor Analysis (2 Files)
 
@@ -514,29 +492,146 @@ This research compilation provides comprehensive information about the Food & Be
 - Technology enabling measurement and optimization
 - Business case: cost savings, revenue benefits, risk mitigation
 
-### 25. Additional Research Index
-**File**: `research/RESEARCH_25_ADDITIONAL_RESEARCH_INDEX.md`
+### Part 4: Extended Research Areas (13 Files)
+
+### 19. Regulatory & Legal Requirements
+**File**: `research/RESEARCH_19_REGULATORY_LEGAL_REQUIREMENTS.md`
 
 **Contents**:
-- Overview of all additional research areas
-- Summary of each file
-- Integration with RESTAURANT_ERP development
-- Cross-cutting themes (compliance, data, integration, sustainability, security)
-- Priority implementation areas
-- Strategic insights for RESTAURANT_ERP
-- Market opportunities
-- Success metrics
-- Complete research index
+- Labor law compliance (FLSA, state and local laws)
+- Business licensing and permits
+- Tax compliance (sales tax, use tax, payroll taxes)
+- Employment regulations
+- Data privacy and security requirements
+- Environmental regulations
+- Compliance management
+- Enforcement and penalties
+- Best practices
+- Technology solutions
 
 **Key Insights**:
-- Additional research addresses compliance, financial management, supply chain, integration, security, sustainability
-- These are foundational requirements, not add-ons
-- RESTAURANT_ERP's strategy addresses fundamental problems
-- Market opportunity in addressing unmet needs
+- Restaurants operate in one of the most heavily regulated industries
+- DOL recovered $273 million in back wages in 2024
+- 80/80 rule for sales tax applicability
+- No-tip credit states: CA, WA, OR, AK, MN, MT, NV, DC
+- Automation becoming essential for compliance management
 
-### Part 5: Extended Research Areas (6 Files)
+### 20. Financial Models & Business Economics
+**File**: `research/RESEARCH_20_FINANCIAL_MODELS_BUSINESS_ECONOMICS.md`
 
-### 26. Marketing & Branding Strategies
+**Contents**:
+- Unit economics fundamentals
+- Restaurant profitability models
+- Multi-unit economics
+- Funding and investment landscape
+- Business models (independent, chain, franchise, ghost kitchen, virtual brand)
+- Economic challenges
+- Financial performance measurement
+- Technology economics
+- Expansion economics
+- Risk management
+- Best practices
+
+**Key Insights**:
+- Unit economics determine if success can be replicated across locations
+- Independent: 3-9% net profit; Chains: 5-12%
+- Prime cost target under 60%
+- Restaurant & retail tech surged 180% in deal value in 2024
+- Ghost kitchen: 18-32% contribution margin, 8-18% EBITDA
+
+### 21. Supply Chain Ecosystem
+**File**: `research/RESEARCH_21_SUPPLY_CHAIN_ECOSYSTEM.md`
+
+**Contents**:
+- Supply chain components (direct suppliers, distributors, logistics)
+- Major distributor landscape (Sysco, US Foods, Performance Food Group)
+- Vendor relationship management
+- Procurement strategies (centralized, decentralized, hybrid)
+- Inventory management in supply chain
+- Technology in supply chain
+- Supply chain challenges
+- Emerging trends
+- Best practices
+- Technology solutions
+
+**Key Insights**:
+- Supply chain is complex network of interconnected components
+- Sysco is largest food distributor in North America
+- Vendor relationships critical for quality and reliability
+- Technology enabling visibility and efficiency
+- Sustainability pressures increasing
+
+### 22. Integration Ecosystems & API Standards
+**File**: `research/RESEARCH_22_INTEGRATION_ECOSYSTEMS_API_STANDARDS.md`
+
+**Contents**:
+- Current integration challenges (data fragmentation, walled gardens, multi-POS fragmentation)
+- API standards and protocols (REST, GraphQL, Webhooks, OAuth 2.0)
+- Major restaurant API ecosystems (OpenTable, Toast, Square, Lightspeed, Clover)
+- Integration patterns (point-to-point, hub-and-spoke, event-driven, API gateway)
+- Data standardization
+- Integration best practices
+- Integration challenges and solutions
+- Emerging standards
+- Technology solutions
+- Future trends
+
+**Key Insights**:
+- 37% of restaurant brands cite fragmented systems as AI bottleneck
+- Walled garden problem: vendors build walls around data for commercial self-interest
+- Every POS vendor exposes different API shape
+- RESTAURANT_ERP opportunity: open API architecture, unified data model
+
+### 23. Security & Data Privacy
+**File**: `research/RESEARCH_23_SECURITY_DATA_PRIVACY.md`
+
+**Contents**:
+- PCI DSS compliance (12 requirements, compliance levels, validation)
+- Data protection regulations (GDPR, CCPA, state laws)
+- Restaurant-specific data privacy (customer data, employee data)
+- Cybersecurity best practices (network, endpoint, application, access control)
+- Security incidents and breach notification
+- Security monitoring
+- Employee security training
+- Technology security (POS, cloud, mobile)
+- Vendor security
+- RESTAURANT_ERP security strategy
+
+**Key Insights**:
+- PCI DSS version 4.0 and 4.0.1 are latest versions
+- Restaurants handle sensitive customer and employee data
+- Cybersecurity is managing risk, requires consistent effort
+- Security is foundational requirement, not a feature
+
+### 24. Sustainability & Environmental Impact
+**File**: `research/RESEARCH_24_SUSTAINABILITY_ENVIRONMENTAL_IMPACT.md`
+
+**Contents**:
+- Environmental footprint of restaurants (carbon, water, waste)
+- Carbon footprint measurement and reduction
+- Food waste management
+- Energy efficiency and renewable energy
+- Water conservation
+- Sustainable sourcing
+- Packaging sustainability
+- Transportation emissions
+- Green building design
+- Sustainability certifications
+- Consumer expectations
+- Technology for sustainability
+- Regulatory environment
+- Business case for sustainability
+- Implementation strategies
+- RESTAURANT_ERP sustainability features
+
+**Key Insights**:
+- Restaurant industry faces increasing pressure to reduce environmental impact
+- Growing consumer demand for sustainable practices
+- Sustainability becoming business imperative
+- Technology enabling measurement and optimization
+- Business case: cost savings, revenue benefits, risk mitigation
+
+### 25. Marketing & Branding Strategies
 **File**: `research/RESEARCH_26_MARKETING_BRANDING.md`
 
 **Contents**:
@@ -559,7 +654,7 @@ This research compilation provides comprehensive information about the Food & Be
 - Digital loyalty programs drive 18% increase in repeat visits
 - Authenticity, consistency, and community engagement are key differentiators
 
-### 27. International Expansion
+### 26. International Expansion
 **File**: `research/RESEARCH_27_INTERNATIONAL_EXPANSION.md`
 
 **Contents**:
@@ -585,7 +680,7 @@ This research compilation provides comprehensive information about the Food & Be
 - International supply chain requires significant investment and management
 - Technology must support multi-currency, multi-language, and local compliance
 
-### 28. Franchise Operations Management
+### 27. Franchise Operations Management
 **File**: `research/RESEARCH_28_FRANCHISE_OPERATIONS.md`
 
 **Contents**:
@@ -611,7 +706,7 @@ This research compilation provides comprehensive information about the Food & Be
 - Repeatable habits more important than heroic individual effort
 - Focus on raising the floor across all locations, not just celebrating best
 
-### 29. Ghost Kitchen & Virtual Brands
+### 28. Ghost Kitchen & Virtual Brands
 **File**: `research/RESEARCH_29_GHOST_KITCHEN_VIRTUAL_BRANDS.md`
 
 **Contents**:
@@ -636,7 +731,7 @@ This research compilation provides comprehensive information about the Food & Be
 - Packaging represents 5-10% of revenue and critical for customer experience
 - Robotics and AI will increasingly automate ghost kitchen operations
 
-### 30. Emerging Technologies (Robotics, AR/VR, Blockchain)
+### 29. Emerging Technologies (Robotics, AR/VR, Blockchain)
 **File**: `research/RESEARCH_30_EMERGING_TECHNOLOGIES.md`
 
 **Contents**:
@@ -660,7 +755,7 @@ This research compilation provides comprehensive information about the Food & Be
 - Future is human-AI collaboration, not full replacement
 - 5 years for most restaurants to have some form of robotic automation
 
-### 31. Industry-Specific Segments (Fine Dining, QSR, Casual Dining)
+### 30. Industry-Specific Segments (Fine Dining, QSR, Casual Dining)
 **File**: `research/RESEARCH_31_INDUSTRY_SEGMENTS.md`
 
 **Contents**:
@@ -680,9 +775,9 @@ This research compilation provides comprehensive information about the Food & Be
 - Cost structures and economics vary by segment
 - RESTAURANT_ERP must support all three segments through flexible architecture
 
-### Part 6: Strategic Implementation (8 Files)
+### Part 5: Strategic Implementation (8 Files)
 
-### 32. Recipe & Ingredient Sourcing Management
+### 31. Recipe & Ingredient Sourcing Management
 **File**: `research/RESEARCH_32_RECIPE_INGREDIENT_SOURCING.md`
 
 **Contents**:
@@ -703,7 +798,7 @@ This research compilation provides comprehensive information about the Food & Be
 - Mixed sourcing is common and requires component-level tracking
 - Semi-finished goods need unique tracking and management
 
-### 33. F&B Business Scope & Flexibility
+### 32. F&B Business Scope & Flexibility
 **File**: `research/RESEARCH_33_FB_BUSINESS_SCOPE_FLEXIBILITY.md`
 
 **Contents**:
@@ -731,7 +826,7 @@ This research compilation provides comprehensive information about the Food & Be
 - Physical presence dictates feature needs
 - Menu complexity affects operations
 
-### 34. Risk Assessment & Mitigation
+### 33. Risk Assessment & Mitigation
 **File**: `research/RESEARCH_34_RISK_ASSESSMENT_MITIGATION.md`
 
 **Contents**:
@@ -756,7 +851,7 @@ This research compilation provides comprehensive information about the Food & Be
 - Planning enables response (contingency plans for risks)
 - Risk management is ongoing (continuous monitoring, assessment, improvement)
 
-### 35. Launch Strategy & Growth
+### 34. Launch Strategy & Growth
 **File**: `research/RESEARCH_35_LAUNCH_STRATEGY_GROWTH.md`
 
 **Contents**:
@@ -782,7 +877,7 @@ This research compilation provides comprehensive information about the Food & Be
 - Retention more important than acquisition (focus on retention)
 - Patience required (building successful platform takes time)
 
-### 36. Advertising & Monetization
+### 35. Advertising & Monetization
 **File**: `research/RESEARCH_36_ADVERTISING_MONETIZATION.md`
 
 **Contents**:
@@ -811,7 +906,7 @@ This research compilation provides comprehensive information about the Food & Be
 - Premium ad-free option (offer ad-free for premium users)
 - Ethical considerations matter (maintain ethical standards)
 
-### 37. AI Curation & Production Implementation
+### 36. AI Curation & Production Implementation
 **File**: `research/RESEARCH_37_AI_CURATION_PRODUCTION.md`
 
 **Contents**:
@@ -839,7 +934,7 @@ This research compilation provides comprehensive information about the Food & Be
 - Start small, scale gradually (pilot projects, scale successful ones)
 - AI is a tool, not replacement (augment human capabilities)
 
-### 38. Spin-off App Ideas
+### 37. Spin-off App Ideas
 **File**: `research/RESEARCH_38_SPINOFF_APP_IDEAS.md`
 
 **Contents**:
@@ -866,7 +961,7 @@ This research compilation provides comprehensive information about the Food & Be
 - Spin-offs can become separate companies (successful ones can separate)
 - Portfolio approach reduces risk (multiple spin-offs diversify risk)
 
-### 39. Payment Model & Pricing Strategy
+### 38. Payment Model & Pricing Strategy
 **File**: `research/RESEARCH_39_PAYMENT_MODEL_PRICING.md`
 
 **Contents**:
