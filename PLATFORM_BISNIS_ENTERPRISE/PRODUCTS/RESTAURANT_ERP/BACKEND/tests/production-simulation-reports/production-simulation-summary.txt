@@ -1,0 +1,53 @@
+RESTAURANT_ERP - 3-Month Production Simulation Summary
+========================================================
+
+SIMULATION PERIOD
+-----------------
+Start Date: 2026-07-01
+End Date: 2026-09-30
+Total Days: 90
+
+TOTAL METRICS
+-------------
+Total Orders: 10,005
+Total Revenue: Rp 1.343.096.000
+Total Cost: Rp 470.083.600
+Gross Profit: Rp 873.012.400
+Average Daily Orders: 111.17
+Average Daily Revenue: Rp 14.923.289
+Average Order Value: Rp 134.242
+Profit Margin: 65%
+Growth Rate: 108.54%
+
+PEAK PERFORMANCE
+----------------
+Peak Day: 2026-09-27
+Peak Revenue: Rp 27.155.000
+Slow Day: 2026-07-02
+Slow Revenue: Rp 6.491.000
+
+MONTHLY BREAKDOWN
+----------------
+July:
+  Days: 31
+  Orders: 2,180
+  Revenue: Rp 291.017.000
+  Profit: Rp 189.161.050
+  Avg Daily Revenue: Rp 9.387.645
+  Profit Margin: 65%
+August:
+  Days: 31
+  Orders: 3,353
+  Revenue: Rp 445.194.000
+  Profit: Rp 289.376.100
+  Avg Daily Revenue: Rp 14.361.097
+  Profit Margin: 65%
+September:
+  Days: 30
+  Orders: 4,472
+  Revenue: Rp 606.885.000
+  Profit: Rp 394.475.250
+  Avg Daily Revenue: Rp 20.229.500
+  Profit Margin: 65%
+
+Generated: 2026-07-05 04:21:55
