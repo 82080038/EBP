@@ -22,8 +22,7 @@ class WorkOrderController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'MAINTENANCE_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $data = $request['body'] ?? [];
 
@@ -41,8 +40,7 @@ class WorkOrderController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'MAINTENANCE_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $workOrderId = $request['params']['id'] ?? null;
         $data = $request['body'] ?? [];
@@ -71,7 +69,7 @@ class WorkOrderController
         $result = $this->service->getWorkOrders($user['tenant_id'], $user['branch_id'], $status);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

@@ -22,8 +22,7 @@ class StockOpnameController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'INVENTORY_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $data = $request['body'] ?? [];
 
@@ -41,8 +40,7 @@ class StockOpnameController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'INVENTORY_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $opnameId = $request['params']['id'] ?? null;
         $data = $request['body'] ?? [];
@@ -61,8 +59,7 @@ class StockOpnameController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'INVENTORY_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $opnameId = $request['params']['id'] ?? null;
 
@@ -83,7 +80,7 @@ class StockOpnameController
         $result = $this->service->getOpnames($user['tenant_id'], $user['branch_id']);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

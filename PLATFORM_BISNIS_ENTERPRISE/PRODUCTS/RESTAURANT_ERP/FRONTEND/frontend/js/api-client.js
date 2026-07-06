@@ -42,6 +42,12 @@ class APIClient {
             headers['Authorization'] = `Bearer ${this.token}`;
         }
 
+        // Add screen size information to headers
+        if (window.screenSizeDetector) {
+            headers['X-Screen-Size'] = window.screenSizeDetector.getScreenSize();
+            headers['X-Screen-Width'] = window.innerWidth.toString();
+        }
+
         const config = {
             ...options,
             headers
@@ -99,7 +105,11 @@ class APIClient {
 
     // Orders
     async getOrders(params = {}) {
-        const queryString = new URLSearchParams(params).toString();
+        // Merge screen size parameters with provided params
+        const screenSizeParams = window.screenSizeDetector ?
+            window.screenSizeDetector.getApiParams('orders') : {};
+        const mergedParams = { ...screenSizeParams, ...params };
+        const queryString = new URLSearchParams(mergedParams).toString();
         return this.request(`/orders${queryString ? '?' + queryString : ''}`, {
             method: 'GET'
         });
@@ -126,15 +136,24 @@ class APIClient {
     }
 
     // Tables
-    async getTables() {
-        return this.request('/tables', {
+    async getTables(params = {}) {
+        // Merge screen size parameters with provided params
+        const screenSizeParams = window.screenSizeDetector ?
+            window.screenSizeDetector.getApiParams('tables') : {};
+        const mergedParams = { ...screenSizeParams, ...params };
+        const queryString = new URLSearchParams(mergedParams).toString();
+        return this.request(`/tables${queryString ? '?' + queryString : ''}`, {
             method: 'GET'
         });
     }
 
     // Products
     async getProducts(params = {}) {
-        const queryString = new URLSearchParams(params).toString();
+        // Merge screen size parameters with provided params
+        const screenSizeParams = window.screenSizeDetector ?
+            window.screenSizeDetector.getApiParams('products') : {};
+        const mergedParams = { ...screenSizeParams, ...params };
+        const queryString = new URLSearchParams(mergedParams).toString();
         return this.request(`/products${queryString ? '?' + queryString : ''}`, {
             method: 'GET'
         });

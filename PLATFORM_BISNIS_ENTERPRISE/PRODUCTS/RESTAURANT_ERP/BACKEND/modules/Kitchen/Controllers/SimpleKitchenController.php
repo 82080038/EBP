@@ -8,8 +8,15 @@ class SimpleKitchenController
     // Simple endpoint to get kitchen orders without middleware
     public function getKitchenOrders($request = null)
     {
-        $database = new Database();
-        $db = $database->connect();
+                $host = 'localhost';
+        $dbname = 'ebp_restaurant_db';
+        $username = 'ebp_app';
+        $password = 'ebp_secure_password_2026';
+        $socket = '/opt/lampp/var/mysql/mysql.sock';
+
+        $dsn = "mysql:host=$host;dbname=$dbname;unix_socket=$socket;charset=utf8mb4";
+        $db = new PDO($dsn, $username, $password);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $sql = "SELECT ko.kitchen_order_id, ko.kitchen_order_number, ko.order_id, ko.status, ko.priority, ko.started_at, ko.completed_at,
                 o.order_number, t.table_number

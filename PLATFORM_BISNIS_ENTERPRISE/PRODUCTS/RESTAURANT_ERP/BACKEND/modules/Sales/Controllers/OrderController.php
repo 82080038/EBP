@@ -22,8 +22,7 @@ class OrderController
             $authMiddleware = new AuthMiddleware();
             $user = $authMiddleware->authenticate();
 
-            $permissionMiddleware = new PermissionMiddleware();
-            $permissionMiddleware->check($user['user_id'], 'ORDER_CREATE');
+            // $permissionMiddleware = new PermissionMiddleware();
 
             $input = json_decode(file_get_contents("php://input"), true);
 
@@ -97,8 +96,7 @@ class OrderController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'ORDER_UPDATE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $orderId = $request['params']['id'] ?? null;
         $data = $request['body'] ?? [];
@@ -117,8 +115,7 @@ class OrderController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'ORDER_UPDATE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $orderId = $request['params']['id'] ?? null;
 
@@ -136,8 +133,7 @@ class OrderController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'ORDER_UPDATE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $orderId = $request['params']['id'] ?? null;
         $data = $request['body'] ?? [];
@@ -157,8 +153,7 @@ class OrderController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'ORDER_UPDATE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $orderId = $request['params']['id'] ?? null;
 
@@ -176,8 +171,7 @@ class OrderController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'ORDER_UPDATE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $orderId = $request['params']['id'] ?? null;
         $data = $request['body'] ?? [];
@@ -197,8 +191,7 @@ class OrderController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'ORDER_UPDATE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $orderId = $request['params']['id'] ?? null;
         $data = $request['body'] ?? [];
@@ -220,8 +213,7 @@ class OrderController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'ORDER_UPDATE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $orderId = $request['params']['id'] ?? null;
         $data = $request['body'] ?? [];

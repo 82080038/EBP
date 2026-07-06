@@ -6,16 +6,28 @@ class AccountingRepository
 {
     private $db;
 
-    public function __construct()
+    public function __construct($db = null)
     {
-        $database = new Database();
-        $this->db = $database->connect();
+        if ($db) {
+            $this->db = $db;
+        } else {
+            $host = 'localhost';
+        $dbname = 'ebp_restaurant_db';
+        $username = 'ebp_app';
+        $password = 'ebp_secure_password_2026';
+        $socket = '/opt/lampp/var/mysql/mysql.sock';
+
+        $dsn = "mysql:host=$host;dbname=$dbname;unix_socket=$socket;charset=utf8mb4";
+        $this->db = new PDO($dsn, $username, $password);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
     }
 
-    public function createJournal($data)
+    public function createJournal($data, $db = null)
     {
+        $connection = $db ?? $this->db;
         $sql = "INSERT INTO journal_entries (tenant_id, branch_id, journal_number, journal_date, description, status) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $this->db->prepare($sql);
+        $stmt = $connection->prepare($sql);
         $stmt->execute([
             $data['tenant_id'],
             $data['branch_id'],
@@ -24,21 +36,22 @@ class AccountingRepository
             $data['description'],
             $data['status']
         ]);
-        return $this->db->lastInsertId();
+        return $connection->lastInsertId();
     }
 
-    public function createJournalLine($data)
+    public function createJournalLine($data, $db = null)
     {
-        $sql = "INSERT INTO journal_lines (journal_id, account_id, debit, credit, description) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $this->db->prepare($sql);
+        $connection = $db ?? $this->db;
+        $sql = "INSERT INTO journal_lines (journal_entry_id, account_id, debit, credit, description) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $connection->prepare($sql);
         $stmt->execute([
-            $data['journal_id'],
+            $data['journal_entry_id'],
             $data['account_id'],
-            $data['debit_amount'],
-            $data['credit_amount'],
+            $data['debit'],
+            $data['credit'],
             $data['description']
         ]);
-        return $this->db->lastInsertId();
+        return $connection->lastInsertId();
     }
 
     public function getTrialBalance($tenantId, $branchId, $asOfDate)
@@ -52,7 +65,7 @@ class AccountingRepository
                 SUM(CASE WHEN jl.credit > 0 THEN jl.credit ELSE 0 END) as total_credit
             FROM chart_of_accounts coa
             LEFT JOIN journal_lines jl ON coa.account_id = jl.account_id
-            LEFT JOIN journal_entries je ON jl.journal_id = je.journal_id
+            LEFT JOIN journal_entries je ON jl.journal_entry_id = je.journal_entry_id
             WHERE coa.tenant_id = ?
             AND (je.tenant_id IS NULL OR je.tenant_id = ?)
             AND (je.journal_date <= ? OR je.journal_date IS NULL)
@@ -84,7 +97,7 @@ class AccountingRepository
                 SUM(CASE WHEN jl.credit > 0 THEN jl.credit ELSE 0 END) as balance
             FROM chart_of_accounts coa
             LEFT JOIN journal_lines jl ON coa.account_id = jl.account_id
-            LEFT JOIN journal_entries je ON jl.journal_id = je.journal_id
+            LEFT JOIN journal_entries je ON jl.journal_entry_id = je.journal_entry_id
             WHERE coa.tenant_id = ?
             AND (je.tenant_id IS NULL OR je.tenant_id = ?)
             AND (je.journal_date <= ? OR je.journal_date IS NULL)
@@ -116,7 +129,7 @@ class AccountingRepository
                 SUM(CASE WHEN jl.credit > 0 THEN jl.credit ELSE 0 END) as balance
             FROM chart_of_accounts coa
             LEFT JOIN journal_lines jl ON coa.account_id = jl.account_id
-            LEFT JOIN journal_entries je ON jl.journal_id = je.journal_id
+            LEFT JOIN journal_entries je ON jl.journal_entry_id = je.journal_entry_id
             WHERE coa.tenant_id = ?
             AND (je.tenant_id IS NULL OR je.tenant_id = ?)
             AND je.journal_date BETWEEN ? AND ?
@@ -136,5 +149,13 @@ class AccountingRepository
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function accountExists($accountId, $tenantId)
+    {
+        $sql = "SELECT account_id FROM chart_of_accounts WHERE account_id = ? AND tenant_id = ? AND is_active = TRUE AND deleted_at IS NULL";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$accountId, $tenantId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
     }
 }

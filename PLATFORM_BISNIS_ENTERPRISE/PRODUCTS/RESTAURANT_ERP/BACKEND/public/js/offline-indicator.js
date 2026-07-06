@@ -43,8 +43,8 @@ class OfflineIndicator {
 
     async checkStatus() {
         try {
-            // Try to fetch from the API to check connectivity
-            const response = await fetch('/api/v1/offline/status', {
+            // Try to fetch from the public API to check connectivity (no auth required)
+            const response = await fetch('/api/v1/public/offline/status', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'

@@ -24,7 +24,7 @@ class MobileOrderController
         $result = $this->service->getMobileMenu($user['tenant_id'], $user['branch_id']);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -45,7 +45,7 @@ class MobileOrderController
         $result = $this->service->getQuickOrder($user['tenant_id'], $user['branch_id'], $productId);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

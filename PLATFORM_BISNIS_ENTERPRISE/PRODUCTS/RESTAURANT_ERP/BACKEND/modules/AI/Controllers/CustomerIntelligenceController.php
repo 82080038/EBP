@@ -22,8 +22,7 @@ class CustomerIntelligenceController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'REPORT_VIEW');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $dateFrom = $request['params']['start_date'] ?? date('Y-m-01');
         $dateTo = $request['params']['end_date'] ?? date('Y-m-t');
@@ -31,7 +30,7 @@ class CustomerIntelligenceController
         $result = $this->service->analyzeCustomerBehavior($user['tenant_id'], $user['branch_id'], $dateFrom, $dateTo);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

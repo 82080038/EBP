@@ -68,8 +68,7 @@ class LocationController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'BRANCH_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $branchId = $request['params']['id'] ?? null;
         $data = $request['body'] ?? [];

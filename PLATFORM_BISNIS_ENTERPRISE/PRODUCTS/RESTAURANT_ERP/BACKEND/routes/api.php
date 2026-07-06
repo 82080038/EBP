@@ -140,6 +140,36 @@ if (!class_exists('AIController')) {
     require_once __DIR__ . '/../modules/AI/Controllers/AIController.php';
 }
 
+// Recipe Module
+if (!class_exists('RecipeController')) {
+    require_once __DIR__ . '/../modules/Recipe/Controllers/RecipeController.php';
+}
+
+// Menu Engineering Module
+if (!class_exists('MenuEngineeringController')) {
+    require_once __DIR__ . '/../modules/MenuEngineering/Controllers/MenuEngineeringController.php';
+}
+
+// Food Waste Module
+if (!class_exists('FoodWasteController')) {
+    require_once __DIR__ . '/../modules/FoodWaste/Controllers/FoodWasteController.php';
+}
+
+// Staff Scheduling Module
+if (!class_exists('StaffSchedulingController')) {
+    require_once __DIR__ . '/../modules/StaffScheduling/Controllers/StaffSchedulingController.php';
+}
+
+// Tip Management Module
+if (!class_exists('TipManagementController')) {
+    require_once __DIR__ . '/../modules/TipManagement/Controllers/TipManagementController.php';
+}
+
+// Daily Reports Module
+if (!class_exists('DailyReportsController')) {
+    require_once __DIR__ . '/../modules/DailyReports/Controllers/DailyReportsController.php';
+}
+
 // Delivery Module
 if (!class_exists('DeliveryController')) {
     require_once __DIR__ . '/../modules/Delivery/Controllers/DeliveryController.php';
@@ -153,6 +183,34 @@ if (!class_exists('EmployeeController')) {
 // Accounting Module
 if (!class_exists('AccountingController')) {
     require_once __DIR__ . '/../modules/Accounting/Controllers/AccountingController.php';
+}
+
+if (!class_exists('GeneralLedgerController')) {
+    require_once __DIR__ . '/../modules/Accounting/Controllers/GeneralLedgerController.php';
+}
+
+if (!class_exists('AccountsReceivableController')) {
+    require_once __DIR__ . '/../modules/Accounting/Controllers/AccountsReceivableController.php';
+}
+
+if (!class_exists('AccountsPayableController')) {
+    require_once __DIR__ . '/../modules/Accounting/Controllers/AccountsPayableController.php';
+}
+
+if (!class_exists('BankReconciliationController')) {
+    require_once __DIR__ . '/../modules/Accounting/Controllers/BankReconciliationController.php';
+}
+
+if (!class_exists('FixedAssetsController')) {
+    require_once __DIR__ . '/../modules/Accounting/Controllers/FixedAssetsController.php';
+}
+
+if (!class_exists('BudgetController')) {
+    require_once __DIR__ . '/../modules/Accounting/Controllers/BudgetController.php';
+}
+
+if (!class_exists('AccountingPeriodController')) {
+    require_once __DIR__ . '/../modules/Accounting/Controllers/AccountingPeriodController.php';
 }
 
 // Supply Chain Module
@@ -413,6 +471,12 @@ $menuController = new MenuController();
 $productVariantController = new ProductVariantController();
 $productModifierController = new ProductModifierController();
 $comboController = new ComboController();
+$recipeController = new RecipeController();
+$menuEngineeringController = new MenuEngineeringController();
+$foodWasteController = new FoodWasteController();
+$staffSchedulingController = new StaffSchedulingController();
+$tipManagementController = new TipManagementController();
+$dailyReportsController = new DailyReportsController();
 $tableController = new TableController();
 $reservationController = new ReservationController();
 $inventoryController = new InventoryController();
@@ -429,6 +493,13 @@ $aiController = new AIController();
 $deliveryController = new DeliveryController();
 $employeeController = new EmployeeController();
 $accountingController = new AccountingController();
+$generalLedgerController = new GeneralLedgerController();
+$accountsReceivableController = new AccountsReceivableController();
+$accountsPayableController = new AccountsPayableController();
+$bankReconciliationController = new BankReconciliationController();
+$fixedAssetsController = new FixedAssetsController();
+$budgetController = new BudgetController();
+$accountingPeriodController = new AccountingPeriodController();
 $supplyChainController = new SupplyChainController();
 $maintenanceController = new MaintenanceController();
 $qualityController = new QualityController();
@@ -849,6 +920,180 @@ $router->addRoute('DELETE', '/api/v1/menu/recipes/{id}', withAuthAndPermission(
     },
     'MENU_DELETE',
     $permissionMiddleware,
+    $authMiddleware
+));
+
+// Recipe Management Routes (New Module)
+$router->addRoute('GET', '/api/v1/recipes', withAuth(
+    function($request) use ($recipeController) {
+        return $recipeController->index($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/recipes/{id}', withAuth(
+    function($request) use ($recipeController) {
+        return $recipeController->show($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/recipes', withAuth(
+    function($request) use ($recipeController) {
+        return $recipeController->create($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('PUT', '/api/v1/recipes/{id}', withAuth(
+    function($request) use ($recipeController) {
+        return $recipeController->update($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('DELETE', '/api/v1/recipes/{id}', withAuth(
+    function($request) use ($recipeController) {
+        return $recipeController->delete($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/recipes/{id}/cost-analysis', withAuth(
+    function($request) use ($recipeController) {
+        return $recipeController->costAnalysis($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/recipes/{id}/clone', withAuth(
+    function($request) use ($recipeController) {
+        return $recipeController->clone($request);
+    },
+    $authMiddleware
+));
+
+// Menu Engineering Routes
+$router->addRoute('GET', '/api/v1/menu-engineering/profitability/{product_id}', withAuth(
+    function($request) use ($menuEngineeringController) {
+        return $menuEngineeringController->getProfitability($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/menu-engineering/menu-mix', withAuth(
+    function($request) use ($menuEngineeringController) {
+        return $menuEngineeringController->getMenuMix($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/menu-engineering/category-performance', withAuth(
+    function($request) use ($menuEngineeringController) {
+        return $menuEngineeringController->getCategoryPerformance($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/menu-engineering/recommendations', withAuth(
+    function($request) use ($menuEngineeringController) {
+        return $menuEngineeringController->getRecommendations($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/menu-engineering/food-cost-variance', withAuth(
+    function($request) use ($menuEngineeringController) {
+        return $menuEngineeringController->getFoodCostVariance($request);
+    },
+    $authMiddleware
+));
+
+// Food Waste Routes
+$router->addRoute('POST', '/api/v1/food-waste', withAuth(
+    function($request) use ($foodWasteController) {
+        return $foodWasteController->create($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/food-waste', withAuth(
+    function($request) use ($foodWasteController) {
+        return $foodWasteController->index($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/food-waste/analysis', withAuth(
+    function($request) use ($foodWasteController) {
+        return $foodWasteController->analysis($request);
+    },
+    $authMiddleware
+));
+
+// Staff Scheduling Routes
+$router->addRoute('POST', '/api/v1/staff-scheduling/shifts', withAuth(
+    function($request) use ($staffSchedulingController) {
+        return $staffSchedulingController->createShift($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/staff-scheduling/shifts', withAuth(
+    function($request) use ($staffSchedulingController) {
+        return $staffSchedulingController->getShifts($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('POST', '/api/v1/staff-scheduling/schedules', withAuth(
+    function($request) use ($staffSchedulingController) {
+        return $staffSchedulingController->createSchedule($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/staff-scheduling/schedules', withAuth(
+    function($request) use ($staffSchedulingController) {
+        return $staffSchedulingController->getSchedules($request);
+    },
+    $authMiddleware
+));
+
+// Tip Management Routes
+$router->addRoute('POST', '/api/v1/tips', withAuth(
+    function($request) use ($tipManagementController) {
+        return $tipManagementController->create($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/tips', withAuth(
+    function($request) use ($tipManagementController) {
+        return $tipManagementController->index($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/tips/summary', withAuth(
+    function($request) use ($tipManagementController) {
+        return $tipManagementController->summary($request);
+    },
+    $authMiddleware
+));
+
+// Daily Reports Routes
+$router->addRoute('GET', '/api/v1/daily-reports/sales', withAuth(
+    function($request) use ($dailyReportsController) {
+        return $dailyReportsController->getSalesReport($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/daily-reports/table-turnover', withAuth(
+    function($request) use ($dailyReportsController) {
+        return $dailyReportsController->getTableTurnover($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/daily-reports/server-performance', withAuth(
+    function($request) use ($dailyReportsController) {
+        return $dailyReportsController->getServerPerformance($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/daily-reports/peak-hours', withAuth(
+    function($request) use ($dailyReportsController) {
+        return $dailyReportsController->getPeakHours($request);
+    },
+    $authMiddleware
+));
+$router->addRoute('GET', '/api/v1/daily-reports/comprehensive', withAuth(
+    function($request) use ($dailyReportsController) {
+        return $dailyReportsController->getComprehensive($request);
+    },
     $authMiddleware
 ));
 
@@ -1531,6 +1776,253 @@ $router->addRoute('GET', '/api/v1/accounting/profit-loss', function($request) us
     return $accountingController->getProfitLoss($request);
 });
 
+// General Ledger Routes
+$router->addRoute('GET', '/api/v1/accounting/general-ledger', function($request) use ($generalLedgerController) {
+    return $generalLedgerController->getLedger($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/general-ledger/accounts/{id}/balance', function($request) use ($generalLedgerController) {
+    return $generalLedgerController->getAccountBalance($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/cash-flow', function($request) use ($generalLedgerController) {
+    return $generalLedgerController->getCashFlowStatement($request);
+});
+
+// Accounts Receivable Routes
+$router->addRoute('POST', '/api/v1/accounting/accounts-receivable', function($request) use ($accountsReceivableController) {
+    return $accountsReceivableController->createInvoice($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/accounts-receivable', function($request) use ($accountsReceivableController) {
+    return $accountsReceivableController->getInvoices($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/accounts-receivable/invoices', function($request) use ($accountsReceivableController) {
+    return $accountsReceivableController->createInvoice($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/accounts-receivable/invoices', function($request) use ($accountsReceivableController) {
+    return $accountsReceivableController->getInvoices($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/accounts-receivable/invoices/{id}', function($request) use ($accountsReceivableController) {
+    return $accountsReceivableController->getInvoice($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/accounts-receivable/payments', function($request) use ($accountsReceivableController) {
+    return $accountsReceivableController->addPayment($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/accounts-receivable/aging-report', function($request) use ($accountsReceivableController) {
+    return $accountsReceivableController->getAgingReport($request);
+});
+
+// Accounts Payable Routes
+$router->addRoute('POST', '/api/v1/accounting/accounts-payable', function($request) use ($accountsPayableController) {
+    return $accountsPayableController->createBill($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/accounts-payable', function($request) use ($accountsPayableController) {
+    return $accountsPayableController->getBills($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/accounts-payable/bills', function($request) use ($accountsPayableController) {
+    return $accountsPayableController->createBill($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/accounts-payable/bills', function($request) use ($accountsPayableController) {
+    return $accountsPayableController->getBills($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/accounts-payable/bills/{id}', function($request) use ($accountsPayableController) {
+    return $accountsPayableController->getBill($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/accounts-payable/payments', function($request) use ($accountsPayableController) {
+    return $accountsPayableController->addPayment($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/accounts-payable/aging-report', function($request) use ($accountsPayableController) {
+    return $accountsPayableController->getAgingReport($request);
+});
+
+// Bank Reconciliation Routes
+$router->addRoute('POST', '/api/v1/accounting/bank-reconciliations', function($request) use ($bankReconciliationController) {
+    return $bankReconciliationController->createReconciliation($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/bank-reconciliations', function($request) use ($bankReconciliationController) {
+    return $bankReconciliationController->getReconciliations($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/bank-reconciliations/{id}', function($request) use ($bankReconciliationController) {
+    return $bankReconciliationController->getReconciliation($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/bank-reconciliations/items', function($request) use ($bankReconciliationController) {
+    return $bankReconciliationController->addItem($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/bank-reconciliations/{id}/reconcile', function($request) use ($bankReconciliationController) {
+    return $bankReconciliationController->reconcile($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/bank-accounts', function($request) use ($bankReconciliationController) {
+    return $bankReconciliationController->getBankAccounts($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/bank-accounts', function($request) use ($bankReconciliationController) {
+    return $bankReconciliationController->createBankAccount($request);
+});
+
+// Fixed Assets Routes
+$router->addRoute('POST', '/api/v1/accounting/fixed-assets', function($request) use ($fixedAssetsController) {
+    return $fixedAssetsController->createAsset($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/fixed-assets', function($request) use ($fixedAssetsController) {
+    return $fixedAssetsController->getAssets($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/fixed-assets/{id}', function($request) use ($fixedAssetsController) {
+    return $fixedAssetsController->getAsset($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/fixed-assets/depreciation', function($request) use ($fixedAssetsController) {
+    return $fixedAssetsController->calculateDepreciation($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/fixed-assets/{id}/depreciation-schedule', function($request) use ($fixedAssetsController) {
+    return $fixedAssetsController->getDepreciationSchedule($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/fixed-assets/{id}/dispose', function($request) use ($fixedAssetsController) {
+    return $fixedAssetsController->disposeAsset($request);
+});
+
+// Budget Management Routes
+$router->addRoute('POST', '/api/v1/accounting/budgets', function($request) use ($budgetController) {
+    return $budgetController->createBudget($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/budgets', function($request) use ($budgetController) {
+    return $budgetController->getBudgets($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/budgets/{id}', function($request) use ($budgetController) {
+    return $budgetController->getBudget($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/budgets/items', function($request) use ($budgetController) {
+    return $budgetController->addBudgetItem($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/budgets/{id}/approve', function($request) use ($budgetController) {
+    return $budgetController->approveBudget($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/budgets/{id}/variance', function($request) use ($budgetController) {
+    return $budgetController->getBudgetVariance($request);
+});
+
+// Accounting Period Routes
+$router->addRoute('POST', '/api/v1/accounting/periods', function($request) use ($accountingPeriodController) {
+    return $accountingPeriodController->createPeriod($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/periods', function($request) use ($accountingPeriodController) {
+    return $accountingPeriodController->getPeriods($request);
+});
+$router->addRoute('GET', '/api/v1/accounting/periods/current', function($request) use ($accountingPeriodController) {
+    return $accountingPeriodController->getCurrentPeriod($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/periods/{id}/close', function($request) use ($accountingPeriodController) {
+    return $accountingPeriodController->closePeriod($request);
+});
+$router->addRoute('POST', '/api/v1/accounting/periods/{id}/reopen', function($request) use ($accountingPeriodController) {
+    return $accountingPeriodController->reopenPeriod($request);
+});
+
+// Account Suggestion Routes
+if (!class_exists('AccountSuggestionService')) {
+    require_once __DIR__ . '/../modules/Accounting/Services/AccountSuggestionService.php';
+}
+$accountSuggestionService = new AccountSuggestionService();
+
+$router->addRoute('GET', '/api/v1/accounting/suggest-accounts', function($request) use ($accountSuggestionService) {
+    $authMiddleware = new AuthMiddleware();
+    $user = $authMiddleware->authenticate();
+    $transactionType = $_GET['transaction_type'] ?? null;
+    $description = $_GET['description'] ?? null;
+    $amount = $_GET['amount'] ?? null;
+    $result = $accountSuggestionService->suggestAccounts($transactionType, $description, $amount);
+    if ($result['success']) {
+        Response::success($result['suggestions'], $result['message'] ?? 'Account suggestions retrieved successfully');
+    } else {
+        Response::error($result['message'] ?? 'Failed to get account suggestions');
+    }
+});
+
+$router->addRoute('GET', '/api/v1/accounting/accounts/search', function($request) use ($accountSuggestionService) {
+    $authMiddleware = new AuthMiddleware();
+    $user = $authMiddleware->authenticate();
+    $searchTerm = $_GET['search_term'] ?? null;
+    $accountType = $_GET['account_type'] ?? null;
+    $result = $accountSuggestionService->searchAccounts($user['tenant_id'], $searchTerm, $accountType);
+    Response::success($result, 'Accounts retrieved successfully');
+});
+
+$router->addRoute('GET', '/api/v1/accounting/journal-templates', function($request) use ($accountSuggestionService) {
+    $authMiddleware = new AuthMiddleware();
+    $user = $authMiddleware->authenticate();
+    $templates = $accountSuggestionService->getJournalTemplates();
+    Response::success($templates, 'Journal templates retrieved successfully');
+});
+
+// Currency Service Routes
+if (!class_exists('ExchangeRateService')) {
+    require_once __DIR__ . '/../core/CurrencyService.php';
+}
+$currencyService = new ExchangeRateService();
+
+$router->addRoute('GET', '/api/v1/accounting/currencies', function($request) use ($currencyService) {
+    $authMiddleware = new AuthMiddleware();
+    $user = $authMiddleware->authenticate();
+    $currencies = $currencyService->getCurrencies();
+    Response::success($currencies, 'Currencies retrieved successfully');
+});
+
+$router->addRoute('POST', '/api/v1/accounting/exchange-rates', function($request) use ($currencyService) {
+    $authMiddleware = new AuthMiddleware();
+    $user = $authMiddleware->authenticate();
+    $data = $request['body'] ?? [];
+    $result = $currencyService->setExchangeRate($user['tenant_id'], $data['from_currency'], $data['to_currency'], $data['rate'], $data['effective_date'], $user['user_id']);
+    if ($result['success']) {
+        Response::success([], $result['message']);
+    } else {
+        Response::error($result['message']);
+    }
+});
+
+$router->addRoute('GET', '/api/v1/accounting/exchange-rates', function($request) use ($currencyService) {
+    $authMiddleware = new AuthMiddleware();
+    $user = $authMiddleware->authenticate();
+    $fromCurrency = $_GET['from_currency'] ?? null;
+    $toCurrency = $_GET['to_currency'] ?? null;
+    $rates = $currencyService->getExchangeRates($user['tenant_id'], $fromCurrency, $toCurrency);
+    Response::success($rates, 'Exchange rates retrieved successfully');
+});
+
+$router->addRoute('GET', '/api/v1/accounting/exchange-rates/latest', function($request) use ($currencyService) {
+    $authMiddleware = new AuthMiddleware();
+    $user = $authMiddleware->authenticate();
+    $rates = $currencyService->getLatestExchangeRates($user['tenant_id']);
+    Response::success($rates, 'Latest exchange rates retrieved successfully');
+});
+
+// Report Queue Routes
+if (!class_exists('ReportQueueService')) {
+    require_once __DIR__ . '/../core/ReportQueueService.php';
+}
+$reportQueueService = new ReportQueueService();
+
+$router->addRoute('POST', '/api/v1/accounting/reports/enqueue', function($request) use ($reportQueueService) {
+    $authMiddleware = new AuthMiddleware();
+    $user = $authMiddleware->authenticate();
+    $data = $request['body'] ?? [];
+    $result = $reportQueueService->enqueueReport($user['tenant_id'], $user['branch_id'], $user['user_id'], $data['report_type'], $data['report_name'], $data['parameters'] ?? [], $data['priority'] ?? 0);
+    if ($result['success']) {
+        Response::success($result, $result['message']);
+    } else {
+        Response::error($result['message']);
+    }
+});
+
+$router->addRoute('GET', '/api/v1/accounting/reports/jobs', function($request) use ($reportQueueService) {
+    $authMiddleware = new AuthMiddleware();
+    $user = $authMiddleware->authenticate();
+    $jobs = $reportQueueService->getUserReportJobs($user['user_id']);
+    Response::success($jobs, 'Report jobs retrieved successfully');
+});
+
+$router->addRoute('GET', '/api/v1/accounting/reports/jobs/{id}', function($request) use ($reportQueueService) {
+    $authMiddleware = new AuthMiddleware();
+    $user = $authMiddleware->authenticate();
+    $jobId = $request['params']['id'];
+    $job = $reportQueueService->getReportJob($jobId);
+    Response::success($job, 'Report job retrieved successfully');
+});
+
 // Supply Chain Routes
 $router->addRoute('POST', '/api/v1/supply-chain/requisitions', function($request) use ($supplyChainController) {
     return $supplyChainController->createRequisition($request);
@@ -1969,6 +2461,11 @@ $router->addRoute('GET', '/api/v1/offline/status', function($request) use ($offl
     return $offlineStatusController->getStatus($request);
 });
 
+// Public offline status check (no authentication required)
+$router->addRoute('GET', '/api/v1/public/offline/status', function($request) use ($offlineStatusController) {
+    return $offlineStatusController->getPublicStatus($request);
+});
+
 // Kiosk Routes
 $router->addRoute('GET', '/api/v1/kiosk/menu', function($request) use ($kioskController) {
     return $kioskController->getMenu($request);
@@ -2201,6 +2698,523 @@ $router->addRoute('GET', '/api/v1/loyalty/customers/tier/{tier}', withAuthAndPer
     },
     'LOYALTY_VIEW',
     $permissionMiddleware,
+    $authMiddleware
+));
+
+// Feature Toggle Module
+if (!class_exists('FeatureToggleController')) {
+    require_once __DIR__ . '/../core/FeatureToggleController.php';
+}
+
+// Feature Toggle Routes
+$router->addRoute('GET', '/api/v1/features/modules', withAuth(
+    function($request) {
+        $featureToggleController = new FeatureToggleController();
+        return $featureToggleController->getAllModules($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/features/user', withAuth(
+    function($request) {
+        $featureToggleController = new FeatureToggleController();
+        return $featureToggleController->getUserFeatures($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/features/user/{user_id}', withAuth(
+    function($request) {
+        $featureToggleController = new FeatureToggleController();
+        return $featureToggleController->getUserFeaturesById($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/features/role/{role_id}', withAuth(
+    function($request) {
+        $featureToggleController = new FeatureToggleController();
+        return $featureToggleController->getRoleFeatures($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/features/user/enable', withAuth(
+    function($request) {
+        $featureToggleController = new FeatureToggleController();
+        return $featureToggleController->enableFeatureForUser($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/features/user/disable', withAuth(
+    function($request) {
+        $featureToggleController = new FeatureToggleController();
+        return $featureToggleController->disableFeatureForUser($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/features/role/enable', withAuth(
+    function($request) {
+        $featureToggleController = new FeatureToggleController();
+        return $featureToggleController->enableFeatureForRole($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/features/role/disable', withAuth(
+    function($request) {
+        $featureToggleController = new FeatureToggleController();
+        return $featureToggleController->disableFeatureForRole($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/features/check/{module_code}', withAuth(
+    function($request) {
+        $featureToggleController = new FeatureToggleController();
+        return $featureToggleController->checkFeature($request);
+    },
+    $authMiddleware
+));
+
+// Operational Management Module
+if (!class_exists('AttendanceController')) {
+    require_once __DIR__ . '/../modules/HR/Controllers/AttendanceController.php';
+}
+if (!class_exists('HolidayController')) {
+    require_once __DIR__ . '/../modules/HR/Controllers/HolidayController.php';
+}
+if (!class_exists('BusinessHoursController')) {
+    require_once __DIR__ . '/../modules/HR/Controllers/BusinessHoursController.php';
+}
+if (!class_exists('EmergencyClosureController')) {
+    require_once __DIR__ . '/../modules/HR/Controllers/EmergencyClosureController.php';
+}
+
+// Attendance Routes
+$router->addRoute('POST', '/api/v1/attendance/check-in', withAuth(
+    function($request) {
+        $attendanceController = new AttendanceController();
+        return $attendanceController->checkIn($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/attendance/check-out', withAuth(
+    function($request) {
+        $attendanceController = new AttendanceController();
+        return $attendanceController->checkOut($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/attendance', withAuth(
+    function($request) {
+        $attendanceController = new AttendanceController();
+        return $attendanceController->getAttendance($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/attendance/break/start', withAuth(
+    function($request) {
+        $attendanceController = new AttendanceController();
+        return $attendanceController->startBreak($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/attendance/break/end', withAuth(
+    function($request) {
+        $attendanceController = new AttendanceController();
+        return $attendanceController->endBreak($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/attendance/summary', withAuth(
+    function($request) {
+        $attendanceController = new AttendanceController();
+        return $attendanceController->getSummary($request);
+    },
+    $authMiddleware
+));
+
+// Holiday Routes
+$router->addRoute('POST', '/api/v1/holidays', withAuth(
+    function($request) {
+        $holidayController = new HolidayController();
+        return $holidayController->create($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/holidays', withAuth(
+    function($request) {
+        $holidayController = new HolidayController();
+        return $holidayController->getHolidays($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('PUT', '/api/v1/holidays/{holiday_id}', withAuth(
+    function($request) {
+        $holidayController = new HolidayController();
+        return $holidayController->update($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('DELETE', '/api/v1/holidays/{holiday_id}', withAuth(
+    function($request) {
+        $holidayController = new HolidayController();
+        return $holidayController->delete($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/holidays/check', withAuth(
+    function($request) {
+        $holidayController = new HolidayController();
+        return $holidayController->checkHoliday($request);
+    },
+    $authMiddleware
+));
+
+// Business Hours Routes
+$router->addRoute('POST', '/api/v1/business-hours', withAuth(
+    function($request) {
+        $businessHoursController = new BusinessHoursController();
+        return $businessHoursController->setHours($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/business-hours', withAuth(
+    function($request) {
+        $businessHoursController = new BusinessHoursController();
+        return $businessHoursController->getHours($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/business-hours/check', withAuth(
+    function($request) {
+        $businessHoursController = new BusinessHoursController();
+        return $businessHoursController->checkOpen($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/business-hours/special', withAuth(
+    function($request) {
+        $businessHoursController = new BusinessHoursController();
+        return $businessHoursController->createSpecialSchedule($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/business-hours/special', withAuth(
+    function($request) {
+        $businessHoursController = new BusinessHoursController();
+        return $businessHoursController->getSpecialSchedules($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('DELETE', '/api/v1/business-hours/special/{schedule_id}', withAuth(
+    function($request) {
+        $businessHoursController = new BusinessHoursController();
+        return $businessHoursController->deleteSpecialSchedule($request);
+    },
+    $authMiddleware
+));
+
+// Emergency Closure Routes
+$router->addRoute('POST', '/api/v1/emergency-closures', withAuth(
+    function($request) {
+        $emergencyClosureController = new EmergencyClosureController();
+        return $emergencyClosureController->create($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/emergency-closures/active', withAuth(
+    function($request) {
+        $emergencyClosureController = new EmergencyClosureController();
+        return $emergencyClosureController->getActive($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/emergency-closures', withAuth(
+    function($request) {
+        $emergencyClosureController = new EmergencyClosureController();
+        return $emergencyClosureController->getAll($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('PUT', '/api/v1/emergency-closures/{closure_id}', withAuth(
+    function($request) {
+        $emergencyClosureController = new EmergencyClosureController();
+        return $emergencyClosureController->update($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/emergency-closures/{closure_id}/close', withAuth(
+    function($request) {
+        $emergencyClosureController = new EmergencyClosureController();
+        return $emergencyClosureController->close($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('PUT', '/api/v1/emergency-closures/{closure_id}/notification', withAuth(
+    function($request) {
+        $emergencyClosureController = new EmergencyClosureController();
+        return $emergencyClosureController->updateNotification($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/emergency-closures/check', withAuth(
+    function($request) {
+        $emergencyClosureController = new EmergencyClosureController();
+        return $emergencyClosureController->checkStatus($request);
+    },
+    $authMiddleware
+));
+
+// Edge Case Handling Module
+if (!class_exists('RoleFallbackController')) {
+    require_once __DIR__ . '/../core/RoleFallbackController.php';
+}
+if (!class_exists('MenuController')) {
+    require_once __DIR__ . '/../core/MenuController.php';
+}
+
+// Role Fallback Routes
+$router->addRoute('POST', '/api/v1/tenant/single-member', withAuth(
+    function($request) {
+        $roleFallbackController = new RoleFallbackController();
+        return $roleFallbackController->setSingleMember($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/tenant/single-member', withAuth(
+    function($request) {
+        $roleFallbackController = new RoleFallbackController();
+        return $roleFallbackController->checkSingleMember($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/roles/fallback', withAuth(
+    function($request) {
+        $roleFallbackController = new RoleFallbackController();
+        return $roleFallbackController->setFallback($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/roles/fallback', withAuth(
+    function($request) {
+        $roleFallbackController = new RoleFallbackController();
+        return $roleFallbackController->getFallbacks($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/roles/available', withAuth(
+    function($request) {
+        $roleFallbackController = new RoleFallbackController();
+        return $roleFallbackController->getAvailableRoles($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/roles/exists', withAuth(
+    function($request) {
+        $roleFallbackController = new RoleFallbackController();
+        return $roleFallbackController->checkRoleExists($request);
+    },
+    $authMiddleware
+));
+
+// Menu/Navigation Routes
+$router->addRoute('GET', '/api/v1/menu/user', withAuth(
+    function($request) {
+        $menuController = new MenuController();
+        return $menuController->getUserMenu($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/menu/role', withAuth(
+    function($request) {
+        $menuController = new MenuController();
+        return $menuController->setRoleMenu($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/menu/role', withAuth(
+    function($request) {
+        $menuController = new MenuController();
+        return $menuController->getRoleMenu($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/menu/role/copy', withAuth(
+    function($request) {
+        $menuController = new MenuController();
+        return $menuController->copyRoleMenu($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/menu/access', withAuth(
+    function($request) {
+        $menuController = new MenuController();
+        return $menuController->checkAccess($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/menu/role/modules', withAuth(
+    function($request) {
+        $menuController = new MenuController();
+        return $menuController->getRoleModules($request);
+    },
+    $authMiddleware
+));
+
+// Custom Role & Module Creation Module
+if (!class_exists('CustomRoleController')) {
+    require_once __DIR__ . '/../core/CustomRoleController.php';
+}
+if (!class_exists('CustomModuleController')) {
+    require_once __DIR__ . '/../core/CustomModuleController.php';
+}
+
+// Custom Role Routes
+$router->addRoute('POST', '/api/v1/roles/from-template', withAuth(
+    function($request) {
+        $customRoleController = new CustomRoleController();
+        return $customRoleController->createFromTemplate($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/roles/custom', withAuth(
+    function($request) {
+        $customRoleController = new CustomRoleController();
+        return $customRoleController->createCustom($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/roles/templates', withAuth(
+    function($request) {
+        $customRoleController = new CustomRoleController();
+        return $customRoleController->getTemplates($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/roles/templates/details', withAuth(
+    function($request) {
+        $customRoleController = new CustomRoleController();
+        return $customRoleController->getTemplateDetails($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/roles/clone', withAuth(
+    function($request) {
+        $customRoleController = new CustomRoleController();
+        return $customRoleController->cloneRole($request);
+    },
+    $authMiddleware
+));
+
+// Custom Module Routes
+$router->addRoute('POST', '/api/v1/modules/custom', withAuth(
+    function($request) {
+        $customModuleController = new CustomModuleController();
+        return $customModuleController->createModule($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/modules/custom', withAuth(
+    function($request) {
+        $customModuleController = new CustomModuleController();
+        return $customModuleController->getCustomModules($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/modules/all', withAuth(
+    function($request) {
+        $customModuleController = new CustomModuleController();
+        return $customModuleController->getAllModules($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('PUT', '/api/v1/modules/custom/{custom_module_id}', withAuth(
+    function($request) {
+        $customModuleController = new CustomModuleController();
+        return $customModuleController->updateModule($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('DELETE', '/api/v1/modules/custom/{custom_module_id}', withAuth(
+    function($request) {
+        $customModuleController = new CustomModuleController();
+        return $customModuleController->deleteModule($request);
+    },
+    $authMiddleware
+));
+
+// Custom Permission Routes
+$router->addRoute('POST', '/api/v1/permissions/custom', withAuth(
+    function($request) {
+        $customModuleController = new CustomModuleController();
+        return $customModuleController->createPermission($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/permissions/custom', withAuth(
+    function($request) {
+        $customModuleController = new CustomModuleController();
+        return $customModuleController->getCustomPermissions($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('GET', '/api/v1/permissions/all', withAuth(
+    function($request) {
+        $customModuleController = new CustomModuleController();
+        return $customModuleController->getAllPermissions($request);
+    },
+    $authMiddleware
+));
+
+$router->addRoute('POST', '/api/v1/modules/assign', withAuth(
+    function($request) {
+        $customModuleController = new CustomModuleController();
+        return $customModuleController->assignToRole($request);
+    },
     $authMiddleware
 ));
 

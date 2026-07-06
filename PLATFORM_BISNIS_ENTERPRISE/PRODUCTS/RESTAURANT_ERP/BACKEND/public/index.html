@@ -760,38 +760,144 @@
                 <button type="button" class="btn btn-secondary" id="backToLanding">Kembali</button>
 
                 <div class="form-group" style="margin-top: 15px;">
-                    <label for="quickLoginSelect">⚡ Quick Login by Level & Role</label>
+                    <label for="quickLoginSelect">⚡ Quick Login by F&B Type & Role</label>
                     <select id="quickLoginSelect" class="form-control">
                         <option value="">-- Select User --</option>
-                        <optgroup label="Level 1: Platform Owner">
-                            <option
-                                value='{"username":"platform","password":"password","level":"PLATFORM_OWNER","role":"Administrator"}'>
-                                platform — Platform Owner</option>
+                        <optgroup label="🏠 Home-Based Business">
+                            <option value='{"username":"home_owner","password":"password"}'>home_owner — Home Owner
+                            </option>
+                            <option value='{"username":"home_staff","password":"password"}'>home_staff — Home Staff
+                            </option>
+                            <option value='{"username":"kitchen_owner","password":"password"}'>kitchen_owner — Kitchen
+                                Owner</option>
+                            <option value='{"username":"kitchen_staff","password":"password"}'>kitchen_staff — Kitchen
+                                Staff</option>
                         </optgroup>
-                        <optgroup label="Level 2: Tenant Owner">
-                            <option
-                                value='{"username":"admin","password":"admin123","level":"TENANT_OWNER","role":"Administrator"}'>
-                                admin — Tenant Owner (Administrator)</option>
+                        <optgroup label="🍽️ Small Restaurant">
+                            <option value='{"username":"resto_owner","password":"password"}'>resto_owner — Restaurant
+                                Owner</option>
+                            <option value='{"username":"resto_manager","password":"password"}'>resto_manager —
+                                Restaurant Manager</option>
+                            <option value='{"username":"resto_waiter","password":"password"}'>resto_waiter — Waiter
+                            </option>
+                            <option value='{"username":"resto_kitchen","password":"password"}'>resto_kitchen — Kitchen
+                                Staff</option>
+                            <option value='{"username":"resto_cashier","password":"password"}'>resto_cashier — Cashier
+                            </option>
+                            <option value='{"username":"cafe_owner","password":"password"}'>cafe_owner — Cafe Owner
+                            </option>
+                            <option value='{"username":"cafe_barista","password":"password"}'>cafe_barista — Barista
+                            </option>
+                            <option value='{"username":"warung_owner","password":"password"}'>warung_owner — Warung
+                                Owner</option>
+                            <option value='{"username":"warung_helper","password":"password"}'>warung_helper — Warung
+                                Helper</option>
                         </optgroup>
-                        <optgroup label="Level 3: Tenant Member">
-                            <option
-                                value='{"username":"manager","password":"password","level":"TENANT_MEMBER","role":"Restaurant Manager"}'>
-                                manager — Restaurant Manager</option>
-                            <option
-                                value='{"username":"waiter","password":"password","level":"TENANT_MEMBER","role":"Waiter"}'>
-                                waiter — Waiter</option>
-                            <option
-                                value='{"username":"kitchen","password":"password","level":"TENANT_MEMBER","role":"Kitchen Staff"}'>
-                                kitchen — Kitchen Staff</option>
-                            <option
-                                value='{"username":"cashier","password":"password","level":"TENANT_MEMBER","role":"Cashier"}'>
-                                cashier — Cashier</option>
-                            <option
-                                value='{"username":"inventory","password":"password","level":"TENANT_MEMBER","role":"Inventory Manager"}'>
-                                inventory — Inventory Manager</option>
-                            <option
-                                value='{"username":"host","password":"password","level":"TENANT_MEMBER","role":"Host/Hostess"}'>
-                                host — Host/Hostess</option>
+                        <optgroup label="🏢 Regional Chain">
+                            <option value='{"username":"chain_owner","password":"password"}'>chain_owner — Chain Owner
+                            </option>
+                            <option value='{"username":"area_manager","password":"password"}'>area_manager — Area
+                                Manager</option>
+                            <option value='{"username":"branch_manager","password":"password"}'>branch_manager — Branch
+                                Manager</option>
+                            <option value='{"username":"chain_staff","password":"password"}'>chain_staff — Chain Staff
+                            </option>
+                        </optgroup>
+                        <optgroup label="🌍 National Corporation">
+                            <option value='{"username":"corp_ceo","password":"password"}'>corp_ceo — CEO</option>
+                            <option value='{"username":"corp_coo","password":"password"}'>corp_coo — COO</option>
+                            <option value='{"username":"corp_cfo","password":"password"}'>corp_cfo — CFO</option>
+                            <option value='{"username":"regional_director","password":"password"}'>regional_director —
+                                Regional Director</option>
+                            <option value='{"username":"nat_branch_manager","password":"password"}'>nat_branch_manager —
+                                Branch Manager</option>
+                            <option value='{"username":"corp_staff","password":"password"}'>corp_staff — Corporate Staff
+                            </option>
+                        </optgroup>
+                        <optgroup label="🌐 International Corporation">
+                            <option value='{"username":"global_ceo","password":"password"}'>global_ceo — Global CEO
+                            </option>
+                            <option value='{"username":"global_coo","password":"password"}'>global_coo — Global COO
+                            </option>
+                            <option value='{"username":"country_manager","password":"password"}'>country_manager —
+                                Country Manager</option>
+                            <option value='{"username":"intl_regional_manager","password":"password"}'>
+                                intl_regional_manager — Regional Manager</option>
+                            <option value='{"username":"intl_staff","password":"password"}'>intl_staff — International
+                                Staff</option>
+                        </optgroup>
+                        <optgroup label="🚚 Food Truck">
+                            <option value='{"username":"truck_owner","password":"password"}'>truck_owner — Truck Owner
+                            </option>
+                            <option value='{"username":"truck_driver","password":"password"}'>truck_driver — Truck
+                                Driver</option>
+                            <option value='{"username":"truck_cook","password":"password"}'>truck_cook — Truck Cook
+                            </option>
+                            <option value='{"username":"vendor_owner","password":"password"}'>vendor_owner — Vendor
+                                Owner</option>
+                            <option value='{"username":"vendor_helper","password":"password"}'>vendor_helper — Vendor
+                                Helper</option>
+                        </optgroup>
+                        <optgroup label="🏪 Stall/Kiosk">
+                            <option value='{"username":"stall_owner","password":"password"}'>stall_owner — Stall Owner
+                            </option>
+                            <option value='{"username":"stall_attendant","password":"password"}'>stall_attendant — Stall
+                                Attendant</option>
+                            <option value='{"username":"kiosk_owner","password":"password"}'>kiosk_owner — Kiosk Owner
+                            </option>
+                            <option value='{"username":"kiosk_staff","password":"password"}'>kiosk_staff — Kiosk Staff
+                            </option>
+                        </optgroup>
+                        <optgroup label="☕ Cafe">
+                            <option value='{"username":"cafe_manager","password":"password"}'>cafe_manager — Cafe
+                                Manager</option>
+                            <option value='{"username":"cafe_barista","password":"password"}'>cafe_barista — Barista
+                            </option>
+                            <option value='{"username":"cafe_server","password":"password"}'>cafe_server — Server
+                            </option>
+                            <option value='{"username":"coffee_owner","password":"password"}'>coffee_owner — Coffee
+                                Owner</option>
+                            <option value='{"username":"coffee_barista","password":"password"}'>coffee_barista — Coffee
+                                Barista</option>
+                        </optgroup>
+                        <optgroup label="🍽️ Restaurant">
+                            <option value='{"username":"fine_owner","password":"password"}'>fine_owner — Fine Dining
+                                Owner</option>
+                            <option value='{"username":"fine_manager","password":"password"}'>fine_manager — Fine Dining
+                                Manager</option>
+                            <option value='{"username":"fine_waiter","password":"password"}'>fine_waiter — Fine Dining
+                                Waiter</option>
+                            <option value='{"username":"fine_chef","password":"password"}'>fine_chef — Executive Chef
+                            </option>
+                            <option value='{"username":"casual_owner","password":"password"}'>casual_owner — Casual
+                                Dining Owner</option>
+                            <option value='{"username":"casual_manager","password":"password"}'>casual_manager — Casual
+                                Dining Manager</option>
+                        </optgroup>
+                        <optgroup label="🏨 Hotel">
+                            <option value='{"username":"hotel_gm","password":"password"}'>hotel_gm — Hotel General
+                                Manager</option>
+                            <option value='{"username":"hotel_fb","password":"password"}'>hotel_fb — F&B Manager
+                            </option>
+                            <option value='{"username":"hotel_staff","password":"password"}'>hotel_staff — Hotel Staff
+                            </option>
+                            <option value='{"username":"resort_gm","password":"password"}'>resort_gm — Resort Manager
+                            </option>
+                            <option value='{"username":"resort_fb","password":"password"}'>resort_fb — Resort F&B
+                                Manager</option>
+                        </optgroup>
+                        <optgroup label="✈️ International Facility">
+                            <option value='{"username":"airport_mgr","password":"password"}'>airport_mgr — Airport
+                                Manager</option>
+                            <option value='{"username":"airport_staff","password":"password"}'>airport_staff — Airport
+                                Staff</option>
+                            <option value='{"username":"mall_mgr","password":"password"}'>mall_mgr — Mall Manager
+                            </option>
+                            <option value='{"username":"mall_staff","password":"password"}'>mall_staff — Mall Staff
+                            </option>
+                        </optgroup>
+                        <optgroup label="🔧 Default Admin">
+                            <option value='{"username":"admin","password":"admin123"}'>admin — Default Admin</option>
                         </optgroup>
                     </select>
                 </div>

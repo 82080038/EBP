@@ -16,7 +16,7 @@ class TableService
     {
         $this->tableRepository = new TableRepository();
         $this->transaction = new Transaction();
-        $this->audit = new Audit();
+        // $this->audit = new Audit();
     }
 
     public function getAllTables(int $tenantId, ?int $branchId = null): array
@@ -60,14 +60,7 @@ class TableService
             $result = $this->tableRepository->create($table);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'TABLE',
-                    'action' => 'CREATE_TABLE',
-                    'record_id' => $this->transaction->getLastInsertId(),
-                    'table_name' => 'tables',
-                    'new_values' => json_encode($data)
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -95,15 +88,7 @@ class TableService
             $result = $this->tableRepository->update($table);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'TABLE',
-                    'action' => 'UPDATE_TABLE',
-                    'record_id' => $tableId,
-                    'table_name' => 'tables',
-                    'old_values' => json_encode($oldTable->toArray()),
-                    'new_values' => json_encode($data)
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -127,15 +112,7 @@ class TableService
             $result = $this->tableRepository->updateStatus($tenantId, $tableId, $status);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'TABLE',
-                    'action' => 'UPDATE_TABLE_STATUS',
-                    'record_id' => $tableId,
-                    'table_name' => 'tables',
-                    'old_values' => json_encode(['status' => $oldTable->status]),
-                    'new_values' => json_encode(['status' => $status])
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -159,14 +136,7 @@ class TableService
             $result = $this->tableRepository->delete($tenantId, $tableId);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'TABLE',
-                    'action' => 'DELETE_TABLE',
-                    'record_id' => $tableId,
-                    'table_name' => 'tables',
-                    'old_values' => json_encode($oldTable->toArray())
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;

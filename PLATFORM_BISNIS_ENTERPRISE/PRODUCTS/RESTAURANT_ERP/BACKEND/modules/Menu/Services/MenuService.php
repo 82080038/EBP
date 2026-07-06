@@ -31,7 +31,7 @@ class MenuService
         $this->productRepository = new ProductRepository();
         $this->recipeRepository = new RecipeRepository();
         $this->transaction = new Transaction();
-        $this->audit = new Audit();
+        // $this->audit = new Audit();
     }
 
     // Category Methods
@@ -57,14 +57,7 @@ class MenuService
             $result = $this->categoryRepository->create($category);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'MENU',
-                    'action' => 'CREATE_CATEGORY',
-                    'record_id' => $this->transaction->getLastInsertId(),
-                    'table_name' => 'categories',
-                    'new_values' => json_encode($data)
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -92,15 +85,7 @@ class MenuService
             $result = $this->categoryRepository->update($category);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'MENU',
-                    'action' => 'UPDATE_CATEGORY',
-                    'record_id' => $categoryId,
-                    'table_name' => 'categories',
-                    'old_values' => json_encode($oldCategory->toArray()),
-                    'new_values' => json_encode($data)
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -124,14 +109,7 @@ class MenuService
             $result = $this->categoryRepository->delete($tenantId, $categoryId);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'MENU',
-                    'action' => 'DELETE_CATEGORY',
-                    'record_id' => $categoryId,
-                    'table_name' => 'categories',
-                    'old_values' => json_encode($oldCategory->toArray())
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -169,14 +147,7 @@ class MenuService
             $result = $this->productRepository->create($product);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'MENU',
-                    'action' => 'CREATE_PRODUCT',
-                    'record_id' => $this->transaction->getLastInsertId(),
-                    'table_name' => 'products',
-                    'new_values' => json_encode($data)
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -204,15 +175,7 @@ class MenuService
             $result = $this->productRepository->update($product);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'MENU',
-                    'action' => 'UPDATE_PRODUCT',
-                    'record_id' => $productId,
-                    'table_name' => 'products',
-                    'old_values' => json_encode($oldProduct->toArray()),
-                    'new_values' => json_encode($data)
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -236,14 +199,7 @@ class MenuService
             $result = $this->productRepository->delete($tenantId, $productId);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'MENU',
-                    'action' => 'DELETE_PRODUCT',
-                    'record_id' => $productId,
-                    'table_name' => 'products',
-                    'old_values' => json_encode($oldProduct->toArray())
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -300,14 +256,7 @@ class MenuService
                     }
                 }
                 
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'MENU',
-                    'action' => 'CREATE_RECIPE',
-                    'record_id' => $recipeId,
-                    'table_name' => 'recipes',
-                    'new_values' => json_encode($data)
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -354,15 +303,7 @@ class MenuService
                     }
                 }
                 
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'MENU',
-                    'action' => 'UPDATE_RECIPE',
-                    'record_id' => $recipeId,
-                    'table_name' => 'recipes',
-                    'old_values' => json_encode($oldRecipe->toArray()),
-                    'new_values' => json_encode($data)
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -386,14 +327,7 @@ class MenuService
             $result = $this->recipeRepository->delete($tenantId, $recipeId);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'MENU',
-                    'action' => 'DELETE_RECIPE',
-                    'record_id' => $recipeId,
-                    'table_name' => 'recipes',
-                    'old_values' => json_encode($oldRecipe->toArray())
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;

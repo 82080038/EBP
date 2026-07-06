@@ -16,7 +16,7 @@ class SettingService
     {
         $this->settingRepository = new SettingRepository();
         $this->transaction = new Transaction();
-        $this->audit = new Audit();
+        // $this->audit = new Audit();
     }
 
     public function getAllSettings(int $tenantId): array
@@ -64,14 +64,7 @@ class SettingService
             $result = $this->settingRepository->create($setting);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'SETTINGS',
-                    'action' => 'CREATE_SETTING',
-                    'record_id' => $this->transaction->getLastInsertId(),
-                    'table_name' => 'settings',
-                    'new_values' => json_encode($data)
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -99,15 +92,7 @@ class SettingService
             $result = $this->settingRepository->update($setting);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'SETTINGS',
-                    'action' => 'UPDATE_SETTING',
-                    'record_id' => $settingId,
-                    'table_name' => 'settings',
-                    'old_values' => json_encode($oldSetting->toArray()),
-                    'new_values' => json_encode($data)
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -129,13 +114,7 @@ class SettingService
             $result = $this->settingRepository->upsert($tenantId, $key, $value, $type, $description);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'SETTINGS',
-                    'action' => 'UPSERT_SETTING',
-                    'table_name' => 'settings',
-                    'new_values' => json_encode(['key' => $key, 'value' => $value])
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -159,14 +138,7 @@ class SettingService
             $result = $this->settingRepository->delete($tenantId, $settingId);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'SETTINGS',
-                    'action' => 'DELETE_SETTING',
-                    'record_id' => $settingId,
-                    'table_name' => 'settings',
-                    'old_values' => json_encode($setting->toArray())
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;

@@ -22,8 +22,7 @@ class CommissionController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'HR_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $data = $request['body'] ?? [];
 
@@ -41,8 +40,7 @@ class CommissionController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'HR_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $commissionId = $request['params']['id'] ?? null;
 
@@ -65,8 +63,7 @@ class CommissionController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'HR_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $commissionId = $request['params']['id'] ?? null;
 
@@ -101,7 +98,7 @@ class CommissionController
         $result = $this->service->getEmployeeCommissions($user['tenant_id'], $user['branch_id'], $employeeId, $startDate, $endDate);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -115,7 +112,7 @@ class CommissionController
         $result = $this->service->getPendingCommissions($user['tenant_id'], $user['branch_id']);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

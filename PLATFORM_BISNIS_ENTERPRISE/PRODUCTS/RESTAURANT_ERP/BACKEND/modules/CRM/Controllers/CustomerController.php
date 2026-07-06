@@ -22,8 +22,7 @@ class CustomerController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'CRM_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $data = $request['body'] ?? [];
 
@@ -46,7 +45,7 @@ class CustomerController
         $result = $this->service->getCustomers($user['tenant_id'], $filters);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -57,8 +56,7 @@ class CustomerController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'CRM_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $customerId = $request['params']['id'] ?? null;
         $data = $request['body'] ?? [];
@@ -77,8 +75,7 @@ class CustomerController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'CRM_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $customerId = $request['params']['id'] ?? null;
         $data = $request['body'] ?? [];

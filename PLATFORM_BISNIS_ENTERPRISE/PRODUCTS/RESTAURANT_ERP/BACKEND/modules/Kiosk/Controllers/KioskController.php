@@ -29,7 +29,7 @@ class KioskController
         $result = $this->service->getKioskMenu($tenantId, $branchId);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

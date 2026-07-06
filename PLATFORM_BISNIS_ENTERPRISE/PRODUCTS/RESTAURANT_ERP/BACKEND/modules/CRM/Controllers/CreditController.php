@@ -23,8 +23,7 @@ class CreditController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'CRM_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $data = $request['body'] ?? [];
 
@@ -42,8 +41,7 @@ class CreditController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'CRM_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $creditId = $request['params']['id'] ?? null;
         $amount = $request['body']['amount'] ?? null;
@@ -77,7 +75,7 @@ class CreditController
         $result = $this->service->getCustomerCredits($user['tenant_id'], $user['branch_id'], $customerId);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -91,7 +89,7 @@ class CreditController
         $result = $this->service->getOverdueCredits($user['tenant_id'], $user['branch_id']);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

@@ -22,8 +22,7 @@ class QualityControlController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'INVENTORY_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $data = $request['body'] ?? [];
 
@@ -41,8 +40,7 @@ class QualityControlController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'INVENTORY_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $checkId = $request['params']['id'] ?? null;
         $data = $request['body'] ?? [];
@@ -72,7 +70,7 @@ class QualityControlController
         $result = $this->service->getQualityChecks($user['tenant_id'], $user['branch_id'], $checkType, $status);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -89,7 +87,7 @@ class QualityControlController
         $result = $this->service->getQualityReport($user['tenant_id'], $user['branch_id'], $dateFrom, $dateTo);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

@@ -23,9 +23,21 @@ class TableController
         // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $branchId = $request['branch_id'] ?? null;
-        $tables = $this->tableService->getAllTables($tenantId, $branchId);
+        
+        // Get screen size for responsive data
+        $headers = getallheaders();
+        $screenSize = \ScreenSizeHelper::getScreenSize($headers, $request);
+        
+        // Get pagination with screen size defaults
+        $pagination = \ScreenSizeHelper::getPaginationParams($request, $screenSize, 'tables');
+        $limit = $pagination['limit'];
+        
+        $tables = $this->tableService->getAllTables($tenantId, $branchId, $limit);
+        
+        // Apply screen size field filtering
+        $filteredTables = \ScreenSizeHelper::filterArrayFields($tables, \ScreenSizeHelper::getFields($screenSize, 'tables'));
 
-        return Response::success($tables);
+        return Response::success($filteredTables);
     }
 
     public function getAvailableTables(array $request)

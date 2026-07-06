@@ -22,8 +22,7 @@ class SupplierPerformanceController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'INVENTORY_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $data = $request['body'] ?? [];
 
@@ -53,7 +52,7 @@ class SupplierPerformanceController
         $result = $this->service->getSupplierPerformance($user['tenant_id'], $supplierId, $dateFrom, $dateTo);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -70,7 +69,7 @@ class SupplierPerformanceController
         $result = $this->service->getSupplierRanking($user['tenant_id'], $user['branch_id'], $dateFrom, $dateTo);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

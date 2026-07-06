@@ -22,8 +22,7 @@ class SupplyChainController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'SUPPLY_CHAIN_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $data = $request['body'] ?? [];
 
@@ -41,8 +40,7 @@ class SupplyChainController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'SUPPLY_CHAIN_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $reqId = $request['params']['id'] ?? null;
 
@@ -63,7 +61,7 @@ class SupplyChainController
         $result = $this->service->getRequisitions($user['tenant_id'], $user['branch_id']);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

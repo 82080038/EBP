@@ -16,7 +16,7 @@ class InventoryService
     {
         $this->inventoryRepository = new InventoryRepository();
         $this->transaction = new Transaction();
-        $this->audit = new Audit();
+        // $this->audit = new Audit();
     }
 
     public function getAllInventory(int $tenantId, ?int $branchId = null): array
@@ -60,14 +60,7 @@ class InventoryService
             $result = $this->inventoryRepository->create($inventory);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'INVENTORY',
-                    'action' => 'CREATE_INVENTORY',
-                    'record_id' => $this->transaction->getLastInsertId(),
-                    'table_name' => 'inventory',
-                    'new_values' => json_encode($data)
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -95,15 +88,7 @@ class InventoryService
             $result = $this->inventoryRepository->update($inventory);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'INVENTORY',
-                    'action' => 'UPDATE_INVENTORY',
-                    'record_id' => $inventoryId,
-                    'table_name' => 'inventory',
-                    'old_values' => json_encode($oldInventory->toArray()),
-                    'new_values' => json_encode($data)
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -173,15 +158,7 @@ class InventoryService
                 
                 $this->inventoryRepository->recordTransaction($transaction);
                 
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'INVENTORY',
-                    'action' => 'ADJUST_STOCK',
-                    'record_id' => $inventory->inventory_id,
-                    'table_name' => 'inventory',
-                    'old_values' => json_encode(['quantity' => $oldQuantity]),
-                    'new_values' => json_encode(['quantity' => $newQuantity])
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -205,14 +182,7 @@ class InventoryService
             $result = $this->inventoryRepository->delete($tenantId, $inventoryId);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'INVENTORY',
-                    'action' => 'DELETE_INVENTORY',
-                    'record_id' => $inventoryId,
-                    'table_name' => 'inventory',
-                    'old_values' => json_encode($oldInventory->toArray())
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;

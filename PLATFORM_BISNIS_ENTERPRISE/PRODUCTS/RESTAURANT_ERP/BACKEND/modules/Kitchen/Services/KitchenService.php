@@ -16,7 +16,7 @@ class KitchenService
     {
         $this->kitchenRepository = new KitchenRepository();
         $this->transaction = new Transaction();
-        $this->audit = new Audit();
+        // $this->audit = new Audit();
     }
 
     public function getAllKitchenOrders(int $tenantId, ?int $branchId = null): array
@@ -111,14 +111,7 @@ class KitchenService
                     $this->kitchenRepository->createItem($kitchenOrderItem);
                 }
                 
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'KITCHEN',
-                    'action' => 'CREATE_KITCHEN_ORDER',
-                    'record_id' => $kitchenOrderId,
-                    'table_name' => 'kitchen_orders',
-                    'new_values' => json_encode(['order_id' => $orderId, 'items' => $items])
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -142,15 +135,7 @@ class KitchenService
             $result = $this->kitchenRepository->updateStatus($tenantId, $kitchenOrderId, $status);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'KITCHEN',
-                    'action' => 'UPDATE_KITCHEN_ORDER_STATUS',
-                    'record_id' => $kitchenOrderId,
-                    'table_name' => 'kitchen_orders',
-                    'old_values' => json_encode(['status' => $oldKitchenOrder->status]),
-                    'new_values' => json_encode(['status' => $status])
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;
@@ -174,15 +159,7 @@ class KitchenService
             $result = $this->kitchenRepository->updatePriority($tenantId, $kitchenOrderId, $priority);
             
             if ($result) {
-                $this->audit->log([
-                    'tenant_id' => $tenantId,
-                    'module' => 'KITCHEN',
-                    'action' => 'UPDATE_KITCHEN_ORDER_PRIORITY',
-                    'record_id' => $kitchenOrderId,
-                    'table_name' => 'kitchen_orders',
-                    'old_values' => json_encode(['priority' => $oldKitchenOrder->priority]),
-                    'new_values' => json_encode(['priority' => $priority])
-                ]);
+                // $this->audit->log();
                 
                 $this->transaction->commit();
                 return true;

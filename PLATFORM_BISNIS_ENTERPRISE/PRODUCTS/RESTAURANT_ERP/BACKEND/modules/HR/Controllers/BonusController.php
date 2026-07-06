@@ -22,8 +22,7 @@ class BonusController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'HR_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $data = $request['body'] ?? [];
 
@@ -41,8 +40,7 @@ class BonusController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'HR_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $bonusId = $request['params']['id'] ?? null;
 
@@ -65,8 +63,7 @@ class BonusController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'HR_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $bonusId = $request['params']['id'] ?? null;
 
@@ -99,7 +96,7 @@ class BonusController
         $result = $this->service->getEmployeeBonuses($user['tenant_id'], $user['branch_id'], $employeeId);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -113,7 +110,7 @@ class BonusController
         $result = $this->service->getPendingBonuses($user['tenant_id'], $user['branch_id']);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

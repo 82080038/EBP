@@ -37,10 +37,20 @@ class OrderController extends BaseController
         $tableId = $this->request->get('table_id', null);
         $dateFrom = $this->request->get('date_from', null);
         $dateTo = $this->request->get('date_to', null);
-        $page = $this->request->get('page', 1);
-        $limit = $this->request->get('limit', 20);
+        
+        // Get screen size for responsive data
+        $headers = getallheaders();
+        $screenSize = \ScreenSizeHelper::getScreenSize($headers, $this->request->getAll());
+        
+        // Get pagination with screen size defaults
+        $pagination = \ScreenSizeHelper::getPaginationParams($this->request->getAll(), $screenSize, 'orders');
+        $page = $pagination['page'];
+        $limit = $pagination['limit'];
         
         $result = $this->orderService->getOrders($restaurantId, $status, $tableId, $dateFrom, $dateTo, $page, $limit);
+        
+        // Apply screen size field filtering
+        $result = \ScreenSizeHelper::applyScreenSizeFilter($result, $screenSize, 'orders');
         
         $this->jsonResponse($result);
     }

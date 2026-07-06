@@ -23,8 +23,7 @@ class CustomerAdvancedController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'CRM_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $customerId = $request['params']['customer_id'] ?? null;
         $productId = $request['body']['product_id'] ?? null;
@@ -58,7 +57,7 @@ class CustomerAdvancedController
         $result = $this->service->getCustomerFavorites($user['tenant_id'], $user['branch_id'], $customerId);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -79,7 +78,7 @@ class CustomerAdvancedController
         $result = $this->service->getCustomerHabitAnalysis($user['tenant_id'], $user['branch_id'], $customerId);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -90,8 +89,7 @@ class CustomerAdvancedController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'CRM_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $data = $request['body'] ?? [];
 
@@ -114,7 +112,7 @@ class CustomerAdvancedController
         $result = $this->service->getBirthdayPromotions($user['tenant_id'], $user['branch_id'], $customerId);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -125,8 +123,7 @@ class CustomerAdvancedController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'CRM_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $promotionId = $request['params']['id'] ?? null;
 

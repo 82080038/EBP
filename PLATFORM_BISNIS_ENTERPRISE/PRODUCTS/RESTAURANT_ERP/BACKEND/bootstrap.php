@@ -40,6 +40,7 @@ require_once __DIR__ . '/core/Router.php';
 require_once __DIR__ . '/core/Transaction.php';
 require_once __DIR__ . '/core/Audit.php';
 require_once __DIR__ . '/core/Messages.php';
+require_once __DIR__ . '/core/ScreenSizeHelper.php';
 require_once __DIR__ . '/core/Middleware/PermissionMiddleware.php';
 require_once __DIR__ . '/core/Middleware/TenantMiddleware.php';
 require_once __DIR__ . '/core/Middleware/ErrorHandler.php';

@@ -8,12 +8,15 @@ class MobileApp {
         this.menu = [];
         this.orders = [];
         this.tables = [];
+        this.isLoading = false;
+        this.reloadTimeout = null;
         this.init();
     }
 
     init() {
         this.bindEvents();
         this.loadInitialData();
+        this.bindScreenSizeChange();
     }
 
     bindEvents() {
@@ -108,10 +111,33 @@ class MobileApp {
     }
 
     async loadInitialData() {
-        await this.loadOrders();
-        await this.loadMenu();
-        await this.loadTables();
+        // Prevent multiple simultaneous loads
+        if (this.isLoading) {
+            console.log('Data load already in progress, skipping...');
+            return;
+        }
+
+        this.isLoading = true;
+
+        // Load data sequentially to avoid connection issues
+        try {
+            await this.loadOrders();
+        } catch (error) {
+            console.error('Error loading orders during initial load:', error);
+        }
+        try {
+            await this.loadMenu();
+        } catch (error) {
+            console.error('Error loading menu during initial load:', error);
+        }
+        try {
+            await this.loadTables();
+        } catch (error) {
+            console.error('Error loading tables during initial load:', error);
+        }
         this.updateUserInfo();
+
+        this.isLoading = false;
     }
 
     async loadOrders() {
@@ -405,6 +431,21 @@ class MobileApp {
         if (status === 'OFFLINE') {
             // Show offline warning
         }
+    }
+
+    bindScreenSizeChange() {
+        // Listen for screen size changes and reload data
+        window.addEventListener('screenSizeChanged', (e) => {
+            console.log('Screen size changed to:', e.detail.screenSize);
+            // Reload data with new screen size parameters
+            // Use debounce to prevent multiple rapid reloads
+            if (this.reloadTimeout) {
+                clearTimeout(this.reloadTimeout);
+            }
+            this.reloadTimeout = setTimeout(() => {
+                this.loadInitialData();
+            }, 500);
+        });
     }
 
     openModal(modalId) {

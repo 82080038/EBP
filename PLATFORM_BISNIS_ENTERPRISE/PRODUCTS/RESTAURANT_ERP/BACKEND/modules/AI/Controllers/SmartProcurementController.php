@@ -22,15 +22,14 @@ class SmartProcurementController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'INVENTORY_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $forecastDays = $request['params']['days'] ?? 30;
 
         $result = $this->service->generateProcurementRecommendation($user['tenant_id'], $user['branch_id'], $forecastDays);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

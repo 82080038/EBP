@@ -10,12 +10,15 @@ class KioskApp {
         this.currentProduct = null;
         this.tenantId = 1; // Default tenant ID
         this.branchId = 2; // Default branch ID
+        this.isLoading = false;
+        this.reloadTimeout = null;
         this.init();
     }
 
     init() {
         this.bindEvents();
         this.loadMenu();
+        this.bindScreenSizeChange();
     }
 
     bindEvents() {
@@ -367,6 +370,21 @@ class KioskApp {
 
     formatPrice(price) {
         return price.toLocaleString('id-ID');
+    }
+
+    bindScreenSizeChange() {
+        // Listen for screen size changes and reload data
+        window.addEventListener('screenSizeChanged', (e) => {
+            console.log('Screen size changed to:', e.detail.screenSize);
+            // Reload menu with new screen size parameters
+            // Use debounce to prevent multiple rapid reloads
+            if (this.reloadTimeout) {
+                clearTimeout(this.reloadTimeout);
+            }
+            this.reloadTimeout = setTimeout(() => {
+                this.loadMenu();
+            }, 500);
+        });
     }
 }
 

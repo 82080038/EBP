@@ -14,6 +14,7 @@ class MobileApp {
     init() {
         this.bindEvents();
         this.loadInitialData();
+        this.bindScreenSizeChange();
     }
 
     bindEvents() {
@@ -405,6 +406,15 @@ class MobileApp {
         if (status === 'OFFLINE') {
             // Show offline warning
         }
+    }
+
+    bindScreenSizeChange() {
+        // Listen for screen size changes and reload data
+        window.addEventListener('screenSizeChanged', (e) => {
+            console.log('Screen size changed to:', e.detail.screenSize);
+            // Reload data with new screen size parameters
+            this.loadInitialData();
+        });
     }
 
     openModal(modalId) {

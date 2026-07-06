@@ -4,6 +4,8 @@ class ConsumerApp {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
         this.currentRestaurant = null;
         this.cart = [];
+        this.isLoading = false;
+        this.reloadTimeout = null;
         this.init();
     }
 
@@ -11,6 +13,7 @@ class ConsumerApp {
         this.setupEventListeners();
         this.setupNavigation();
         this.loadInitialData();
+        this.bindScreenSizeChange();
         i18n.updatePage();
     }
 
@@ -876,6 +879,21 @@ class ConsumerApp {
             { id: 5, name: "Thai", icon: "🍜" },
             { id: 6, name: "Indian", icon: "🍛" }
         ];
+    }
+
+    bindScreenSizeChange() {
+        // Listen for screen size changes and reload data
+        window.addEventListener('screenSizeChanged', (e) => {
+            console.log('Screen size changed to:', e.detail.screenSize);
+            // Reload data with new screen size parameters
+            // Use debounce to prevent multiple rapid reloads
+            if (this.reloadTimeout) {
+                clearTimeout(this.reloadTimeout);
+            }
+            this.reloadTimeout = setTimeout(() => {
+                this.loadInitialData();
+            }, 500);
+        });
     }
 }
 

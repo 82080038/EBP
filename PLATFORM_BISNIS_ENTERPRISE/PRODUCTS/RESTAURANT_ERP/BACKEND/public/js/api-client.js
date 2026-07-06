@@ -42,9 +42,17 @@ class APIClient {
             headers['Authorization'] = `Bearer ${this.token}`;
         }
 
+        // Add screen size information to headers
+        if (window.screenSizeDetector) {
+            headers['X-Screen-Size'] = window.screenSizeDetector.getScreenSize();
+            headers['X-Screen-Width'] = window.innerWidth.toString();
+        }
+
         const config = {
             ...options,
-            headers
+            headers,
+            // Add timeout to prevent hanging requests
+            signal: AbortSignal.timeout(10000) // 10 second timeout
         };
 
         try {
@@ -57,7 +65,12 @@ class APIClient {
 
             return data;
         } catch (error) {
-            console.error('API Error:', error);
+            // Suppress connection closed errors as they're non-critical
+            if (error.name === 'AbortError' || error.message.includes('fetch')) {
+                console.warn('API request timed out or connection closed:', endpoint);
+            } else {
+                console.error('API Error:', error);
+            }
             throw error;
         }
     }
@@ -99,8 +112,13 @@ class APIClient {
 
     // Orders
     async getOrders(params = {}) {
-        const queryString = new URLSearchParams(params).toString();
-        return this.request(`/orders${queryString ? '?' + queryString : ''}`, {
+        // Merge screen size parameters with provided params
+        const screenSizeParams = window.screenSizeDetector ?
+            window.screenSizeDetector.getApiParams('orders') : {};
+        const mergedParams = { ...screenSizeParams, ...params };
+        const queryString = new URLSearchParams(mergedParams).toString();
+        // Use public endpoint for mobile/kiosk without auth
+        return this.request(`/public/orders${queryString ? '?' + queryString : ''}`, {
             method: 'GET'
         });
     }
@@ -126,16 +144,27 @@ class APIClient {
     }
 
     // Tables
-    async getTables() {
-        return this.request('/tables', {
+    async getTables(params = {}) {
+        // Merge screen size parameters with provided params
+        const screenSizeParams = window.screenSizeDetector ?
+            window.screenSizeDetector.getApiParams('tables') : {};
+        const mergedParams = { ...screenSizeParams, ...params };
+        const queryString = new URLSearchParams(mergedParams).toString();
+        // Use public endpoint for mobile/kiosk without auth
+        return this.request(`/public/tables${queryString ? '?' + queryString : ''}`, {
             method: 'GET'
         });
     }
 
     // Products
     async getProducts(params = {}) {
-        const queryString = new URLSearchParams(params).toString();
-        return this.request(`/products${queryString ? '?' + queryString : ''}`, {
+        // Merge screen size parameters with provided params
+        const screenSizeParams = window.screenSizeDetector ?
+            window.screenSizeDetector.getApiParams('products') : {};
+        const mergedParams = { ...screenSizeParams, ...params };
+        const queryString = new URLSearchParams(mergedParams).toString();
+        // Use public endpoint for mobile/kiosk without auth
+        return this.request(`/public/menu/products${queryString ? '?' + queryString : ''}`, {
             method: 'GET'
         });
     }

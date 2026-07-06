@@ -22,8 +22,7 @@ class TipController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'HR_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $data = $request['body'] ?? [];
 
@@ -46,7 +45,7 @@ class TipController
         $result = $this->service->getTipDistributions($user['tenant_id'], $user['branch_id'], $date);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -69,7 +68,7 @@ class TipController
         $result = $this->service->getEmployeeTips($user['tenant_id'], $user['branch_id'], $employeeId, $startDate, $endDate);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

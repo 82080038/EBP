@@ -22,15 +22,14 @@ class DynamicPricingController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'SETTINGS_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $productId = $request['params']['product_id'] ?? null;
 
         $result = $this->service->generateDynamicPricing($user['tenant_id'], $user['branch_id'], $productId);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

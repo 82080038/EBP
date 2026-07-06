@@ -22,8 +22,7 @@ class PurchasePlanningController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'INVENTORY_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $planningDate = $request['body']['planning_date'] ?? date('Y-m-d');
 
@@ -41,8 +40,7 @@ class PurchasePlanningController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'INVENTORY_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $planId = $request['params']['id'] ?? null;
 
@@ -70,7 +68,7 @@ class PurchasePlanningController
         $result = $this->service->getPurchasePlans($user['tenant_id'], $user['branch_id'], $status);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

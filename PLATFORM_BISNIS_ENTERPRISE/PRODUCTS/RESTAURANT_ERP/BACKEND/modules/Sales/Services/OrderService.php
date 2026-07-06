@@ -25,9 +25,15 @@ public function __construct()
     $this->repository =
         new OrderRepository();
 
-    $database = new Database();
+    $host = 'localhost';
+    $dbname = 'ebp_restaurant_db';
+    $username = 'ebp_app';
+        $password = 'ebp_secure_password_2026';
+        $socket = '/opt/lampp/var/mysql/mysql.sock';
 
-    $this->db = $database->connect();
+        $dsn = "mysql:host=$host;dbname=$dbname;unix_socket=$socket;charset=utf8mb4";
+        $this->db = new PDO($dsn, $username, $password);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 }
 

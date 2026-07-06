@@ -28,7 +28,7 @@ class AIController
         $result = $this->service->generateSalesForecast($user['tenant_id'], $user['branch_id'], $days);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -44,7 +44,7 @@ class AIController
         $result = $this->service->generateInventoryPrediction($user['tenant_id'], $user['branch_id'], $inventoryId);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }

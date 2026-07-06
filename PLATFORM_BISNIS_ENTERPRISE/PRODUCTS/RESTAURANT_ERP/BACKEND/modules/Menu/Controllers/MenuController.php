@@ -116,9 +116,21 @@ class MenuController
         // Permission checking is now handled in routes
         $tenantId = $request['tenant_id'] ?? 1;
         $categoryId = $request['category_id'] ?? null;
-        $products = $this->menuService->getAllProducts($tenantId, $categoryId);
+        
+        // Get screen size for responsive data
+        $headers = getallheaders();
+        $screenSize = \ScreenSizeHelper::getScreenSize($headers, $request);
+        
+        // Get pagination with screen size defaults
+        $pagination = \ScreenSizeHelper::getPaginationParams($request, $screenSize, 'products');
+        $limit = $pagination['limit'];
+        
+        $products = $this->menuService->getAllProducts($tenantId, $categoryId, $limit);
+        
+        // Apply screen size field filtering
+        $filteredProducts = \ScreenSizeHelper::filterArrayFields($products, \ScreenSizeHelper::getFields($screenSize, 'products'));
 
-        return Response::success($products);
+        return Response::success($filteredProducts);
     }
 
     public function getProduct(array $request)

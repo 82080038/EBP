@@ -8,8 +8,15 @@ class SimpleDeliveryController
     // Simple endpoint to get deliveries without middleware
     public function getDeliveries($request = null)
     {
-        $database = new Database();
-        $db = $database->connect();
+                $host = 'localhost';
+        $dbname = 'ebp_restaurant_db';
+        $username = 'ebp_app';
+        $password = 'ebp_secure_password_2026';
+        $socket = '/opt/lampp/var/mysql/mysql.sock';
+
+        $dsn = "mysql:host=$host;dbname=$dbname;unix_socket=$socket;charset=utf8mb4";
+        $db = new PDO($dsn, $username, $password);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $sql = "SELECT d.delivery_id, d.order_id, d.customer_name, d.delivery_address, d.phone, 
                 d.delivery_time, d.delivery_fee, d.status, d.driver_name

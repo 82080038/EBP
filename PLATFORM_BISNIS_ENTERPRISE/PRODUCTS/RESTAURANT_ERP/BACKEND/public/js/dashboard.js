@@ -49,9 +49,11 @@ class Dashboard {
     }
 
     initializeRoleBasedUI() {
-        if (this.user && typeof initializeRoleBasedUI === 'function') {
-            initializeRoleBasedUI(this.user);
+        if (this.user && typeof getMenuForUser === 'function') {
             this.renderNavigationByRole();
+            this.renderRoleSpecificWidgets();
+            this.applyFeatureAccess();
+            this.updateUserRoleDisplay();
         }
     }
 
@@ -65,8 +67,167 @@ class Dashboard {
             const page = item.dataset.page;
             if (!accessibleTabs.includes(page)) {
                 item.style.display = 'none';
+            } else {
+                item.style.display = 'flex';
             }
         });
+    }
+
+    renderRoleSpecificWidgets() {
+        if (!this.user) return;
+
+        const statsGrid = document.querySelector('.stats-grid');
+        if (!statsGrid) return;
+
+        const widgets = this.getWidgetsForRole(this.user.role_name);
+        statsGrid.innerHTML = '';
+
+        widgets.forEach(widget => {
+            const widgetElement = this.createWidget(widget);
+            statsGrid.appendChild(widgetElement);
+        });
+    }
+
+    getWidgetsForRole(roleName) {
+        const widgetConfigs = {
+            'Administrator': [
+                { icon: '💰', label: "Today's Revenue", id: 'todayRevenue', value: 'Rp 0' },
+                { icon: '📋', label: "Today's Orders", id: 'todayOrders', value: '0' },
+                { icon: '👥', label: 'Active Customers', id: 'activeCustomers', value: '0' },
+                { icon: '🪑', label: 'Table Occupancy', id: 'tableOccupancy', value: '0%' }
+            ],
+            'Restaurant Manager': [
+                { icon: '💰', label: "Today's Revenue", id: 'todayRevenue', value: 'Rp 0' },
+                { icon: '📋', label: "Today's Orders", id: 'todayOrders', value: '0' },
+                { icon: '👥', label: 'Staff on Duty', id: 'staffOnDuty', value: '0' },
+                { icon: '⭐', label: 'Customer Rating', id: 'customerRating', value: '0.0' }
+            ],
+            'Waiter': [
+                { icon: '🪑', label: 'My Tables', id: 'myTables', value: '0' },
+                { icon: '📋', label: 'Pending Orders', id: 'pendingOrders', value: '0' },
+                { icon: '💰', label: "Today's Tips", id: 'todayTips', value: 'Rp 0' },
+                { icon: '⏱️', label: 'Avg Service Time', id: 'avgServiceTime', value: '0 min' }
+            ],
+            'Kitchen Staff': [
+                { icon: '📋', label: 'Pending Orders', id: 'pendingOrders', value: '0' },
+                { icon: '👨‍🍳', label: 'In Progress', id: 'inProgressOrders', value: '0' },
+                { icon: '✅', label: 'Ready Orders', id: 'readyOrders', value: '0' },
+                { icon: '⏱️', label: 'Avg Prep Time', id: 'avgPrepTime', value: '0 min' }
+            ],
+            'Cashier': [
+                { icon: '💰', label: "Today's Sales", id: 'todaySales', value: 'Rp 0' },
+                { icon: '📋', label: 'Transactions', id: 'transactions', value: '0' },
+                { icon: '💳', label: 'Card Payments', id: 'cardPayments', value: '0' },
+                { icon: '💵', label: 'Cash Payments', id: 'cashPayments', value: '0' }
+            ],
+            'Inventory Manager': [
+                { icon: '📦', label: 'Total Items', id: 'totalItems', value: '0' },
+                { icon: '⚠️', label: 'Low Stock', id: 'lowStock', value: '0' },
+                { icon: '📥', label: 'Incoming Orders', id: 'incomingOrders', value: '0' },
+                { icon: '💰', label: 'Inventory Value', id: 'inventoryValue', value: 'Rp 0' }
+            ],
+            'default': [
+                { icon: '💰', label: "Today's Revenue", id: 'todayRevenue', value: 'Rp 0' },
+                { icon: '📋', label: "Today's Orders", id: 'todayOrders', value: '0' },
+                { icon: '👥', label: 'Active Customers', id: 'activeCustomers', value: '0' },
+                { icon: '🪑', label: 'Table Occupancy', id: 'tableOccupancy', value: '0%' }
+            ]
+        };
+
+        return widgetConfigs[roleName] || widgetConfigs['default'];
+    }
+
+    createWidget(widget) {
+        const div = document.createElement('div');
+        div.className = 'stat-card';
+        div.innerHTML = `
+            <div class="stat-icon">${widget.icon}</div>
+            <div class="stat-info">
+                <p class="stat-label">${widget.label}</p>
+                <p class="stat-value" id="${widget.id}">${widget.value}</p>
+                <p class="stat-change">--</p>
+            </div>
+        `;
+        return div;
+    }
+
+    applyFeatureAccess() {
+        if (!this.user) return;
+
+        // Hide elements based on permissions
+        document.querySelectorAll('[data-permission]').forEach(element => {
+            const permission = element.dataset.permission;
+            if (!this.hasPermission(this.user, permission)) {
+                element.style.display = 'none';
+            }
+        });
+
+        // Hide action buttons based on role
+        this.hideRoleSpecificActions();
+    }
+
+    hasPermission(user, permission) {
+        // Basic permission check - can be enhanced with backend API
+        const rolePermissions = {
+            'Administrator': ['all'],
+            'Restaurant Manager': ['orders', 'menu', 'tables', 'inventory', 'staff', 'reports'],
+            'Waiter': ['orders', 'tables', 'menu'],
+            'Kitchen Staff': ['kitchen', 'orders', 'inventory'],
+            'Cashier': ['orders', 'payments', 'reports']
+        };
+
+        const userPermissions = rolePermissions[user.role_name] || [];
+        return userPermissions.includes('all') || userPermissions.includes(permission);
+    }
+
+    hideRoleSpecificActions() {
+        const role = this.user.role_name;
+
+        // Hide certain action buttons based on role
+        const actionButtons = {
+            'Waiter': ['addProductBtn', 'addCategoryBtn', 'adjustStockBtn', 'addSupplierBtn'],
+            'Kitchen Staff': ['newOrderBtn', 'addProductBtn', 'addCategoryBtn', 'addTableBtn', 'addCustomerBtn'],
+            'Cashier': ['addProductBtn', 'addCategoryBtn', 'adjustStockBtn', 'addSupplierBtn', 'addTableBtn']
+        };
+
+        const buttonsToHide = actionButtons[role] || [];
+        buttonsToHide.forEach(btnId => {
+            const btn = document.getElementById(btnId);
+            if (btn) btn.style.display = 'none';
+        });
+    }
+
+    updateUserRoleDisplay() {
+        if (!this.user) return;
+
+        const userNameEl = document.getElementById('userName');
+        const userRoleEl = document.querySelector('.user-role');
+
+        if (userNameEl) {
+            userNameEl.textContent = this.user.full_name || this.user.username || 'User';
+        }
+
+        if (userRoleEl) {
+            const roleLabel = this.getRoleLabel(this.user.role_name);
+            userRoleEl.textContent = roleLabel;
+        }
+    }
+
+    getRoleLabel(roleName) {
+        const roleLabels = {
+            'Administrator': 'Administrator',
+            'Restaurant Manager': 'Restaurant Manager',
+            'Waiter': 'Waiter',
+            'Kitchen Staff': 'Kitchen Staff',
+            'Cashier': 'Cashier',
+            'Inventory Manager': 'Inventory Manager',
+            'Host/Hostess': 'Host/Hostess',
+            'Bartender': 'Bartender',
+            'Barista': 'Barista',
+            'Sommelier': 'Sommelier'
+        };
+
+        return roleLabels[roleName] || roleName || 'Staff';
     }
 
     bindEvents() {

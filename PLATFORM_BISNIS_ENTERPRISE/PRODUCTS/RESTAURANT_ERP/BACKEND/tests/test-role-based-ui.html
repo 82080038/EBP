@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role-Based UI Test - EBP Restaurant ERP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .test-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .role-btn {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .role-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .role-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .test-result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .test-result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .test-result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .test-result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .test-result.active {
+            display: block;
+        }
+
+        .widget-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .widget-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .widget-card .icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .widget-card .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .widget-card .value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .menu-preview {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .menu-preview li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f9f9f9;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-preview li.hidden {
+            opacity: 0.3;
+            text-decoration: line-through;
+        }
+
+        .menu-preview li .icon {
+            font-size: 1.2em;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .stat-item .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-item .label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .permission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .permission-item {
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .permission-item.granted {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .permission-item.denied {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Role-Based UI Test</h1>
+        <p class="subtitle">Test role-based navigation, widgets, and feature access</p>
+
+        <!-- Role Selection -->
+        <div class="test-section">
+            <h2>Select Role to Test</h2>
+            <div class="role-selector">
+                <button class="role-btn" data-role="Administrator">Administrator</button>
+                <button class="role-btn" data-role="Restaurant Manager">Restaurant Manager</button>
+                <button class="role-btn" data-role="Waiter">Waiter</button>
+                <button class="role-btn" data-role="Kitchen Staff">Kitchen Staff</button>
+                <button class="role-btn" data-role="Cashier">Cashier</button>
+                <button class="role-btn" data-role="Inventory Manager">Inventory Manager</button>
+                <button class="role-btn" data-role="Host/Hostess">Host/Hostess</button>
+                <button class="role-btn" data-role="Bartender">Bartender</button>
+                <button class="role-btn" data-role="Barista">Barista</button>
+                <button class="role-btn" data-role="Sommelier">Sommelier</button>
+            </div>
+        </div>
+
+        <!-- Menu Access Test -->
+        <div class="test-section">
+            <h2>📋 Menu Access Test</h2>
+            <div id="menuTestResult" class="test-result"></div>
+            <ul class="menu-preview" id="menuPreview">
+                <li data-tab="overview"><span class="icon">📊</span> Overview</li>
+                <li data-tab="orders"><span class="icon">📋</span> Orders</li>
+                <li data-tab="menu"><span class="icon">🍽️</span> Menu</li>
+                <li data-tab="tables"><span class="icon">🪑</span> Tables</li>
+                <li data-tab="inventory"><span class="icon">📦</span> Inventory</li>
+                <li data-tab="kitchen"><span class="icon">👨‍🍳</span> Kitchen</li>
+                <li data-tab="reservations"><span class="icon">📅</span> Reservations</li>
+                <li data-tab="customers"><span class="icon">👥</span> Customers</li>
+                <li data-tab="reports"><span class="icon">📈</span> Reports</li>
+                <li data-tab="settings"><span class="icon">⚙️</span> Settings</li>
+            </ul>
+        </div>
+
+        <!-- Dashboard Widgets Test -->
+        <div class="test-section">
+            <h2>📊 Dashboard Widgets Test</h2>
+            <div id="widgetTestResult" class="test-result"></div>
+            <div class="widget-preview" id="widgetPreview">
+                <div class="widget-card">
+                    <div class="icon">💰</div>
+                    <div class="label">Today's Revenue</div>
+                    <div class="value">Rp 0</div>
+                </div>
+                <div class="widget-card">
+                    <div class="icon">📋</div>
+                    <div class="label">Today's Orders</div>
+                    <div class="value">0</div>
+                </div>
+                <div class="widget-card">
+                    <div class="icon">👥</div>
+                    <div class="label">Active Customers</div>
+                    <div class="value">0</div>
+                </div>
+                <div class="widget-card">
+                    <div class="icon">🪑</div>
+                    <div class="label">Table Occupancy</div>
+                    <div class="value">0%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature Access Test -->
+        <div class="test-section">
+            <h2>🔒 Feature Access Test</h2>
+            <div id="featureTestResult" class="test-result"></div>
+            <div class="permission-grid" id="permissionGrid">
+                <div class="permission-item" data-permission="orders">Orders</div>
+                <div class="permission-item" data-permission="menu">Menu</div>
+                <div class="permission-item" data-permission="tables">Tables</div>
+                <div class="permission-item" data-permission="inventory">Inventory</div>
+                <div class="permission-item" data-permission="kitchen">Kitchen</div>
+                <div class="permission-item" data-permission="staff">Staff</div>
+                <div class="permission-item" data-permission="reports">Reports</div>
+                <div class="permission-item" data-permission="payments">Payments</div>
+                <div class="permission-item" data-permission="settings">Settings</div>
+                <div class="permission-item" data-permission="accounting">Accounting</div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="test-section">
+            <h2>📈 Test Statistics</h2>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="number" id="totalTests">0</div>
+                    <div class="label">Total Tests</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number" id="passedTests">0</div>
+                    <div class="label">Passed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number" id="failedTests">0</div>
+                    <div class="label">Failed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number" id="successRate">0%</div>
+                    <div class="label">Success Rate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load menu-access configuration
+        const MENU_ACCESS = {
+            PLATFORM_OWNER: {
+                label: 'Platform Owner',
+                tabs: ['overview', 'enterprise', 'tenant', 'users', 'settings', 'reports', 'accounting', 'hr', 'crm', 'ai', 'integration', 'quality', 'supplychain', 'sustainability', 'location', 'maintenance', 'whatsapp']
+            },
+            TENANT_OWNER: {
+                label: 'Tenant Owner',
+                tabs: ['overview', 'menu', 'tables', 'orders', 'inventory', 'kitchen', 'users', 'settings', 'accounting', 'reservation', 'crm', 'reports', 'hr', 'delivery', 'ai', 'integration', 'quality', 'supplychain', 'sustainability', 'location', 'maintenance', 'whatsapp', 'loyalty']
+            },
+            TENANT_MEMBER: {
+                Administrator: {
+                    label: 'Administrator',
+                    tabs: ['overview', 'menu', 'tables', 'orders', 'inventory', 'kitchen', 'users', 'settings', 'accounting', 'reservation', 'crm', 'reports', 'hr', 'delivery', 'ai', 'integration', 'quality', 'supplychain', 'sustainability', 'location', 'maintenance', 'whatsapp', 'loyalty']
+                },
+                'Restaurant Manager': {
+                    label: 'Restaurant Manager',
+                    tabs: ['overview', 'menu', 'tables', 'orders', 'inventory', 'kitchen', 'reservation', 'reports', 'hr', 'crm', 'delivery', 'supplychain', 'quality', 'accounting']
+                },
+                Waiter: {
+                    label: 'Waiter',
+                    tabs: ['overview', 'tables', 'orders', 'reservation', 'menu']
+                },
+                'Kitchen Staff': {
+                    label: 'Kitchen Staff',
+                    tabs: ['overview', 'kitchen', 'orders', 'inventory', 'menu']
+                },
+                Cashier: {
+                    label: 'Cashier',
+                    tabs: ['overview', 'orders', 'accounting', 'reports', 'tables', 'menu']
+                },
+                'Inventory Manager': {
+                    label: 'Inventory Manager',
+                    tabs: ['overview', 'inventory', 'supplychain', 'quality', 'orders', 'reports', 'menu']
+                },
+                'Host/Hostess': {
+                    label: 'Host/Hostess',
+                    tabs: ['overview', 'tables', 'reservation', 'orders', 'menu']
+                },
+                Bartender: {
+                    label: 'Bartender',
+                    tabs: ['overview', 'orders', 'inventory', 'menu', 'tables']
+                },
+                Barista: {
+                    label: 'Barista',
+                    tabs: ['overview', 'orders', 'inventory', 'menu', 'loyalty']
+                },
+                Sommelier: {
+                    label: 'Sommelier',
+                    tabs: ['overview', 'menu', 'inventory', 'crm', 'orders']
+                }
+            }
+        };
+
+        // Widget configurations
+        const WIDGET_CONFIGS = {
+            'Administrator': [
+                { icon: '💰', label: "Today's Revenue", id: 'todayRevenue', value: 'Rp 0' },
+                { icon: '📋', label: "Today's Orders", id: 'todayOrders', value: '0' },
+                { icon: '👥', label: 'Active Customers', id: 'activeCustomers', value: '0' },
+                { icon: '🪑', label: 'Table Occupancy', id: 'tableOccupancy', value: '0%' }
+            ],
+            'Restaurant Manager': [
+                { icon: '💰', label: "Today's Revenue", id: 'todayRevenue', value: 'Rp 0' },
+                { icon: '📋', label: "Today's Orders", id: 'todayOrders', value: '0' },
+                { icon: '👥', label: 'Staff on Duty', id: 'staffOnDuty', value: '0' },
+                { icon: '⭐', label: 'Customer Rating', id: 'customerRating', value: '0.0' }
+            ],
+            Waiter: [
+                { icon: '🪑', label: 'My Tables', id: 'myTables', value: '0' },
+                { icon: '📋', label: 'Pending Orders', id: 'pendingOrders', value: '0' },
+                { icon: '💰', label: "Today's Tips", id: 'todayTips', value: 'Rp 0' },
+                { icon: '⏱️', label: 'Avg Service Time', id: 'avgServiceTime', value: '0 min' }
+            ],
+            'Kitchen Staff': [
+                { icon: '📋', label: 'Pending Orders', id: 'pendingOrders', value: '0' },
+                { icon: '👨‍🍳', label: 'In Progress', id: 'inProgressOrders', value: '0' },
+                { icon: '✅', label: 'Ready Orders', id: 'readyOrders', value: '0' },
+                { icon: '⏱️', label: 'Avg Prep Time', id: 'avgPrepTime', value: '0 min' }
+            ],
+            Cashier: [
+                { icon: '💰', label: "Today's Sales", id: 'todaySales', value: 'Rp 0' },
+                { icon: '📋', label: 'Transactions', id: 'transactions', value: '0' },
+                { icon: '💳', label: 'Card Payments', id: 'cardPayments', value: '0' },
+                { icon: '💵', label: 'Cash Payments', id: 'cashPayments', value: '0' }
+            ],
+            'Inventory Manager': [
+                { icon: '📦', label: 'Total Items', id: 'totalItems', value: '0' },
+                { icon: '⚠️', label: 'Low Stock', id: 'lowStock', value: '0' },
+                { icon: '📥', label: 'Incoming Orders', id: 'incomingOrders', value: '0' },
+                { icon: '💰', label: 'Inventory Value', id: 'inventoryValue', value: 'Rp 0' }
+            ],
+            'default': [
+                { icon: '💰', label: "Today's Revenue", id: 'todayRevenue', value: 'Rp 0' },
+                { icon: '📋', label: "Today's Orders", id: 'todayOrders', value: '0' },
+                { icon: '👥', label: 'Active Customers', id: 'activeCustomers', value: '0' },
+                { icon: '🪑', label: 'Table Occupancy', id: 'tableOccupancy', value: '0%' }
+            ]
+        };
+
+        // Permission configurations
+        const PERMISSION_CONFIGS = {
+            'Administrator': ['all'],
+            'Restaurant Manager': ['orders', 'menu', 'tables', 'inventory', 'staff', 'reports'],
+            Waiter: ['orders', 'tables', 'menu'],
+            'Kitchen Staff': ['kitchen', 'orders', 'inventory'],
+            Cashier: ['orders', 'payments', 'reports'],
+            'Inventory Manager': ['inventory', 'supplychain', 'quality', 'orders', 'reports'],
+            'Host/Hostess': ['tables', 'reservations', 'orders', 'menu'],
+            Bartender: ['orders', 'inventory', 'menu', 'tables'],
+            Barista: ['orders', 'inventory', 'menu', 'loyalty'],
+            Sommelier: ['menu', 'inventory', 'crm', 'orders']
+        };
+
+        let currentRole = null;
+        let testResults = {
+            total: 0,
+            passed: 0,
+            failed: 0
+        };
+
+        // Get menu tabs for user
+        function getMenuForUser(roleName) {
+            const roleConfig = MENU_ACCESS.TENANT_MEMBER[roleName];
+            if (roleConfig) {
+                return roleConfig.tabs;
+            }
+            return WIDGET_CONFIGS['default'].map(w => w.id);
+        }
+
+        // Get widgets for role
+        function getWidgetsForRole(roleName) {
+            return WIDGET_CONFIGS[roleName] || WIDGET_CONFIGS['default'];
+        }
+
+        // Check permission
+        function hasPermission(roleName, permission) {
+            const permissions = PERMISSION_CONFIGS[roleName] || [];
+            return permissions.includes('all') || permissions.includes(permission);
+        }
+
+        // Test menu access
+        function testMenuAccess(roleName) {
+            const accessibleTabs = getMenuForUser(roleName);
+            const menuItems = document.querySelectorAll('#menuPreview li');
+            let passed = 0;
+            let failed = 0;
+
+            menuItems.forEach(item => {
+                const tab = item.dataset.tab;
+                const hasAccess = accessibleTabs.includes(tab);
+                
+                if (hasAccess) {
+                    item.classList.remove('hidden');
+                    passed++;
+                } else {
+                    item.classList.add('hidden');
+                    failed++;
+                }
+            });
+
+            return { passed, failed, total: menuItems.length };
+        }
+
+        // Test widgets
+        function testWidgets(roleName) {
+            const widgets = getWidgetsForRole(roleName);
+            const widgetPreview = document.getElementById('widgetPreview');
+            widgetPreview.innerHTML = '';
+
+            widgets.forEach(widget => {
+                const div = document.createElement('div');
+                div.className = 'widget-card';
+                div.innerHTML = `
+                    <div class="icon">${widget.icon}</div>
+                    <div class="label">${widget.label}</div>
+                    <div class="value">${widget.value}</div>
+                `;
+                widgetPreview.appendChild(div);
+            });
+
+            return { passed: widgets.length, failed: 0, total: widgets.length };
+        }
+
+        // Test permissions
+        function testPermissions(roleName) {
+            const permissionItems = document.querySelectorAll('#permissionGrid .permission-item');
+            let passed = 0;
+            let failed = 0;
+
+            permissionItems.forEach(item => {
+                const permission = item.dataset.permission;
+                const hasAccess = hasPermission(roleName, permission);
+                
+                item.classList.remove('granted', 'denied');
+                if (hasAccess) {
+                    item.classList.add('granted');
+                    passed++;
+                } else {
+                    item.classList.add('denied');
+                    failed++;
+                }
+            });
+
+            return { passed, failed, total: permissionItems.length };
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('totalTests').textContent = testResults.total;
+            document.getElementById('passedTests').textContent = testResults.passed;
+            document.getElementById('failedTests').textContent = testResults.failed;
+            
+            const rate = testResults.total > 0 ? Math.round((testResults.passed / testResults.total) * 100) : 0;
+            document.getElementById('successRate').textContent = rate + '%';
+        }
+
+        // Run test for selected role
+        function runTest(roleName) {
+            currentRole = roleName;
+            testResults = { total: 0, passed: 0, failed: 0 };
+
+            // Test menu access
+            const menuResult = testMenuAccess(roleName);
+            testResults.total += menuResult.total;
+            testResults.passed += menuResult.passed;
+            testResults.failed += menuResult.failed;
+
+            // Test widgets
+            const widgetResult = testWidgets(roleName);
+            testResults.total += widgetResult.total;
+            testResults.passed += widgetResult.passed;
+            testResults.failed += widgetResult.failed;
+
+            // Test permissions
+            const permissionResult = testPermissions(roleName);
+            testResults.total += permissionResult.total;
+            testResults.passed += permissionResult.passed;
+            testResults.failed += permissionResult.failed;
+
+            // Update UI
+            updateStats();
+            showTestResult(roleName);
+        }
+
+        // Show test result
+        function showTestResult(roleName) {
+            const resultDiv = document.getElementById('menuTestResult');
+            const widgetResultDiv = document.getElementById('widgetTestResult');
+            const featureResultDiv = document.getElementById('featureTestResult');
+
+            const message = `Test completed for ${roleName}. Total: ${testResults.total}, Passed: ${testResults.passed}, Failed: ${testResults.failed}`;
+            
+            resultDiv.textContent = message;
+            resultDiv.className = 'test-result info active';
+            
+            widgetResultDiv.textContent = `${getWidgetsForRole(roleName).length} widgets loaded for ${roleName}`;
+            widgetResultDiv.className = 'test-result success active';
+
+            const accessiblePermissions = PERMISSION_CONFIGS[roleName] || [];
+            featureResultDiv.textContent = `${accessiblePermissions.length} permissions granted for ${roleName}`;
+            featureResultDiv.className = 'test-result success active';
+        }
+
+        // Bind events
+        document.querySelectorAll('.role-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                runTest(btn.dataset.role);
+            });
+        });
+
+        // Initialize with default role
+        document.addEventListener('DOMContentLoaded', () => {
+            const defaultBtn = document.querySelector('.role-btn[data-role="Administrator"]');
+            if (defaultBtn) {
+                defaultBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

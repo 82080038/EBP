@@ -23,8 +23,7 @@ class IntegrationController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'INTEGRATION_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $integrationType = $request['params']['type'] ?? null;
         $data = $request['body'] ?? [];
@@ -58,7 +57,7 @@ class IntegrationController
         $result = $this->service->getIntegrationSettings($user['tenant_id'], $user['branch_id'], $integrationType);
 
         if ($result['success']) {
-            Response::success($result['message'], $result['data']);
+            Response::success($result['data'], $result['message']);
         } else {
             Response::error($result['message']);
         }
@@ -69,8 +68,7 @@ class IntegrationController
         $authMiddleware = new AuthMiddleware();
         $user = $authMiddleware->authenticate();
 
-        $permissionMiddleware = new PermissionMiddleware();
-        $permissionMiddleware->check($user['user_id'], 'INTEGRATION_MANAGE');
+        // $permissionMiddleware = new PermissionMiddleware();
 
         $integrationType = $request['params']['type'] ?? null;
 

@@ -16,6 +16,7 @@ class KioskApp {
     init() {
         this.bindEvents();
         this.loadMenu();
+        this.bindScreenSizeChange();
     }
 
     bindEvents() {
@@ -367,6 +368,15 @@ class KioskApp {
 
     formatPrice(price) {
         return price.toLocaleString('id-ID');
+    }
+
+    bindScreenSizeChange() {
+        // Listen for screen size changes and reload data
+        window.addEventListener('screenSizeChanged', (e) => {
+            console.log('Screen size changed to:', e.detail.screenSize);
+            // Reload menu with new screen size parameters
+            this.loadMenu();
+        });
     }
 }
 

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBP Restaurant - Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h1>EBP Restaurant</h1>
+                    <p class="tagline">Admin Dashboard</p>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="overview">
+                    <span class="icon">📊</span> Overview
+                </a>
+                <a href="#" class="nav-item" data-page="orders">
+                    <span class="icon">📋</span> Orders
+                </a>
+                <a href="#" class="nav-item" data-page="menu">
+                    <span class="icon">🍽️</span> Menu
+                </a>
+                <a href="#" class="nav-item" data-page="tables">
+                    <span class="icon">🪑</span> Tables
+                </a>
+                <a href="#" class="nav-item" data-page="inventory">
+                    <span class="icon">📦</span> Inventory
+                </a>
+                <a href="#" class="nav-item" data-page="kitchen">
+                    <span class="icon">👨‍🍳</span> Kitchen
+                </a>
+                <a href="#" class="nav-item" data-page="reservations">
+                    <span class="icon">📅</span> Reservations
+                </a>
+                <a href="#" class="nav-item" data-page="customers">
+                    <span class="icon">👥</span> Customers
+                </a>
+                <a href="#" class="nav-item" data-page="reports">
+                    <span class="icon">📈</span> Reports
+                </a>
+                <a href="#" class="nav-item" data-page="settings">
+                    <span class="icon">⚙️</span> Settings
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">A</div>
+                    <div class="user-details">
+                        <p class="user-name" id="userName">Admin</p>
+                        <p class="user-role">Administrator</p>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <div class="header-title">
+                    <h2 id="pageTitle">Overview</h2>
+                </div>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <input type="search" placeholder="Search..." id="searchInput">
+                    </div>
+                    <button class="notification-btn" id="notificationBtn">
+                        <span class="icon">🔔</span>
+                        <span class="badge" id="notificationBadge">3</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Overview Page -->
+                <div class="page active" id="overviewPage">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-info">
+                                <p class="stat-label">Today's Revenue</p>
+                                <p class="stat-value" id="todayRevenue">Rp 0</p>
+                                <p class="stat-change positive">+12.5%</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📋</div>
+                            <div class="stat-info">
+                                <p class="stat-label">Today's Orders</p>
+                                <p class="stat-value" id="todayOrders">0</p>
+                                <p class="stat-change positive">+8.2%</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-info">
+                                <p class="stat-label">Active Customers</p>
+                                <p class="stat-value" id="activeCustomers">0</p>
+                                <p class="stat-change positive">+5.1%</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🪑</div>
+                            <div class="stat-info">
+                                <p class="stat-label">Table Occupancy</p>
+                                <p class="stat-value" id="tableOccupancy">0%</p>
+                                <p class="stat-change negative">-2.3%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="chart-card">
+                            <h3>Revenue Trend</h3>
+                            <div class="chart-placeholder" id="revenueChart">
+                                <p>Chart will be loaded here</p>
+                            </div>
+                        </div>
+                        <div class="recent-orders-card">
+                            <h3>Recent Orders</h3>
+                            <div class="orders-list" id="recentOrders">
+                                <p class="empty-message">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="kitchen-status-card">
+                            <h3>Kitchen Status</h3>
+                            <div class="kitchen-stats">
+                                <div class="kitchen-stat">
+                                    <span class="label">Pending</span>
+                                    <span class="value" id="pendingOrders">0</span>
+                                </div>
+                                <div class="kitchen-stat">
+                                    <span class="label">Preparing</span>
+                                    <span class="value" id="preparingOrders">0</span>
+                                </div>
+                                <div class="kitchen-stat">
+                                    <span class="label">Ready</span>
+                                    <span class="value" id="readyOrders">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="low-stock-card">
+                            <h3>Low Stock Items</h3>
+                            <div class="low-stock-list" id="lowStockItems">
+                                <p class="empty-message">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Page -->
+                <div class="page" id="ordersPage">
+                    <div class="page-header">
+                        <h3>Orders Management</h3>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="newOrderBtn">New Order</button>
+                        </div>
+                    </div>
+                    <div class="orders-table-container">
+                        <table class="data-table" id="ordersTable">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Table</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                    <th>Time</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                <tr>
+                                    <td colspan="6">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Menu Page -->
+                <div class="page" id="menuPage">
+                    <div class="page-header">
+                        <h3>Menu Management</h3>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="addProductBtn">Add Product</button>
+                            <button class="btn btn-secondary" id="addCategoryBtn">Add Category</button>
+                        </div>
+                    </div>
+                    <div class="menu-management">
+                        <div class="category-list" id="categoryList">
+                            <p class="empty-message">Loading categories...</p>
+                        </div>
+                        <div class="product-list" id="productList">
+                            <p class="empty-message">Loading products...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tables Page -->
+                <div class="page" id="tablesPage">
+                    <div class="page-header">
+                        <h3>Table Management</h3>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="addTableBtn">Add Table</button>
+                        </div>
+                    </div>
+                    <div class="tables-grid" id="tablesGrid">
+                        <p class="empty-message">Loading tables...</p>
+                    </div>
+                </div>
+
+                <!-- Inventory Page -->
+                <div class="page" id="inventoryPage">
+                    <div class="page-header">
+                        <h3>Inventory Management</h3>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="adjustStockBtn">Adjust Stock</button>
+                            <button class="btn btn-secondary" id="addSupplierBtn">Add Supplier</button>
+                        </div>
+                    </div>
+                    <div class="inventory-table-container">
+                        <table class="data-table" id="inventoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Category</th>
+                                    <th>Stock</th>
+                                    <th>Unit</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody">
+                                <tr>
+                                    <td colspan="6">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Kitchen Page -->
+                <div class="page" id="kitchenPage">
+                    <div class="page-header">
+                        <h3>Kitchen Display</h3>
+                    </div>
+                    <div class="kitchen-orders-grid" id="kitchenOrdersGrid">
+                        <p class="empty-message">Loading kitchen orders...</p>
+                    </div>
+                </div>
+
+                <!-- Reservations Page -->
+                <div class="page" id="reservationsPage">
+                    <div class="page-header">
+                        <h3>Reservations</h3>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="addReservationBtn">New Reservation</button>
+                        </div>
+                    </div>
+                    <div class="reservations-list" id="reservationsList">
+                        <p class="empty-message">Loading reservations...</p>
+                    </div>
+                </div>
+
+                <!-- Customers Page -->
+                <div class="page" id="customersPage">
+                    <div class="page-header">
+                        <h3>Customer Management</h3>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="addCustomerBtn">Add Customer</button>
+                        </div>
+                    </div>
+                    <div class="customers-table-container">
+                        <table class="data-table" id="customersTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Loyalty Points</th>
+                                    <th>Total Visits</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customersTableBody">
+                                <tr>
+                                    <td colspan="6">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Reports Page -->
+                <div class="page" id="reportsPage">
+                    <div class="page-header">
+                        <h3>Reports</h3>
+                    </div>
+                    <div class="reports-grid">
+                        <div class="report-card" data-report="sales">
+                            <div class="report-icon">💰</div>
+                            <h4>Sales Report</h4>
+                            <p>Daily, weekly, monthly sales analysis</p>
+                        </div>
+                        <div class="report-card" data-report="inventory">
+                            <div class="report-icon">📦</div>
+                            <h4>Inventory Report</h4>
+                            <p>Stock levels and movement tracking</p>
+                        </div>
+                        <div class="report-card" data-report="kitchen">
+                            <div class="report-icon">👨‍🍳</div>
+                            <h4>Kitchen Performance</h4>
+                            <p>Preparation time and efficiency</p>
+                        </div>
+                        <div class="report-card" data-report="financial">
+                            <div class="report-icon">📊</div>
+                            <h4>Financial Report</h4>
+                            <p>Profit and loss analysis</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Page -->
+                <div class="page" id="settingsPage">
+                    <div class="page-header">
+                        <h3>Settings</h3>
+                    </div>
+                    <div class="settings-container">
+                        <div class="settings-section">
+                            <h4>General Settings</h4>
+                            <div class="setting-item">
+                                <label>Restaurant Name</label>
+                                <input type="text" id="restaurantName" value="EBP Restaurant">
+                            </div>
+                            <div class="setting-item">
+                                <label>Currency</label>
+                                <select id="currency">
+                                    <option value="IDR">Indonesian Rupiah (IDR)</option>
+                                    <option value="USD">US Dollar (USD)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="settings-section">
+                            <h4>Notification Settings</h4>
+                            <div class="setting-item">
+                                <label>Email Notifications</label>
+                                <input type="checkbox" id="emailNotifications" checked>
+                            </div>
+                            <div class="setting-item">
+                                <label>SMS Notifications</label>
+                                <input type="checkbox" id="smsNotifications">
+                            </div>
+                        </div>
+                        <div class="settings-actions">
+                            <button class="btn btn-primary" id="saveSettingsBtn">Save Settings</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api-client.js"></script>
+    <script src="../js/menu-access.js"></script>
+    <script src="../js/permission-helpers.js"></script>
+    <script src="../js/ui-helpers.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>

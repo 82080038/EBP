@@ -8,8 +8,15 @@ class SimpleReservationController
     // Simple endpoint to get reservations without middleware
     public function getReservations($request = null)
     {
-        $database = new Database();
-        $db = $database->connect();
+                $host = 'localhost';
+        $dbname = 'ebp_restaurant_db';
+        $username = 'ebp_app';
+        $password = 'ebp_secure_password_2026';
+        $socket = '/opt/lampp/var/mysql/mysql.sock';
+
+        $dsn = "mysql:host=$host;dbname=$dbname;unix_socket=$socket;charset=utf8mb4";
+        $db = new PDO($dsn, $username, $password);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $sql = "SELECT r.reservation_id, r.customer_name, r.customer_phone as phone, r.reservation_date, r.reservation_time, 
                 r.party_size as number_of_guests, r.status, r.notes,
