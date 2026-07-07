@@ -1,8 +1,9 @@
 <?php
 /**
  * Entry point for Restaurant ERP
- * Serves the backend application directly
+ * Redirects to the Consumer App (public landing page)
  */
 
-// Include backend index
-require_once __DIR__ . '/BACKEND/public/index.php';
+// Redirect to consumer app (public landing page)
+header('Location: FRONTEND/consumer/index.html');
+exit;
