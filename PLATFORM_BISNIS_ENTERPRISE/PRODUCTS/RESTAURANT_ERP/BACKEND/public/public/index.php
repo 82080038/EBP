@@ -18,7 +18,7 @@ header("Access-Control-Allow-Origin: *");
 
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Screen-Width, X-Screen-Height, X-Device-Type, x-screen-size, x-screen-width, x-screen-height, x-device-type");
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {

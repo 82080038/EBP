@@ -6,7 +6,7 @@ require_once __DIR__ . '/../bootstrap.php';
 // Set CORS headers
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Screen-Width, X-Screen-Height, X-Device-Type, x-screen-size, x-screen-width, x-screen-height, x-device-type');
 
 // Handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -122,7 +122,7 @@ if (strpos($requestUri, '/api') === 0) {
 
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Screen-Width, X-Screen-Height, X-Device-Type, x-screen-size, x-screen-width, x-screen-height, x-device-type");
 
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         http_response_code(200);
