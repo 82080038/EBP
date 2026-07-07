@@ -204,13 +204,77 @@
             
             <select class="dev-login-select" id="devUserSelect">
                 <option value="">-- Select User --</option>
-                <optgroup label="Tenant/Staff Roles">
-                    <option value="sim_admin">Administrator (Level 100)</option>
-                    <option value="sim_manager">Manager (Level 80)</option>
-                    <option value="sim_kasir">Kasir (Level 50)</option>
-                    <option value="sim_koki">Koki (Level 40)</option>
-                    <option value="sim_waiter">Waiter (Level 30)</option>
-                    <option value="sim_stok">Stok (Level 20)</option>
+                <optgroup label="Level 100 - Administrator">
+                    <option value="admin_restaurant">EBP Restaurant Demo</option>
+                    <option value="admin_cafe">EBP Coffee House</option>
+                    <option value="admin_bakery">EBP Artisan Bakery</option>
+                    <option value="admin_fastfood">EBP Burger Joint</option>
+                    <option value="admin_japanese">EBP Sushi Bar</option>
+                    <option value="admin_thai">EBP Thai Kitchen</option>
+                    <option value="admin_bar">EBP Sports Bar</option>
+                    <option value="admin_catering">EBP Catering Service</option>
+                    <option value="admin_babipangang">Babi Pangang Karo</option>
+                    <option value="admin_halal">Warung Makan Halal</option>
+                </optgroup>
+                <optgroup label="Level 80 - Manager">
+                    <option value="manager_restaurant">EBP Restaurant Demo</option>
+                    <option value="manager_cafe">EBP Coffee House</option>
+                    <option value="manager_bakery">EBP Artisan Bakery</option>
+                    <option value="manager_fastfood">EBP Burger Joint</option>
+                    <option value="manager_japanese">EBP Sushi Bar</option>
+                    <option value="manager_thai">EBP Thai Kitchen</option>
+                    <option value="manager_bar">EBP Sports Bar</option>
+                    <option value="manager_catering">EBP Catering Service</option>
+                    <option value="manager_babipangang">Babi Pangang Karo</option>
+                    <option value="manager_halal">Warung Makan Halal</option>
+                </optgroup>
+                <optgroup label="Level 50 - Kasir">
+                    <option value="kasir_restaurant">EBP Restaurant Demo</option>
+                    <option value="kasir_cafe">EBP Coffee House</option>
+                    <option value="kasir_bakery">EBP Artisan Bakery</option>
+                    <option value="kasir_fastfood">EBP Burger Joint</option>
+                    <option value="kasir_japanese">EBP Sushi Bar</option>
+                    <option value="kasir_thai">EBP Thai Kitchen</option>
+                    <option value="kasir_bar">EBP Sports Bar</option>
+                    <option value="kasir_catering">EBP Catering Service</option>
+                    <option value="kasir_babipangang">Babi Pangang Karo</option>
+                    <option value="kasir_halal">Warung Makan Halal</option>
+                </optgroup>
+                <optgroup label="Level 40 - Koki">
+                    <option value="koki_restaurant">EBP Restaurant Demo</option>
+                    <option value="koki_cafe">EBP Coffee House</option>
+                    <option value="koki_bakery">EBP Artisan Bakery</option>
+                    <option value="koki_fastfood">EBP Burger Joint</option>
+                    <option value="koki_japanese">EBP Sushi Bar</option>
+                    <option value="koki_thai">EBP Thai Kitchen</option>
+                    <option value="koki_bar">EBP Sports Bar</option>
+                    <option value="koki_catering">EBP Catering Service</option>
+                    <option value="koki_babipangang">Babi Pangang Karo</option>
+                    <option value="koki_halal">Warung Makan Halal</option>
+                </optgroup>
+                <optgroup label="Level 30 - Waiter">
+                    <option value="waiter_restaurant">EBP Restaurant Demo</option>
+                    <option value="waiter_cafe">EBP Coffee House</option>
+                    <option value="waiter_bakery">EBP Artisan Bakery</option>
+                    <option value="waiter_fastfood">EBP Burger Joint</option>
+                    <option value="waiter_japanese">EBP Sushi Bar</option>
+                    <option value="waiter_thai">EBP Thai Kitchen</option>
+                    <option value="waiter_bar">EBP Sports Bar</option>
+                    <option value="waiter_catering">EBP Catering Service</option>
+                    <option value="waiter_babipangang">Babi Pangang Karo</option>
+                    <option value="waiter_halal">Warung Makan Halal</option>
+                </optgroup>
+                <optgroup label="Level 20 - Stok">
+                    <option value="stok_restaurant">EBP Restaurant Demo</option>
+                    <option value="stok_cafe">EBP Coffee House</option>
+                    <option value="stok_bakery">EBP Artisan Bakery</option>
+                    <option value="stok_fastfood">EBP Burger Joint</option>
+                    <option value="stok_japanese">EBP Sushi Bar</option>
+                    <option value="stok_thai">EBP Thai Kitchen</option>
+                    <option value="stok_bar">EBP Sports Bar</option>
+                    <option value="stok_catering">EBP Catering Service</option>
+                    <option value="stok_babipangang">Babi Pangang Karo</option>
+                    <option value="stok_halal">Warung Makan Halal</option>
                 </optgroup>
                 <optgroup label="Consumer Roles">
                     <option value="consumer_guest">Consumer Guest</option>
@@ -231,12 +295,73 @@
     <script>
         // Development user credentials
         const devUsers = {
-            sim_admin: { username: 'sim_admin', password: 'Sim123456', role: 'Administrator', level: 100, type: 'tenant' },
-            sim_manager: { username: 'sim_manager', password: 'Sim123456', role: 'Manager', level: 80, type: 'tenant' },
-            sim_kasir: { username: 'sim_kasir', password: 'Sim123456', role: 'Kasir', level: 50, type: 'tenant' },
-            sim_koki: { username: 'sim_koki', password: 'Sim123456', role: 'Koki', level: 40, type: 'tenant' },
-            sim_waiter: { username: 'sim_waiter', password: 'Sim123456', role: 'Waiter', level: 30, type: 'tenant' },
-            sim_stok: { username: 'sim_stok', password: 'Sim123456', role: 'Stok', level: 20, type: 'tenant' },
+            // Level 100 - Administrator
+            admin_restaurant: { username: 'admin_restaurant', password: 'Admin123', role: 'Administrator', level: 100, type: 'tenant', tenant: 'EBP_RESTAURANT', tenant_name: 'EBP Restaurant Demo' },
+            admin_cafe: { username: 'admin_cafe', password: 'Admin123', role: 'Administrator', level: 100, type: 'tenant', tenant: 'EBP_CAFE', tenant_name: 'EBP Coffee House' },
+            admin_bakery: { username: 'admin_bakery', password: 'Admin123', role: 'Administrator', level: 100, type: 'tenant', tenant: 'EBP_BAKERY', tenant_name: 'EBP Artisan Bakery' },
+            admin_fastfood: { username: 'admin_fastfood', password: 'Admin123', role: 'Administrator', level: 100, type: 'tenant', tenant: 'EBP_FASTFOOD', tenant_name: 'EBP Burger Joint' },
+            admin_japanese: { username: 'admin_japanese', password: 'Admin123', role: 'Administrator', level: 100, type: 'tenant', tenant: 'EBP_JAPANESE', tenant_name: 'EBP Sushi Bar' },
+            admin_thai: { username: 'admin_thai', password: 'Admin123', role: 'Administrator', level: 100, type: 'tenant', tenant: 'EBP_THAI', tenant_name: 'EBP Thai Kitchen' },
+            admin_bar: { username: 'admin_bar', password: 'Admin123', role: 'Administrator', level: 100, type: 'tenant', tenant: 'EBP_BAR', tenant_name: 'EBP Sports Bar' },
+            admin_catering: { username: 'admin_catering', password: 'Admin123', role: 'Administrator', level: 100, type: 'tenant', tenant: 'EBP_CATERING', tenant_name: 'EBP Catering Service' },
+            admin_babipangang: { username: 'admin_babipangang', password: 'Admin123', role: 'Administrator', level: 100, type: 'tenant', tenant: 'EBP_BABI_PANGANG', tenant_name: 'Babi Pangang Karo' },
+            admin_halal: { username: 'admin_halal', password: 'Admin123', role: 'Administrator', level: 100, type: 'tenant', tenant: 'EBP_HALAL_FOOD', tenant_name: 'Warung Makan Halal' },
+            // Level 80 - Manager
+            manager_restaurant: { username: 'manager_restaurant', password: 'Manager123', role: 'Manager', level: 80, type: 'tenant', tenant: 'EBP_RESTAURANT', tenant_name: 'EBP Restaurant Demo' },
+            manager_cafe: { username: 'manager_cafe', password: 'Manager123', role: 'Manager', level: 80, type: 'tenant', tenant: 'EBP_CAFE', tenant_name: 'EBP Coffee House' },
+            manager_bakery: { username: 'manager_bakery', password: 'Manager123', role: 'Manager', level: 80, type: 'tenant', tenant: 'EBP_BAKERY', tenant_name: 'EBP Artisan Bakery' },
+            manager_fastfood: { username: 'manager_fastfood', password: 'Manager123', role: 'Manager', level: 80, type: 'tenant', tenant: 'EBP_FASTFOOD', tenant_name: 'EBP Burger Joint' },
+            manager_japanese: { username: 'manager_japanese', password: 'Manager123', role: 'Manager', level: 80, type: 'tenant', tenant: 'EBP_JAPANESE', tenant_name: 'EBP Sushi Bar' },
+            manager_thai: { username: 'manager_thai', password: 'Manager123', role: 'Manager', level: 80, type: 'tenant', tenant: 'EBP_THAI', tenant_name: 'EBP Thai Kitchen' },
+            manager_bar: { username: 'manager_bar', password: 'Manager123', role: 'Manager', level: 80, type: 'tenant', tenant: 'EBP_BAR', tenant_name: 'EBP Sports Bar' },
+            manager_catering: { username: 'manager_catering', password: 'Manager123', role: 'Manager', level: 80, type: 'tenant', tenant: 'EBP_CATERING', tenant_name: 'EBP Catering Service' },
+            manager_babipangang: { username: 'manager_babipangang', password: 'Manager123', role: 'Manager', level: 80, type: 'tenant', tenant: 'EBP_BABI_PANGANG', tenant_name: 'Babi Pangang Karo' },
+            manager_halal: { username: 'manager_halal', password: 'Manager123', role: 'Manager', level: 80, type: 'tenant', tenant: 'EBP_HALAL_FOOD', tenant_name: 'Warung Makan Halal' },
+            // Level 50 - Kasir
+            kasir_restaurant: { username: 'kasir_restaurant', password: 'Kasir123', role: 'Kasir', level: 50, type: 'tenant', tenant: 'EBP_RESTAURANT', tenant_name: 'EBP Restaurant Demo' },
+            kasir_cafe: { username: 'kasir_cafe', password: 'Kasir123', role: 'Kasir', level: 50, type: 'tenant', tenant: 'EBP_CAFE', tenant_name: 'EBP Coffee House' },
+            kasir_bakery: { username: 'kasir_bakery', password: 'Kasir123', role: 'Kasir', level: 50, type: 'tenant', tenant: 'EBP_BAKERY', tenant_name: 'EBP Artisan Bakery' },
+            kasir_fastfood: { username: 'kasir_fastfood', password: 'Kasir123', role: 'Kasir', level: 50, type: 'tenant', tenant: 'EBP_FASTFOOD', tenant_name: 'EBP Burger Joint' },
+            kasir_japanese: { username: 'kasir_japanese', password: 'Kasir123', role: 'Kasir', level: 50, type: 'tenant', tenant: 'EBP_JAPANESE', tenant_name: 'EBP Sushi Bar' },
+            kasir_thai: { username: 'kasir_thai', password: 'Kasir123', role: 'Kasir', level: 50, type: 'tenant', tenant: 'EBP_THAI', tenant_name: 'EBP Thai Kitchen' },
+            kasir_bar: { username: 'kasir_bar', password: 'Kasir123', role: 'Kasir', level: 50, type: 'tenant', tenant: 'EBP_BAR', tenant_name: 'EBP Sports Bar' },
+            kasir_catering: { username: 'kasir_catering', password: 'Kasir123', role: 'Kasir', level: 50, type: 'tenant', tenant: 'EBP_CATERING', tenant_name: 'EBP Catering Service' },
+            kasir_babipangang: { username: 'kasir_babipangang', password: 'Kasir123', role: 'Kasir', level: 50, type: 'tenant', tenant: 'EBP_BABI_PANGANG', tenant_name: 'Babi Pangang Karo' },
+            kasir_halal: { username: 'kasir_halal', password: 'Kasir123', role: 'Kasir', level: 50, type: 'tenant', tenant: 'EBP_HALAL_FOOD', tenant_name: 'Warung Makan Halal' },
+            // Level 40 - Koki
+            koki_restaurant: { username: 'koki_restaurant', password: 'Koki123', role: 'Koki', level: 40, type: 'tenant', tenant: 'EBP_RESTAURANT', tenant_name: 'EBP Restaurant Demo' },
+            koki_cafe: { username: 'koki_cafe', password: 'Koki123', role: 'Koki', level: 40, type: 'tenant', tenant: 'EBP_CAFE', tenant_name: 'EBP Coffee House' },
+            koki_bakery: { username: 'koki_bakery', password: 'Koki123', role: 'Koki', level: 40, type: 'tenant', tenant: 'EBP_BAKERY', tenant_name: 'EBP Artisan Bakery' },
+            koki_fastfood: { username: 'koki_fastfood', password: 'Koki123', role: 'Koki', level: 40, type: 'tenant', tenant: 'EBP_FASTFOOD', tenant_name: 'EBP Burger Joint' },
+            koki_japanese: { username: 'koki_japanese', password: 'Koki123', role: 'Koki', level: 40, type: 'tenant', tenant: 'EBP_JAPANESE', tenant_name: 'EBP Sushi Bar' },
+            koki_thai: { username: 'koki_thai', password: 'Koki123', role: 'Koki', level: 40, type: 'tenant', tenant: 'EBP_THAI', tenant_name: 'EBP Thai Kitchen' },
+            koki_bar: { username: 'koki_bar', password: 'Koki123', role: 'Koki', level: 40, type: 'tenant', tenant: 'EBP_BAR', tenant_name: 'EBP Sports Bar' },
+            koki_catering: { username: 'koki_catering', password: 'Koki123', role: 'Koki', level: 40, type: 'tenant', tenant: 'EBP_CATERING', tenant_name: 'EBP Catering Service' },
+            koki_babipangang: { username: 'koki_babipangang', password: 'Koki123', role: 'Koki', level: 40, type: 'tenant', tenant: 'EBP_BABI_PANGANG', tenant_name: 'Babi Pangang Karo' },
+            koki_halal: { username: 'koki_halal', password: 'Koki123', role: 'Koki', level: 40, type: 'tenant', tenant: 'EBP_HALAL_FOOD', tenant_name: 'Warung Makan Halal' },
+            // Level 30 - Waiter
+            waiter_restaurant: { username: 'waiter_restaurant', password: 'Waiter123', role: 'Waiter', level: 30, type: 'tenant', tenant: 'EBP_RESTAURANT', tenant_name: 'EBP Restaurant Demo' },
+            waiter_cafe: { username: 'waiter_cafe', password: 'Waiter123', role: 'Waiter', level: 30, type: 'tenant', tenant: 'EBP_CAFE', tenant_name: 'EBP Coffee House' },
+            waiter_bakery: { username: 'waiter_bakery', password: 'Waiter123', role: 'Waiter', level: 30, type: 'tenant', tenant: 'EBP_BAKERY', tenant_name: 'EBP Artisan Bakery' },
+            waiter_fastfood: { username: 'waiter_fastfood', password: 'Waiter123', role: 'Waiter', level: 30, type: 'tenant', tenant: 'EBP_FASTFOOD', tenant_name: 'EBP Burger Joint' },
+            waiter_japanese: { username: 'waiter_japanese', password: 'Waiter123', role: 'Waiter', level: 30, type: 'tenant', tenant: 'EBP_JAPANESE', tenant_name: 'EBP Sushi Bar' },
+            waiter_thai: { username: 'waiter_thai', password: 'Waiter123', role: 'Waiter', level: 30, type: 'tenant', tenant: 'EBP_THAI', tenant_name: 'EBP Thai Kitchen' },
+            waiter_bar: { username: 'waiter_bar', password: 'Waiter123', role: 'Waiter', level: 30, type: 'tenant', tenant: 'EBP_BAR', tenant_name: 'EBP Sports Bar' },
+            waiter_catering: { username: 'waiter_catering', password: 'Waiter123', role: 'Waiter', level: 30, type: 'tenant', tenant: 'EBP_CATERING', tenant_name: 'EBP Catering Service' },
+            waiter_babipangang: { username: 'waiter_babipangang', password: 'Waiter123', role: 'Waiter', level: 30, type: 'tenant', tenant: 'EBP_BABI_PANGANG', tenant_name: 'Babi Pangang Karo' },
+            waiter_halal: { username: 'waiter_halal', password: 'Waiter123', role: 'Waiter', level: 30, type: 'tenant', tenant: 'EBP_HALAL_FOOD', tenant_name: 'Warung Makan Halal' },
+            // Level 20 - Stok
+            stok_restaurant: { username: 'stok_restaurant', password: 'Stok123', role: 'Stok', level: 20, type: 'tenant', tenant: 'EBP_RESTAURANT', tenant_name: 'EBP Restaurant Demo' },
+            stok_cafe: { username: 'stok_cafe', password: 'Stok123', role: 'Stok', level: 20, type: 'tenant', tenant: 'EBP_CAFE', tenant_name: 'EBP Coffee House' },
+            stok_bakery: { username: 'stok_bakery', password: 'Stok123', role: 'Stok', level: 20, type: 'tenant', tenant: 'EBP_BAKERY', tenant_name: 'EBP Artisan Bakery' },
+            stok_fastfood: { username: 'stok_fastfood', password: 'Stok123', role: 'Stok', level: 20, type: 'tenant', tenant: 'EBP_FASTFOOD', tenant_name: 'EBP Burger Joint' },
+            stok_japanese: { username: 'stok_japanese', password: 'Stok123', role: 'Stok', level: 20, type: 'tenant', tenant: 'EBP_JAPANESE', tenant_name: 'EBP Sushi Bar' },
+            stok_thai: { username: 'stok_thai', password: 'Stok123', role: 'Stok', level: 20, type: 'tenant', tenant: 'EBP_THAI', tenant_name: 'EBP Thai Kitchen' },
+            stok_bar: { username: 'stok_bar', password: 'Stok123', role: 'Stok', level: 20, type: 'tenant', tenant: 'EBP_BAR', tenant_name: 'EBP Sports Bar' },
+            stok_catering: { username: 'stok_catering', password: 'Stok123', role: 'Stok', level: 20, type: 'tenant', tenant: 'EBP_CATERING', tenant_name: 'EBP Catering Service' },
+            stok_babipangang: { username: 'stok_babipangang', password: 'Stok123', role: 'Stok', level: 20, type: 'tenant', tenant: 'EBP_BABI_PANGANG', tenant_name: 'Babi Pangang Karo' },
+            stok_halal: { username: 'stok_halal', password: 'Stok123', role: 'Stok', level: 20, type: 'tenant', tenant: 'EBP_HALAL_FOOD', tenant_name: 'Warung Makan Halal' },
+            // Consumer Roles
             consumer_guest: { username: 'consumer_guest', password: 'Guest123', role: 'Consumer', level: 1, type: 'consumer' },
             consumer_premium: { username: 'consumer_premium', password: 'Premium123', role: 'Premium Consumer', level: 5, type: 'consumer' }
         };
@@ -272,12 +397,16 @@
                     localStorage.setItem('user_type', user.type);
                     localStorage.setItem('user_level', user.level);
                     localStorage.setItem('user_id', data.user?.id || user.username);
+                    localStorage.setItem('tenant_code', user.tenant || '');
+                    localStorage.setItem('tenant_name', user.tenant_name || '');
                     localStorage.setItem('currentUser', JSON.stringify({
                         name: user.role,
                         username: user.username,
                         role: user.role,
                         type: user.type,
-                        level: user.level
+                        level: user.level,
+                        tenant: user.tenant,
+                        tenant_name: user.tenant_name
                     }));
 
                     // Refresh the page to trigger role-based redirect
@@ -290,12 +419,16 @@
                     localStorage.setItem('user_type', user.type);
                     localStorage.setItem('user_level', user.level);
                     localStorage.setItem('user_id', user.username);
+                    localStorage.setItem('tenant_code', user.tenant || '');
+                    localStorage.setItem('tenant_name', user.tenant_name || '');
                     localStorage.setItem('currentUser', JSON.stringify({
                         name: user.role,
                         username: user.username,
                         role: user.role,
                         type: user.type,
-                        level: user.level
+                        level: user.level,
+                        tenant: user.tenant,
+                        tenant_name: user.tenant_name
                     }));
 
                     window.location.reload();
@@ -308,12 +441,16 @@
                 localStorage.setItem('user_type', user.type);
                 localStorage.setItem('user_level', user.level);
                 localStorage.setItem('user_id', user.username);
+                localStorage.setItem('tenant_code', user.tenant || '');
+                localStorage.setItem('tenant_name', user.tenant_name || '');
                 localStorage.setItem('currentUser', JSON.stringify({
                     name: user.role,
                     username: user.username,
                     role: user.role,
                     type: user.type,
-                    level: user.level
+                    level: user.level,
+                    tenant: user.tenant,
+                    tenant_name: user.tenant_name
                 }));
 
                 window.location.reload();
@@ -329,10 +466,12 @@
             localStorage.removeItem('user_id');
             localStorage.removeItem('currentUser');
             localStorage.removeItem('token');
-            
+            localStorage.removeItem('tenant_code');
+            localStorage.removeItem('tenant_name');
+
             document.getElementById('devUserSelect').value = '';
             document.getElementById('devLoginBtn').disabled = true;
-            
+
             window.location.reload();
         }
 
@@ -360,35 +499,37 @@
             const token = localStorage.getItem('access_token');
             const userRole = localStorage.getItem('user_role');
             const userType = localStorage.getItem('user_type');
-            
+            const tenantName = localStorage.getItem('tenant_name');
+
             const roleBadge = document.getElementById('roleBadge');
             const btnGroup = document.getElementById('btnGroup');
             const loading = document.getElementById('loading');
-            
+
             // Show loading
             loading.style.display = 'block';
             btnGroup.style.display = 'none';
-            
+
             setTimeout(() => {
                 loading.style.display = 'none';
                 btnGroup.style.display = 'flex';
-                
+
                 if (token && userRole) {
                     // User is logged in
                     if (userType === 'tenant' || ['Administrator', 'Manager', 'Kasir', 'Koki', 'Waiter', 'Stok'].includes(userRole)) {
                         // Tenant/Staff role - redirect to dashboard
-                        roleBadge.textContent = 'Tenant/Staff: ' + userRole;
+                        const tenantDisplay = tenantName ? ` (${tenantName})` : '';
+                        roleBadge.textContent = 'Tenant/Staff: ' + userRole + tenantDisplay;
                         roleBadge.className = 'role-badge role-tenant';
-                        
+
                         // Auto-redirect to dashboard after 2 seconds
                         setTimeout(() => {
                             window.location.href = 'dashboard/index.html';
                         }, 2000);
-                        
+
                         // Update button to show auto-redirect
                         btnGroup.innerHTML = `
                             <p style="color: #155724; font-weight: 600;">
-                                ✓ Logged in as ${userRole}<br>
+                                ✓ Logged in as ${userRole}${tenantDisplay}<br>
                                 <small>Redirecting to Dashboard...</small>
                             </p>
                             <a href="dashboard/index.html" class="btn btn-primary">
@@ -402,12 +543,12 @@
                         // Consumer role - show consumer app
                         roleBadge.textContent = 'Consumer: ' + userRole;
                         roleBadge.className = 'role-badge role-consumer';
-                        
+
                         // Auto-redirect to consumer app after 2 seconds
                         setTimeout(() => {
                             window.location.href = 'consumer/index.html';
                         }, 2000);
-                        
+
                         // Update button to show auto-redirect
                         btnGroup.innerHTML = `
                             <p style="color: #004085; font-weight: 600;">
@@ -426,7 +567,7 @@
                     // Guest mode
                     roleBadge.textContent = 'Guest';
                     roleBadge.className = 'role-badge role-guest';
-                    
+
                     // Show default buttons
                     btnGroup.innerHTML = `
                         <a href="consumer/index.html" class="btn btn-primary">
