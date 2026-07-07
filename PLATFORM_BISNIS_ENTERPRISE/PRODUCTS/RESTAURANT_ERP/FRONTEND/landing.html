@@ -177,16 +177,16 @@
             </div>
             
             <div class="btn-group" id="btnGroup">
-                <a href="consumer/index.html" class="btn btn-primary">
+                <a href="/EBP/PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/FRONTEND/consumer/index.html" class="btn btn-primary">
                     🍔 Browse as Consumer
                 </a>
-                <a href="dashboard/index.html" class="btn btn-secondary">
-                    👨‍💼 Admin Dashboard
+                <a href="/EBP/PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/FRONTEND/login.html" class="btn btn-secondary">
+                    👨‍💼 Admin Login
                 </a>
-                <a href="kiosk/index.html" class="btn btn-secondary">
+                <a href="/EBP/PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/FRONTEND/kiosk/index.html" class="btn btn-secondary">
                     🖥️ Kiosk Mode
                 </a>
-                <a href="mobile/index.html" class="btn btn-secondary">
+                <a href="/EBP/PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/FRONTEND/mobile/index.html" class="btn btn-secondary">
                     📱 Mobile Waiter
                 </a>
             </div>
@@ -523,7 +523,7 @@
 
                         // Auto-redirect to dashboard after 2 seconds
                         setTimeout(() => {
-                            window.location.href = 'dashboard/index.html';
+                            window.location.href = '/dashboard/index.html';
                         }, 2000);
 
                         // Update button to show auto-redirect
@@ -532,10 +532,10 @@
                                 ✓ Logged in as ${userRole}${tenantDisplay}<br>
                                 <small>Redirecting to Dashboard...</small>
                             </p>
-                            <a href="dashboard/index.html" class="btn btn-primary">
+                            <a href="/dashboard/index.html" class="btn btn-primary">
                                 Go to Dashboard Now
                             </a>
-                            <a href="consumer/index.html" class="btn btn-secondary">
+                            <a href="/consumer/index.html" class="btn btn-secondary">
                                 Browse as Consumer Instead
                             </a>
                         `;
@@ -546,7 +546,7 @@
 
                         // Auto-redirect to consumer app after 2 seconds
                         setTimeout(() => {
-                            window.location.href = 'consumer/index.html';
+                            window.location.href = '/consumer/index.html';
                         }, 2000);
 
                         // Update button to show auto-redirect
@@ -555,10 +555,10 @@
                                 ✓ Logged in as ${userRole}<br>
                                 <small>Redirecting to Consumer App...</small>
                             </p>
-                            <a href="consumer/index.html" class="btn btn-primary">
+                            <a href="/consumer/index.html" class="btn btn-primary">
                                 Go to Consumer App Now
                             </a>
-                            <a href="dashboard/index.html" class="btn btn-secondary">
+                            <a href="/dashboard/index.html" class="btn btn-secondary">
                                 Go to Dashboard (if applicable)
                             </a>
                         `;
@@ -570,16 +570,16 @@
 
                     // Show default buttons
                     btnGroup.innerHTML = `
-                        <a href="consumer/index.html" class="btn btn-primary">
+                        <a href="/consumer/index.html" class="btn btn-primary">
                             🍔 Browse as Consumer
                         </a>
-                        <a href="dashboard/index.html" class="btn btn-secondary">
+                        <a href="/dashboard/index.html" class="btn btn-secondary">
                             👨‍💼 Admin Dashboard
                         </a>
-                        <a href="kiosk/index.html" class="btn btn-secondary">
+                        <a href="/kiosk/index.html" class="btn btn-secondary">
                             🖥️ Kiosk Mode
                         </a>
-                        <a href="mobile/index.html" class="btn btn-secondary">
+                        <a href="/mobile/index.html" class="btn btn-secondary">
                             📱 Mobile Waiter
                         </a>
                     `;

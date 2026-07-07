@@ -19,6 +19,12 @@ class Dashboard {
     }
 
     async init() {
+        // Check authentication first
+        if (!this.isAuthenticated()) {
+            this.redirectToLogin();
+            return;
+        }
+
         this.loadUserInfo();
         this.bindEvents();
 
@@ -38,6 +44,17 @@ class Dashboard {
         if (this.user && localStorage.getItem('authToken')) {
             this.loadInitialData();
         }
+    }
+
+    isAuthenticated() {
+        const token = localStorage.getItem('authToken');
+        const user = localStorage.getItem('ebp_user');
+        return !!token && !!user;
+    }
+
+    redirectToLogin() {
+        const currentPath = window.location.pathname;
+        window.location.href = '/EBP/PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/FRONTEND/login.html';
     }
 
     loadUserInfo() {
@@ -582,7 +599,7 @@ class Dashboard {
 
     logout() {
         window.apiClient.clearAuth();
-        window.location.href = '/login';
+        window.location.href = '/frontend/landing.html';
     }
 
     formatPrice(price) {

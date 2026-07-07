@@ -46,6 +46,9 @@
                 <a href="#" class="nav-item" data-page="reports">
                     <span class="icon">📈</span> Reports
                 </a>
+                <a href="#" class="nav-item" data-page="ai">
+                    <span class="icon">🤖</span> AI & Analytics
+                </a>
                 <a href="#" class="nav-item" data-page="settings">
                     <span class="icon">⚙️</span> Settings
                 </a>
@@ -370,16 +373,145 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- AI & Analytics Page -->
+                <div class="page" id="aiPage">
+                    <div class="page-header">
+                        <h3>AI & Analytics</h3>
+                        <p class="page-description">Artificial Intelligence-powered insights and predictions</p>
+                    </div>
+
+                    <!-- AI Dashboard Tabs -->
+                    <div class="ai-tabs">
+                        <button class="ai-tab active" data-tab="forecasting">Demand Forecasting</button>
+                        <button class="ai-tab" data-tab="menu-optimization">Menu Optimization</button>
+                        <button class="ai-tab" data-tab="customer-intelligence">Customer Intelligence</button>
+                        <button class="ai-tab" data-tab="kitchen-ai">Kitchen Intelligence</button>
+                        <button class="ai-tab" data-tab="waste-reduction">Waste Reduction</button>
+                        <button class="ai-tab" data-tab="procurement">Smart Procurement</button>
+                    </div>
+
+                    <!-- Demand Forecasting Tab -->
+                    <div class="ai-tab-content active" id="forecastingTab">
+                        <div class="ai-section">
+                            <h4>Sales Forecast</h4>
+                            <div class="forecast-controls">
+                                <button class="btn btn-primary" id="generateForecastBtn">Generate 7-Day Forecast</button>
+                                <select id="forecastDays">
+                                    <option value="7">7 Days</option>
+                                    <option value="14">14 Days</option>
+                                    <option value="30">30 Days</option>
+                                </select>
+                            </div>
+                            <div class="forecast-chart" id="salesForecastChart">
+                                <p class="placeholder">Click "Generate Forecast" to view predictions</p>
+                            </div>
+                        </div>
+                        <div class="ai-section">
+                            <h4>Inventory Predictions</h4>
+                            <div class="inventory-predictions" id="inventoryPredictions">
+                                <p class="placeholder">Inventory predictions will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menu Optimization Tab -->
+                    <div class="ai-tab-content" id="menuOptimizationTab">
+                        <div class="ai-section">
+                            <h4>Menu Performance Analysis</h4>
+                            <button class="btn btn-primary" id="analyzeMenuBtn">Analyze Menu</button>
+                            <div class="menu-analysis" id="menuAnalysis">
+                                <p class="placeholder">Menu analysis results will appear here</p>
+                            </div>
+                        </div>
+                        <div class="ai-section">
+                            <h4>Dynamic Pricing Recommendations</h4>
+                            <div class="dynamic-pricing" id="dynamicPricing">
+                                <p class="placeholder">Dynamic pricing suggestions will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Intelligence Tab -->
+                    <div class="ai-tab-content" id="customerIntelligenceTab">
+                        <div class="ai-section">
+                            <h4>Customer Segmentation</h4>
+                            <button class="btn btn-primary" id="segmentCustomersBtn">Segment Customers</button>
+                            <div class="customer-segments" id="customerSegments">
+                                <p class="placeholder">Customer segments will appear here</p>
+                            </div>
+                        </div>
+                        <div class="ai-section">
+                            <h4>Churn Prediction</h4>
+                            <div class="churn-prediction" id="churnPrediction">
+                                <p class="placeholder">Churn risk analysis will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kitchen Intelligence Tab -->
+                    <div class="ai-tab-content" id="kitchenAiTab">
+                        <div class="ai-section">
+                            <h4>Kitchen Efficiency Analysis</h4>
+                            <button class="btn btn-primary" id="analyzeKitchenBtn">Analyze Kitchen</button>
+                            <div class="kitchen-efficiency" id="kitchenEfficiency">
+                                <p class="placeholder">Kitchen efficiency metrics will appear here</p>
+                            </div>
+                        </div>
+                        <div class="ai-section">
+                            <h4>Preparation Time Predictions</h4>
+                            <div class="prep-time-predictions" id="prepTimePredictions">
+                                <p class="placeholder">Preparation time estimates will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Waste Reduction Tab -->
+                    <div class="ai-tab-content" id="wasteReductionTab">
+                        <div class="ai-section">
+                            <h4>Waste Prediction</h4>
+                            <button class="btn btn-primary" id="predictWasteBtn">Predict Waste</button>
+                            <div class="waste-prediction" id="wastePrediction">
+                                <p class="placeholder">Waste predictions will appear here</p>
+                            </div>
+                        </div>
+                        <div class="ai-section">
+                            <h4>Reduction Recommendations</h4>
+                            <div class="waste-recommendations" id="wasteRecommendations">
+                                <p class="placeholder">Waste reduction suggestions will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Smart Procurement Tab -->
+                    <div class="ai-tab-content" id="procurementTab">
+                        <div class="ai-section">
+                            <h4>Procurement Recommendations</h4>
+                            <button class="btn btn-primary" id="getProcurementBtn">Get Recommendations</button>
+                            <div class="procurement-recommendations" id="procurementRecommendations">
+                                <p class="placeholder">Procurement suggestions will appear here</p>
+                            </div>
+                        </div>
+                        <div class="ai-section">
+                            <h4>Supplier Performance</h4>
+                            <div class="supplier-performance" id="supplierPerformance">
+                                <p class="placeholder">Supplier performance metrics will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
 
     <script src="../js/config.js"></script>
     <script src="../js/api-client.js"></script>
+    <script src="../js/auth-manager.js"></script>
     <script src="../js/menu-access.js"></script>
     <script src="../js/permission-helpers.js"></script>
     <script src="../js/ui-helpers.js"></script>
     <script src="../js/dashboard.js"></script>
+    <script src="../js/ai-dashboard.js"></script>
 </body>
 
 </html>

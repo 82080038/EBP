@@ -743,7 +743,7 @@ class Dashboard {
 
     logout() {
         window.apiClient.clearAuth();
-        window.location.href = '/login';
+        window.location.href = '/index.html';
     }
 
     formatPrice(price) {

@@ -804,6 +804,287 @@ body {
     padding: 30px;
 }
 
+/* AI Dashboard Styles */
+.page-header {
+    margin-bottom: 30px;
+}
+
+.page-header h3 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.page-description {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.ai-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.ai-tab {
+    padding: 10px 20px;
+    background-color: #ecf0f1;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.ai-tab:hover {
+    background-color: #bdc3c7;
+}
+
+.ai-tab.active {
+    background-color: #3498db;
+    color: white;
+}
+
+.ai-tab-content {
+    display: none;
+}
+
+.ai-tab-content.active {
+    display: block;
+}
+
+.ai-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ai-section h4 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.forecast-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.forecast-controls select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.forecast-chart-container {
+    margin-top: 15px;
+}
+
+.forecast-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.forecast-table th,
+.forecast-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.forecast-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.inventory-predictions-grid,
+.menu-analysis-grid,
+.customer-segments-grid,
+.churn-prediction-grid,
+.waste-prediction-grid,
+.procurement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.prediction-card,
+.menu-item-card,
+.segment-card,
+.churn-card,
+.waste-card,
+.procurement-card {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #3498db;
+}
+
+.prediction-card.urgent,
+.churn-card.high,
+.waste-card.high {
+    border-left-color: #e74c3c;
+}
+
+.prediction-card.warning,
+.churn-card.medium,
+.waste-card.medium {
+    border-left-color: #f39c12;
+}
+
+.prediction-card.normal,
+.churn-card.low,
+.waste-card.low {
+    border-left-color: #27ae60;
+}
+
+.procurement-card.urgent {
+    border-left-color: #e74c3c;
+}
+
+.procurement-card.warning {
+    border-left-color: #f39c12;
+}
+
+.procurement-card.normal {
+    border-left-color: #27ae60;
+}
+
+.menu-item-card.high {
+    border-left-color: #27ae60;
+}
+
+.menu-item-card.medium {
+    border-left-color: #f39c12;
+}
+
+.menu-item-card.low {
+    border-left-color: #e74c3c;
+}
+
+.prediction-card h5,
+.menu-item-card h5,
+.segment-card h5,
+.churn-card h5,
+.waste-card h5,
+.procurement-card h5 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+.prediction-card p,
+.menu-item-card p,
+.segment-card p,
+.churn-card p,
+.waste-card p,
+.procurement-card p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+.kitchen-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.metric-card {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.metric-card h5 {
+    margin-bottom: 10px;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.metric-card p {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.recommendations-list {
+    list-style: none;
+    padding: 0;
+}
+
+.recommendations-list li {
+    padding: 10px;
+    margin-bottom: 8px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border-left: 3px solid #3498db;
+}
+
+.recommendations-list li strong {
+    color: #2c3e50;
+}
+
+.supplier-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.supplier-table th,
+.supplier-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.supplier-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.supplier-table tr.high {
+    background-color: #d5f4e6;
+}
+
+.supplier-table tr.medium {
+    background-color: #fff3cd;
+}
+
+.supplier-table tr.low {
+    background-color: #f8d7da;
+}
+
+.placeholder {
+    color: #95a5a6;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+.loading {
+    color: #3498db;
+    text-align: center;
+    padding: 20px;
+}
+
+.error {
+    color: #e74c3c;
+    text-align: center;
+    padding: 20px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .sidebar {
@@ -827,5 +1108,27 @@ body {
 
     .stats-grid {
         grid-template-columns: 1fr;
+    }
+
+    .ai-tabs {
+        flex-direction: column;
+    }
+
+    .inventory-predictions-grid,
+    .menu-analysis-grid,
+    .customer-segments-grid,
+    .churn-prediction-grid,
+    .waste-prediction-grid,
+    .procurement-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .kitchen-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .forecast-controls {
+        flex-direction: column;
+        align-items: stretch;
     }
 }
