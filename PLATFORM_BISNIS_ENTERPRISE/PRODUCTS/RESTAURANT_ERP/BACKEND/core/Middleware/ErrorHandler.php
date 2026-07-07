@@ -2,16 +2,17 @@
 
 /**
  * Error Handler Middleware
- * Standardized error handling for the application
+ * Standardized error handling for the application with structured logging
  */
 
 class ErrorHandler
 {
-    private static $errorLogPath = null;
+    private static $logger = null;
 
     public static function init()
     {
-        self::$errorLogPath = __DIR__ . '/../../logs/error.log';
+        // Initialize logger
+        self::$logger = Logger::getInstance();
         
         // Set error and exception handlers
         set_error_handler([self::class, 'handleError']);
@@ -25,15 +26,15 @@ class ErrorHandler
             return false;
         }
 
-        $error = [
-            'type' => self::getErrorType($errno),
-            'message' => $errstr,
+        $errorType = self::getErrorType($errno);
+        $level = self::getLogLevel($errno);
+
+        self::$logger->log($level, $errstr, [
+            'error_type' => $errorType,
             'file' => $errfile,
             'line' => $errline,
-            'timestamp' => date('Y-m-d H:i:s')
-        ];
-
-        self::logError($error);
+            'error_code' => $errno
+        ]);
 
         // Don't execute PHP internal error handler
         return true;
@@ -41,25 +42,23 @@ class ErrorHandler
 
     public static function handleException($exception)
     {
-        $error = [
-            'type' => 'Exception',
-            'message' => $exception->getMessage(),
-            'file' => $exception->getFile(),
-            'line' => $exception->getLine(),
-            'trace' => $exception->getTraceAsString(),
-            'timestamp' => date('Y-m-d H:i:s')
-        ];
-
-        self::logError($error);
+        self::$logger->exception($exception, [
+            'exception_type' => get_class($exception)
+        ]);
 
         // Return error response if in API context
         if (self::isApiRequest()) {
             // Use exception code if it's a valid HTTP status code, otherwise default to 500
             $statusCode = ($exception->getCode() >= 400 && $exception->getCode() < 600) ? $exception->getCode() : 500;
+            
+            // Hide trace in production
+            $debug = getenv('APP_DEBUG') === 'true';
+            $context = $debug ? ['trace' => $exception->getTraceAsString()] : [];
+            
             Response::error(
                 $exception->getMessage(),
                 $statusCode,
-                ['trace' => $error['trace']]
+                $context
             );
         }
     }
@@ -68,15 +67,12 @@ class ErrorHandler
     {
         $error = error_get_last();
         if ($error !== null && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
-            $errorData = [
-                'type' => 'Fatal Error',
-                'message' => $error['message'],
+            self::$logger->critical($error['message'], [
+                'error_type' => 'Fatal Error',
                 'file' => $error['file'],
                 'line' => $error['line'],
-                'timestamp' => date('Y-m-d H:i:s')
-            ];
-
-            self::logError($errorData);
+                'error_code' => $error['type']
+            ]);
 
             if (self::isApiRequest()) {
                 Response::error(
@@ -110,28 +106,27 @@ class ErrorHandler
         return $types[$errno] ?? 'Unknown Error';
     }
 
-    private static function logError($error)
+    private static function getLogLevel($errno)
     {
-        $logMessage = sprintf(
-            "[%s] %s: %s in %s on line %d\n",
-            $error['timestamp'],
-            $error['type'],
-            $error['message'],
-            $error['file'],
-            $error['line']
-        );
+        $levels = [
+            E_ERROR => Logger::CRITICAL,
+            E_WARNING => Logger::WARNING,
+            E_PARSE => Logger::CRITICAL,
+            E_NOTICE => Logger::DEBUG,
+            E_CORE_ERROR => Logger::CRITICAL,
+            E_CORE_WARNING => Logger::WARNING,
+            E_COMPILE_ERROR => Logger::CRITICAL,
+            E_COMPILE_WARNING => Logger::WARNING,
+            E_USER_ERROR => Logger::ERROR,
+            E_USER_WARNING => Logger::WARNING,
+            E_USER_NOTICE => Logger::DEBUG,
+            E_STRICT => Logger::DEBUG,
+            E_RECOVERABLE_ERROR => Logger::ERROR,
+            E_DEPRECATED => Logger::WARNING,
+            E_USER_DEPRECATED => Logger::WARNING
+        ];
 
-        if (isset($error['trace'])) {
-            $logMessage .= "Stack trace:\n" . $error['trace'] . "\n";
-        }
-
-        // Ensure log directory exists
-        $logDir = dirname(self::$errorLogPath);
-        if (!is_dir($logDir)) {
-            mkdir($logDir, 0755, true);
-        }
-
-        error_log($logMessage, 3, self::$errorLogPath);
+        return $levels[$errno] ?? Logger::ERROR;
     }
 
     private static function isApiRequest()

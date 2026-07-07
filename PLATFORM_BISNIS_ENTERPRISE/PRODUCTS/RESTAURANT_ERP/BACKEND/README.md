@@ -10,7 +10,11 @@ PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/
 │   ├── public/
 │   ├── core/
 │   ├── modules/
-│   └── routes/
+│   ├── routes/
+│   ├── database/
+│   ├── tests/
+│   ├── vendor/
+│   └── DOCUMENTATION/
 ├── FRONTEND/         (Frontend assets - mobile, kiosk, consumer, dashboard, css, js)
 │   └── frontend/
 │       ├── consumer/
@@ -20,15 +24,12 @@ PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/
 │       ├── css/
 │       └── js/
 ├── DATABASE/         (Database schema & migrations)
-└── DOCUMENTATION/    (Documentation)
+└── DOCUMENTATION/    (Documentation, research, prompting)
 ```
 
 ├── public/
 │   ├── index.php
 │   └── pos.js
-│
-├── config/
-│   └── database.php
 │
 ├── core/
 │   ├── Router.php
@@ -36,10 +37,13 @@ PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/
 │   ├── JWT.php
 │   ├── Transaction.php
 │   ├── Audit.php
+│   ├── Logger.php
+│   ├── Database.php
 │   ├── Middleware/
 │   │   ├── AuthMiddleware.php
 │   │   ├── TenantMiddleware.php
-│   │   └── PermissionMiddleware.php
+│   │   ├── PermissionMiddleware.php
+│   │   └── ErrorHandler.php
 │   └── Engines/
 │       ├── StockEngine.php
 │       ├── KitchenEngine.php
@@ -59,30 +63,65 @@ PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/
 │       └── Models/
 │           └── Order.php
 │
-└── routes/
-    └── api.php
+├── routes/
+│   └── api.php
+
+├── database/
+│   ├── schema.sql
+│   ├── current_data.sql
+│   └── migration_*.sql
+
+├── DOCUMENTATION/
+│   ├── API_DOCUMENTATION.md
+│   ├── CODING_STANDARD_ID.md
+│   ├── TESTING_GUIDE.md
+│   └── DEPLOYMENT.md
+
+├── tests/
+│   ├── unit/
+│   └── integration/
+
+├── logs/
+│   └── app.log
+
+├── .env
+├── .env.example
+├── bootstrap.php
+├── composer.json
+├── composer.lock
+├── phpunit.xml
+├── Dockerfile
+├── docker-compose.yml
+└── openapi.json
 ```
 
 ## Setup
 
 1. **Database Setup:**
-   - Option 1: Import from current data (recommended for development):
+   - Option 1: Use automated setup script (recommended):
      ```bash
-     mysql -u root --socket=/opt/lampp/var/mysql/mysql.sock ebp_restaurant_db < database/current_data.sql
+     php setup_database.php
      ```
-   - Option 2: Import schema only:
+   - Option 2: Import from current data:
      ```bash
-     mysql -u root --socket=/opt/lampp/var/mysql/mysql.sock ebp_restaurant_db < database/schema.sql
+     mysql -u ebp_app -p ebp_restaurant_db < database/current_data.sql
      ```
-   - Option 3: Import from original schema:
-     `/ENTERPRISE_BUSINESS_PLATFORM/09_DATABASE_DESIGN/EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql`
+   - Option 3: Import schema only:
+     ```bash
+     mysql -u ebp_app -p ebp_restaurant_db < database/schema.sql
+     ```
    - Run seed data for initial admin user:
      ```bash
      php seed_data.php
      ```
+   - Run sample data seeding for testing:
+     ```bash
+     php seed_sample_data.php
+     ```
 
-2. Configure database connection in:
-   `bootstrap.php` (via environment variables)
+2. Configure environment variables:
+   - Copy `.env.example` to `.env`
+   - Update database credentials in `.env`
 
 3. Configure web server to point to `public/` directory
 
@@ -96,12 +135,12 @@ The database is synced with the project in the `database/` directory:
 
 **Export current database:**
 ```bash
-mysqldump -u root --socket=/opt/lampp/var/mysql/mysql.sock ebp_restaurant_db > database/current_data.sql
+mysqldump -u ebp_app -p ebp_restaurant_db > database/current_data.sql
 ```
 
 **Restore database:**
 ```bash
-mysql -u root --socket=/opt/lampp/var/mysql/mysql.sock ebp_restaurant_db < database/current_data.sql
+mysql -u ebp_app -p ebp_restaurant_db < database/current_data.sql
 ```
 
 See `database/README.md` for detailed database documentation.
@@ -148,17 +187,13 @@ Authorization: Bearer {access_token}
 **Request Body:**
 ```json
 {
-  "customer_id": null,
+  "order_type": "TAKE_AWAY",
   "items": [
     {
-      "menu_id": 10,
+      "product_id": 1,
       "qty": 2,
-      "price": 25000
-    },
-    {
-      "menu_id": 20,
-      "qty": 1,
-      "price": 10000
+      "price": 30000,
+      "notes": "Test order"
     }
   ]
 }

@@ -20,33 +20,20 @@ This workflow helps you set up and configure the RESTAURANT_ERP database.
    - Open XAMPP Control Panel
    - Start Apache and MySQL services
 
-2. **Verify database connection**
+2. **Run automated setup script (recommended)**
    ```bash
-   mysql -u ebp_app -pebp_secure_password_2026 -e "SHOW DATABASES;"
+   cd C:\xampp\htdocs\EBP\PLATFORM_BISNIS_ENTERPRISE\PRODUCTS\RESTAURANT_ERP\BACKEND
+   C:\xampp\php\php.exe setup_database.php
    ```
 
-3. **Import database schema (if needed)**
-   ```bash
-   mysql -u ebp_app -pebp_secure_password_2026 ebp_restaurant_db < database/schema.sql
-   ```
+3. **Or manual setup using phpMyAdmin**
+   - Open http://localhost/phpmyadmin
+   - Create database: ebp_restaurant_db
+   - Import: database/current_data.sql
 
-4. **Import current data (if needed)**
+4. **Verify tables and data**
    ```bash
-   mysql -u ebp_app -pebp_secure_password_2026 ebp_restaurant_db < database/current_data.sql
-   ```
-
-5. **Run migration scripts (if needed)**
-   ```bash
-   # Run migrations in order
-   mysql -u ebp_app -pebp_secure_password_2026 ebp_restaurant_db < database/migration_phase1.sql
-   mysql -u ebp_app -pebp_secure_password_2026 ebp_restaurant_db < database/migration_phase3_inventory.sql
-   # Continue with other migration phases as needed
-   ```
-
-6. **Verify tables and data**
-   ```bash
-   mysql -u ebp_app -pebp_secure_password_2026 ebp_restaurant_db -e "SHOW TABLES;"
-   mysql -u ebp_app -pebp_secure_password_2026 ebp_restaurant_db -e "SELECT COUNT(*) as count FROM tenants;"
+   C:\xampp\mysql\bin\mysql.exe -u root -proot ebp_restaurant_db -e "SHOW TABLES;"
    ```
 
 ### Linux (XAMPP/LAMP)
@@ -87,12 +74,15 @@ This workflow helps you set up and configure the RESTAURANT_ERP database.
 
 ## Database Configuration
 
-Current configuration in `bootstrap.php`:
+Current configuration in `.env` (Windows XAMPP):
 - Host: localhost
-- Socket: /opt/lampp/var/mysql/mysql.sock (Linux) or default (Windows)
+- Port: 3306
+- Socket: (empty - using TCP/IP)
 - Database: ebp_restaurant_db
-- Username: ebp_app
-- Password: ebp_secure_password_2026
+- Username: root
+- Password: root
+
+Note: For Windows XAMPP, use root user with password 'root'. The .env file is used for configuration.
 
 ## Troubleshooting
 

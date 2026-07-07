@@ -11,7 +11,7 @@ This workflow implements a systematic AI-driven development cycle for RESTAURANT
 ## Prerequisites
 
 - RESTAURANT_ERP project loaded in IDE
-- Prompting system initialized in `prompting/` directory
+- Prompting system initialized in `DOCUMENTATION/prompting/` directory
 - Access to project context files
 - Database connection available
 
@@ -22,13 +22,13 @@ This workflow implements a systematic AI-driven development cycle for RESTAURANT
 **Purpose**: Analyze requirements and understand the problem space
 
 **Steps**:
-1. Read the prompting cycle file: `prompting/cycles/01-analysis.md`
+1. Read the prompting cycle file: `DOCUMENTATION/prompting/cycles/01-analysis.md`
 2. Review project context:
-   - `prompting/context/architecture.md`
-   - `prompting/context/coding-standards.md`
-   - `prompting/context/database-schema.md`
-   - `prompting/context/api-conventions.md`
-3. Review relevant research files from `research/` directory
+   - `DOCUMENTATION/prompting/context/architecture.md`
+   - `DOCUMENTATION/prompting/context/coding-standards.md`
+   - `DOCUMENTATION/prompting/context/database-schema.md`
+   - `DOCUMENTATION/prompting/context/api-conventions.md`
+3. Review relevant research files from `DOCUMENTATION/research/` directory
 4. Check implementation plan: `IMPLEMENTATION_PLAN.md`
 5. Identify the specific feature or module to develop
 6. Document requirements using REASONS canvas
@@ -48,7 +48,7 @@ This workflow implements a systematic AI-driven development cycle for RESTAURANT
 **Purpose**: Create detailed technical design
 
 **Steps**:
-1. Read the prompting cycle file: `prompting/cycles/02-design.md`
+1. Read the prompting cycle file: `DOCUMENTATION/prompting/cycles/02-design.md`
 2. Based on analysis outputs, create:
    - Architecture diagram
    - Data model (database tables)
@@ -56,9 +56,9 @@ This workflow implements a systematic AI-driven development cycle for RESTAURANT
    - Security design
    - Performance considerations
 3. Use appropriate template if creating a new module:
-   - `prompting/templates/module-template.md`
-   - `prompting/templates/api-endpoint-template.md`
-   - `prompting/templates/database-migration-template.md`
+   - `DOCUMENTATION/prompting/templates/module-template.md`
+   - `DOCUMENTATION/prompting/templates/api-endpoint-template.md`
+   - `DOCUMENTATION/prompting/templates/database-migration-template.md`
 4. Document design decisions
 5. Review design against requirements
 
@@ -76,7 +76,7 @@ This workflow implements a systematic AI-driven development cycle for RESTAURANT
 **Purpose**: Generate production-ready code
 
 **Steps**:
-1. Read the prompting cycle file: `prompting/cycles/03-implementation.md`
+1. Read the prompting cycle file: `DOCUMENTATION/prompting/cycles/03-implementation.md`
 2. Follow the implementation order:
    - Database migration (if needed)
    - Model class
@@ -85,9 +85,9 @@ This workflow implements a systematic AI-driven development cycle for RESTAURANT
    - Controller class
    - Routes file
 3. Use templates for consistency:
-   - `prompting/templates/module-template.md` for new modules
-   - `prompting/templates/api-endpoint-template.md` for new endpoints
-4. Follow coding standards from `prompting/context/coding-standards.md`
+   - `DOCUMENTATION/prompting/templates/module-template.md` for new modules
+   - `DOCUMENTATION/prompting/templates/api-endpoint-template.md` for new endpoints
+4. Follow coding standards from `DOCUMENTATION/prompting/context/coding-standards.md`
 5. Implement security controls:
    - JWT authentication
    - Permission checks
@@ -110,8 +110,8 @@ This workflow implements a systematic AI-driven development cycle for RESTAURANT
 **Purpose**: Generate comprehensive tests
 
 **Steps**:
-1. Read the prompting cycle file: `prompting/cycles/04-testing.md`
-2. Use test template: `prompting/templates/test-template.md`
+1. Read the prompting cycle file: `DOCUMENTATION/prompting/cycles/04-testing.md`
+2. Use test template: `DOCUMENTATION/prompting/templates/test-template.md`
 3. Create unit tests for service methods
 4. Create integration tests for API endpoints
 5. Create E2E tests for user flows
@@ -132,7 +132,7 @@ This workflow implements a systematic AI-driven development cycle for RESTAURANT
 **Purpose**: Integrate with existing system
 
 **Steps**:
-1. Read the prompting cycle file: `prompting/cycles/05-integration.md`
+1. Read the prompting cycle file: `DOCUMENTATION/prompting/cycles/05-integration.md`
 2. Register routes in main router
 3. Configure middleware stack
 4. Test authentication flow
@@ -157,7 +157,7 @@ This workflow implements a systematic AI-driven development cycle for RESTAURANT
 **Purpose**: Deploy to production
 
 **Steps**:
-1. Read the prompting cycle file: `prompting/cycles/06-deployment.md`
+1. Read the prompting cycle file: `DOCUMENTATION/prompting/cycles/06-deployment.md`
 2. Backup current database
 3. Backup current code
 4. Apply database migrations
@@ -226,11 +226,11 @@ If any phase fails:
 
 ## References
 
-- Prompting System: `prompting/README.md`
-- Architecture: `prompting/context/architecture.md`
-- Coding Standards: `prompting/context/coding-standards.md`
-- Database Schema: `prompting/context/database-schema.md`
-- API Conventions: `prompting/context/api-conventions.md`
+- Prompting System: `DOCUMENTATION/prompting/README.md`
+- Architecture: `DOCUMENTATION/prompting/context/architecture.md`
+- Coding Standards: `DOCUMENTATION/prompting/context/coding-standards.md`
+- Database Schema: `DOCUMENTATION/prompting/context/database-schema.md`
+- API Conventions: `DOCUMENTATION/prompting/context/api-conventions.md`
 - Implementation Plan: `IMPLEMENTATION_PLAN.md`
 
 ---

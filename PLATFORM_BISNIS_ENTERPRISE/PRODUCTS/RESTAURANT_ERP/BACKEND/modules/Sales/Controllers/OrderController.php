@@ -40,11 +40,11 @@ class OrderController
 
             if ($result['success']) {
                 Response::success(
-                    $result['message'],
                     [
                         'order_id' => $result['order_id'],
                         'total' => $result['total']
-                    ]
+                    ],
+                    $result['message']
                 );
             } else {
                 Response::error($result['message']);

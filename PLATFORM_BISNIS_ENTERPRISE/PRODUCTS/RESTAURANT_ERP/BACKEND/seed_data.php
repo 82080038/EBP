@@ -323,7 +323,11 @@ try {
     
     if ($existing) {
         $userId = $existing['user_id'];
-        echo "Admin user already exists (ID: $userId)\n";
+        echo "Admin user already exists (ID: $userId) - updating password\n";
+        // Update password for existing admin user
+        $hashedPassword = password_hash('admin123', PASSWORD_BCRYPT);
+        $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE user_id = ?");
+        $stmt->execute([$hashedPassword, $userId]);
     } else {
         // Insert default admin user
         $hashedPassword = password_hash('admin123', PASSWORD_BCRYPT);

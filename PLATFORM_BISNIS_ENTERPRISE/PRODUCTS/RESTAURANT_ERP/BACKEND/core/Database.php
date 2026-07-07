@@ -113,8 +113,12 @@ class Database
     {
         try {
             $pdo = $this->connect();
-            $stmt = $pdo->query("SELECT VERSION() as version, DATABASE() as database");
-            return $stmt->fetch();
+            $stmt = $pdo->query("SELECT VERSION() as version");
+            $result = $stmt->fetch();
+            return [
+                'version' => $result['version'] ?? 'Unknown',
+                'database' => $this->dbname
+            ];
         } catch (PDOException $e) {
             return [
                 'version' => 'Unknown',

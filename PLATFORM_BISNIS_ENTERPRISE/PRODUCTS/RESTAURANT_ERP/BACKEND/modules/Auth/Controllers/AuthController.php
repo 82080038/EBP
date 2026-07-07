@@ -21,15 +21,8 @@ class AuthController
 
 
 
-                $host = 'localhost';
-        $dbname = 'ebp_restaurant_db';
-        $username = 'ebp_app';
-        $password = 'ebp_secure_password_2026';
-        $socket = '/opt/lampp/var/mysql/mysql.sock';
-
-        $dsn = "mysql:host=$host;dbname=$dbname;unix_socket=$socket;charset=utf8mb4";
-        $db = new PDO($dsn, $username, $password);
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $db = new Database();
+        $pdo = $db->connect();
 
 
 
@@ -43,7 +36,7 @@ class AuthController
 
 
 
-        $stmt = $db->prepare($sql);
+        $stmt = $pdo->prepare($sql);
 
         $stmt->execute([$input['username']]);
 
@@ -54,7 +47,12 @@ class AuthController
 
 
         if (!$user || !password_verify($input['password'], $user['password'])) {
-
+            $logger = Logger::getInstance();
+            $logger->error("Login failed", [
+                'username' => $input['username'] ?? 'not provided',
+                'user_found' => !empty($user),
+                'password_verify' => !empty($user) ? password_verify($input['password'], $user['password']) : 'N/A'
+            ]);
             Response::error("Invalid credentials");
 
         }
