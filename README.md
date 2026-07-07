@@ -69,7 +69,7 @@ EBP/
 
 ├── PLATFORM_BISNIS_ENTERPRISE/
 
-│   ├── 00_MANIFESTO_EBP/              # Konstitusi, Visi, Filosofi
+│   ├── 00_MANIFESTO/              # Konstitusi, Visi, Filosofi
 │   ├── 01_ARSITEKTUR_ENTERPRISE/       # Ikhtisar Arsitektur
 │   ├── 02_FONDASI_BISNIS/             # Ontologi Bisnis, Data Master
 │   ├── 03_STANDAR_TEKNIS/             # Standar Database, Framework Inti
@@ -77,27 +77,36 @@ EBP/
 │   ├── 05_ARSITEKTUR_KEAMANAN/        # Arsitektur Keamanan
 │   ├── 06_ARSITEKTUR_DEVOPS/          # Arsitektur DevOps
 │   ├── 07_MANAJEMEN_PRODUK/           # Siklus Pengembangan Produk
-│   ├── 08_BLUEPRINT_PRODUK/           # Blueprint Restaurant ERP
-│   ├── 09_DESAIN_DATABASE/            # Desain Database & ERD
-│   ├── 10_DESIGN_API/                 # Spesifikasi API
-│   ├── 11_ARSITEKTUR_APLIKASI/        # Arsitektur Backend & Frontend
+│   ├── 12_IMPLEMENTASI_KODE/          # Implementasi Kode
+│   ├── 13_IMPLEMENTASI_PRODUK/        # Implementasi Produk
+│   ├── 14_LAPORAN_KONTROL_ENTERPRISE/ # Laporan Kontrol Enterprise
+│   ├── 15_ESAMF_FRAMEWORK/           # Enterprise Software Asset Management Framework
 │   ├── EBP_STRUKTUR_DIREKTORI_PLATFORM.md
 │   ├── EBP_RENCANA_MIGRASI_PLATFORM.md
 │   └── EBP_ARSITEKTUR_DATABASE.md
-
 │
-└── ebp-restaurant-backend/              # Implementasi Backend Restaurant ERP
+└── PRODUCTS/                          # Produk Enterprise
 
-    ├── config/                          # Konfigurasi Database
-    ├── core/                            # Framework Inti (JWT, Response, Router)
-    │   ├── Engines/                     # Mesin Bisnis (Stock, Kitchen, Accounting)
-    │   └── Middleware/                  # Middleware Auth, Permission, Tenant
-    ├── modules/                         # Modul Bisnis
-    │   ├── Auth/                         # Modul Autentikasi
-    │   └── Sales/                        # Modul Penjualan (Pesanan, POS)
-    ├── routes/                          # Route API
-    ├── public/                          # Titik Masuk Publik
-    └── README.md
+    └── RESTAURANT_ERP/                # Restaurant ERP Implementation
+
+        ├── DOCUMENTATION/              # Dokumentasi Produk
+        │   ├── prompting/             # Sistem Prompting
+        │   ├── research/              # Riset Industri
+        │   └── *.md                   # Dokumentasi Teknis
+        ├── DATABASE/                   # Database Schema & Migrations
+        ├── BACKEND/                    # Implementasi Backend
+        │   ├── core/                  # Framework Inti
+        │   ├── modules/               # Modul Bisnis
+        │   ├── routes/                # API Routes
+        │   ├── database/              # Database Files
+        │   ├── tests/                 # Unit & Integration Tests
+        │   ├── logs/                  # Application Logs
+        │   └── public/                # Public Entry Point
+        ├── FRONTEND/                   # Implementasi Frontend
+        ├── DEPLOYMENT/                 # Konfigurasi Deployment
+        ├── IMPLEMENTATION_PLAN.md      # Rencana Implementasi
+        ├── INDEX.md                    # Index Produk
+        └── .devin/                     # Konfigurasi Devin
 
 ```
 
@@ -144,16 +153,12 @@ EBP/
 | Dokumen | Deskripsi |
 |----------|-------------|
 | [RESTAURANT_ERP Index](PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/INDEX.md) | Index utama RESTAURANT_ERP dengan keunggulan kompetitif |
-| [Research Index](PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/research/RESEARCH_INDEX_SUMMARY.md) | Index lengkap riset (25 file riset) |
-| [EBP_PRODUCT_RESTAURANT_CAFE_ERP.md](PLATFORM_BISNIS_ENTERPRISE/08_BLUEPRINT_PRODUK/EBP_PRODUCT_RESTAURANT_CAFE_ERP.md) | Blueprint produk Restaurant ERP |
-| [EBP_RESTAURANT_CAFE_BUSINESS_PROCESS.md](PLATFORM_BISNIS_ENTERPRISE/08_BLUEPRINT_PRODUK/EBP_RESTAURANT_CAFE_BUSINESS_PROCESS.md) | Dokumentasi proses bisnis |
-| [EBP_RESTAURANT_CAFE_MODULE_SPECIFICATION.md](PLATFORM_BISNIS_ENTERPRISE/08_BLUEPRINT_PRODUK/EBP_RESTAURANT_CAFE_MODULE_SPECIFICATION.md) | Spesifikasi modul |
-| [EBP_RESTAURANT_CAFE_DATABASE_DESIGN.md](PLATFORM_BISNIS_ENTERPRISE/09_DESAIN_DATABASE/EBP_RESTAURANT_CAFE_DATABASE_DESIGN.md) | Dokumentasi desain database |
-| [EBP_RESTAURANT_CAFE_ERD.md](PLATFORM_BISNIS_ENTERPRISE/09_DESAIN_DATABASE/EBP_RESTAURANT_CAFE_ERD.md) | Diagram Hubungan Entitas |
-| [EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql](PLATFORM_BISNIS_ENTERPRISE/09_DESAIN_DATABASE/EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql) | Skema MySQL lengkap |
-| [EBP_RESTAURANT_CAFE_API_SPECIFICATION.md](PLATFORM_BISNIS_ENTERPRISE/10_DESIGN_API/EBP_RESTAURANT_CAFE_API_SPECIFICATION.md) | Spesifikasi API |
-| [EBP_RESTAURANT_CAFE_BACKEND_ARCHITECTURE.md](PLATFORM_BISNIS_ENTERPRISE/11_ARSITEKTUR_APLIKASI/EBP_RESTAURANT_CAFE_BACKEND_ARCHITECTURE.md) | Arsitektur backend |
-| [EBP_RESTAURANT_CAFE_FRONTEND_ARCHITECTURE.md](PLATFORM_BISNIS_ENTERPRISE/11_ARSITEKTUR_APLIKASI/EBP_RESTAURANT_CAFE_FRONTEND_ARCHITECTURE.md) | Arsitektur frontend |
+| [Research Index](PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/DOCUMENTATION/research/RESEARCH_INDEX_SUMMARY.md) | Index lengkap riset (38 file riset) |
+| [Backend README](PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/BACKEND/README.md) | Dokumentasi implementasi backend |
+| [API Documentation](PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/DOCUMENTATION/API_DOCUMENTATION.md) | Spesifikasi API lengkap |
+| [Database Setup Guide](PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/DOCUMENTATION/DATABASE_SETUP_GUIDE.md) | Panduan setup database |
+| [Testing Guide](PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/DOCUMENTATION/TESTING_GUIDE.md) | Panduan testing |
+| [Deployment Guide](PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/DOCUMENTATION/DEPLOYMENT.md) | Panduan deployment |
 
 ### Riset RESTAURANT_ERP
 
@@ -294,23 +299,23 @@ cd EBP
 2. **Impor Skema Database Inti**
 
 ```bash
-mysql -u root -p < PLATFORM_BISNIS_ENTERPRISE/09_DESAIN_DATABASE/EBP_RESTAURANT_CAFE_MYSQL_SCHEMA.sql
+mysql -u root -p < PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/DATABASE/schema.sql
 ```
 
 3. **Konfigurasi Koneksi Database**
 
-Edit `ebp-restaurant-backend/config/database.php`:
+Edit `PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/BACKEND/.env`:
 
-```php
-private $host = "localhost";
-private $dbname = "ebp_restaurant_erp";
-private $username = "root";
-private $password = "";
+```env
+DB_HOST=localhost
+DB_NAME=ebp_restaurant_db
+DB_USER=ebp_app
+DB_PASS=ebp_secure_password_2026
 ```
 
 4. **Konfigurasi Web Server**
 
-Arahkan web server Anda ke direktori `ebp-restaurant-backend/public/`.
+Arahkan web server Anda ke direktori `PLATFORM_BISNIS_ENTERPRISE/PRODUCTS/RESTAURANT_ERP/BACKEND/public/`.
 
 ### Endpoint API
 
