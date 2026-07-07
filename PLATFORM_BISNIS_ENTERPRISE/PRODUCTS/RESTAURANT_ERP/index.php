@@ -1,9 +1,9 @@
 <?php
 /**
  * Entry point for Restaurant ERP
- * Redirects to the Consumer App (public landing page)
+ * Redirects to the Landing Page with role detection
  */
 
-// Redirect to consumer app (public landing page)
-header('Location: FRONTEND/consumer/index.html');
+// Redirect to landing page
+header('Location: FRONTEND/landing.html');
 exit;

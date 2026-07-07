@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBP Restaurant ERP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .landing-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e9ecef;
+        }
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .role-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .role-guest {
+            background: #e9ecef;
+            color: #666;
+        }
+        .role-tenant {
+            background: #d4edda;
+            color: #155724;
+        }
+        .role-consumer {
+            background: #cce5ff;
+            color: #004085;
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <div class="logo">🍽️</div>
+        <h1>EBP Restaurant ERP</h1>
+        <p>Welcome to the Enterprise Business Platform Restaurant Management System</p>
+        
+        <div id="roleInfo">
+            <span class="role-badge role-guest" id="roleBadge">Guest</span>
+        </div>
+        
+        <div class="btn-group" id="btnGroup">
+            <a href="consumer/index.html" class="btn btn-primary">
+                🍔 Browse as Consumer
+            </a>
+            <a href="dashboard/index.html" class="btn btn-secondary">
+                👨‍💼 Admin Dashboard
+            </a>
+            <a href="kiosk/index.html" class="btn btn-secondary">
+                🖥️ Kiosk Mode
+            </a>
+            <a href="mobile/index.html" class="btn btn-secondary">
+                📱 Mobile Waiter
+            </a>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 10px; font-size: 14px;">Checking authentication...</p>
+        </div>
+    </div>
+
+    <script>
+        // Check for authentication token in localStorage
+        function checkAuth() {
+            const token = localStorage.getItem('access_token');
+            const userRole = localStorage.getItem('user_role');
+            const userType = localStorage.getItem('user_type');
+            
+            const roleBadge = document.getElementById('roleBadge');
+            const btnGroup = document.getElementById('btnGroup');
+            const loading = document.getElementById('loading');
+            
+            // Show loading
+            loading.style.display = 'block';
+            btnGroup.style.display = 'none';
+            
+            setTimeout(() => {
+                loading.style.display = 'none';
+                btnGroup.style.display = 'flex';
+                
+                if (token && userRole) {
+                    // User is logged in
+                    if (userType === 'tenant' || ['Administrator', 'Manager', 'Kasir', 'Koki', 'Waiter', 'Stok'].includes(userRole)) {
+                        // Tenant/Staff role - redirect to dashboard
+                        roleBadge.textContent = 'Tenant/Staff: ' + userRole;
+                        roleBadge.className = 'role-badge role-tenant';
+                        
+                        // Auto-redirect to dashboard after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = 'dashboard/index.html';
+                        }, 2000);
+                        
+                        // Update button to show auto-redirect
+                        btnGroup.innerHTML = `
+                            <p style="color: #155724; font-weight: 600;">
+                                ✓ Logged in as ${userRole}<br>
+                                <small>Redirecting to Dashboard...</small>
+                            </p>
+                            <a href="dashboard/index.html" class="btn btn-primary">
+                                Go to Dashboard Now
+                            </a>
+                            <a href="consumer/index.html" class="btn btn-secondary">
+                                Browse as Consumer Instead
+                            </a>
+                        `;
+                    } else {
+                        // Consumer role - show consumer app
+                        roleBadge.textContent = 'Consumer: ' + userRole;
+                        roleBadge.className = 'role-badge role-consumer';
+                        
+                        // Auto-redirect to consumer app after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = 'consumer/index.html';
+                        }, 2000);
+                        
+                        // Update button to show auto-redirect
+                        btnGroup.innerHTML = `
+                            <p style="color: #004085; font-weight: 600;">
+                                ✓ Logged in as ${userRole}<br>
+                                <small>Redirecting to Consumer App...</small>
+                            </p>
+                            <a href="consumer/index.html" class="btn btn-primary">
+                                Go to Consumer App Now
+                            </a>
+                            <a href="dashboard/index.html" class="btn btn-secondary">
+                                Go to Dashboard (if applicable)
+                            </a>
+                        `;
+                    }
+                } else {
+                    // Guest mode
+                    roleBadge.textContent = 'Guest';
+                    roleBadge.className = 'role-badge role-guest';
+                    
+                    // Show default buttons
+                    btnGroup.innerHTML = `
+                        <a href="consumer/index.html" class="btn btn-primary">
+                            🍔 Browse as Consumer
+                        </a>
+                        <a href="dashboard/index.html" class="btn btn-secondary">
+                            👨‍💼 Admin Dashboard
+                        </a>
+                        <a href="kiosk/index.html" class="btn btn-secondary">
+                            🖥️ Kiosk Mode
+                        </a>
+                        <a href="mobile/index.html" class="btn btn-secondary">
+                            📱 Mobile Waiter
+                        </a>
+                    `;
+                }
+            }, 500);
+        }
+        
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', checkAuth);
+    </script>
+</body>
+</html>

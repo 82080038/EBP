@@ -665,11 +665,20 @@ class ConsumerApp {
         try {
             const response = await apiClient.post('/api/v1/consumer/auth/login', credentials);
             this.currentUser = response.data.user;
+            
+            // Store user data with role information
             localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('access_token', response.data.token);
+            localStorage.setItem('user_role', response.data.user.role || 'Consumer');
+            localStorage.setItem('user_type', response.data.user.type || 'consumer');
+            localStorage.setItem('user_id', response.data.user.id);
+            
             this.closeModal('loginModal');
             this.updateUserInfo();
             this.showNotification('Login successful!');
+            
+            // Reload data after login
+            this.loadInitialData();
         } catch (error) {
             console.error('Error logging in:', error);
             this.showNotification('Login failed', 'error');
@@ -679,12 +688,14 @@ class ConsumerApp {
     updateUserInfo() {
         const userInfo = document.getElementById('userInfo');
         if (this.currentUser) {
+            const userRole = localStorage.getItem('user_role') || 'Consumer';
             userInfo.innerHTML = `
                 <div class="user-avatar">${this.currentUser.name.charAt(0)}</div>
                 <div class="user-details">
                     <p class="user-name">${this.currentUser.name}</p>
-                    <p class="user-role">${this.currentUser.email}</p>
+                    <p class="user-role">${userRole}</p>
                 </div>
+                <button class="logout-btn" onclick="consumerApp.logout()">Logout</button>
             `;
         } else {
             userInfo.innerHTML = `
@@ -695,6 +706,23 @@ class ConsumerApp {
                 </div>
             `;
         }
+    }
+
+    logout() {
+        // Clear all user data from localStorage
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('user_role');
+        localStorage.removeItem('user_type');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('token');
+        
+        this.currentUser = null;
+        this.updateUserInfo();
+        this.showNotification('Logged out successfully!');
+        
+        // Reload data to clear user-specific content
+        this.loadInitialData();
     }
 
     showLoginModal() {
@@ -772,11 +800,20 @@ class ConsumerApp {
             });
 
             this.currentUser = response.data.user;
+            
+            // Store user data with role information
             localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('access_token', response.data.token);
+            localStorage.setItem('user_role', response.data.user.role || 'Consumer');
+            localStorage.setItem('user_type', response.data.user.type || 'consumer');
+            localStorage.setItem('user_id', response.data.user.id);
+            
             this.closeModal('otpModal');
             this.updateUserInfo();
             this.showNotification('Login successful!');
+            
+            // Reload data after login
+            this.loadInitialData();
         } catch (error) {
             console.error('Error verifying OTP:', error);
             this.showNotification('Invalid OTP', 'error');
